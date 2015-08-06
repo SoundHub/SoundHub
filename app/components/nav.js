@@ -8,7 +8,6 @@ class NavLink extends React.Component {
     let other = _.omit(this.props, 'to', 'other');
     let names = [].concat(this.props.to); //typecast to array
     let className = this.props.className || '';
-
     return (
       <Router.Link to={ names[0] } className={ className } {...other} />
     );
