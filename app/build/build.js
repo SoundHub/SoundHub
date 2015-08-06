@@ -257,7 +257,6 @@ var NavLink = (function (_React$Component) {
       var other = _lodash2['default'].omit(this.props, 'to', 'other');
       var names = [].concat(this.props.to); //typecast to array
       var className = this.props.className || '';
-
       return _react2['default'].createElement(_reactRouter2['default'].Link, _extends({ to: names[0], className: className }, other));
     }
   }]);
