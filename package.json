@@ -18,6 +18,7 @@
   "homepage": "https://github.com/SoundHub/SoundHub#readme",
   "dependencies": {
     "express": "^4.13.3",
+    "lodash": "^3.10.1",
     "markdown": "^0.5.0",
     "react": "^0.13.3",
     "react-router": "^0.13.3"
