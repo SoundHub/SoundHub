@@ -21,7 +21,8 @@
     "lodash": "^3.10.1",
     "markdown": "^0.5.0",
     "react": "^0.13.3",
-    "react-router": "^0.13.3"
+    "react-router": "^0.13.3",
+    "keymirror": "~0.1.1"
   },
   "devDependencies": {
     "babelify": "^6.1.3",

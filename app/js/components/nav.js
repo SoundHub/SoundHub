@@ -27,9 +27,9 @@ class Nav extends React.Component {
           <NavLink to="home">Home</NavLink>
           <NavLink to="mymusic">MyMusic</NavLink>
           <NavLink to="tree">Tree</NavLink>
-          <NavLink to="profile">profile</NavLink>
-          <NavLink to="create">create</NavLink>
-          <NavLink to="auth">auth</NavLink>
+          <NavLink to="profile">Profile</NavLink>
+          <NavLink to="create">Create</NavLink>
+          <NavLink to="auth">Auth</NavLink>
         </nav>
       </div>
     );
