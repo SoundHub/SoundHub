@@ -1,14 +1,19 @@
 'use strict';
 import React from 'react';
+import Router from 'react-router';
 
 class Login extends React.Component {
+
   constructor() {
     super();
     this.toggleAuth = this.toggleAuth.bind(this);
+    this.login = this.login.bind(this);
    }
 
-  toggleAuth() {
-    this.props.handleToggle('Signup');
+  toggleAuth() { this.props.handleToggle('Signup');}
+
+  login() {
+    self.transitionTo('home');
   }
 
   render() {
@@ -17,12 +22,18 @@ class Login extends React.Component {
           <h1>This is Login</h1>
           <input type="text" placeholder="Username" ref="username" />
           <input type="password" placeholder="Password" ref="password" />
-          <input type="button" value="Login" />
+
+          <Router.Link to="home">
+            <input type="button" value="Login" onClick={this.login}/>
+          </Router.Link>
+
           <input type="button" value="Signup" onClick={this.toggleAuth}/>
         </div>
       );
   }
 }
+
+
 
 class Signup extends React.Component {
   constructor() {
@@ -57,7 +68,7 @@ class Auth extends React.Component {
 
   toggle(data){
     this.setState({authType:data}, () => {
-      console.log(this.state.authType);
+      // console.log(this.state.authType);
     });
   }
 

@@ -39,6 +39,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRouter = require('react-router');
+
+var _reactRouter2 = _interopRequireDefault(_reactRouter);
+
 var Login = (function (_React$Component) {
   _inherits(Login, _React$Component);
 
@@ -47,12 +51,18 @@ var Login = (function (_React$Component) {
 
     _get(Object.getPrototypeOf(Login.prototype), 'constructor', this).call(this);
     this.toggleAuth = this.toggleAuth.bind(this);
+    this.login = this.login.bind(this);
   }
 
   _createClass(Login, [{
     key: 'toggleAuth',
     value: function toggleAuth() {
       this.props.handleToggle('Signup');
+    }
+  }, {
+    key: 'login',
+    value: function login() {
+      self.transitionTo('home');
     }
   }, {
     key: 'render',
@@ -67,7 +77,11 @@ var Login = (function (_React$Component) {
         ),
         _react2['default'].createElement('input', { type: 'text', placeholder: 'Username', ref: 'username' }),
         _react2['default'].createElement('input', { type: 'password', placeholder: 'Password', ref: 'password' }),
-        _react2['default'].createElement('input', { type: 'button', value: 'Login' }),
+        _react2['default'].createElement(
+          _reactRouter2['default'].Link,
+          { to: 'home' },
+          _react2['default'].createElement('input', { type: 'button', value: 'Login', onClick: this.login })
+        ),
         _react2['default'].createElement('input', { type: 'button', value: 'Signup', onClick: this.toggleAuth })
       );
     }
@@ -128,10 +142,8 @@ var Auth = (function (_React$Component3) {
   _createClass(Auth, [{
     key: 'toggle',
     value: function toggle(data) {
-      var _this = this;
-
       this.setState({ authType: data }, function () {
-        console.log(_this.state.authType);
+        // console.log(this.state.authType);
       });
     }
   }, {
@@ -168,7 +180,7 @@ Auth.defaultProps = { authType: "login" };
 exports['default'] = Auth;
 module.exports = exports['default'];
 
-},{"react":207}],3:[function(require,module,exports){
+},{"react":207,"react-router":38}],3:[function(require,module,exports){
 'use strict';
 Object.defineProperty(exports, '__esModule', {
   value: true
