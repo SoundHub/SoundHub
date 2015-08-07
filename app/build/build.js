@@ -120,7 +120,11 @@ var Auth = (function (_React$Component3) {
         _react2['default'].createElement(
           'div',
           { className: 'authBanner' },
-          'SoundHub'
+          _react2['default'].createElement(
+            'div',
+            { className: 'authBannerTitle' },
+            'SongHub'
+          )
         ),
         _react2['default'].createElement(Login, null)
       );
