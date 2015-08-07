@@ -530,9 +530,33 @@ var Profile = (function (_React$Component) {
     key: 'render',
     value: function render() {
       return _react2['default'].createElement(
-        'h1',
-        null,
-        'This is Profile'
+        'div',
+        { className: 'Profile' },
+        _react2['default'].createElement(
+          'div',
+          { className: 'pageTitle' },
+          'Profile'
+        ),
+        _react2['default'].createElement(
+          'div',
+          null,
+          'Profile picture'
+        ),
+        _react2['default'].createElement(
+          'div',
+          { className: 'edit-profile' },
+          _react2['default'].createElement(
+            'div',
+            null,
+            'Name'
+          ),
+          _react2['default'].createElement('input', { size: '20', type: 'text', placeholder: ' Username ' })
+        ),
+        _react2['default'].createElement(
+          'button',
+          { className: 'btn btn-success' },
+          'SAVE'
+        )
       );
     }
   }]);
