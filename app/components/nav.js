@@ -17,13 +17,17 @@ class NavLink extends React.Component {
 class Nav extends React.Component {
   render() {
     return (
-      <nav>
-        <NavLink to="home">Home</NavLink>
-        <NavLink to="songs">Songs</NavLink>
-        <NavLink to="song">Song</NavLink>
-        <NavLink to="profile">profile</NavLink>
-        <NavLink to="create">create</NavLink>
-      </nav>
+      <div className="topBar">
+        <img src='../assets/placeholder.jpg'></img>
+        <nav>
+          <NavLink to="home">Home</NavLink>
+          <NavLink to="mymusic">MyMusic</NavLink>
+          <NavLink to="tree">Tree</NavLink>
+          <NavLink to="profile">profile</NavLink>
+          <NavLink to="create">create</NavLink>
+          <NavLink to="auth">auth</NavLink>
+        </nav>
+      </div>
     );
   }
 }

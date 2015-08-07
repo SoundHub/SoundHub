@@ -19,7 +19,7 @@ _reactRouter2['default'].run(_componentsRoutes2['default'], _reactRouter2['defau
   _react2['default'].render(_react2['default'].createElement(Root, null), document.body);
 });
 
-},{"./components/routes":9,"react":207,"react-router":38}],2:[function(require,module,exports){
+},{"./components/routes":10,"react":207,"react-router":38}],2:[function(require,module,exports){
 'use strict';
 Object.defineProperty(exports, '__esModule', {
   value: true
@@ -39,8 +39,71 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var Auth = (function (_React$Component) {
-  _inherits(Auth, _React$Component);
+var Login = (function (_React$Component) {
+  _inherits(Login, _React$Component);
+
+  function Login() {
+    _classCallCheck(this, Login);
+
+    _get(Object.getPrototypeOf(Login.prototype), 'constructor', this).apply(this, arguments);
+  }
+
+  _createClass(Login, [{
+    key: 'render',
+    value: function render() {
+      return _react2['default'].createElement(
+        'div',
+        { className: 'AuthForm' },
+        _react2['default'].createElement(
+          'h1',
+          null,
+          'This is Login'
+        ),
+        _react2['default'].createElement('input', { type: 'text', placeholder: 'Username', ref: 'username' }),
+        _react2['default'].createElement('input', { type: 'password', placeholder: 'Password', ref: 'password' }),
+        _react2['default'].createElement('input', { type: 'button', value: 'Login' }),
+        _react2['default'].createElement('input', { type: 'button', value: 'Signup', onClick: this.toggleAuth })
+      );
+    }
+  }]);
+
+  return Login;
+})(_react2['default'].Component);
+
+var Signup = (function (_React$Component2) {
+  _inherits(Signup, _React$Component2);
+
+  function Signup() {
+    _classCallCheck(this, Signup);
+
+    _get(Object.getPrototypeOf(Signup.prototype), 'constructor', this).apply(this, arguments);
+  }
+
+  _createClass(Signup, [{
+    key: 'render',
+    value: function render() {
+      return _react2['default'].createElement(
+        'div',
+        { className: 'AuthForm' },
+        _react2['default'].createElement(
+          'h1',
+          null,
+          'This is Signup'
+        ),
+        _react2['default'].createElement('input', { type: 'text', placeholder: 'Email', ref: 'email' }),
+        _react2['default'].createElement('input', { type: 'text', placeholder: 'Username', ref: 'username' }),
+        _react2['default'].createElement('input', { type: 'password', placeholder: 'Password', ref: 'password' }),
+        _react2['default'].createElement('input', { type: 'button', value: 'Login' }),
+        _react2['default'].createElement('input', { type: 'button', value: 'Signup' })
+      );
+    }
+  }]);
+
+  return Signup;
+})(_react2['default'].Component);
+
+var Auth = (function (_React$Component3) {
+  _inherits(Auth, _React$Component3);
 
   function Auth() {
     _classCallCheck(this, Auth);
@@ -52,9 +115,9 @@ var Auth = (function (_React$Component) {
     key: 'render',
     value: function render() {
       return _react2['default'].createElement(
-        'h1',
+        'div',
         null,
-        'This is Auth'
+        _react2['default'].createElement(Login, null)
       );
     }
   }]);
@@ -212,7 +275,53 @@ var Layout = (function (_React$Component) {
 exports['default'] = Layout;
 module.exports = exports['default'];
 
-},{"./nav":6,"react":207,"react-router":38}],6:[function(require,module,exports){
+},{"./nav":7,"react":207,"react-router":38}],6:[function(require,module,exports){
+'use strict';
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var Songs = (function (_React$Component) {
+  _inherits(Songs, _React$Component);
+
+  function Songs() {
+    _classCallCheck(this, Songs);
+
+    _get(Object.getPrototypeOf(Songs.prototype), 'constructor', this).apply(this, arguments);
+  }
+
+  _createClass(Songs, [{
+    key: 'render',
+    value: function render() {
+      return _react2['default'].createElement(
+        'h1',
+        null,
+        'This is Songs'
+      );
+    }
+  }]);
+
+  return Songs;
+})(_react2['default'].Component);
+
+exports['default'] = Songs;
+module.exports = exports['default'];
+
+},{"react":207}],7:[function(require,module,exports){
 'use strict';
 Object.defineProperty(exports, '__esModule', {
   value: true
@@ -277,32 +386,42 @@ var Nav = (function (_React$Component2) {
     key: 'render',
     value: function render() {
       return _react2['default'].createElement(
-        'nav',
-        null,
+        'div',
+        { className: 'topBar' },
+        _react2['default'].createElement('img', { src: '../assets/placeholder.jpg' }),
         _react2['default'].createElement(
-          NavLink,
-          { to: 'home' },
-          'Home'
-        ),
-        _react2['default'].createElement(
-          NavLink,
-          { to: 'songs' },
-          'Songs'
-        ),
-        _react2['default'].createElement(
-          NavLink,
-          { to: 'song' },
-          'Song'
-        ),
-        _react2['default'].createElement(
-          NavLink,
-          { to: 'profile' },
-          'profile'
-        ),
-        _react2['default'].createElement(
-          NavLink,
-          { to: 'create' },
-          'create'
+          'nav',
+          null,
+          _react2['default'].createElement(
+            NavLink,
+            { to: 'home' },
+            'Home'
+          ),
+          _react2['default'].createElement(
+            NavLink,
+            { to: 'mymusic' },
+            'MyMusic'
+          ),
+          _react2['default'].createElement(
+            NavLink,
+            { to: 'tree' },
+            'Tree'
+          ),
+          _react2['default'].createElement(
+            NavLink,
+            { to: 'profile' },
+            'profile'
+          ),
+          _react2['default'].createElement(
+            NavLink,
+            { to: 'create' },
+            'create'
+          ),
+          _react2['default'].createElement(
+            NavLink,
+            { to: 'auth' },
+            'auth'
+          )
         )
       );
     }
@@ -314,7 +433,7 @@ var Nav = (function (_React$Component2) {
 exports['default'] = Nav;
 module.exports = exports['default'];
 
-},{"lodash":13,"react":207,"react-router":38}],7:[function(require,module,exports){
+},{"lodash":13,"react":207,"react-router":38}],8:[function(require,module,exports){
 'use strict';
 Object.defineProperty(exports, '__esModule', {
   value: true
@@ -360,7 +479,7 @@ var NotFound = (function (_React$Component) {
 exports['default'] = NotFound;
 module.exports = exports['default'];
 
-},{"react":207}],8:[function(require,module,exports){
+},{"react":207}],9:[function(require,module,exports){
 'use strict';
 Object.defineProperty(exports, '__esModule', {
   value: true
@@ -406,7 +525,7 @@ var Profile = (function (_React$Component) {
 exports['default'] = Profile;
 module.exports = exports['default'];
 
-},{"react":207}],9:[function(require,module,exports){
+},{"react":207}],10:[function(require,module,exports){
 'use strict';
 Object.defineProperty(exports, '__esModule', {
   value: true
@@ -438,13 +557,13 @@ var _auth = require('./auth');
 
 var _auth2 = _interopRequireDefault(_auth);
 
-var _songs = require('./songs');
+var _mymusic = require('./mymusic');
 
-var _songs2 = _interopRequireDefault(_songs);
+var _mymusic2 = _interopRequireDefault(_mymusic);
 
-var _song = require('./song');
+var _tree = require('./tree');
 
-var _song2 = _interopRequireDefault(_song);
+var _tree2 = _interopRequireDefault(_tree);
 
 var _profile = require('./profile');
 
@@ -462,8 +581,8 @@ var routes = _react2['default'].createElement(
   Route,
   { handler: _layout2['default'] },
   _react2['default'].createElement(DefaultRoute, { name: 'home', handler: _home2['default'] }),
-  _react2['default'].createElement(Route, { name: 'songs', handler: _songs2['default'] }),
-  _react2['default'].createElement(Route, { name: 'song', handler: _song2['default'] }),
+  _react2['default'].createElement(Route, { name: 'mymusic', handler: _mymusic2['default'] }),
+  _react2['default'].createElement(Route, { name: 'tree', handler: _tree2['default'] }),
   _react2['default'].createElement(Route, { name: 'profile', handler: _profile2['default'] }),
   _react2['default'].createElement(Route, { name: 'create', handler: _create2['default'] }),
   _react2['default'].createElement(Route, { name: 'auth', handler: _auth2['default'] }),
@@ -473,7 +592,7 @@ var routes = _react2['default'].createElement(
 exports['default'] = routes;
 module.exports = exports['default'];
 
-},{"./auth":2,"./create":3,"./home":4,"./layout":5,"./notfound":7,"./profile":8,"./song":10,"./songs":11,"react":207,"react-router":38}],10:[function(require,module,exports){
+},{"./auth":2,"./create":3,"./home":4,"./layout":5,"./mymusic":6,"./notfound":8,"./profile":9,"./tree":11,"react":207,"react-router":38}],11:[function(require,module,exports){
 'use strict';
 Object.defineProperty(exports, '__esModule', {
   value: true
@@ -517,52 +636,6 @@ var Song = (function (_React$Component) {
 })(_react2['default'].Component);
 
 exports['default'] = Song;
-module.exports = exports['default'];
-
-},{"react":207}],11:[function(require,module,exports){
-'use strict';
-Object.defineProperty(exports, '__esModule', {
-  value: true
-});
-
-var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-
-var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var Songs = (function (_React$Component) {
-  _inherits(Songs, _React$Component);
-
-  function Songs() {
-    _classCallCheck(this, Songs);
-
-    _get(Object.getPrototypeOf(Songs.prototype), 'constructor', this).apply(this, arguments);
-  }
-
-  _createClass(Songs, [{
-    key: 'render',
-    value: function render() {
-      return _react2['default'].createElement(
-        'h1',
-        null,
-        'This is Songs'
-      );
-    }
-  }]);
-
-  return Songs;
-})(_react2['default'].Component);
-
-exports['default'] = Songs;
 module.exports = exports['default'];
 
 },{"react":207}],12:[function(require,module,exports){
