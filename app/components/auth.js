@@ -36,7 +36,8 @@ class Auth extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className = "authPage">
+        <div className="authBanner">SoundHub</div>
         <Login/>
       </div>
     );
