@@ -45,10 +45,16 @@ var Login = (function (_React$Component) {
   function Login() {
     _classCallCheck(this, Login);
 
-    _get(Object.getPrototypeOf(Login.prototype), 'constructor', this).apply(this, arguments);
+    _get(Object.getPrototypeOf(Login.prototype), 'constructor', this).call(this);
+    this.toggleAuth = this.toggleAuth.bind(this);
   }
 
   _createClass(Login, [{
+    key: 'toggleAuth',
+    value: function toggleAuth() {
+      this.props.handleToggle('Signup');
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2['default'].createElement(
@@ -76,10 +82,16 @@ var Signup = (function (_React$Component2) {
   function Signup() {
     _classCallCheck(this, Signup);
 
-    _get(Object.getPrototypeOf(Signup.prototype), 'constructor', this).apply(this, arguments);
+    _get(Object.getPrototypeOf(Signup.prototype), 'constructor', this).call(this);
+    this.toggleAuth = this.toggleAuth.bind(this);
   }
 
   _createClass(Signup, [{
+    key: 'toggleAuth',
+    value: function toggleAuth() {
+      this.props.handleToggle('Login');
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2['default'].createElement(
@@ -93,7 +105,7 @@ var Signup = (function (_React$Component2) {
         _react2['default'].createElement('input', { type: 'text', placeholder: 'Email', ref: 'email' }),
         _react2['default'].createElement('input', { type: 'text', placeholder: 'Username', ref: 'username' }),
         _react2['default'].createElement('input', { type: 'password', placeholder: 'Password', ref: 'password' }),
-        _react2['default'].createElement('input', { type: 'button', value: 'Login' }),
+        _react2['default'].createElement('input', { type: 'button', value: 'Login', onClick: this.toggleAuth }),
         _react2['default'].createElement('input', { type: 'button', value: 'Signup' })
       );
     }
@@ -105,15 +117,32 @@ var Signup = (function (_React$Component2) {
 var Auth = (function (_React$Component3) {
   _inherits(Auth, _React$Component3);
 
-  function Auth() {
+  function Auth(props) {
     _classCallCheck(this, Auth);
 
-    _get(Object.getPrototypeOf(Auth.prototype), 'constructor', this).apply(this, arguments);
+    _get(Object.getPrototypeOf(Auth.prototype), 'constructor', this).call(this, props);
+    this.toggle = this.toggle.bind(this);
+    this.state = { authType: props.authType };
   }
 
   _createClass(Auth, [{
+    key: 'toggle',
+    value: function toggle(data) {
+      var _this = this;
+
+      this.setState({ authType: data }, function () {
+        console.log(_this.state.authType);
+      });
+    }
+  }, {
     key: 'render',
     value: function render() {
+      var state = _react2['default'].createElement(Login, { handleToggle: this.toggle });
+      if (this.state.authType === 'Signup') {
+        state = _react2['default'].createElement(Signup, { handleToggle: this.toggle });
+      } else if (this.state.authType === 'Login') {
+        state = _react2['default'].createElement(Login, { handleToggle: this.toggle });
+      }
       return _react2['default'].createElement(
         'div',
         { className: 'authPage' },
@@ -126,13 +155,15 @@ var Auth = (function (_React$Component3) {
             'SongHub'
           )
         ),
-        _react2['default'].createElement(Login, null)
+        state
       );
     }
   }]);
 
   return Auth;
 })(_react2['default'].Component);
+
+Auth.defaultProps = { authType: "login" };
 
 exports['default'] = Auth;
 module.exports = exports['default'];

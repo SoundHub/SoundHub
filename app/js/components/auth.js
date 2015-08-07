@@ -2,6 +2,14 @@
 import React from 'react';
 
 class Login extends React.Component {
+  constructor() {
+    super();
+    this.toggleAuth = this.toggleAuth.bind(this);
+   }
+
+  toggleAuth() {
+    this.props.handleToggle('Signup');
+  }
 
   render() {
     return (
@@ -17,6 +25,14 @@ class Login extends React.Component {
 }
 
 class Signup extends React.Component {
+  constructor() {
+    super();
+    this.toggleAuth = this.toggleAuth.bind(this);
+   }
+
+   toggleAuth() {
+    this.props.handleToggle('Login');
+  }
 
   render() {
     return (
@@ -25,7 +41,7 @@ class Signup extends React.Component {
           <input type="text" placeholder="Email" ref="email" />
           <input type="text" placeholder="Username" ref="username" />
           <input type="password" placeholder="Password" ref="password" />
-          <input type="button" value="Login" />
+          <input type="button" value="Login" onClick={this.toggleAuth}/>
           <input type="button" value="Signup"/>
         </div>
       );
@@ -33,18 +49,37 @@ class Signup extends React.Component {
 }
 
 class Auth extends React.Component {
+  constructor(props) {
+    super(props);
+    this.toggle = this.toggle.bind(this);
+    this.state = {authType: props.authType}
+   }
+
+  toggle(data){
+    this.setState({authType:data}, () => {
+      console.log(this.state.authType);
+    });
+  }
 
   render() {
+    var state = <Login handleToggle = {this.toggle}/>;
+    if(this.state.authType === 'Signup'){
+      state = <Signup handleToggle = {this.toggle}/>
+    }else if(this.state.authType === 'Login'){
+      state = <Login handleToggle = {this.toggle}/>
+    }
     return (
       <div className = "authPage">
         <div className="authBanner">
           <div className="authBannerTitle">SongHub</div>
         </div>
-        <Login/>
+        {state}
       </div>
     );
   }
 }
+
+Auth.defaultProps = { authType : "login"}
 
 
 export default Auth;
