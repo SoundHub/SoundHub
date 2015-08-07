@@ -37,11 +37,13 @@ server.get('/mySongs', function(req, res) {
 
 })
 
+server.get('/myForks', function(req, res) {
+  
+})
+
 server.post('/addSong', function(req, res) {
 
 })
-
-
 
 /** END DB ROUTES **/
 
