@@ -11,15 +11,15 @@ var _reactRouter = require('react-router');
 
 var _reactRouter2 = _interopRequireDefault(_reactRouter);
 
-var _componentsRoutes = require('./components/routes');
+var _jsComponentsRoutes = require('./js/components/routes');
 
-var _componentsRoutes2 = _interopRequireDefault(_componentsRoutes);
+var _jsComponentsRoutes2 = _interopRequireDefault(_jsComponentsRoutes);
 
-_reactRouter2['default'].run(_componentsRoutes2['default'], _reactRouter2['default'].HistoryLocation, function (Root) {
+_reactRouter2['default'].run(_jsComponentsRoutes2['default'], _reactRouter2['default'].HistoryLocation, function (Root) {
   _react2['default'].render(_react2['default'].createElement(Root, null), document.body);
 });
 
-},{"./components/routes":10,"react":207,"react-router":38}],2:[function(require,module,exports){
+},{"./js/components/routes":10,"react":207,"react-router":38}],2:[function(require,module,exports){
 'use strict';
 Object.defineProperty(exports, '__esModule', {
   value: true
