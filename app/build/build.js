@@ -116,7 +116,12 @@ var Auth = (function (_React$Component3) {
     value: function render() {
       return _react2['default'].createElement(
         'div',
-        null,
+        { className: 'authPage' },
+        _react2['default'].createElement(
+          'div',
+          { className: 'authBanner' },
+          'SoundHub'
+        ),
         _react2['default'].createElement(Login, null)
       );
     }
@@ -388,7 +393,16 @@ var Nav = (function (_React$Component2) {
       return _react2['default'].createElement(
         'div',
         { className: 'topBar' },
-        _react2['default'].createElement('img', { src: '../assets/placeholder.jpg' }),
+        _react2['default'].createElement(
+          'span',
+          { className: 'topBarLeft' },
+          _react2['default'].createElement('img', { src: '../assets/placeholder.jpg' }),
+          _react2['default'].createElement(
+            'div',
+            { className: 'greeting' },
+            'Hello User'
+          )
+        ),
         _react2['default'].createElement(
           'nav',
           null,

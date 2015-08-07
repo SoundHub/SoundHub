@@ -2,26 +2,65 @@
   color: red;
 }
 
+
+
+/* ============== TOP BAR =============== */
 .topBar{
+  height: 50px;
+  background-color: white;
+  -webkit-box-shadow: 0 5px 6px -6px rgba(158, 171, 195, 0.59);
+     -moz-box-shadow: 0 5px 6px -6px rgba(158, 171, 195, 0.59);
+          box-shadow: 0 5px 6px -6px rgba(158, 171, 195, 0.59);
+
   nav{
-    display: inline-block;
+    position: absolute;
+    vertical-align: text-top;
+    display: inline;
     text-align: center;
+    margin-left: 250px;
+    margin-top: 15px;
     a {
+      height: 50px;
       color: #5A5958;
       padding-left: 10px;
       padding-right: 10px;
       text-decoration: none;
     }
   }
-  background-color: white;
-  -webkit-box-shadow: 0 5px 6px -6px rgba(158, 171, 195, 0.59);
-     -moz-box-shadow: 0 5px 6px -6px rgba(158, 171, 195, 0.59);
-          box-shadow: 0 5px 6px -6px rgba(158, 171, 195, 0.59);
+  .topBarLeft{
+    height: 60px;
+  }
+
+  .greeting{
+    position: absolute;
+    display: inline;
+    font-size: 20px;
+    height: 50px;
+    margin-left: 20px;
+    margin-top: 15px;
+  }
+
   img{
-    padding: 20px;
-    width: 80px;
-    height: 80px;
+    padding: 5px;
+    margin-left: 20px;
+    width: 40px;
+    height: 40px;
     border-radius: 100%;
   }
+
+}
+
+/* ================ Auth ================= */
+
+
+.authPage{
+
+  .authBanner{
+
+    font-size: 50px;
+  }
+
+
+
 
 }

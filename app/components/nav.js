@@ -18,7 +18,11 @@ class Nav extends React.Component {
   render() {
     return (
       <div className="topBar">
-        <img src='../assets/placeholder.jpg'></img>
+        <span className = "topBarLeft">
+          <img src='../assets/placeholder.jpg'></img>
+          <div className = "greeting">Hello User</div>
+        </span>
+
         <nav>
           <NavLink to="home">Home</NavLink>
           <NavLink to="mymusic">MyMusic</NavLink>
