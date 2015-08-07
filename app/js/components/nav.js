@@ -29,7 +29,11 @@ class Nav extends React.Component {
           <NavLink to="tree">Tree</NavLink>
           <NavLink to="profile">profile</NavLink>
           <NavLink to="create">create</NavLink>
-          <NavLink to="auth">auth</NavLink>
+
+          <Router.Link to="auth">
+            <button className="authButton">Login</button>
+          </Router.Link>
+
         </nav>
       </div>
     );

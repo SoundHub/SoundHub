@@ -479,9 +479,13 @@ var Nav = (function (_React$Component2) {
             'create'
           ),
           _react2['default'].createElement(
-            NavLink,
+            _reactRouter2['default'].Link,
             { to: 'auth' },
-            'auth'
+            _react2['default'].createElement(
+              'button',
+              { className: 'authButton' },
+              'Login'
+            )
           )
         )
       );
