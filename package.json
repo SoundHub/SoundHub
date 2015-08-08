@@ -25,6 +25,8 @@
     "object-assign": "^3.0.0",
     "react": "^0.13.3",
     "react-router": "^0.13.3",
+    "sequelize": "^3.5.1",
+    "sqlite3": "^3.0.10",
     "react-soundplayer": "^0.2.0"
   },
   "devDependencies": {
