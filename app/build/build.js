@@ -47,7 +47,11 @@ var ActionTypes = _constantsConstants2['default'].ActionTypes;
 exports['default'] = {
   getAllSongs: function getAllSongs() {
     _utilsAppUtils2['default'].get('/allSongs').then(function (response) {
-      console.log(response.status);
+      return response.json();
+    }).then(function (json) {
+      console.log(json);
+    })['catch'](function (err) {
+      console.log('failed: ', err);
     });
     // Dispatcher.dispatch({
     //   type: ActionTypes.RECEIVE_ALL_SONGS,
@@ -1013,7 +1017,9 @@ var _whatwgFetch2 = _interopRequireDefault(_whatwgFetch);
 var rootUrl = '';
 exports['default'] = {
   get: function get(url) {
-    return window.fetch(url);
+    return window.fetch(url, {
+      method: 'get'
+    });
   },
 
   post: function post(url, body) {

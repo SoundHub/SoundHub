@@ -10,7 +10,13 @@ export default {
   getAllSongs() {
     Utils.get('/allSongs')
     .then((response) => {
-      console.log(response.status);
+      return response.json();
+    })
+    .then((json) => {
+      console.log(json);
+    })
+    .catch((err) => {
+      console.log('failed: ', err)
     })
     // Dispatcher.dispatch({
     //   type: ActionTypes.RECEIVE_ALL_SONGS,

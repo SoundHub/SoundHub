@@ -5,7 +5,9 @@ import fetch from 'whatwg-fetch';
 let rootUrl = ''
 export default {
   get(url) {
-    return window.fetch(url);
+    return window.fetch(url, {
+      method: 'get'
+    });
   },
 
   post(url, body) {
