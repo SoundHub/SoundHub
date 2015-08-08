@@ -1,0 +1,105 @@
+/* ============== General =============== */
+
+button:focus {outline:0;}
+
+
+
+
+
+/* ============== TOP BAR =============== */
+.topBar{
+  height: 50px;
+  background-color: white;
+  -webkit-box-shadow: 0 5px 6px -6px rgba(158, 171, 195, 0.59);
+     -moz-box-shadow: 0 5px 6px -6px rgba(158, 171, 195, 0.59);
+          box-shadow: 0 5px 6px -6px rgba(158, 171, 195, 0.59);
+
+  nav{
+    position: absolute;
+    vertical-align: text-top;
+    display: inline;
+    text-align: center;
+    margin-left: 250px;
+    margin-top: 10px;
+    a {
+      height: 50px;
+      color: #5A5958;
+      padding-left: 10px;
+      padding-right: 10px;
+      text-decoration: none;
+    }
+  }
+  .topBarLeft{
+    height: 60px;
+  }
+
+  .greeting{
+    position: absolute;
+    display: inline;
+    font-size: 20px;
+    height: 50px;
+    margin-left: 20px;
+    margin-top: 15px;
+  }
+
+  img{
+    padding: 5px;
+    margin-left: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+  }
+}
+
+  .authButton {
+    margin-left: 300px;
+    -moz-box-shadow:inset 0px 39px 0px -24px #e67a73;
+    -webkit-box-shadow:inset 0px 39px 0px -24px #e67a73;
+    box-shadow:inset 0px 39px 0px -24px #e67a73;
+    background-color:#e4685d;
+    -moz-border-radius:4px;
+    -webkit-border-radius:4px;
+    border-radius:4px;
+    border:1px solid #ffffff;
+    display:inline-block;
+    cursor:pointer;
+    color:#fff;
+    font-size:15px;
+    padding:6px 15px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #b23e35;
+  }
+  .authButton:hover {
+    background-color:#eb675e;
+  }
+  .authButton:active {
+    position:relative;
+    top:1px;
+  }
+
+
+/* ================ Auth ================= */
+
+
+.authPage{
+
+  .authBanner{
+
+    height: 300px;
+    background-image: url("../assets/authbanner.jpg");
+
+  }
+
+  .authBannerTitle{
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+    color: white;
+    font-size: 90px;
+    vertical-align: middle;
+  }
+
+
+
+}
