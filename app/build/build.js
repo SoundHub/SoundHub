@@ -380,6 +380,7 @@ var SongList = (function (_React$Component2) {
   _createClass(SongList, [{
     key: 'render',
     value: function render() {
+      console.log("from render ", JSON.stringify(this.props.data));
       var Songs = this.props.data.map(function (song) {
         return _react2['default'].createElement(Song, { songName: song.genre });
       });
@@ -1068,6 +1069,7 @@ AllSongStore.dispatchToken = Dispatcher.register(function (payload) {
 
     case ActionTypes.RECEIVE_ALL_SONGS:
       var songs = payload.songs;
+      // console.log("in switch statement ", songs);
       setAllSongs(songs);
 
       AllSongStore.emitChange();

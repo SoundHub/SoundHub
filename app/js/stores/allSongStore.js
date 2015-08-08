@@ -38,6 +38,7 @@ AllSongStore.dispatchToken = Dispatcher.register(function(payload) {
 
     case ActionTypes.RECEIVE_ALL_SONGS:
       let songs = payload.songs;
+      // console.log("in switch statement ", songs);
       setAllSongs(songs);
 
       
