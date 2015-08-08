@@ -1,5 +1,6 @@
-.AuthForm {
-  color: red; }
+/* ============== General =============== */
+button:focus {
+  outline: 0; }
 
 /* ============== TOP BAR =============== */
 .topBar {
@@ -14,7 +15,7 @@
     display: inline;
     text-align: center;
     margin-left: 250px;
-    margin-top: 15px; }
+    margin-top: 10px; }
     .topBar nav a {
       height: 50px;
       color: #5A5958;
@@ -36,6 +37,31 @@
     width: 40px;
     height: 40px;
     border-radius: 100%; }
+
+.authButton {
+  margin-left: 300px;
+  -moz-box-shadow: inset 0px 39px 0px -24px #e67a73;
+  -webkit-box-shadow: inset 0px 39px 0px -24px #e67a73;
+  box-shadow: inset 0px 39px 0px -24px #e67a73;
+  background-color: #e4685d;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  border: 1px solid #ffffff;
+  display: inline-block;
+  cursor: pointer;
+  color: #fff;
+  font-size: 15px;
+  padding: 6px 15px;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #b23e35; }
+
+.authButton:hover {
+  background-color: #eb675e; }
+
+.authButton:active {
+  position: relative;
+  top: 1px; }
 
 /* ================ Auth ================= */
 .authPage .authBanner {
