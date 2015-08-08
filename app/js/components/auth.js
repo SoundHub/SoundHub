@@ -60,23 +60,24 @@ class Auth extends React.Component {
     this.toggle = this.toggle.bind(this);
     this.state = {authType: props.authType}
    }
+
   toggle(data){
     this.setState({authType:data}, () => {});
   }
 
   render() {
-    var state = <Login handleToggle = {this.toggle}/>;
+    var authform = <Login handleToggle = {this.toggle}/>;
     if(this.state.authType === 'Signup'){
-      state = <Signup handleToggle = {this.toggle}/>
+      authform = <Signup handleToggle = {this.toggle}/>
     }else if(this.state.authType === 'Login'){
-      state = <Login handleToggle = {this.toggle}/>
+      authform = <Login handleToggle = {this.toggle}/>
     }
     return (
       <div className = "authPage">
         <div className="authBanner">
           <div className="authBannerTitle">SongHub</div>
         </div>
-        {state}
+        {authform}
       </div>
     );
   }

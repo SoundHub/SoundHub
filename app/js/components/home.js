@@ -1,5 +1,6 @@
 'use strict';
 import React from 'react';
+import MusicPlayer from './musicplayer';
 
 var arr = [
 {
@@ -13,47 +14,64 @@ var arr = [
 }];
 
 class Home extends React.Component {
+  constructor() {
+    super();
+    this.switchSong = this.switchSong.bind(this);
+   }
+
+  switchSong(song){
+    console.log(song);
+  }
+
   render() {
     return (
       <div>
         <h1>This is Home</h1>
         <SongList data = {arr} />
-        <audio>
-          Your browser does not support the audio element.
-        </audio>
+        <MusicPlayer />
       </div>
     );
   }
 }
 export default Home;
 
-
-class Song extends React.Component{
-  render(){
-    return(
-      <div>
-        {this.props.songName}
-      </div>
-    );
-  }
-}
-
 class SongList extends React.Component{
   render(){
     var Songs = this.props.data.map(function(song){
       return(
-        <Song songName = {song.songName} />
+        <Song songName={song.songName} />
       );
     });
 
     return (
-      <div className="songList">
+      <div className="songList" >
         {Songs}
       </div>
     );
 
   }
 }
+
+
+class Song extends React.Component{
+  constructor() {
+    super();
+    this.play = this.play.bind(this);
+   }
+
+  play(){
+    console.log(this.props.songName)
+  }
+
+  render(){
+    return(
+      <div onClick={this.play}>
+        {this.props.songName}
+      </div>
+    );
+  }
+}
+
 
 
 
