@@ -19,12 +19,15 @@
   "dependencies": {
     "events": "^1.0.2",
     "express": "^4.13.3",
+    "flux": "^2.0.3",
     "keymirror": "~0.1.1",
     "lodash": "^3.10.1",
     "markdown": "^0.5.0",
     "object-assign": "^3.0.0",
     "react": "^0.13.3",
     "react-router": "^0.13.3",
+    "react-soundplayer": "^0.2.0",
+    "whatwg-fetch": "^0.9.0",
     "sequelize": "^3.5.1",
     "sqlite3": "^3.0.10",
     "react-soundplayer": "^0.2.0"
