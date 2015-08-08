@@ -13,15 +13,14 @@ export default {
       return response.json();
     })
     .then((json) => {
-      console.log(json);
+      console.log("dispatch songs ", json);
+      Dispatcher.dispatch({
+        type: ActionTypes.RECEIVE_ALL_SONGS,
+        songs: json
+      })
     })
     .catch((err) => {
       console.log('failed: ', err)
     })
-    // Dispatcher.dispatch({
-    //   type: ActionTypes.RECEIVE_ALL_SONGS,
-
-    // })
-
   }
 } 

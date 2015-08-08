@@ -5,13 +5,11 @@ import fetch from 'whatwg-fetch';
 let rootUrl = ''
 export default {
   get(url) {
-    return window.fetch(url, {
-      method: 'get'
-    });
+    return window.fetch(url);
   },
 
   post(url, body) {
-    return fetch(url, {
+    return window.fetch(url, {
       method: 'post',
       body: body
     })
