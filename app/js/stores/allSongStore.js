@@ -1,15 +1,15 @@
 // all songs, to be displayed on homepage
+'use strict';
 
-var Dispatcher = require('../dispatcher/dispatcher.js');
-var Constants = require('../constants/constants');
-var EventEmitter = require('events').EventEmitter;
-var assign = require('object-assign');
+import Dispatcher from '../dispatcher/dispatcher.js';
+import Constants from '../constants/constants';
+import EventEmitter from 'events';
+import assign from 'object-assign';
 
+const ActionTypes = Constants.ActionTypes;
+const CHANGE_EVENT = 'change';
 
-
-var ActionTypes = Constants.ActionTypes;
-var CHANGE_EVENT = 'change';
-var _songs = {};
+let _songs = {};
 
 var setAllSongs = function (songs) {
   _songs.allSongs = songs;
@@ -29,23 +29,17 @@ let AllSongStore = assign({}, EventEmitter.prototype, {
     return _songs;
   }
 
-
 })
 
 AllSongStore.dispatchToken = Dispatcher.register(function(payload) {
 
   switch(payload.type) {
-
+    
     case ActionTypes.RECEIVE_ALL_SONGS:
       let songs = payload.songs;
-      // console.log("in switch statement ", songs);
-      setAllSongs(songs);
-
-      
+      setAllSongs(songs);      
       AllSongStore.emitChange();
       break;
-
-
 
     default:
       // do nothing
