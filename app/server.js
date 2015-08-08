@@ -31,6 +31,7 @@ server.post('/addSong', function(req, res) {
 
 server.get('/allSongs', function(req, res) {
   db.allSongs(function(data) {
+    
     res.send(data);
   });
 })

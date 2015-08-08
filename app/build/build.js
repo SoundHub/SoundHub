@@ -298,16 +298,6 @@ var _storesAllSongStore = require('../stores/allSongStore');
 
 var _storesAllSongStore2 = _interopRequireDefault(_storesAllSongStore);
 
-var arr = [{
-  songName: 'song1'
-}, {
-  songName: 'song2'
-}, {
-  songName: 'song3'
-}, {
-  songName: 'song4'
-}];
-
 var getStateFromStores = function getStateFromStores() {
   return {
     songs: _storesAllSongStore2['default'].getAllSongs()
@@ -322,21 +312,25 @@ var Home = (function (_React$Component) {
 
     _get(Object.getPrototypeOf(Home.prototype), 'constructor', this).call(this);
     _actionsSongActionCreators2['default'].getAllSongs();
-    // NOTE: cannot use setstate in constructor
-    this.state = {
-      songs: _storesAllSongStore2['default'].getAllSongs()
-    };
+
+    // bind all methods to this
+    this.render = this.render.bind(this);
     this.switchSong = this.switchSong.bind(this);
-    // this.state = {songs: arr};
-    console.log(this.state);
+    this._onChange = this._onChange.bind(this);
+    this.componentDidMount = this.componentDidMount.bind(this);
+
+    this.state = {
+      songs: {
+        allSongs: []
+      }
+    };
   }
 
   _createClass(Home, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      this.setState(_storesAllSongStore2['default'].getAllSongs());
+      console.log('mounted');
       _storesAllSongStore2['default'].addChangeListener(this._onChange);
-      console.log(this.state);
     }
   }, {
     key: 'switchSong',
@@ -344,16 +338,11 @@ var Home = (function (_React$Component) {
       console.log(song);
     }
   }, {
-    key: '_onChange',
-    value: function _onChange() {
-      this.setState(getStateFromStores());
-    }
-  }, {
     key: 'render',
     value: function render() {
-      console.log("state.songs ", JSON.stringify(this.state));
-      console.log('state in render: ', this.state.songs.allSongs);
-
+      // console.log("state.songs ",JSON.stringify(this.state));
+      // console.log('state in render: ',this.state.songs.allSongs);
+      console.log('in render', JSON.stringify(this.state));
       return _react2['default'].createElement(
         'div',
         null,
@@ -362,9 +351,15 @@ var Home = (function (_React$Component) {
           null,
           'This is Home'
         ),
-        _react2['default'].createElement(SongList, { data: this.state }),
+        _react2['default'].createElement(SongList, { data: this.state.songs.allSongs }),
         _react2['default'].createElement(_musicplayer2['default'], null)
       );
+    }
+  }, {
+    key: '_onChange',
+    value: function _onChange() {
+      console.log('changes');
+      this.setState(getStateFromStores());
     }
   }]);
 
@@ -386,7 +381,7 @@ var SongList = (function (_React$Component2) {
     key: 'render',
     value: function render() {
       var Songs = this.props.data.map(function (song) {
-        return _react2['default'].createElement(Song, { songName: song.songName });
+        return _react2['default'].createElement(Song, { songName: song.genre });
       });
 
       return _react2['default'].createElement(
