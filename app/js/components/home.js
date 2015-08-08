@@ -1,6 +1,7 @@
 'use strict';
 import React from 'react';
 import MusicPlayer from './musicplayer';
+import SongActions from '../actions/songActionCreators';
 
 var arr = [
 {
@@ -14,9 +15,11 @@ var arr = [
 }];
 
 class Home extends React.Component {
+  
   constructor() {
     super();
     this.switchSong = this.switchSong.bind(this);
+    this.state = SongActions.getAllSongs();
    }
 
   switchSong(song){
@@ -33,6 +36,7 @@ class Home extends React.Component {
     );
   }
 }
+
 export default Home;
 
 class SongList extends React.Component{
