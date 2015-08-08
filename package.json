@@ -24,7 +24,8 @@
     "markdown": "^0.5.0",
     "object-assign": "^3.0.0",
     "react": "^0.13.3",
-    "react-router": "^0.13.3"
+    "react-router": "^0.13.3",
+    "react-soundplayer": "^0.2.0"
   },
   "devDependencies": {
     "babelify": "^6.1.3",

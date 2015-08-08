@@ -274,7 +274,12 @@ var Home = (function (_React$Component) {
           null,
           'This is Home'
         ),
-        _react2['default'].createElement(SongList, { data: arr })
+        _react2['default'].createElement(SongList, { data: arr }),
+        _react2['default'].createElement(
+          'audio',
+          null,
+          'Your browser does not support the audio element.'
+        )
       );
     }
   }]);

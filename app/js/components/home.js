@@ -18,6 +18,9 @@ class Home extends React.Component {
       <div>
         <h1>This is Home</h1>
         <SongList data = {arr} />
+        <audio>
+          Your browser does not support the audio element.
+        </audio>
       </div>
     );
   }
