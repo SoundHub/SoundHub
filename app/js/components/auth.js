@@ -3,19 +3,15 @@ import React from 'react';
 import Router from 'react-router';
 
 class Login extends React.Component {
-
   constructor() {
     super();
     this.toggleAuth = this.toggleAuth.bind(this);
     this.login = this.login.bind(this);
    }
-
   toggleAuth() { this.props.handleToggle('Signup');}
-
   login() {
     self.transitionTo('home');
   }
-
   render() {
     return (
         <div className="AuthForm">
@@ -40,7 +36,6 @@ class Signup extends React.Component {
     super();
     this.toggleAuth = this.toggleAuth.bind(this);
    }
-
    toggleAuth() {
     this.props.handleToggle('Login');
   }
@@ -65,11 +60,8 @@ class Auth extends React.Component {
     this.toggle = this.toggle.bind(this);
     this.state = {authType: props.authType}
    }
-
   toggle(data){
-    this.setState({authType:data}, () => {
-      // console.log(this.state.authType);
-    });
+    this.setState({authType:data}, () => {});
   }
 
   render() {
