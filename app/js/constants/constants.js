@@ -1,7 +1,7 @@
-import keyMirror from 'keymirror'; 
+var keyMirror = require('keymirror'); 
 
 // define action constants
-module.exports = {
+var constants = {
     ActionTypes: keyMirror({
       NEW_USER: null,
       LOGIN: null,
@@ -11,8 +11,6 @@ module.exports = {
       UPLOAD: null,
       RECEIVE_DATA: null
   })
-
-
-
-
 }
+
+module.exports = constants;
