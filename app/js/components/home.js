@@ -4,18 +4,6 @@ import MusicPlayer from './musicplayer';
 import SongActions from '../actions/songActionCreators';
 import AllSongStore from '../stores/allSongStore';
 
-
-var arr = [
-{
-  songName:'song1'
-},{
-  songName:'song2'
-},{
-  songName:'song3'
-},{
-  songName:'song4'
-}];
-
 var getStateFromStores = function() {
   return {
     songs: AllSongStore.getAllSongs()
@@ -27,40 +15,45 @@ class Home extends React.Component {
   constructor() {
     super();
     SongActions.getAllSongs();
-    // NOTE: cannot use setstate in constructor
-    this.state = {
-      songs: AllSongStore.getAllSongs()
-    }
+
+    // bind all methods to this
+    this.render = this.render.bind(this);
     this.switchSong = this.switchSong.bind(this);
-    // this.state = {songs: arr};
-    console.log(this.state);
+    this._onChange = this._onChange.bind(this);
+    this.componentDidMount = this.componentDidMount.bind(this);
+    
+    this.state = {
+      songs: {
+        allSongs: []
+      }
+    }
   }
 
   componentDidMount () {
-    this.setState(AllSongStore.getAllSongs());
+    console.log('mounted') 
     AllSongStore.addChangeListener(this._onChange);
-    console.log(this.state);
   }
 
   switchSong(song){
     console.log(song);
   }
 
-  _onChange() {
-    this.setState(getStateFromStores());
-  }
-
   render() {
-    console.log("state.songs ",JSON.stringify(this.state));
-    console.log('state in render: ',this.state.songs.allSongs);
-
+    // console.log("state.songs ",JSON.stringify(this.state));
+    // console.log('state in render: ',this.state.songs.allSongs);
+    console.log('in render', JSON.stringify(this.state));
     return (
       <div>
         <h1>This is Home</h1>
-        <SongList data = {this.state} />
+        <SongList data = {this.state.songs.allSongs} />
         <MusicPlayer />
       </div>
     );
+  }
+
+  _onChange() {
+    console.log('changes');
+    this.setState(getStateFromStores());
   }
 }
 
@@ -70,7 +63,7 @@ class SongList extends React.Component{
   render(){
     var Songs = this.props.data.map(function(song){
       return(
-        <Song songName={song.songName} />
+        <Song songName={song.genre} />
       );
     });
 
