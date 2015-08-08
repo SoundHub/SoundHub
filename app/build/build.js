@@ -142,9 +142,7 @@ var Auth = (function (_React$Component3) {
   _createClass(Auth, [{
     key: 'toggle',
     value: function toggle(data) {
-      this.setState({ authType: data }, function () {
-        // console.log(this.state.authType);
-      });
+      this.setState({ authType: data }, function () {});
     }
   }, {
     key: 'render',
@@ -246,6 +244,16 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var arr = [{
+  songName: 'song1'
+}, {
+  songName: 'song2'
+}, {
+  songName: 'song3'
+}, {
+  songName: 'song4'
+}];
+
 var Home = (function (_React$Component) {
   _inherits(Home, _React$Component);
 
@@ -259,9 +267,19 @@ var Home = (function (_React$Component) {
     key: 'render',
     value: function render() {
       return _react2['default'].createElement(
-        'h1',
+        'div',
         null,
-        'This is Home'
+        _react2['default'].createElement(
+          'h1',
+          null,
+          'This is Home'
+        ),
+        _react2['default'].createElement(SongList, { data: arr }),
+        _react2['default'].createElement(
+          'audio',
+          null,
+          'Your browser does not support the audio element.'
+        )
       );
     }
   }]);
@@ -270,6 +288,57 @@ var Home = (function (_React$Component) {
 })(_react2['default'].Component);
 
 exports['default'] = Home;
+
+var Song = (function (_React$Component2) {
+  _inherits(Song, _React$Component2);
+
+  function Song() {
+    _classCallCheck(this, Song);
+
+    _get(Object.getPrototypeOf(Song.prototype), 'constructor', this).apply(this, arguments);
+  }
+
+  _createClass(Song, [{
+    key: 'render',
+    value: function render() {
+      return _react2['default'].createElement(
+        'div',
+        null,
+        this.props.songName
+      );
+    }
+  }]);
+
+  return Song;
+})(_react2['default'].Component);
+
+var SongList = (function (_React$Component3) {
+  _inherits(SongList, _React$Component3);
+
+  function SongList() {
+    _classCallCheck(this, SongList);
+
+    _get(Object.getPrototypeOf(SongList.prototype), 'constructor', this).apply(this, arguments);
+  }
+
+  _createClass(SongList, [{
+    key: 'render',
+    value: function render() {
+      var Songs = this.props.data.map(function (song) {
+        return _react2['default'].createElement(Song, { songName: song.songName });
+      });
+
+      return _react2['default'].createElement(
+        'div',
+        { className: 'songList' },
+        Songs
+      );
+    }
+  }]);
+
+  return SongList;
+})(_react2['default'].Component);
+
 module.exports = exports['default'];
 
 },{"react":207}],5:[function(require,module,exports){
@@ -479,9 +548,13 @@ var Nav = (function (_React$Component2) {
             'create'
           ),
           _react2['default'].createElement(
-            NavLink,
+            _reactRouter2['default'].Link,
             { to: 'auth' },
-            'auth'
+            _react2['default'].createElement(
+              'button',
+              { className: 'authButton' },
+              'Login'
+            )
           )
         )
       );
