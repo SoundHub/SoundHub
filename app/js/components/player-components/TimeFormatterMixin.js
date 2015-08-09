@@ -9,7 +9,6 @@ module.exports =  {
 
         var divisor_for_seconds = divisor_for_minutes % 60;
         var seconds = Math.ceil(divisor_for_seconds);
-
         var time = "";
 
         if(hours > 0) {
@@ -18,7 +17,7 @@ module.exports =  {
 
         time += this.timeUnitFormat(minutes) + ":";
         time += this.timeUnitFormat(seconds);
-        return time; 
+        return time;
 	},
 
     timeUnitFormat:function(time) {

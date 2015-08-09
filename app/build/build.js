@@ -331,7 +331,6 @@ var Home = (function (_React$Component) {
   _createClass(Home, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      console.log('mounted');
       _storesAllSongStore2['default'].addChangeListener(this._onChange);
     }
   }, {
@@ -342,7 +341,6 @@ var Home = (function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      console.log('in render', JSON.stringify(this.state));
       return _react2['default'].createElement(
         'div',
         null,
@@ -351,7 +349,7 @@ var Home = (function (_React$Component) {
           null,
           'This is Home'
         ),
-        _react2['default'].createElement(SongList, { data: this.state.songs.allSongs, switchSong: this.switchSong }),
+        _react2['default'].createElement(SongList, { data: arr, switchSong: this.switchSong }),
         _react2['default'].createElement(AudioPlayer, { song: this.state.currentsong })
       );
     }
@@ -714,7 +712,9 @@ module.exports = React.createClass({
 
 	componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextState) {
 		this.clearSoundObject();
-		this.setState({ song: nextProps.song });
+		if (nextProps.song) {
+			this.setState({ song: nextProps.song });
+		}
 		console.log('yea!!!!');
 		console.log(nextProps.song);
 	},

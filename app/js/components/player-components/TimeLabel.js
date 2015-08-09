@@ -12,6 +12,7 @@ module.exports = React.createClass({
 				// return (<span>&nbsp;</span>);
 				// <span className={classes}>00:00 / 00:00</span>
 			);
+
 		}
 
 		var seek = this.secondsToTime(this.props.seek);

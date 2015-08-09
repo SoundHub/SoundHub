@@ -34,7 +34,6 @@ class Home extends React.Component {
   }
 
   componentDidMount () {
-    console.log('mounted')
     AllSongStore.addChangeListener(this._onChange);
   }
 
@@ -43,11 +42,10 @@ class Home extends React.Component {
   }
 
   render() {
-    console.log('in render', JSON.stringify(this.state));
     return (
       <div>
         <h1>This is Home</h1>
-        <SongList data = {this.state.songs.allSongs}  switchSong = {this.switchSong} />
+        <SongList data = {arr}  switchSong = {this.switchSong} />
         <AudioPlayer song = {this.state.currentsong} />
       </div>
     );
