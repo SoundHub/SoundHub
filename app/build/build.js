@@ -331,7 +331,6 @@ var Home = (function (_React$Component) {
   _createClass(Home, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      console.log('mounted');
       _storesAllSongStore2['default'].addChangeListener(this._onChange);
     }
   }, {
@@ -342,7 +341,6 @@ var Home = (function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      console.log('in render', JSON.stringify(this.state));
       return _react2['default'].createElement(
         'div',
         null,
