@@ -349,7 +349,7 @@ var Home = (function (_React$Component) {
           null,
           'This is Home'
         ),
-        _react2['default'].createElement(SongList, { data: this.state.songs.allSongs, switchSong: this.switchSong }),
+        _react2['default'].createElement(SongList, { data: arr, switchSong: this.switchSong }),
         _react2['default'].createElement(AudioPlayer, { song: this.state.currentsong })
       );
     }
@@ -712,7 +712,9 @@ module.exports = React.createClass({
 
 	componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextState) {
 		this.clearSoundObject();
-		this.setState({ song: nextProps.song });
+		if (nextProps.song) {
+			this.setState({ song: nextProps.song });
+		}
 		console.log('yea!!!!');
 		console.log(nextProps.song);
 	},

@@ -25,7 +25,9 @@ module.exports = React.createClass({
 
 	componentWillReceiveProps: function(nextProps,nextState){
 		this.clearSoundObject();
-		this.setState({song:nextProps.song})
+		if(nextProps.song){
+			this.setState({song:nextProps.song})
+		}
 		console.log('yea!!!!');
 		console.log(nextProps.song);
 	},

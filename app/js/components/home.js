@@ -45,7 +45,7 @@ class Home extends React.Component {
     return (
       <div>
         <h1>This is Home</h1>
-        <SongList data = {this.state.songs.allSongs}  switchSong = {this.switchSong} />
+        <SongList data = {arr}  switchSong = {this.switchSong} />
         <AudioPlayer song = {this.state.currentsong} />
       </div>
     );
