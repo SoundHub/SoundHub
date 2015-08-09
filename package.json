@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/SoundHub/SoundHub#readme",
   "dependencies": {
+    "classnames": "^2.1.3",
     "events": "^1.0.2",
     "express": "^4.13.3",
     "keymirror": "~0.1.1",
@@ -24,6 +25,7 @@
     "markdown": "^0.5.0",
     "object-assign": "^3.0.0",
     "react": "^0.13.3",
+    "react-bootstrap": "^0.24.3",
     "react-router": "^0.13.3",
     "react-soundplayer": "^0.2.0"
   },
