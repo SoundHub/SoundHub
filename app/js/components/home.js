@@ -61,6 +61,7 @@ export default Home;
 
 class SongList extends React.Component{
   render(){
+    console.log("from render ", JSON.stringify(this.props.data));
     var Songs = this.props.data.map(function(song){
       return(
         <Song songName={song.genre} />
