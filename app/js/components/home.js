@@ -1,5 +1,7 @@
 'use strict';
 import React from 'react';
+import SongActions from '../actions/songActionCreators';
+import AllSongStore from '../stores/allSongStore';
 var AudioPlayer = require("./player-components/AudioPlayer");
 
 var currentsong = {
@@ -16,28 +18,47 @@ var arr = [{
 }];
 
 
-
 class Home extends React.Component {
   constructor(props) {
     super(props);
+    SongActions.getAllSongs();
+    this.render = this.render.bind(this);
     this.switchSong = this.switchSong.bind(this);
-    this.state = {currentsong: props.currentsong}
-   }
+    this._onChange = this._onChange.bind(this);
+    this.componentDidMount = this.componentDidMount.bind(this);
+    this.state = {songs: {
+        allSongs: [],
+        currentsong:props.currentsong
+      }
+    }
+  }
+
+  componentDidMount () {
+    console.log('mounted')
+    AllSongStore.addChangeListener(this._onChange);
+  }
 
   switchSong(song){
     this.setState({currentsong:song});
   }
 
   render() {
+    console.log('in render', JSON.stringify(this.state));
     return (
       <div>
         <h1>This is Home</h1>
-        <SongList data = {arr}  switchSong = {this.switchSong} />
+        <SongList data = {this.state.songs.allSongs}  switchSong = {this.switchSong} />
         <AudioPlayer song = {this.state.currentsong} />
       </div>
     );
   }
+
+  _onChange() {
+    console.log('changes');
+    this.setState({songs: AllSongStore.getAllSongs()});
+  }
 }
+
 
 Home.defaultProps = { currentsong :   {
     name: "song1",

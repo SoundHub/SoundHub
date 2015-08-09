@@ -6,6 +6,7 @@ var constants = {
       NEW_USER: null,
       LOGIN: null,
       LOGOUT: null,
+      RECEIVE_ALL_SONGS: null,
       FORK: null,
       DOWNLOAD: null,
       UPLOAD: null,
