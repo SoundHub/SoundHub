@@ -13,11 +13,11 @@ var SongNode = orm.define('songNodes', {
   title: { type: Sequelize.STRING, allowNull: false },
   like: { type: Sequelize.INTEGER, defaultValue: 0 },
   genre: { type: Sequelize.STRING, allowNull: true },
-  data: { type: Sequelize.STRING, allowNull: true },
   forks: { type: Sequelize.INTEGER, defaultValue: 0 },
   author: { type: Sequelize.INTEGER, allowNull: false },
   path: { type: Sequelize.STRING, allowNull: false },
-  // uri: { type: Sequelize.STRING, allowNull: false }  //when we have uris for songz
+  description: { type: Sequelize.STRING, defaultValue: 'This person didn\'t care enough to put a description in' }
+  // url: { type: Sequelize.STRING, allowNull: false }  //when we have urls for songz
 });
 
 var User = orm.define('users', {
