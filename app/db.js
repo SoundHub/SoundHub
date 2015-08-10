@@ -3,6 +3,9 @@
 
 var Sequelize = require('sequelize');
 var orm = new Sequelize(process.env.DATABASE_URL || 'sqlite://SoundHub.sqlite');
+var bcrypt = require('bcrypt');
+var promise = require('bluebird');
+var compare = promise.promisify(bcrypt.compare);
 
 /** SCHEMA **/
 
@@ -20,12 +23,12 @@ var SongNode = orm.define('songNodes', {
 var User = orm.define('users', {
   username: { type: Sequelize.STRING, allowNull: false },
   password: { type: Sequelize.STRING, allowNull: false },
-  email: { type: Sequelize.STRING, allowNull: false },
-  profilePic: { type: Sequelize.STRING, allowNull: false }
-})
+  email: { type: Sequelize.STRING, allowNull: true },
+  profilePic: { type: Sequelize.STRING, allowNull: true }
+});
 
 // Define the join table which joins Users and SongNodes
-var Fork = orm.define('favorites', {
+var Fork = orm.define('forks', {
 });
 
 // Setup the many-many relationship through the orm
@@ -34,19 +37,42 @@ User.belongsToMany(SongNode, {
 });
 
 SongNode.belongsToMany(User, {
-  through: Fork,
-  as: 'participants'
+  through: Fork
 });
 
+orm.sync();
 
 /** AUTH FUNCTIONS **/
 
-var login = function(username, password) {
-
+var login = function(username, password, callback) {
+  var response = {};
+  response.success = false;
+  var hashedPw;
+  var userObj;
+  sequelize.User.findAll({
+    where: {
+      username: username
+    }
+  }).then(function(obj) {
+    userObj = obj;
+    hashedPw = obj[0].dataValues.password;
+  }).then(function(obj) {
+    return compare(password, hashedPw)
+      .then(function(data) { //data = bool from compare
+        if (data) {
+          response.user = userObj;
+          response.success = true;
+        }
+        response.data = data;
+        callback(response);
+      })
+  })
 };
 
-var signup = function(username, password) {
-  Sequelize.User.findOne({
+var signup = function(username, password, callback) {
+  var response;
+  var exists;
+  User.findOne({
     where: {
       username: username
     }
@@ -60,24 +86,29 @@ var signup = function(username, password) {
           return;
         }
         bcrypt.hash(password, salt, function(err, hash) {
-          Sequelize.User.create({
+          User.create({
               username: username,
               password: hash
             }).then(function() {
-              res.send('done');
+              response = ('done');
             })
         })
       })
     } else {
-      res.send('username already exists');
+      response = 'username already exists';
     }
-  })
+  }).then(function() {
+    callback(response);
+  });
 };
+
+module.exports.login = login;
+module.exports.signup = signup;
 
 /** INSERT/QUERY FUNCTIONS **/
 
-var addSong = function(title, genre, author, pathString, uri) {
-  Sequelize.sync().then(function() {
+var addSong = function(title, genre, author, pathString, callback) {
+  orm.sync().then(function() {
     return SongNode.create({
       title: title,
       genre: genre,
@@ -86,9 +117,7 @@ var addSong = function(title, genre, author, pathString, uri) {
       // uri: uri             //when we have uris for songz
     });
   }).then(function(song) {
-    console.log(song.get({
-      plain: true
-    }))
+    callback(song);
   });
 };
 
@@ -125,10 +154,6 @@ var findSongsbyRoot = function(rootNodeID, callback) {
   })
 };
 
-var myForks = function(userID, callback) {
-  //gotta make a join table yo
-}
-
 var mySongs = function(userID, callback) {
   SongNode.findAll({
     where: {
@@ -141,15 +166,36 @@ var mySongs = function(userID, callback) {
   })
 };
 
-var myFavs = function(userID, callback) {
+
+
+var myForks = function(userID, callback) {
   //gotta make a join table yo
+  User.findOne({
+    where: {
+      id: userID
+    }
+  })
+  .then(function(userObj) {
+    console.log(userObj);
+    userObj.getSongNodes()
+  })
+  .then(function(stuff) {
+    console.log(stuff);
+    callback(stuff);
+  })
+};
+
+
+var myFavs = function(userID, callback) {  //I AM NOT MVP
+  //gotta make a join table yo             //I AM A LEAF ON THE WIND
 };
 
 
 exports.addSong = addSong;
 exports.allSongs = allSongs;
 exports.findSongsbyRoot = findSongsbyRoot;
-
+exports.mySongs = mySongs;
+exports.myForks = myForks;
 
 
 
