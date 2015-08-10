@@ -2,12 +2,10 @@
 var express = require('express');
 var server = express();
 var path = require('path');
-<<<<<<< HEAD
 var session = require('express-session');
 var fs = require('fs');
-=======
 var favicon = require('serve-favicon');
->>>>>>> b590e3728347e3af2c1c4243f2bf1e84fdf011b7
+
 
 
 
