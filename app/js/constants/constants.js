@@ -1,17 +1,17 @@
-var keyMirror = require('keymirror'); 
+import keyMirror from 'keyMirror';
 
-// define action constants
 var constants = {
     ActionTypes: keyMirror({
-      NEW_USER: null,
+      SIGNUP: null,
       LOGIN: null,
       LOGOUT: null,
       RECEIVE_ALL_SONGS: null,
       FORK: null,
       DOWNLOAD: null,
       UPLOAD: null,
-      RECEIVE_DATA: null
+      RECEIVE_SONG_TREE: null,
+      CREATE_SONG: null
   })
 }
 
-module.exports = constants;
+export default constants;

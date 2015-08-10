@@ -3,9 +3,6 @@ var express = require('express');
 var server = express();
 var path = require('path');
 
-
-
-
 server.use(function(req, res, next) {
   console.log(req.path);
   next();
@@ -31,7 +28,6 @@ server.post('/addSong', function(req, res) {
 
 server.get('/allSongs', function(req, res) {
   db.allSongs(function(data) {
-    
     res.send(data);
   });
 })
