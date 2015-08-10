@@ -7,7 +7,7 @@ import Home from './home';
 import NotFound from './notfound';
 import Auth from './auth';
 import MyMusic from './mymusic';
-import Tree from './tree';
+import Tree from './treePage';
 import Profile from './profile';
 import Create from './create';
 
