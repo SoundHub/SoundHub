@@ -1,5 +1,5 @@
-/node_modules
-/bower_components
+node_modules
+bower_components
 .DS_Store
 /app/build/build.js
 /app/build/build.js.map

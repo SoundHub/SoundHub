@@ -299,10 +299,21 @@ var Create = (function (_React$Component) {
     _classCallCheck(this, Create);
 
     _get(Object.getPrototypeOf(Create.prototype), 'constructor', this).call(this);
+    this.state = { showUpdate: false };
+
+    //bindings
+    this.componentDidMount = this.componentDidMount.bind(this);
     this.uploadSong = this.uploadSong.bind(this);
+    this.render = this.render.bind(this);
+    this._onChange = this._onChange.bind(this);
   }
 
   _createClass(Create, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      _storesUserSongStore2['default'].addChangeListener(this._onChange);
+    }
+  }, {
     key: 'uploadSong',
     value: function uploadSong() {
       // pull user info from userProfile Store for author
@@ -330,7 +341,13 @@ var Create = (function (_React$Component) {
         ),
         _react2['default'].createElement('input', { type: 'text', placeholder: 'Name', ref: 'songName' }),
         _react2['default'].createElement('input', { type: 'text', placeholder: 'Genre', ref: 'songGenre' }),
-        _react2['default'].createElement('input', { type: 'button', value: 'Create', onClick: this.uploadSong })
+        _react2['default'].createElement('input', { type: 'button', value: 'Create', onClick: this.uploadSong }),
+        this.state.showUpdate ? _react2['default'].createElement(
+          'div',
+          null,
+          this.state.newestSong.title,
+          ' added!'
+        ) : null
       )
       // <div>
       //   <h1>UPLOAD YOUR MUSIC</h1>
@@ -344,7 +361,10 @@ var Create = (function (_React$Component) {
   }, {
     key: '_onChange',
     value: function _onChange() {
-      this.setState({ newestSong: _storesUserSongStore2['default'].getNewestSong });
+      this.setState({
+        newestSong: _storesUserSongStore2['default'].getUserSongs().newestSong,
+        showUpdate: true
+      });
     }
   }]);
 
@@ -403,14 +423,16 @@ var Home = (function (_React$Component) {
 
     _get(Object.getPrototypeOf(Home.prototype), 'constructor', this).call(this, props);
     _actionsSongActionCreators2['default'].getAllSongs();
-    this.render = this.render.bind(this);
-    this.switchSong = this.switchSong.bind(this);
-    this._onChange = this._onChange.bind(this);
-    this.componentDidMount = this.componentDidMount.bind(this);
     this.state = { songs: {
         allSongs: []
       }
     };
+
+    //bindings   
+    this.componentDidMount = this.componentDidMount.bind(this);
+    this.switchSong = this.switchSong.bind(this);
+    this.render = this.render.bind(this);
+    this._onChange = this._onChange.bind(this);
   }
 
   _createClass(Home, [{
@@ -1909,6 +1931,7 @@ var _userSongs = {}; // keys: songsCreated, newestSong
 
 var setNewestSong = function setNewestSong(songData) {
   _userSongs.newestSong = songData;
+  console.log(_userSongs);
 };
 
 var UserSongStore = (0, _objectAssign2['default'])({}, _events2['default'].prototype, {
@@ -1921,8 +1944,8 @@ var UserSongStore = (0, _objectAssign2['default'])({}, _events2['default'].proto
   removeChangeListener: function removeChangeListener(callback) {
     this.removeListener(CHANGE_EVENT, callback);
   },
-  getNewestSong: function getNewestSong() {
-    return _userSongs[newestSong];
+  getUserSongs: function getUserSongs() {
+    return _userSongs;
   }
 
 });
