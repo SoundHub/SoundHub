@@ -12,7 +12,7 @@ var arr = [{
   url: "assets/bang.mp3"
 },{
   name:'tonight',
-  url: "http://www.daichuqi.com/music/bigbang.mp3"
+  url: "assets/giveyouup.mp3"
 }];
 
 

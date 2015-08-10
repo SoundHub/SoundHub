@@ -2,10 +2,14 @@
 var express = require('express');
 var server = express();
 var path = require('path');
+var session = require('express-session');
+var fs = require('fs');
+var favicon = require('serve-favicon');
 
 
 
 
+server.use(favicon(path.join(__dirname, '/assets', 'favicon.ico')));
 server.use(function(req, res, next) {
   console.log(req.path);
   next();
@@ -17,19 +21,31 @@ var db = require('./db.js');
 
 
 server.post('/login', function(req, res) {
-
+  db.login(req.body.username, req.body.password, function(response) {
+    if (response.success) {
+      req.session.user = response.user;
+      req.session.save();
+    }
+    res.send(response.data);
+  })
 })
 
-server.post('/signup', function(req, res) {
-
+server.get('/signup', function(req, res) {
+  var username = 'ferf'; //req.body.username
+  var password = 'ferf'; //req.body.password
+  db.signup(username, password, function(response) {
+    res.send(response);
+  });
 })
 
-server.post('/addSong', function(req, res) {
+server.post('/addSong', function(req, res) {  //** MVP **//
   var songData = req.body;
-  db.addSong(songData.title, songData.genre, songData.author, songData.path)
+  db.addSong(songData.title, songData.genre, songData.author, songData.path, function(response) {
+    res.send(response);
+  });
 })
 
-server.get('/allSongs', function(req, res) {
+server.get('/allSongs', function(req, res) {  //** MVP **//
   db.allSongs(function(data) {
     
     res.send(data);
@@ -43,17 +59,29 @@ server.get('/tree', function(req, res) {       //NEED ROOTNODE ID
 })
 
 
-server.get('/mySongs', function(req, res) {
-
+server.get('/mySongs', function(req, res) { //NEED USER ID IN REQ
+  // var userID = req.body.uid              //SO WE CAN UNCOMMENT THIS
+  db.mySongs(1, function(data) {            //SO THIS CAN NOT BE HARD CODED
+    res.send(data);
+  })
 })
 
 server.get('/myForks', function(req, res) {
-  
+  db.myForks(1, function(data) {
+    res.send(data);
+  })
 })
 
 
 /** END DB ROUTES **/
 
+//** UPLOAD/DOWNLOAD/STREAM SONG METHDOS **//
+
+server.get('/testSong', function(req, res) {
+  res.sendFile(__dirname + '/songs/giveyouup.mp3')
+})
+
+//** END UP/DOWN/STREAM **//
 
 server.use('/', express.static(path.join(__dirname, '/build')));
 server.use('/assets', express.static(path.join(__dirname, '/assets')));
