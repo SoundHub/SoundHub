@@ -6,10 +6,8 @@ var session = require('express-session');
 var fs = require('fs');
 var favicon = require('serve-favicon');
 
-
-
-
 server.use(favicon(path.join(__dirname, '/assets', 'favicon.ico')));
+
 server.use(function(req, res, next) {
   console.log(req.path);
   next();
@@ -47,7 +45,6 @@ server.post('/addSong', function(req, res) {  //** MVP **//
 
 server.get('/allSongs', function(req, res) {  //** MVP **//
   db.allSongs(function(data) {
-    
     res.send(data);
   });
 })
