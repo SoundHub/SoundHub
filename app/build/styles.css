@@ -34,8 +34,8 @@ button:focus {
   .topBar img {
     padding: 5px;
     margin-left: 20px;
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     border-radius: 100%; }
 
 .authButton {
@@ -78,10 +78,13 @@ button:focus {
   vertical-align: middle; }
 
 .audio-player {
-  max-width: 324px;
   background: #eeeeee;
   vertical-align: middle;
-  padding: 5px; }
+  padding: 5px;
+  width: 90%;
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: auto; }
 
 .audio-button-panel {
   padding-top: 2px; }
@@ -98,7 +101,7 @@ button:focus {
   height: 34px;
   border-right: 1px solid #aaaaaa;
   border-left: 1px solid #aaaaaa;
-  width: 235px; }
+  width: 90%; }
 
 .audio-progress-container-short-width {
   width: 130px; }
