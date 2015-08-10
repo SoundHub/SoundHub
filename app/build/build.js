@@ -353,13 +353,13 @@ var Home = (function (_React$Component) {
       return _react2['default'].createElement(
         'div',
         null,
+        _react2['default'].createElement(AudioPlayer, { song: this.state.currentsong }),
         _react2['default'].createElement(
           'h1',
           null,
           'This is Home!!'
         ),
-        _react2['default'].createElement(SongList, { data: arr, switchSong: this.switchSong }),
-        _react2['default'].createElement(AudioPlayer, { song: this.state.currentsong })
+        _react2['default'].createElement(SongList, { data: arr, switchSong: this.switchSong })
       );
     }
   }, {
@@ -701,7 +701,6 @@ module.exports = React.createClass({
 	displayName: "exports",
 
 	getInitialState: function getInitialState() {
-		console.log('getInitialState FIRE!!!!');
 		return {
 			isPlaying: false,
 			isPause: false,
@@ -711,12 +710,22 @@ module.exports = React.createClass({
 		};
 	},
 
+	componentWillUnmount: function componentWillUnmount() {
+		console.log('END!!!!!');
+		this.clearSoundObject();
+		this.playEnd();
+	},
+
 	componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextState) {
+		var _this = this;
+
 		this.clearSoundObject();
 		if (nextProps.song) {
-			this.setState({ song: nextProps.song });
+			this.setState({ song: nextProps.song }, function () {
+				_this.playEnd();
+				_this.clearSoundObject();
+			});
 		}
-		console.log('ComponentWillReceiveProps FIRE!!!!');
 		console.log(nextProps.song);
 	},
 
@@ -751,7 +760,6 @@ module.exports = React.createClass({
 	},
 
 	onPlayBtnClick: function onPlayBtnClick() {
-		console.log('onPlayBtnClick FIRE!!!!');
 
 		if (this.state.isPlaying && !this.state.isPause) {
 			return;
@@ -760,14 +768,12 @@ module.exports = React.createClass({
 	},
 
 	onPauseBtnClick: function onPauseBtnClick() {
-		console.log('onPauseBtnClick FIRE!!!!');
 		var isPause = !this.state.isPause;
 		this.setState({ isPause: isPause });
 		isPause ? this.pause() : this._play();
 	},
 
 	play: function play() {
-		console.log('play FIRE!!!!');
 
 		this.setState({ isPlaying: true, isPause: false });
 
@@ -784,7 +790,6 @@ module.exports = React.createClass({
 	},
 
 	initSoundObject: function initSoundObject() {
-		console.log('initSoundObject FIRE!!!!');
 		this.clearSoundObject();
 		this.setState({ isLoading: true });
 		var song = this.state.song;
@@ -797,7 +802,6 @@ module.exports = React.createClass({
 	},
 
 	clearSoundObject: function clearSoundObject() {
-		console.log('clearSoundObject FIRE!!!!');
 		if (this.howler) {
 			this.howler.stop();
 			this.howler = null;
@@ -805,7 +809,6 @@ module.exports = React.createClass({
 	},
 
 	initSoundObjectCompleted: function initSoundObjectCompleted() {
-		console.log('initSoundObjectCompleted FIRE!!!!');
 		this._play();
 		this.setState({
 			duration: this.howler.duration(),

@@ -42,9 +42,10 @@ class Home extends React.Component {
   render() {
     return (
       <div>
+        <AudioPlayer song = {this.state.currentsong} />
         <h1>This is Home!!</h1>
         <SongList data = {arr}  switchSong = {this.switchSong} />
-        <AudioPlayer song = {this.state.currentsong} />
+
       </div>
     );
   }
