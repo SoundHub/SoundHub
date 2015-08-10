@@ -43,9 +43,7 @@ class Home extends React.Component {
     return (
       <div>
         <AudioPlayer song = {this.state.currentsong} />
-        <h1>This is Home!!</h1>
         <SongList data = {arr}  switchSong = {this.switchSong} />
-
       </div>
     );
   }
@@ -68,7 +66,7 @@ class SongList extends React.Component{
 
   render() {
     return (
-      <div>
+      <div className="playList" >
         {this.props.data.map(function(song, i) {
           return (
             <div onClick={this.handleClick.bind(this, i)} key={i}> {song.name} </div>

@@ -77,6 +77,11 @@ button:focus {
   font-size: 90px;
   vertical-align: middle; }
 
+/* ================ Home ================= */
+.playList {
+  padding: 30px; }
+
+/* ================ MusicPlayer ================= */
 .audio-player {
   background: #eeeeee;
   vertical-align: middle;
