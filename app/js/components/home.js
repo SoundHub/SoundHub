@@ -4,18 +4,17 @@ import SongActions from '../actions/songActionCreators';
 import AllSongStore from '../stores/allSongStore';
 var AudioPlayer = require("./player-components/AudioPlayer");
 
-var currentsong = {
-    name: "bang bang bang",
-    url: "assets/bang.mp3"
-}
-
 var arr = [{
   name:'badboy',
   url: "assets/badboy.mp3"
 },{
   name:'bang bang bang',
   url: "assets/bang.mp3"
+},{
+  name:'tonight',
+  url: "http://www.daichuqi.com/music/bigbang.mp3"
 }];
+
 
 
 class Home extends React.Component {
@@ -28,7 +27,6 @@ class Home extends React.Component {
     this.componentDidMount = this.componentDidMount.bind(this);
     this.state = {songs: {
         allSongs: [],
-        currentsong:props.currentsong
       }
     }
   }
@@ -44,7 +42,7 @@ class Home extends React.Component {
   render() {
     return (
       <div>
-        <h1>This is Home</h1>
+        <h1>This is Home!!</h1>
         <SongList data = {arr}  switchSong = {this.switchSong} />
         <AudioPlayer song = {this.state.currentsong} />
       </div>
@@ -54,13 +52,6 @@ class Home extends React.Component {
   _onChange() {
     console.log('changes');
     this.setState({songs: AllSongStore.getAllSongs()});
-  }
-}
-
-
-Home.defaultProps = { currentsong :   {
-    name: "song1",
-    url: "assets/badboy.mp3"
   }
 }
 

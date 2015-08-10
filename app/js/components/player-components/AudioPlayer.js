@@ -11,15 +11,13 @@ var Howl = require('./howler').Howl;
 module.exports = React.createClass({
 
 	getInitialState:function() {
+		console.log('getInitialState FIRE!!!!');
 		return {
 			isPlaying: false,
 			isPause: false,
 			isLoading: false,
 			volume: 0.5,
-			song:{
-				name: "bang bang bang",
-		    url: "assets/bang.mp3"
-			}
+			song:{}
 		};
 	},
 
@@ -28,7 +26,7 @@ module.exports = React.createClass({
 		if(nextProps.song){
 			this.setState({song:nextProps.song})
 		}
-		console.log('yea!!!!');
+		console.log('ComponentWillReceiveProps FIRE!!!!');
 		console.log(nextProps.song);
 	},
 
@@ -65,6 +63,8 @@ module.exports = React.createClass({
 	},
 
 	onPlayBtnClick: function() {
+		console.log('onPlayBtnClick FIRE!!!!');
+
 		if (this.state.isPlaying && !this.state.isPause) {
 			return;
 		};
@@ -72,12 +72,14 @@ module.exports = React.createClass({
 	},
 
 	onPauseBtnClick: function() {
+		console.log('onPauseBtnClick FIRE!!!!');
 		var isPause = !this.state.isPause;
 		this.setState({ isPause: isPause });
 		isPause ? this.pause() : this._play();
 	},
 
 	play: function() {
+		console.log('play FIRE!!!!');
 
 		this.setState({ isPlaying: true, isPause: false });
 
@@ -94,6 +96,7 @@ module.exports = React.createClass({
 	},
 
 	initSoundObject: function() {
+		console.log('initSoundObject FIRE!!!!');
 		this.clearSoundObject();
 		this.setState({isLoading: true});
 		var song = this.state.song;
@@ -106,6 +109,7 @@ module.exports = React.createClass({
 	},
 
 	clearSoundObject: function() {
+		console.log('clearSoundObject FIRE!!!!');
  		if (this.howler) {
 			this.howler.stop();
 			this.howler = null;
@@ -113,6 +117,7 @@ module.exports = React.createClass({
  	},
 
 	initSoundObjectCompleted: function() {
+		console.log('initSoundObjectCompleted FIRE!!!!');
 		this._play();
 		this.setState({
 			duration: this.howler.duration(),
