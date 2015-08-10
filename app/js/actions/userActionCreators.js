@@ -6,7 +6,6 @@ import Utils from '../utils/utils';
 
 let ActionTypes = Constants.ActionTypes;
 
-
 export default {
   createUser: function (user) {
     Dispatcher.dispatch({
