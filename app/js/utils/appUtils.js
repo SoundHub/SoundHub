@@ -1,7 +1,20 @@
-// contains calls to the server
+// central location for all communication with our api
 
-module.exports = {
+import fetch from 'whatwg-fetch';
 
-  // methods here
+let rootUrl = ''
+export default {
+  get(url) {
+    return window.fetch(url);
+  },
 
-};
+  post(url, body) {
+    return window.fetch(url, {
+      method: 'post',
+      body: body
+    })
+    .then((response) => {
+      console.log(response);
+    })
+  }
+}

@@ -2,12 +2,16 @@
 var express = require('express');
 var server = express();
 var path = require('path');
+<<<<<<< HEAD
 var session = require('express-session');
 var fs = require('fs');
+=======
+var favicon = require('serve-favicon');
+>>>>>>> b590e3728347e3af2c1c4243f2bf1e84fdf011b7
 
 
 
-
+server.use(favicon(path.join(__dirname, '/assets', 'favicon.ico')));
 server.use(function(req, res, next) {
   console.log(req.path);
   next();
@@ -45,6 +49,7 @@ server.post('/addSong', function(req, res) {  //** MVP **//
 
 server.get('/allSongs', function(req, res) {  //** MVP **//
   db.allSongs(function(data) {
+    
     res.send(data);
   });
 })

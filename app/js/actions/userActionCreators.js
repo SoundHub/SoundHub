@@ -1,17 +1,17 @@
 // handles user/profile info
 
-var Dispatcher = require('../dispatcher/dispatcher');
-var Constants = require('../constants/constants');
+import Dispatcher from '../dispatcher/dispatcher';
+import Constants from '../constants/constants';
+import Utils from '../utils/utils';
 
-var ActionTypes = Constants.ActionTypes;
+let ActionTypes = Constants.ActionTypes;
 
 
-module.exports = {
+export default {
   createUser: function (user) {
     Dispatcher.dispatch({
       type: ActionTypes.NEW_USER,
       user: user
-
 
     });
   }
