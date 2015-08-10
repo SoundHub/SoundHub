@@ -1,6 +1,6 @@
 import keyMirror from 'keyMirror';
 
-var constants = {
+let constants = {
     ActionTypes: keyMirror({
       SIGNUP: null,
       LOGIN: null,
@@ -10,7 +10,8 @@ var constants = {
       DOWNLOAD: null,
       UPLOAD: null,
       RECEIVE_SONG_TREE: null,
-      CREATE_SONG: null
+      CREATE_SONG: null,
+      SONG_ADD_SUCCESS: null
   })
 }
 

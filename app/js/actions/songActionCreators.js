@@ -4,7 +4,7 @@ import Dispatcher from '../dispatcher/dispatcher';
 import Constants from '../constants/constants';
 import Utils from '../utils/appUtils';
 
-let ActionType = Constants.ActionTypes;
+const ActionType = Constants.ActionTypes;
 
 export default {
 
@@ -47,7 +47,12 @@ export default {
   addSong(songData) {
     Utils.post('/addSong', songData)
     .then((response) => {
-
+      Dispatcher.dispatch({
+        type: ActionType.SONG_ADD_SUCCESS,
+        message: 'Song successfully added',
+        songData: songData
+      });
+      console.log('dispatched')
     })
     .catch((err) => {
       console.log('failed', err)

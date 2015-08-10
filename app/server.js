@@ -5,6 +5,7 @@ var path = require('path');
 var session = require('express-session');
 var fs = require('fs');
 var favicon = require('serve-favicon');
+var bodyParser = require('body-parser');
 
 server.use(favicon(path.join(__dirname, '/assets', 'favicon.ico')));
 
@@ -13,6 +14,7 @@ server.use(function(req, res, next) {
   next();
 });
 
+server.use(bodyParser.json()); 
 
 /** DB ROUTES **/
 var db = require('./db.js');
@@ -39,7 +41,7 @@ server.get('/signup', function(req, res) {
 server.post('/addSong', function(req, res) {  //** MVP **//
   var songData = req.body;
   db.addSong(songData.title, songData.genre, songData.author, songData.path, function(response) {
-    res.send(response);
+    res.send('Song added');
   });
 })
 
