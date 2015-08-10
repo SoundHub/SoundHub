@@ -1,32 +1,49 @@
 // store for user created songs (at root)
+'use strict';
 
-var Dispatcher = require('../dispatcher/dispatcher.js');
-var Constants = require('../constants/constants');
-var EventEmitter = require('events').EventEmitter;
-var assign = require('object-assign');
+import Dispatcher from '../dispatcher/dispatcher.js';
+import Constants from '../constants/constants';
+import EventEmitter from 'events';
+import assign from 'object-assign';
 
-var ActionTypes = Constants.ActionTypes;
-var CHANGE_EVENT = 'change';
+let ActionType = Constants.ActionTypes;
+let CHANGE_EVENT = 'change';
 
-var Song = assign({}, EventEmitter.prototype, {
+let _userSongs = {}; // keys: songsCreated, newestSong
 
-  emitChange: function () {
-    this.emit(CHANGE_EVENT);
+let setNewestSong = function(songData) {
+  _userSongs.newestSong = songData;
+}
 
+let UserSongStore = assign({}, EventEmitter.prototype, {
+  emitChange() {
+    this.emit(CHANGE_EVENT)
   },
-
-  addChangeListener: function(callback) {
-    this.on(CHANGE_EVENT, callback);
+  addChangeListener(callback) {
+    this.on(CHANGE_EVENT, callback)
   },
-
-  removeChangeListener: function(callback) {
-    this.removeListener(CHANGE_EVENT, callback);
+  removeChangeListener(callback) {
+    this.removeListener(CHANGE_EVENT, callback)
   },
-
-  get: function(id) {
-
+  getNewestSong() {
+    return _userSongs[newestSong];
   }
 
+})
 
+UserSongStore.dispatchToken = Dispatcher.register(function(payload) {
+  
+  switch(payload.type) {    
+    case ActionType.SONG_ADD_SUCCESS:
+      console.log('enter user song store', payload)
+      setNewestSong(payload.songData);   
+      UserSongStore.emitChange();
+      break;
+
+    default:
+      // do nothing
+  }
 
 });
+
+export default UserSongStore;
