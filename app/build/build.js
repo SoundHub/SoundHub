@@ -331,7 +331,15 @@ var Create = (function (_React$Component) {
         _react2['default'].createElement('input', { type: 'text', placeholder: 'Name', ref: 'songName' }),
         _react2['default'].createElement('input', { type: 'text', placeholder: 'Genre', ref: 'songGenre' }),
         _react2['default'].createElement('input', { type: 'button', value: 'Create', onClick: this.uploadSong })
-      );
+      )
+      // <div>
+      //   <h1>UPLOAD YOUR MUSIC</h1>
+      //   <input type="text" placeholder="Title" ref="title" />
+      //   <input type="text" placeholder="Genre" ref="genre" />
+      //   <input type="file" />
+      //   <button>CREATE</button>
+      // </div>
+      ;
     }
   }, {
     key: '_onChange',
@@ -376,17 +384,15 @@ var _storesAllSongStore2 = _interopRequireDefault(_storesAllSongStore);
 
 var AudioPlayer = require("./player-components/AudioPlayer");
 
-var currentsong = {
-  name: "bang bang bang",
-  url: "assets/bang.mp3"
-};
-
 var arr = [{
   name: 'badboy',
   url: "assets/badboy.mp3"
 }, {
   name: 'bang bang bang',
   url: "assets/bang.mp3"
+}, {
+  name: 'tonight',
+  url: "assets/giveyouup.mp3"
 }];
 
 var Home = (function (_React$Component) {
@@ -402,8 +408,7 @@ var Home = (function (_React$Component) {
     this._onChange = this._onChange.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
     this.state = { songs: {
-        allSongs: [],
-        currentsong: props.currentsong
+        allSongs: []
       }
     };
   }
@@ -424,13 +429,13 @@ var Home = (function (_React$Component) {
       return _react2['default'].createElement(
         'div',
         null,
+        _react2['default'].createElement(AudioPlayer, { song: this.state.currentsong }),
         _react2['default'].createElement(
           'h1',
           null,
-          'This is Home'
+          'This is Home!!'
         ),
-        _react2['default'].createElement(SongList, { data: arr, switchSong: this.switchSong }),
-        _react2['default'].createElement(AudioPlayer, { song: this.state.currentsong })
+        _react2['default'].createElement(SongList, { data: arr, switchSong: this.switchSong })
       );
     }
   }, {
@@ -443,12 +448,6 @@ var Home = (function (_React$Component) {
 
   return Home;
 })(_react2['default'].Component);
-
-Home.defaultProps = { currentsong: {
-    name: "song1",
-    url: "assets/badboy.mp3"
-  }
-};
 
 var SongList = (function (_React$Component2) {
   _inherits(SongList, _React$Component2);
@@ -783,19 +782,26 @@ module.exports = React.createClass({
 			isPause: false,
 			isLoading: false,
 			volume: 0.5,
-			song: {
-				name: "bang bang bang",
-				url: "assets/bang.mp3"
-			}
+			song: {}
 		};
 	},
 
+	componentWillUnmount: function componentWillUnmount() {
+		console.log('END!!!!!');
+		this.clearSoundObject();
+		this.playEnd();
+	},
+
 	componentWillReceiveProps: function componentWillReceiveProps(nextProps, nextState) {
+		var _this = this;
+
 		this.clearSoundObject();
 		if (nextProps.song) {
-			this.setState({ song: nextProps.song });
+			this.setState({ song: nextProps.song }, function () {
+				_this.playEnd();
+				_this.clearSoundObject();
+			});
 		}
-		console.log('yea!!!!');
 		console.log(nextProps.song);
 	},
 
@@ -830,6 +836,7 @@ module.exports = React.createClass({
 	},
 
 	onPlayBtnClick: function onPlayBtnClick() {
+
 		if (this.state.isPlaying && !this.state.isPause) {
 			return;
 		};
@@ -932,19 +939,16 @@ module.exports = React.createClass({
 },{"./ButtonPanel":11,"./NameLabel":12,"./ProgressBar":13,"./TimeLabel":15,"./VolumeBar":16,"./howler":17,"react/addons":216}],11:[function(require,module,exports){
 'use strict';
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
 var _reactBootstrap = require('react-bootstrap');
 
-var React = require('react/addons');
-
-module.exports = React.createClass({
+module.exports = _react2['default'].createClass({
 	displayName: 'exports',
-
-	getDefaultProps: function getDefaultProps() {
-		return {
-			currentSongIndex: 0,
-			songCount: 0
-		};
-	},
 
 	render: function render() {
 
@@ -963,47 +967,21 @@ module.exports = React.createClass({
 			iconName = isShowPlayBtn ? "play" : "pause";
 		}
 
-		var songIndex = this.props.currentSongIndex;
 		var buttonPanelClasses = "audio-button-panel pull-left";
 
-		if (this.props.songCount < 2) {
-			return React.createElement(
-				_reactBootstrap.ButtonGroup,
-				{ className: buttonPanelClasses },
-				React.createElement(
-					_reactBootstrap.Button,
-					{ bsSize: 'small', onClick: buttonClickHandler },
-					React.createElement(_reactBootstrap.Glyphicon, { className: iconClasses, glyph: iconName })
-				)
-			);
-		} else {
-
-			var nextButtonClass = songIndex == this.props.songCount - 1 ? "disabled" : "";
-
-			return React.createElement(
-				_reactBootstrap.ButtonGroup,
-				{ className: buttonPanelClasses },
-				React.createElement(
-					_reactBootstrap.Button,
-					{ bsSize: 'small', onClick: this.props.onPrevBtnClick },
-					React.createElement(_reactBootstrap.Glyphicon, { glyph: 'step-backward' })
-				),
-				React.createElement(
-					_reactBootstrap.Button,
-					{ bsSize: 'small', onClick: buttonClickHandler },
-					React.createElement(_reactBootstrap.Glyphicon, { className: iconClasses, glyph: iconName })
-				),
-				React.createElement(
-					_reactBootstrap.Button,
-					{ bsSize: 'small', onClick: this.props.onNextBtnClick, className: nextButtonClass },
-					React.createElement(_reactBootstrap.Glyphicon, { glyph: 'step-forward' })
-				)
-			);
-		}
+		return _react2['default'].createElement(
+			_reactBootstrap.ButtonGroup,
+			{ className: buttonPanelClasses },
+			_react2['default'].createElement(
+				_reactBootstrap.Button,
+				{ bsSize: 'small', onClick: buttonClickHandler },
+				_react2['default'].createElement(_reactBootstrap.Glyphicon, { className: iconClasses, glyph: iconName })
+			)
+		);
 	}
 });
 
-},{"react-bootstrap":128,"react/addons":216}],12:[function(require,module,exports){
+},{"react":388,"react-bootstrap":128}],12:[function(require,module,exports){
 'use strict';
 
 var _reactBootstrap = require('react-bootstrap');

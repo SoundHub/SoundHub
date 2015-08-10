@@ -31,6 +31,13 @@ class Create extends React.Component {
         <input type="text" placeholder="Genre" ref="songGenre" />
         <input type="button" value="Create" onClick={this.uploadSong}/>
       </div>
+      // <div>
+      //   <h1>UPLOAD YOUR MUSIC</h1>
+      //   <input type="text" placeholder="Title" ref="title" />
+      //   <input type="text" placeholder="Genre" ref="genre" />
+      //   <input type="file" />
+      //   <button>CREATE</button>
+      // </div>
     );
   }
 

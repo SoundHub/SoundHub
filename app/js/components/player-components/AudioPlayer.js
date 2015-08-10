@@ -16,19 +16,25 @@ module.exports = React.createClass({
 			isPause: false,
 			isLoading: false,
 			volume: 0.5,
-			song:{
-				name: "bang bang bang",
-		    url: "assets/bang.mp3"
-			}
+			song:{}
 		};
+	},
+
+	componentWillUnmount:function(){
+		console.log('END!!!!!')
+		this.clearSoundObject();
+		this.playEnd();
 	},
 
 	componentWillReceiveProps: function(nextProps,nextState){
 		this.clearSoundObject();
 		if(nextProps.song){
-			this.setState({song:nextProps.song})
+			this.setState({song:nextProps.song}, () => {
+				this.playEnd();
+				this.clearSoundObject();
+
+			})
 		}
-		console.log('yea!!!!');
 		console.log(nextProps.song);
 	},
 
@@ -65,6 +71,7 @@ module.exports = React.createClass({
 	},
 
 	onPlayBtnClick: function() {
+
 		if (this.state.isPlaying && !this.state.isPause) {
 			return;
 		};
