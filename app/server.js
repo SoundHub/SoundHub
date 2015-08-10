@@ -2,10 +2,11 @@
 var express = require('express');
 var server = express();
 var path = require('path');
+var favicon = require('serve-favicon');
 
 
 
-
+server.use(favicon(path.join(__dirname, '/assets', 'favicon.ico')));
 server.use(function(req, res, next) {
   console.log(req.path);
   next();
