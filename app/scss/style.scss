@@ -21,6 +21,7 @@ button:focus {outline:0;}
     text-align: center;
     margin-left: 250px;
     margin-top: 10px;
+    width: 950px;
     a {
       height: 50px;
       color: #5A5958;
@@ -52,7 +53,6 @@ button:focus {outline:0;}
 }
 
   .authButton {
-    margin-left: 300px;
     -moz-box-shadow:inset 0px 39px 0px -24px #e67a73;
     -webkit-box-shadow:inset 0px 39px 0px -24px #e67a73;
     box-shadow:inset 0px 39px 0px -24px #e67a73;
@@ -121,10 +121,10 @@ button:focus {outline:0;}
     vertical-align: middle;
     padding: 5px;
     width: 80%;
-    margin-top: 20px;
     margin-left: auto;
     margin-right: auto;
 }
+
 
 .songItem{
   margin: 10px;
@@ -137,6 +137,7 @@ button:focus {outline:0;}
   }
 }
 .songItem:hover{
+  transition: background-color .6s;
   background-color: #A9B3B9;
 }
 
@@ -151,17 +152,18 @@ $common-padding: 5px;
 $animate-sec: 1.5s;
 
 .audio-player {
-  background: #f15d5a;
-  vertical-align: middle;
-  padding: $common-padding;
-      width: 80%;
-    margin-top: 20px;
+    background: #f15d5a;
+    vertical-align: middle;
+    padding: 10px 0px 0px 0px;
+    width: 80%;
     margin-left: auto;
     margin-right: auto;
+    margin-top: 15px;
 }
 
 .audio-button-panel {
   padding-top: 2px;
+  margin-left: 10px;
 }
 
 .audio-refresh-animate {
@@ -174,9 +176,9 @@ $animate-sec: 1.5s;
 
 .audio-progress-container {
   float: left;
-  height: 34px;
-  border-right: 1px solid #aaaaaa;
-  border-left: 1px solid #aaaaaa;
+  height: 30px;
+  border-right: 2px solid white;
+  border-left: 2px solid white;
   width: 70%;
 }
 
@@ -185,7 +187,7 @@ $animate-sec: 1.5s;
 }
 
 .audio-progress {
-  background: #666666;
+  background: #FAFFAF;
   width: 100%;
   height: 100%;
 }
@@ -193,6 +195,10 @@ $animate-sec: 1.5s;
 .audio-songs-list {
   float: left;
   margin-left: $common-padding;
+}
+
+.startbutton{
+  margin-left: 15px;
 }
 
 .audio-song-item-not-selected {
@@ -262,30 +268,24 @@ $animate-sec: 1.5s;
 }
 
 .audio-desc-container {
+  margin-top: 10px;
   width: 100%;
   vertical-align: middle;
   padding-top: 3px;
+  background-color: #2a6174;
+   color: white;
 }
 
 .audio-time {
   margin-left: $common-padding;
+  margin-right: 15px;
 }
 
 .audio-name-label {
-    margin-left: auto;
     padding-left: 20px;
     height: 20px;
-    background-color: #2a6174;
-    width: 80%;
-    left: 10%;
-    position: absolute;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    -o-text-overflow: ellipsis;
     overflow: hidden;
-    color: white;
+
 }
 
 @keyframes rotating {

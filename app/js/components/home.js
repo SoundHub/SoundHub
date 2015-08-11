@@ -52,10 +52,11 @@ class Home extends React.Component {
       <div className= "playerBox">
         <AudioPlayer song = {this.state.currentsong} />
       </div>
-        <SongList data = {this.state.songs.allSongs}  switchSong = {this.switchSong} />
+        <SongList data = {arr}  switchSong = {this.switchSong} />
       </div>
     );
   }
+  // this.state.songs.allSongs
 
   _onChange() {
     this.setState({songs: AllSongStore.getAllSongs()});
