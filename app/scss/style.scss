@@ -106,10 +106,30 @@ button:focus {outline:0;}
 /* ================ Home ================= */
 
 .playList{
-  padding: 30px;
+    background: rgb(41, 55, 64);
+    vertical-align: middle;
+    padding: 5px;
+    width: 80%;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
+.songItem{
+  margin: 10px;
+  padding: 10px;
+  background-color: rgba(212, 250, 255, 0.66);
+  .title{
+    font-size: 20px;
+    color: white;
+    text-transform: capitalize;
+  }
+}
 
+.like-count{
+  color: #FF598E;
+  float: right;
+}
 
 
 /* ================ MusicPlayer ================= */
@@ -120,7 +140,7 @@ $animate-sec: 1.5s;
   background: #eeeeee;
   vertical-align: middle;
   padding: $common-padding;
-      width: 90%;
+      width: 80%;
     margin-top: 10px;
     margin-left: auto;
     margin-right: auto;
@@ -143,7 +163,7 @@ $animate-sec: 1.5s;
   height: 34px;
   border-right: 1px solid #aaaaaa;
   border-left: 1px solid #aaaaaa;
-  width: 90%;
+  width: 85%;
 }
 
 .audio-progress-container-short-width {
@@ -171,6 +191,12 @@ $animate-sec: 1.5s;
 .audio-song-item-label {
   padding-left: $common-padding;
 }
+
+.audio-heart {
+    margin-top: 2px;
+    margin-left: 2px;
+}
+
 
 .audio-volume-bar-container {
   float: left;

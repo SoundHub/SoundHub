@@ -5,6 +5,8 @@ var VolumeBar = require("./VolumeBar");
 var TimeLabel = require("./TimeLabel");
 var NameLabel = require("./NameLabel");
 
+import {Button,Glyphicon} from 'react-bootstrap';
+
 
 var Howl = require('./howler').Howl;
 
@@ -51,10 +53,11 @@ module.exports = React.createClass({
 			 onPlayBtnClick={this.onPlayBtnClick}
 			 onPauseBtnClick={this.onPauseBtnClick}/>,
 			<ProgressBar percent={percent} seekTo={this.seekTo} />,
-			<VolumeBar volume={this.state.volume} adjustVolumeTo={this.adjustVolumeTo} />
+			<VolumeBar volume={this.state.volume} adjustVolumeTo={this.adjustVolumeTo} />,
+			<Button bsSize="small" className="audio-heart"><Glyphicon glyph='heart' /></Button>
 		];
 		if(this.state.song){
-			songName = this.state.song.name;
+			songName = this.state.song.title;
 		}else{
 			songName = 'Please add a song'
 		}
@@ -65,8 +68,9 @@ module.exports = React.createClass({
 					{ topComponents }
 				</div>
 
+
 				<div className="audio-desc-container clearfix">
-					<NameLabel name={songName} />
+					<NameLabel title={songName} />
 					<TimeLabel seek={this.state.seek} duration={this.state.duration}/>
 				</div>
 
