@@ -19,8 +19,7 @@ class Nav extends React.Component {
     return (
       <div className="topBar">
         <span className = "topBarLeft">
-          <img src='../assets/placeholder.jpg'></img>
-          <div className = "greeting">Hello User</div>
+          <img src='../assets/logo2.png'></img>
         </span>
 
         <nav>
