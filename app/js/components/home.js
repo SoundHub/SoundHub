@@ -27,7 +27,7 @@ class Home extends React.Component {
       }
     }
 
-    //bindings    
+    //bindings
     this.componentDidMount = this.componentDidMount.bind(this);
     this.switchSong = this.switchSong.bind(this);
     this.render = this.render.bind(this);

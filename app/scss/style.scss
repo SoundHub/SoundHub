@@ -106,11 +106,11 @@ button:focus {outline:0;}
 /* ================ Home ================= */
 
 .playList{
-    background: rgb(41, 55, 64);
+    background: #f18562;
     vertical-align: middle;
     padding: 5px;
     width: 80%;
-    margin-top: 10px;
+    margin-top: 20px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -118,12 +118,15 @@ button:focus {outline:0;}
 .songItem{
   margin: 10px;
   padding: 10px;
-  background-color: rgba(212, 250, 255, 0.66);
+  background-color: rgba(255, 255, 255, 0.28);
   .title{
     font-size: 20px;
     color: white;
     text-transform: capitalize;
   }
+}
+.songItem:hover{
+  background-color: #A9B3B9;
 }
 
 .like-count{
@@ -137,7 +140,7 @@ $common-padding: 5px;
 $animate-sec: 1.5s;
 
 .audio-player {
-  background: #eeeeee;
+  background: #f15d5a;
   vertical-align: middle;
   padding: $common-padding;
       width: 80%;
@@ -163,7 +166,7 @@ $animate-sec: 1.5s;
   height: 34px;
   border-right: 1px solid #aaaaaa;
   border-left: 1px solid #aaaaaa;
-  width: 85%;
+  width: 70%;
 }
 
 .audio-progress-container-short-width {
@@ -192,9 +195,9 @@ $animate-sec: 1.5s;
   padding-left: $common-padding;
 }
 
-.audio-heart {
-    margin-top: 2px;
-    margin-left: 2px;
+.audio-rbtn{
+  margin-top: 2px;
+  margin-left: 2px;
 }
 
 
@@ -258,12 +261,20 @@ $animate-sec: 1.5s;
 }
 
 .audio-name-label {
-  max-width: 180px;
-  height: 100%;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  -o-text-overflow: ellipsis;
-  overflow: hidden;
+    margin-left: auto;
+    padding-left: 20px;
+    height: 20px;
+    background-color: #2a6174;
+    width: 80%;
+    left: 10%;
+    position: absolute;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    overflow: hidden;
+    color: white;
 }
 
 @keyframes rotating {
