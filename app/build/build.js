@@ -484,13 +484,10 @@ var Home = (function (_React$Component) {
 
     _get(Object.getPrototypeOf(Home.prototype), 'constructor', this).call(this, props);
     _actionsSongActionCreators2['default'].getAllSongs();
-    //should this be this.setState instead?
-
     this.state = { songs: {
         allSongs: []
       }
     };
-
     //bindings
     this.componentDidMount = this.componentDidMount.bind(this);
     this.switchSong = this.switchSong.bind(this);

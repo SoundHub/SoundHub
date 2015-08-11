@@ -115,7 +115,7 @@ var addSong = function(title, genre, author, pathString, url, callback) {
       genre: genre,
       author: author,
       path: pathString,
-      url: uri             //when we have uris for songz
+      url: url             //when we have uris for songz
     });
   }).then(function(song) {
     callback(song);

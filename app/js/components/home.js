@@ -17,25 +17,19 @@ var arr = [{
 }];
 
 
-
 class Home extends React.Component {
   constructor(props) {
     super(props);
     SongActions.getAllSongs();
-    //should this be this.setState instead?
-
-
     this.state = {songs: {
         allSongs: [],
       }
     }
-
     //bindings
     this.componentDidMount = this.componentDidMount.bind(this);
     this.switchSong = this.switchSong.bind(this);
     this.render = this.render.bind(this);
     this._onChange = this._onChange.bind(this);
-
   }
 
   componentDidMount () {
