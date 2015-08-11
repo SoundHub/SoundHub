@@ -16,7 +16,10 @@
     "url": "https://github.com/SoundHub/SoundHub/issues"
   },
   "homepage": "https://github.com/SoundHub/SoundHub#readme",
-  "engine": "node >= v0.10.x",  
+  "engines": {
+    "node": "0.10.x"
+  }, 
+
   "dependencies": {
     "bcrypt": "^0.8.4",
     "bluebird": "^2.9.34",
