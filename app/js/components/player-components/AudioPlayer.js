@@ -55,8 +55,8 @@ module.exports = React.createClass({
 			<ProgressBar percent={percent} seekTo={this.seekTo} />,
 			<VolumeBar volume={this.state.volume} adjustVolumeTo={this.adjustVolumeTo} />,
 			<Button bsSize="small" className="audio-rbtn"><Glyphicon glyph='heart' /></Button>,
-			<Button bsSize="small" className="audio-rbtn"><Glyphicon glyph='thumbs-up' /></Button>,
-			<Button bsSize="small" className="audio-rbtn"><Glyphicon glyph='thumbs-down' /></Button>,
+			<Button bsSize="small" className="audio-rbtn"><Glyphicon glyph='chevron-up' /></Button>,
+			<Button bsSize="small" className="audio-rbtn"><Glyphicon glyph='chevron-down' /></Button>,
 			<Button bsSize="small" className="audio-rbtn"><Glyphicon glyph='paperclip' /></Button>
 		];
 		if(this.state.song){
