@@ -35,7 +35,7 @@ class Home extends React.Component {
     this.switchSong = this.switchSong.bind(this);
     this.render = this.render.bind(this);
     this._onChange = this._onChange.bind(this);
-    
+
   }
 
   componentDidMount () {
@@ -48,8 +48,10 @@ class Home extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className= "HomePage">
+      <div className= "playerBox">
         <AudioPlayer song = {this.state.currentsong} />
+      </div>
         <SongList data = {this.state.songs.allSongs}  switchSong = {this.switchSong} />
       </div>
     );
