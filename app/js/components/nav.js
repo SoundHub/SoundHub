@@ -26,11 +26,13 @@ class Nav extends React.Component {
           <NavLink to="home">Home</NavLink>
           <NavLink to="mymusic">MyMusic</NavLink>
           <NavLink to="tree">Tree</NavLink>
-          <NavLink to="profile">profile</NavLink>
-          <NavLink to="create">create</NavLink>
+          <NavLink to="profile">Profile</NavLink>
+          <NavLink to="create">Create</NavLink>
 
           <Router.Link to="auth">
             <button className="authButton">Login</button>
+            <button className="authButton">Logout</button>
+
           </Router.Link>
 
         </nav>
