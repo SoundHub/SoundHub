@@ -1,0 +1,360 @@
+/* ============== General =============== */
+
+button:focus {outline:0;}
+
+
+
+
+
+/* ============== TOP BAR =============== */
+.topBar{
+  height: 80px;
+  background-color: #fff;
+  -webkit-box-shadow: 0 5px 6px -6px rgba(158, 171, 195, 0.59);
+     -moz-box-shadow: 0 5px 6px -6px rgba(158, 171, 195, 0.59);
+          box-shadow: 0 5px 6px -6px rgba(158, 171, 195, 0.59);
+
+  nav{
+    position: absolute;
+    vertical-align: text-top;
+    display: inline;
+    text-align: center;
+    margin-left: 150px;
+    margin-top: 20px;
+    width: 950px;
+    a {
+      height: 50px;
+      color: #000;
+      padding-left: 10px;
+      padding-right: 10px;
+      text-decoration: none;
+    }
+  }
+  .topBarLeft{
+    height: 60px;
+  }
+
+  .logoTitle{
+    color: white;
+    font-size: 30px;
+  }
+
+  .greeting{
+    position: absolute;
+    display: inline;
+    font-size: 20px;
+    height: 50px;
+    margin-left: 20px;
+    margin-top: 15px;
+  }
+
+  img{
+    padding: 5px;
+    margin-left: 20px;
+    height: 60px;
+    margin-top:10px;
+  }
+}
+
+  .authButton {
+    -moz-box-shadow:inset 0px 39px 0px -24px #e67a73;
+    -webkit-box-shadow:inset 0px 39px 0px -24px #e67a73;
+    box-shadow:inset 0px 39px 0px -24px #e67a73;
+    background-color:#e4685d;
+    -moz-border-radius:4px;
+    -webkit-border-radius:4px;
+    border-radius:4px;
+    border:none;
+    display:inline-block;
+    cursor:pointer;
+    color:#fff;
+    font-size:15px;
+    padding:6px 15px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #b23e35;
+  }
+  .authButton:hover {
+    background-color:#eb675e;
+  }
+  .authButton:active {
+    position:relative;
+    top:1px;
+  }
+
+
+/* ================ Auth ================= */
+
+
+.authPage{
+
+  .authBanner{
+
+    height: 300px;
+    background-image: url("../assets/authbanner.jpg");
+
+  }
+
+  .authBannerTitle{
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
+    text-align: center;
+    color: white;
+    font-size: 90px;
+    vertical-align: middle;
+  }
+
+
+
+}
+/* ================ Home ================= */
+.HomePage{
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 80px;
+  left: 0;
+  background-color:rgba(249, 255, 224, 0.33);
+  .playerBox {
+    display: flex;
+  }
+}
+
+.playList{
+    background: #f18562;
+    vertical-align: middle;
+    padding: 5px;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.songItem{
+  margin: 10px;
+  padding: 10px;
+  background-color: rgba(255, 255, 255, 0.28);
+  .title{
+    font-size: 20px;
+    color: white;
+    text-transform: capitalize;
+  }
+}
+.songItem:hover{
+  transition: background-color .6s;
+  background-color: #A9B3B9;
+}
+
+.like-count{
+  color: #FF598E;
+  float: right;
+}
+
+
+/* ================ MusicPlayer ================= */
+$common-padding: 5px;
+$animate-sec: 1.5s;
+
+.audio-player {
+    background: #f15d5a;
+    vertical-align: middle;
+    padding: 10px 0px 0px 0px;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 15px;
+}
+
+.audio-button-panel {
+  padding-top: 2px;
+  margin-left: 10px;
+}
+
+.audio-refresh-animate {
+  -webkit-animation: rotating $animate-sec linear infinite;
+  -moz-animation: rotating $animate-sec linear infinite;
+  -ms-animation: rotating $animate-sec linear infinite;
+  -o-animation: rotating $animate-sec linear infinite;
+  animation: rotating $animate-sec linear infinite;
+}
+
+.audio-progress-container {
+  float: left;
+  height: 30px;
+  border-right: 2px solid white;
+  border-left: 2px solid white;
+  width: 70%;
+}
+
+.audio-progress-container-short-width {
+  width: 130px;
+}
+
+.audio-progress {
+  background: #FAFFAF;
+  width: 100%;
+  height: 100%;
+}
+
+.audio-songs-list {
+  float: left;
+  margin-left: $common-padding;
+}
+
+.startbutton{
+  margin-left: 15px;
+}
+
+.audio-song-item-not-selected {
+  float: left;
+  display: block;
+  width: 14px;
+  height: 1px;
+}
+
+.audio-song-item-label {
+  padding-left: $common-padding;
+}
+
+.audio-rbtn{
+  margin-top: 2px;
+  margin-left: 2px;
+}
+
+
+.audio-volume-bar-container {
+  float: left;
+  padding-left: $common-padding;
+  padding-top: 2px;
+
+  .btn:focus {
+    background-color: #fff;
+    outline: none;
+  }
+
+  .audio-volume-bar {
+    position: absolute;
+    z-index: 1001;
+    background: #ddd;
+  }
+
+  .audio-volume-bar-hide {
+    display: none;
+  }
+
+  .audio-volume-percent-container {
+    border-top: 1px solid #aaa;
+    border-bottom: 1px solid #aaa;
+    width: 34px;
+    height: 100px;
+    position: relative;
+    cursor: pointer;
+  }
+
+  .audio-volume-min-max {
+    width: 100%;
+    height: 30px;
+    text-align: center;
+    cursor: pointer;
+    span {
+      top: 6px;
+    }
+  }
+
+  .audio-volume-percent {
+    width: 100%;
+    bottom: 0;
+    top: 50%;
+    background: #666;
+    position: absolute;
+  }
+
+}
+
+.audio-desc-container {
+  margin-top: 10px;
+  width: 100%;
+  vertical-align: middle;
+  padding-top: 3px;
+  background-color: #795844;
+   color: white;
+}
+
+.audio-time {
+  margin-left: $common-padding;
+  margin-right: 15px;
+}
+
+.audio-name-label {
+    padding-left: 20px;
+    height: 20px;
+    overflow: hidden;
+
+}
+
+@keyframes rotating {
+  from {
+    transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes rotating {
+  from {
+    transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+  }
+}
+
+/* ================ Tree ================= */
+
+  .node {
+    cursor: pointer;
+
+    .circle {
+      fill: #fff;
+      stroke: steelblue;
+      stroke-width: 1.5px;
+    }
+
+    .text {
+      font-size:10px;
+      font-family:sans-serif;
+    }
+  }
+
+  .overlay{
+      background-color:#EEE;
+  }
+
+  .link {
+    fill: none;
+    stroke: #ccc;
+    stroke-width: 3px;
+  }
+
+  .templink {
+    fill: none;
+    stroke: red;
+    stroke-width: 3px;
+  }
