@@ -149,6 +149,42 @@ button:focus {outline:0;}
   color: #FF598E;
   float: right;
 }
+/* ================ MyMusic ================= */
+.profilePage{
+  .randomBG{
+    height: 100px;
+    width: 100%;
+
+  }
+
+  .profileImg{
+        height: 100px;
+      position: absolute;
+      top: 120px;
+      left: 45%;
+      border-radius: 100%;
+      border-width: 5px;
+      border-color: white;
+      border-style: solid;
+  }
+  .profileButton{
+    background-color: #FFFFFF;
+    outline: 0;
+    color: #C7ABAB;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #ECCCDB;
+    border-right: 0px;
+    border-left: 0px;
+    border-top: 0px;
+    margin: 10px;
+  }
+  .profileButton:hover{
+    color: #D21D6F;
+    border-color: #D21D6F;
+  }
+
+}
 
 
 /* ================ MusicPlayer ================= */
