@@ -16,8 +16,8 @@ var SongNode = orm.define('songNodes', {
   forks: { type: Sequelize.INTEGER, defaultValue: 0 },
   author: { type: Sequelize.INTEGER, allowNull: false },
   path: { type: Sequelize.STRING, allowNull: false }
-  // description: { type: Sequelize.STRING, defaultValue: 'This person didn\'t care enough to put a description in' }
-  // url: { type: Sequelize.STRING, allowNull: false }  //when we have urls for songz
+  description: { type: Sequelize.STRING, defaultValue: 'This person didn\'t care enough to put a description in' }
+  url: { type: Sequelize.STRING, allowNull: false }  //when we have urls for songz
 });
 
 var User = orm.define('users', {
@@ -90,7 +90,7 @@ var signup = function(username, password, callback) {
               username: username,
               password: hash
             }).then(function() {
-              response = ('done');
+              response = ('success');
             })
         })
       })
@@ -108,14 +108,15 @@ module.exports.signup = signup;
 
 /** INSERT/QUERY FUNCTIONS **/
 
-var addSong = function(title, genre, author, pathString, callback) {
+var addSong = function(title, genre, author, pathString, description, url, callback) {
   orm.sync().then(function() {
     return SongNode.create({
       title: title,
       genre: genre,
       author: author,
-      path: pathString //,
-      // uri: uri             //when we have uris for songz
+      path: pathString,
+      description: description,
+      url: url             //when we have uris for songz
     });
   }).then(function(song) {
     callback(song);
@@ -132,9 +133,6 @@ var songCompiler = function(data) { //helper function to compile/clean queried s
 
 var allSongs = function(callback) {
   SongNode.findAll({
-    where: {
-      path: { like: '%' }
-    }
   })
   .then(function(data) {
     var songs = songCompiler(data);
@@ -163,30 +161,20 @@ var mySongs = function(userID, callback) {
   })
   .then(function(data) {
     var mySongs = songCompiler(data);
-    callback('derp');
   })
 };
 
 var myForks = function(userID, callback) {
-  console.log('what is happening: ', userID);
-  console.log(User.findOne);
-  //gotta make a join table yo
-  Fork.findAll({
+  User.findOne({
     where: {
-      userId: 1
+      id: 1
     }
   })
-  // .then(function(userObj) {
-  //   console.log(userObj);
-  //   userObj.getSongNodes()
-  // })
-  // .then(function(stuff) {
-  //   console.log(stuff);
-  //   callback(stuff);
-  // })
-  .then(function(stuff) {
-    console.log(stuff);
-    callback(stuff);
+  .then(function(userObj) {
+    userObj.getSongNodes()
+    .then(function(stuff) {
+      callback(stuff);
+    })
   })
 };
 
@@ -195,9 +183,8 @@ var addFork = function(userID, songID, callback) {
     return Fork.create({
       userId: userID,
       songNodeId: songID
-    });
+    })
   }).then(function(forkData) {
-    console.log('WHAT IS THE PIONT', forkData);
     callback(forkData);
   });
 };
