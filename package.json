@@ -17,7 +17,8 @@
   },
   "homepage": "https://github.com/SoundHub/SoundHub#readme",
   "engines": {
-    "node": "0.10.x"
+    "node": "0.10.x",
+    "npm": "2.1.x"
   }, 
 
   "dependencies": {
@@ -60,6 +61,6 @@
   },
   "scripts": {
     "start": "nodemon app/server.js",
-    "postinstall": "gulp default"
+    "postinstall": "npm install && gulp default"
   }
 }
