@@ -22,6 +22,9 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
     SongActions.getAllSongs();
+    //should this be this.setState instead?
+
+
     this.state = {songs: {
         allSongs: [],
       }
@@ -32,6 +35,7 @@ class Home extends React.Component {
     this.switchSong = this.switchSong.bind(this);
     this.render = this.render.bind(this);
     this._onChange = this._onChange.bind(this);
+    
   }
 
   componentDidMount () {
