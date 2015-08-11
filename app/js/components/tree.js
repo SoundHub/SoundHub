@@ -13,20 +13,23 @@ var D3Tree = React.createClass({
   },
 
   componentDidMount: function() {
-    var mountNode = this.getDOMNode();
+    var mountNode = React.findDOMNode(this.refs.songTree);
 
     makeTree(this.props.treeData, mountNode, this.onClick);
   },
 
   shouldComponentUpdate: function(nextProps, nextState) {
-    makeTree(this.props.treeData, this.getDOMNode(), this.onClick);
+    makeTree(this.props.treeData, React.findDOMNode(this.refs.songTree), this.onClick);
 
     return false; // Don't allow react to render component on prop change
   },
 
   render: function() {
     return (
-        <svg></svg>
+      <div>
+        <div>This is a div above the songTree svg</div>
+        <svg ref="songTree"></svg>
+      </div>
       );
   }
 });

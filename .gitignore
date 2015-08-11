@@ -4,3 +4,4 @@ bower_components
 /app/build/build.js
 /app/build/build.js.map
 /app/build/styles.css
+soundhub.sqlite
