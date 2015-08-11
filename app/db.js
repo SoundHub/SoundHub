@@ -163,15 +163,17 @@ var mySongs = function(userID, callback) {
   })
   .then(function(data) {
     var mySongs = songCompiler(data);
-    callback(mySongs);
+    callback('derp');
   })
 };
 
 var myForks = function(userID, callback) {
+  console.log('what is happening: ', userID);
+  console.log(User.findOne);
   //gotta make a join table yo
-  User.findOne({
+  Fork.findAll({
     where: {
-      id: userID
+      userId: 1
     }
   })
   // .then(function(userObj) {
@@ -183,6 +185,7 @@ var myForks = function(userID, callback) {
   //   callback(stuff);
   // })
   .then(function(stuff) {
+    console.log(stuff);
     callback(stuff);
   })
 };
@@ -194,6 +197,7 @@ var addFork = function(userID, songID, callback) {
       songNodeId: songID
     });
   }).then(function(forkData) {
+    console.log('WHAT IS THE PIONT', forkData);
     callback(forkData);
   });
 };

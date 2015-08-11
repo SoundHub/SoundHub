@@ -65,14 +65,14 @@ server.get('/mySongs', function(req, res) { //NEED USER ID IN REQ
 })
 
 server.get('/myForks', function(req, res) {
-  db.myForks(1, function(data) {
-    res.send(data);
+  db.myForks(1, function(stuff) {
+    res.send(stuff);
   })
 })
 
 server.get('/addFork', function(req, res) {
-  var userID = 1;//req.body.userID;
-  var songID = 2;//req.body.songID;
+  var userID = req.body.userID;
+  var songID = req.body.songID;
   db.addFork(userID, songID, function(forkData) {
     console.log(forkData);
     res.send('fork added');
