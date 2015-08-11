@@ -71,6 +71,12 @@ server.get('/myForks', function(req, res) {
   })
 })
 
+server.post('/newFork', function(req, res) {
+  db.myForks(1, function(data) {
+    res.send(data);
+  })
+})
+
 
 /** END DB ROUTES **/
 
