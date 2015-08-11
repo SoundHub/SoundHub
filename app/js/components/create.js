@@ -3,6 +3,7 @@ import React from 'react';
 import Dropzone from 'react-dropzone';
 import SongActions from '../actions/songActionCreators';
 import UserSongStore from '../stores/userSongStore';
+import UserProfileStore from '../stores/userProfileStore'
 import ReactS3Uploader from 'react-s3-uploader';
 
 // Initialize the Amazon Cognito credentials provider
@@ -12,6 +13,7 @@ AWS.config.credentials = new AWS.CognitoIdentityCredentials({
     IdentityPoolId: 'us-east-1:d23a3717-f2ef-47c3-ac35-3ee1238e6c8f',
 });
 
+// possibly not necessary
 AWS.config.credentials.get(function() {
   const client = new AWS.CognitoSyncManager();
   console.log('aws config: ', client)
@@ -24,6 +26,11 @@ AWS.config.credentials.get(function() {
 });
 
 
+let songData = {
+  author: 42,
+  path: '1/2/3'
+};
+
 class Create extends React.Component {
   constructor() {
     super();
@@ -33,6 +40,7 @@ class Create extends React.Component {
     this.componentDidMount = this.componentDidMount.bind(this);
     this.uploadSong = this.uploadSong.bind(this);
     this.render = this.render.bind(this);
+    this.onUploadFinish = this.onUploadFinish.bind(this);
     this._onChange = this._onChange.bind(this);
   }
 
@@ -43,17 +51,19 @@ class Create extends React.Component {
   uploadSong() {
     // pull user info from userProfile Store for author
     // title, genre, author, path
-    let songData = {
-      author: 42,
-      path: '1/2/3'
-    };
     songData.title = this.refs.songName.getDOMNode().value;
     songData.genre = this.refs.songGenre.getDOMNode().value;
-    songData.file = this.state.file;
-    // songData.author = UserProfileStore.getCurrentUser();
+    songData.url = this.state.file;
+    songData.author = UserProfileStore.getLoggedInUser().userId;
     SongActions.addSong(songData);
+
+    // clear input fields after submit
     this.refs.songName.getDOMNode().value = '';
     this.refs.songGenre.getDOMNode().value = '';
+  }
+
+  onUploadFinish(result) {
+    this.setState({file: result.publicUrl})
   }
 
   render() {

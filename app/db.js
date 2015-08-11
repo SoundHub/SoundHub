@@ -15,9 +15,9 @@ var SongNode = orm.define('songNodes', {
   genre: { type: Sequelize.STRING, allowNull: true },
   forks: { type: Sequelize.INTEGER, defaultValue: 0 },
   author: { type: Sequelize.INTEGER, allowNull: false },
-  path: { type: Sequelize.STRING, allowNull: false }
-  // description: { type: Sequelize.STRING, defaultValue: 'This person didn\'t care enough to put a description in' }
-  // url: { type: Sequelize.STRING, allowNull: false }  //when we have urls for songz
+  path: { type: Sequelize.STRING, allowNull: false },
+  description: { type: Sequelize.STRING, defaultValue: 'This person didn\'t care enough to put a description in' },
+  url: { type: Sequelize.STRING, allowNull: false }  //when we have urls for songz
 });
 
 var User = orm.define('users', {
@@ -108,14 +108,14 @@ module.exports.signup = signup;
 
 /** INSERT/QUERY FUNCTIONS **/
 
-var addSong = function(title, genre, author, pathString, callback) {
+var addSong = function(title, genre, author, pathString, url, callback) {
   orm.sync().then(function() {
     return SongNode.create({
       title: title,
       genre: genre,
       author: author,
-      path: pathString //,
-      // uri: uri             //when we have uris for songz
+      path: pathString,
+      url: uri             //when we have uris for songz
     });
   }).then(function(song) {
     callback(song);

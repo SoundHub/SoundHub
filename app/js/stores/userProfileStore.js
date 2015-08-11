@@ -9,30 +9,32 @@ import assign from 'object-assign';
 const ActionType = Constants.ActionTypes;
 const CHANGE_EVENT = 'change';
 
-let _user = {};
+// some fake data
+let _user = {
+  loggedIn: true,
+  userInfo: {
+    username: 'algore7',
+    userId: 123,
+    firstName: 'Al',
+    lastName: 'Gore'
+  }
+};
 
-//add fake data
-_user.loggedIn = true;
-_user.userInfo.username = 'algore7';
 
-
-var UserProfile = assign({}, EventEmitter.prototype, {
-
-  emitChange: function () {
-    this.emit(CHANGE_EVENT);
-
+let UserProfile = assign({}, EventEmitter.prototype, {
+  emitChange() {
+    this.emit(CHANGE_EVENT)
   },
-
-  addChangeListener: function(callback) {
-    this.on(CHANGE_EVENT, callback);
+  addChangeListener(callback) {
+    this.on(CHANGE_EVENT, callback)
   },
-
-  removeChangeListener: function(callback) {
-    this.removeListener(CHANGE_EVENT, callback);
+  removeChangeListener(callback) {
+    this.removeListener(CHANGE_EVENT, callback)
   },
-
-  get: function(id) {
-
+  getLoggedInUser() {
+    return _user.userInfo;
   }
 
 });
+
+export default UserProfile;
