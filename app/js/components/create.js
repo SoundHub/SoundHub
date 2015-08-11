@@ -3,6 +3,26 @@ import React from 'react';
 import Dropzone from 'react-dropzone';
 import SongActions from '../actions/songActionCreators';
 import UserSongStore from '../stores/userSongStore';
+import ReactS3Uploader from 'react-s3-uploader';
+
+// Initialize the Amazon Cognito credentials provider
+// AWS.config.update({accessKeyId: 'AKIAJBIPG6KKCLNJN3NQ', secretAccessKey: '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'});
+AWS.config.region = 'us-east-1'; // Region
+AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+    IdentityPoolId: 'us-east-1:d23a3717-f2ef-47c3-ac35-3ee1238e6c8f',
+});
+
+AWS.config.credentials.get(function() {
+  const client = new AWS.CognitoSyncManager();
+  console.log('aws config: ', client)
+  client.openOrCreateDataset('soundhub', function(err, dataset) {
+    console.log('dataset: ', dataset)
+    dataset.put('newRecord', 'newValue', function(err, record) {
+      console.log(record);
+    });
+  });
+});
+
 
 class Create extends React.Component {
   constructor() {
@@ -12,7 +32,6 @@ class Create extends React.Component {
     //bindings
     this.componentDidMount = this.componentDidMount.bind(this);
     this.uploadSong = this.uploadSong.bind(this);
-    this.dropFile = this.dropFile.bind(this);
     this.render = this.render.bind(this);
     this._onChange = this._onChange.bind(this);
   }
@@ -32,23 +51,22 @@ class Create extends React.Component {
     songData.genre = this.refs.songGenre.getDOMNode().value;
     songData.file = this.state.file;
     // songData.author = UserProfileStore.getCurrentUser();
-    console.log(songData);
     SongActions.addSong(songData);
-
-  }
-
-  dropFile(file) {
-    console.log('received file ', file[0])
-    this.setState({file: file[0]});
+    this.refs.songName.getDOMNode().value = '';
+    this.refs.songGenre.getDOMNode().value = '';
   }
 
   render() {
     return (
       <div className="CreateForm">
-      <h1>Create</h1>
-        <Dropzone onDrop={this.dropFile} width={100} height={50}>
-          <div>Add your sound here!</div>
-        </Dropzone>
+      <h1>Create your sound here!</h1>
+      <h3>Upload file:</h3>
+      <ReactS3Uploader
+          signingUrl="/s3/sign"
+          accept="audio/*"
+          onProgress={this.onUploadProgress}
+          onError={this.onUploadError}
+          onFinish={this.onUploadFinish}/>
         <input type="text" placeholder="Name" ref="songName"/>
         <input type="text" placeholder="Genre" ref="songGenre" />
         <input type="button" value="Create" onClick={this.uploadSong}/>

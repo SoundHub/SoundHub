@@ -16,9 +16,13 @@ server.use(function(req, res, next) {
 
 server.use(bodyParser.json()); 
 
+server.use('/s3', require('react-s3-uploader/s3router')({
+    bucket: "soundhub"
+}));
+
+
 /** DB ROUTES **/
 var db = require('./db.js');
-
 
 server.get('/login', function(req, res) {
   db.login(req.body.username, req.body.password, function(response) {

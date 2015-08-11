@@ -1,14 +1,19 @@
 // store for profile components (not including songs)
+'use strict';
 
-var Dispatcher = require('../dispatcher/dispatcher.js');
-var Constants = require('../constants/constants');
-var EventEmitter = require('events').EventEmitter;
-var assign = require('object-assign');
+import Dispatcher from '../dispatcher/dispatcher.js';
+import Constants from '../constants/constants';
+import EventEmitter from 'events';
+import assign from 'object-assign';
 
-var ActionTypes = Constants.ActionTypes;
-var CHANGE_EVENT = 'change';
+const ActionType = Constants.ActionTypes;
+const CHANGE_EVENT = 'change';
 
-var _user = {};
+let _user = {};
+
+//add fake data
+_user.loggedIn = true;
+_user.userInfo.username = 'algore7';
 
 
 var UserProfile = assign({}, EventEmitter.prototype, {
@@ -29,7 +34,5 @@ var UserProfile = assign({}, EventEmitter.prototype, {
   get: function(id) {
 
   }
-
-
 
 });
