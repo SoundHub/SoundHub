@@ -46,7 +46,7 @@ class Home extends React.Component {
       <div>
         <AudioPlayer song = {this.state.currentsong} />
         <h1>This is Home!!</h1>
-        <SongList data = {arr}  switchSong = {this.switchSong} />
+        <SongList data = {this.state.songs.allSongs}  switchSong = {this.switchSong} />
 
       </div>
     );
@@ -55,6 +55,7 @@ class Home extends React.Component {
   _onChange() {
     console.log('changes');
     this.setState({songs: AllSongStore.getAllSongs()});
+    console.log(this.state);
   }
 }
 
@@ -73,7 +74,7 @@ class SongList extends React.Component{
       <div>
         {this.props.data.map(function(song, i) {
           return (
-            <div onClick={this.handleClick.bind(this, i)} key={i}> {song.name} </div>
+            <div onClick={this.handleClick.bind(this, i)} key={i}> {song.title} </div>
           );
         }, this)}
       </div>
