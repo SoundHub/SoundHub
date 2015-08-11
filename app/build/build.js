@@ -101,7 +101,21 @@ exports['default'] = {
     _utilsAppUtils2['default'].post('/myForks', user).then(function (response) {})['catch'](function (err) {
       console.log('failed: ', err);
     });
+  },
+
+  forkSong: function forkSong(forkData) {
+    _utilsAppUtils2['default'].post('/newFork', forkData).then(function (response) {
+      _dispatcherDispatcher2['default'].dispatch({
+        type: ActionType.FORK,
+        message: 'Song successfully forked',
+        songData: songData
+      });
+      console.log('forking successful');
+    })['catch'](function (err) {
+      console.log('forking failed: ', err);
+    });
   }
+
 };
 module.exports = exports['default'];
 
@@ -148,7 +162,7 @@ var Login = (function (_React$Component) {
   }, {
     key: 'login',
     value: function login() {
-      self.transitionTo('home');
+      this.transitionTo('home');
     }
   }, {
     key: 'render',
@@ -369,15 +383,7 @@ var Create = (function (_React$Component) {
           this.state.newestSong.title,
           ' added!'
         ) : null
-      )
-      // <div>
-      //   <h1>UPLOAD YOUR MUSIC</h1>
-      //   <input type="text" placeholder="Title" ref="title" />
-      //   <input type="text" placeholder="Genre" ref="genre" />
-      //   <input type="file" />
-      //   <button>CREATE</button>
-      // </div>
-      ;
+      );
     }
   }, {
     key: '_onChange',
@@ -423,16 +429,18 @@ var _storesAllSongStore = require('../stores/allSongStore');
 
 var _storesAllSongStore2 = _interopRequireDefault(_storesAllSongStore);
 
+var _reactBootstrap = require('react-bootstrap');
+
 var AudioPlayer = require("./player-components/AudioPlayer");
 
 var arr = [{
-  name: 'badboy',
+  title: 'badboy',
   url: "assets/badboy.mp3"
 }, {
-  name: 'bang bang bang',
+  title: 'bang bang bang',
   url: "assets/bang.mp3"
 }, {
-  name: 'tonight',
+  title: 'tonight',
   url: "assets/giveyouup.mp3"
 }];
 
@@ -444,12 +452,14 @@ var Home = (function (_React$Component) {
 
     _get(Object.getPrototypeOf(Home.prototype), 'constructor', this).call(this, props);
     _actionsSongActionCreators2['default'].getAllSongs();
+    //should this be this.setState instead?
+
     this.state = { songs: {
         allSongs: []
       }
     };
 
-    //bindings   
+    //bindings
     this.componentDidMount = this.componentDidMount.bind(this);
     this.switchSong = this.switchSong.bind(this);
     this.render = this.render.bind(this);
@@ -471,20 +481,21 @@ var Home = (function (_React$Component) {
     value: function render() {
       return _react2['default'].createElement(
         'div',
-        null,
-        _react2['default'].createElement(AudioPlayer, { song: this.state.currentsong }),
+        { className: 'HomePage' },
         _react2['default'].createElement(
-          'h1',
-          null,
-          'This is Home!!'
+          'div',
+          { className: 'playerBox' },
+          _react2['default'].createElement(AudioPlayer, { song: this.state.currentsong })
         ),
-        _react2['default'].createElement(SongList, { data: this.state.songs.allSongs, switchSong: this.switchSong })
+        _react2['default'].createElement(SongList, { data: arr, switchSong: this.switchSong })
       );
     }
+
+    // this.state.songs.allSongs
+
   }, {
     key: '_onChange',
     value: function _onChange() {
-      console.log('changes');
       this.setState({ songs: _storesAllSongStore2['default'].getAllSongs() });
       console.log(this.state);
     }
@@ -513,14 +524,34 @@ var SongList = (function (_React$Component2) {
     value: function render() {
       return _react2['default'].createElement(
         'div',
-        null,
+        { className: 'playList' },
         this.props.data.map(function (song, i) {
           return _react2['default'].createElement(
             'div',
-            { onClick: this.handleClick.bind(this, i), key: i },
-            ' ',
-            song.title,
-            ' '
+            { className: 'songItem', key: i },
+            _react2['default'].createElement(
+              'span',
+              { className: 'title', onClick: this.handleClick.bind(this, i) },
+              ' ',
+              song.title,
+              ' '
+            ),
+            _react2['default'].createElement(
+              'span',
+              { className: true },
+              ' by ',
+              song.author,
+              ' '
+            ),
+            _react2['default'].createElement(
+              'span',
+              { className: 'like-count' },
+              ' ',
+              _react2['default'].createElement(_reactBootstrap.Glyphicon, { glyph: 'heart' }),
+              ' ',
+              song.like,
+              ' '
+            )
           );
         }, this)
       );
@@ -533,7 +564,7 @@ var SongList = (function (_React$Component2) {
 exports['default'] = Home;
 module.exports = exports['default'];
 
-},{"../actions/songActionCreators":2,"../stores/allSongStore":24,"./player-components/AudioPlayer":10,"react":391}],6:[function(require,module,exports){
+},{"../actions/songActionCreators":2,"../stores/allSongStore":24,"./player-components/AudioPlayer":10,"react":391,"react-bootstrap":130}],6:[function(require,module,exports){
 'use strict';
 Object.defineProperty(exports, '__esModule', {
   value: true
@@ -808,6 +839,8 @@ module.exports = exports['default'];
 },{"react":391}],10:[function(require,module,exports){
 "use strict";
 
+var _reactBootstrap = require('react-bootstrap');
+
 var React = require('react/addons');
 var ButtonPanel = require("./ButtonPanel");
 var ProgressBar = require("./ProgressBar");
@@ -826,7 +859,7 @@ module.exports = React.createClass({
 			isPause: false,
 			isLoading: false,
 			volume: 0.5,
-			song: {}
+			song: null
 		};
 	},
 
@@ -851,6 +884,7 @@ module.exports = React.createClass({
 
 	render: function render() {
 		var percent = 0;
+		var songName;
 		if (this.state.seek && this.state.duration) {
 			percent = this.state.seek / this.state.duration;
 		}
@@ -859,8 +893,28 @@ module.exports = React.createClass({
 			isPause: this.state.isPause,
 			isLoading: this.state.isLoading,
 			onPlayBtnClick: this.onPlayBtnClick,
-			onPauseBtnClick: this.onPauseBtnClick }), React.createElement(ProgressBar, { percent: percent, seekTo: this.seekTo }), React.createElement(VolumeBar, { volume: this.state.volume, adjustVolumeTo: this.adjustVolumeTo })];
-		var songName = this.state.song.name;
+			onPauseBtnClick: this.onPauseBtnClick }), React.createElement(ProgressBar, { percent: percent, seekTo: this.seekTo }), React.createElement(VolumeBar, { volume: this.state.volume, adjustVolumeTo: this.adjustVolumeTo }), React.createElement(
+			_reactBootstrap.Button,
+			{ bsSize: "small", className: "audio-rbtn" },
+			React.createElement(_reactBootstrap.Glyphicon, { glyph: "heart" })
+		), React.createElement(
+			_reactBootstrap.Button,
+			{ bsSize: "small", className: "audio-rbtn" },
+			React.createElement(_reactBootstrap.Glyphicon, { glyph: "chevron-up" })
+		), React.createElement(
+			_reactBootstrap.Button,
+			{ bsSize: "small", className: "audio-rbtn" },
+			React.createElement(_reactBootstrap.Glyphicon, { glyph: "chevron-down" })
+		), React.createElement(
+			_reactBootstrap.Button,
+			{ bsSize: "small", className: "audio-rbtn" },
+			React.createElement(_reactBootstrap.Glyphicon, { glyph: "paperclip" })
+		)];
+		if (this.state.song) {
+			songName = this.state.song.title;
+		} else {
+			songName = 'Please add a song';
+		}
 
 		return React.createElement(
 			"div",
@@ -873,7 +927,7 @@ module.exports = React.createClass({
 			React.createElement(
 				"div",
 				{ className: "audio-desc-container clearfix" },
-				React.createElement(NameLabel, { name: songName }),
+				React.createElement(NameLabel, { title: songName }),
 				React.createElement(TimeLabel, { seek: this.state.seek, duration: this.state.duration })
 			)
 		);
@@ -894,17 +948,17 @@ module.exports = React.createClass({
 	},
 
 	play: function play() {
-
-		this.setState({ isPlaying: true, isPause: false });
-
-		if (!this.howler) {
-			this.initSoundObject();
-		} else {
-			var songUrl = this.state.song.url;
-			if (songUrl != this.howler._src) {
+		if (this.state.song) {
+			this.setState({ isPlaying: true, isPause: false });
+			if (!this.howler) {
 				this.initSoundObject();
 			} else {
-				this._play();
+				var songUrl = this.state.song.url;
+				if (songUrl != this.howler._src) {
+					this.initSoundObject();
+				} else {
+					this._play();
+				}
 			}
 		}
 	},
@@ -980,7 +1034,7 @@ module.exports = React.createClass({
 
 });
 
-},{"./ButtonPanel":11,"./NameLabel":12,"./ProgressBar":13,"./TimeLabel":15,"./VolumeBar":16,"./howler":17,"react/addons":219}],11:[function(require,module,exports){
+},{"./ButtonPanel":11,"./NameLabel":12,"./ProgressBar":13,"./TimeLabel":15,"./VolumeBar":16,"./howler":17,"react-bootstrap":130,"react/addons":219}],11:[function(require,module,exports){
 'use strict';
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
@@ -1039,7 +1093,8 @@ module.exports = React.createClass({
 		return React.createElement(
 			'span',
 			{ className: 'audio-name-label pull-left' },
-			this.props.name
+			this.props.title,
+			' '
 		);
 	}
 });
@@ -1776,25 +1831,38 @@ var d3 = require('d3');
 var D3Tree = React.createClass({
     displayName: 'D3Tree',
 
-    componentDidMount: function componentDidMount() {
-        var mountNode = this.getDOMNode();
+    onClick: function onClick(element) {
+        console.log('some element with onClick was clicked: ', element);
+    },
 
-        makeTree(this.props.treeData, mountNode);
+    componentDidMount: function componentDidMount() {
+        var mountNode = React.findDOMNode(this.refs.songTree);
+
+        makeTree(this.props.treeData, mountNode, this.onClick);
     },
 
     shouldComponentUpdate: function shouldComponentUpdate(nextProps, nextState) {
-        makeTree(this.props.treeData, this.getDOMNode());
+        makeTree(this.props.treeData, React.findDOMNode(this.refs.songTree), this.onClick);
 
         return false; // Don't allow react to render component on prop change
     },
 
     render: function render() {
-        return React.createElement('svg', null);
+        return React.createElement(
+            'div',
+            null,
+            React.createElement(
+                'div',
+                null,
+                'This is a div above the songTree svg'
+            ),
+            React.createElement('svg', { ref: 'songTree' })
+        );
     }
 });
 
 // D3 code that actually makes the tree
-function makeTree(data, svgDomNode) {
+function makeTree(data, svgDomNode, clickCallBack) {
     var treeData = data[0];
     // Calculate total nodes, max label length
     var totalNodes = 0;
@@ -1930,6 +1998,7 @@ function makeTree(data, svgDomNode) {
         // d = toggleChildren(d);
         // update(d);
         centerNode(d);
+        clickCallBack(d);
     }
 
     function update(source) {
@@ -2342,12 +2411,12 @@ Object.defineProperty(exports, '__esModule', {
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
-var _keyMirror = require('keyMirror');
+var _keymirror = require('keymirror');
 
-var _keyMirror2 = _interopRequireDefault(_keyMirror);
+var _keymirror2 = _interopRequireDefault(_keymirror);
 
 var constants = {
-  ActionTypes: (0, _keyMirror2['default'])({
+  ActionTypes: (0, _keymirror2['default'])({
     SIGNUP: null,
     LOGIN: null,
     LOGOUT: null,
@@ -2364,12 +2433,22 @@ var constants = {
 exports['default'] = constants;
 module.exports = exports['default'];
 
-},{"keyMirror":34}],23:[function(require,module,exports){
+},{"keymirror":34}],23:[function(require,module,exports){
+// var Dispatcher = require('flux').Dispatcher;
+
+// module.exports = new Dispatcher();
+
 'use strict';
 
-var Dispatcher = require('flux').Dispatcher;
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
 
-module.exports = new Dispatcher();
+var _flux = require('flux');
+
+var _Dispatcher = new _flux.Dispatcher();
+exports['default'] = _Dispatcher;
+module.exports = exports['default'];
 
 },{"flux":31}],24:[function(require,module,exports){
 // all songs, to be displayed on homepage

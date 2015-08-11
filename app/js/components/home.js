@@ -30,12 +30,12 @@ class Home extends React.Component {
       }
     }
 
-    //bindings    
+    //bindings
     this.componentDidMount = this.componentDidMount.bind(this);
     this.switchSong = this.switchSong.bind(this);
     this.render = this.render.bind(this);
     this._onChange = this._onChange.bind(this);
-    
+
   }
 
   componentDidMount () {
@@ -48,18 +48,15 @@ class Home extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className= "HomePage">
+      <div className= "playerBox">
         <AudioPlayer song = {this.state.currentsong} />
-<<<<<<< HEAD
-        <h1>This is Home!!</h1>
-        <SongList data = {this.state.songs.allSongs}  switchSong = {this.switchSong} />
-
-=======
-        <SongList data = {this.state.songs.allSongs}  switchSong = {this.switchSong} />
->>>>>>> 4b39d5603336cc22374fe38d19c0bc127c46d5a7
+      </div>
+        <SongList data = {arr}  switchSong = {this.switchSong} />
       </div>
     );
   }
+  // this.state.songs.allSongs
 
   _onChange() {
     this.setState({songs: AllSongStore.getAllSongs()});
