@@ -96,7 +96,7 @@ var D3Tree = React.createClass({
     // Call visit function to establish maxLabelLength
     visit(treeData, function(d) {
         totalNodes++;
-        maxLabelLength = Math.max(d.name.length, maxLabelLength);
+        maxLabelLength = Math.max(d.title.length, maxLabelLength);
 
     }, function(d) {
         return d.children && d.children.length > 0 ? d.children : null;
@@ -107,7 +107,8 @@ var D3Tree = React.createClass({
 
     function sortTree() {
         tree.sort(function(a, b) {
-            return b.name.toLowerCase() < a.name.toLowerCase() ? 1 : -1;
+            // return b.name.toLowerCase() < a.name.toLowerCase() ? 1 : -1;
+            return b.id < a.id ? 1 : -1;
         });
     }
     // Sort the tree initially incase the JSON isn't in a sorted order.
@@ -248,7 +249,7 @@ var D3Tree = React.createClass({
                 return d.children || d._children ? "end" : "start";
             })
             .text(function(d) {
-                return d.name;
+                return "title: " + d.title + ", id: " + d.id;
             })
             .style("fill-opacity", 0);
 

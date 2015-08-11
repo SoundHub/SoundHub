@@ -668,33 +668,137 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var Songs = (function (_React$Component) {
-  _inherits(Songs, _React$Component);
+var _reactBootstrap = require('react-bootstrap');
 
-  function Songs() {
-    _classCallCheck(this, Songs);
+var arr = [{
+  title: 'song1',
+  url: 'www.song.com'
+}, {
+  title: 'song2',
+  url: 'www.sogdfg.com'
+}];
 
-    _get(Object.getPrototypeOf(Songs.prototype), 'constructor', this).apply(this, arguments);
+var ForkList = (function (_React$Component) {
+  _inherits(ForkList, _React$Component);
+
+  function ForkList() {
+    _classCallCheck(this, ForkList);
+
+    _get(Object.getPrototypeOf(ForkList.prototype), 'constructor', this).call(this);
   }
 
-  _createClass(Songs, [{
+  _createClass(ForkList, [{
     key: 'render',
     value: function render() {
       return _react2['default'].createElement(
-        'h1',
+        'div',
         null,
-        'This is Songs'
+        'Branches'
       );
     }
   }]);
 
-  return Songs;
+  return ForkList;
 })(_react2['default'].Component);
 
-exports['default'] = Songs;
+var MyList = (function (_React$Component2) {
+  _inherits(MyList, _React$Component2);
+
+  function MyList() {
+    _classCallCheck(this, MyList);
+
+    _get(Object.getPrototypeOf(MyList.prototype), 'constructor', this).call(this);
+  }
+
+  _createClass(MyList, [{
+    key: 'render',
+    value: function render() {
+      return _react2['default'].createElement(
+        'div',
+        null,
+        'MyList'
+      );
+    }
+  }]);
+
+  return MyList;
+})(_react2['default'].Component);
+
+var Edit = (function (_React$Component3) {
+  _inherits(Edit, _React$Component3);
+
+  function Edit() {
+    _classCallCheck(this, Edit);
+
+    _get(Object.getPrototypeOf(Edit.prototype), 'constructor', this).call(this);
+  }
+
+  _createClass(Edit, [{
+    key: 'render',
+    value: function render() {
+      return _react2['default'].createElement(
+        'div',
+        null,
+        'MyProfile'
+      );
+    }
+  }]);
+
+  return Edit;
+})(_react2['default'].Component);
+
+var Profile = (function (_React$Component4) {
+  _inherits(Profile, _React$Component4);
+
+  function Profile() {
+    _classCallCheck(this, Profile);
+
+    _get(Object.getPrototypeOf(Profile.prototype), 'constructor', this).apply(this, arguments);
+  }
+
+  _createClass(Profile, [{
+    key: 'render',
+    value: function render() {
+      return _react2['default'].createElement(
+        'div',
+        { className: 'profilePage' },
+        _react2['default'].createElement('img', { className: 'randomBG', src: '../assets/random-bg/13772829224_76f2c28068_h.jpg' }),
+        _react2['default'].createElement('img', { className: 'profileImg', src: '../assets/placeholder.jpg' }),
+        _react2['default'].createElement(
+          'button',
+          { className: 'profileButton' },
+          _react2['default'].createElement(_reactBootstrap.Glyphicon, { glyph: 'music' }),
+          ' MyMusic'
+        ),
+        _react2['default'].createElement(
+          'button',
+          { className: 'profileButton' },
+          _react2['default'].createElement(_reactBootstrap.Glyphicon, { glyph: 'paperclip' }),
+          ' Branches'
+        ),
+        _react2['default'].createElement(
+          'button',
+          { className: 'profileButton' },
+          _react2['default'].createElement(_reactBootstrap.Glyphicon, { glyph: 'heart' }),
+          ' Favourites'
+        ),
+        _react2['default'].createElement(
+          'button',
+          { className: 'profileButton' },
+          _react2['default'].createElement(_reactBootstrap.Glyphicon, { glyph: 'user' }),
+          ' Profile'
+        )
+      );
+    }
+  }]);
+
+  return Profile;
+})(_react2['default'].Component);
+
+exports['default'] = Profile;
 module.exports = exports['default'];
 
-},{"react":396}],8:[function(require,module,exports){
+},{"react":396,"react-bootstrap":131}],8:[function(require,module,exports){
 'use strict';
 Object.defineProperty(exports, '__esModule', {
   value: true
@@ -1946,7 +2050,7 @@ function makeTree(data, svgDomNode, clickCallBack) {
     // Call visit function to establish maxLabelLength
     visit(treeData, function (d) {
         totalNodes++;
-        maxLabelLength = Math.max(d.name.length, maxLabelLength);
+        maxLabelLength = Math.max(d.title.length, maxLabelLength);
     }, function (d) {
         return d.children && d.children.length > 0 ? d.children : null;
     });
@@ -1955,7 +2059,8 @@ function makeTree(data, svgDomNode, clickCallBack) {
 
     function sortTree() {
         tree.sort(function (a, b) {
-            return b.name.toLowerCase() < a.name.toLowerCase() ? 1 : -1;
+            // return b.name.toLowerCase() < a.name.toLowerCase() ? 1 : -1;
+            return b.id < a.id ? 1 : -1;
         });
     }
     // Sort the tree initially incase the JSON isn't in a sorted order.
@@ -2079,7 +2184,7 @@ function makeTree(data, svgDomNode, clickCallBack) {
         }).attr("dy", ".35em").attr('class', 'nodeText').attr("text-anchor", function (d) {
             return d.children || d._children ? "end" : "start";
         }).text(function (d) {
-            return d.name;
+            return "title: " + d.title + ", id: " + d.id;
         }).style("fill-opacity", 0);
 
         // phantom node to give us mouseover in a radius around it
@@ -2390,27 +2495,125 @@ var React = require('react');
 var D3Tree = require('./tree.js');
 
 var treeData = [{
-  name: "flare",
+  id: 1,
+  title: 'Smells like teen spirit',
+  like: 2,
+  genre: 'Grunge',
+  forks: 3,
+  author: 1,
   children: [{
-    name: "analytics",
+    id: 2,
+    title: 'Innagodidavida',
+    like: 4,
+    genre: 'Rock',
+    forks: 2,
+    author: 2,
     children: [{
-      name: "cluster",
-      children: [{ name: "AgglomerativeCluster", size: 3938 }, { name: "CommunityStructure", size: 3812 }, { name: "HierarchicalCluster", size: 6714 }, { name: "MergeEdge", size: 743 }]
+      id: 3,
+      title: 'Purple Haze',
+      like: 7,
+      genre: 'Rock',
+      forks: 0,
+      author: 3
     }, {
-      name: "graph",
-      children: [{ name: "BetweennessCentrality", "size": 3534 }, { name: "LinkDistance", size: 5731 }, { name: "MaxFlowMinCut", size: 7840 }, { name: "ShortestPaths", size: 5914 }, { name: "SpanningTree", size: 3416 }]
-    }, {
-      name: "optimization",
-      children: [{ name: "AspectRatioBanker", size: 7074 }]
+      id: 666,
+      title: 'In League with Satan',
+      like: 666,
+      genre: 'Metal',
+      forks: 0,
+      author: 666
     }]
   }, {
-    name: "animate",
-    children: [{ name: "Easing", size: 17010 }, { name: "FunctionSequence", size: 5842 }, {
-      name: "interpolate",
-      children: [{ name: "ArrayInterpolator", size: 1983 }, { name: "ColorInterpolator", size: 2047 }, { name: "DateInterpolator", size: 1375 }, { name: "Interpolator", size: 8746 }, { name: "MatrixInterpolator", size: 2202 }, { name: "NumberInterpolator", size: 1382 }, { name: "ObjectInterpolator", size: 1629 }, { name: "PointInterpolator", size: 1675 }, { name: "RectangleInterpolator", size: 2042 }]
-    }, { name: "ISchedulable", size: 1041 }, { name: "Parallel", size: 5176 }, { name: "Pause", size: 449 }, { name: "Scheduler", size: 5593 }, { name: "Sequence", size: 5534 }, { name: "Transition", size: 9201 }, { name: "Transitioner", size: 19975 }, { name: "TransitionEvent", size: 1116 }, { name: "Tween", size: 6006 }]
-  }, { name: "data", size: 7000 }]
+    id: 4,
+    title: 'Tonight, Tonight',
+    like: 8,
+    genre: 'Grunge',
+    forks: 0,
+    author: 27
+  }, {
+    id: 33,
+    title: '33 222 1 222',
+    genre: 'Jazz',
+    like: 222,
+    forks: 1,
+    author: 222,
+    children: [{
+      id: 42,
+      title: 'So long and thanks for all the fish',
+      genre: 'Jazz',
+      like: 42,
+      forks: 0,
+      author: 42
+    }]
+  }]
 }];
+
+// var treeData = [{
+//        name: "flare",
+//        children: [
+//         {
+//          name: "analytics",
+//          children: [
+//           {
+//            name: "cluster",
+//            children: [
+//             {name: "AgglomerativeCluster", size: 3938},
+//             {name: "CommunityStructure", size: 3812},
+//             {name: "HierarchicalCluster", size: 6714},
+//             {name: "MergeEdge", size: 743}
+//            ]
+//           },
+//           {
+//            name: "graph",
+//            children: [
+//             {name: "BetweennessCentrality", "size": 3534},
+//             {name: "LinkDistance", size: 5731},
+//             {name: "MaxFlowMinCut", size: 7840},
+//             {name: "ShortestPaths", size: 5914},
+//             {name: "SpanningTree", size: 3416}
+//            ]
+//           },
+//           {
+//            name: "optimization",
+//            children: [
+//             {name: "AspectRatioBanker", size: 7074}
+//            ]
+//           }
+//          ]
+//         },
+//         {
+//          name: "animate",
+//          children: [
+//           {name: "Easing", size: 17010},
+//           {name: "FunctionSequence", size: 5842},
+//           {
+//            name: "interpolate",
+//            children: [
+//             {name: "ArrayInterpolator", size: 1983},
+//             {name: "ColorInterpolator", size: 2047},
+//             {name: "DateInterpolator", size: 1375},
+//             {name: "Interpolator", size: 8746},
+//             {name: "MatrixInterpolator", size: 2202},
+//             {name: "NumberInterpolator", size: 1382},
+//             {name: "ObjectInterpolator", size: 1629},
+//             {name: "PointInterpolator", size: 1675},
+//             {name: "RectangleInterpolator", size: 2042}
+//            ]
+//           },
+//           {name: "ISchedulable", size: 1041},
+//           {name: "Parallel", size: 5176},
+//           {name: "Pause", size: 449},
+//           {name: "Scheduler", size: 5593},
+//           {name: "Sequence", size: 5534},
+//           {name: "Transition", size: 9201},
+//           {name: "Transitioner", size: 19975},
+//           {name: "TransitionEvent", size: 1116},
+//           {name: "Tween", size: 6006}
+//          ]
+//         },
+//         {name: "data", size: 7000}
+//        ]
+//       }];
 
 var Page = React.createClass({
   displayName: 'Page',
