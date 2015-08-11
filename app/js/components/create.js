@@ -54,13 +54,6 @@ class Create extends React.Component {
         <input type="button" value="Create" onClick={this.uploadSong}/>
         { this.state.showUpdate ? <div>{this.state.newestSong.title} added!</div> : null }
       </div>
-      // <div>
-      //   <h1>UPLOAD YOUR MUSIC</h1>
-      //   <input type="text" placeholder="Title" ref="title" />
-      //   <input type="text" placeholder="Genre" ref="genre" />
-      //   <input type="file" />
-      //   <button>CREATE</button>
-      // </div>
     );
   }
 

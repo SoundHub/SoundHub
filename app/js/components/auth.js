@@ -10,7 +10,7 @@ class Login extends React.Component {
    }
   toggleAuth() { this.props.handleToggle('Signup');}
   login() {
-    self.transitionTo('home');
+    this.transitionTo('home');
   }
   render() {
     return (

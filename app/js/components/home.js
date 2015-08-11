@@ -2,16 +2,17 @@
 import React from 'react';
 import SongActions from '../actions/songActionCreators';
 import AllSongStore from '../stores/allSongStore';
+import {Glyphicon} from 'react-bootstrap';
 var AudioPlayer = require("./player-components/AudioPlayer");
 
 var arr = [{
-  name:'badboy',
+  title:'badboy',
   url: "assets/badboy.mp3"
 },{
-  name:'bang bang bang',
+  title:'bang bang bang',
   url: "assets/bang.mp3"
 },{
-  name:'tonight',
+  title:'tonight',
   url: "assets/giveyouup.mp3"
 }];
 
@@ -21,6 +22,9 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
     SongActions.getAllSongs();
+    //should this be this.setState instead?
+
+
     this.state = {songs: {
         allSongs: [],
       }
@@ -31,6 +35,7 @@ class Home extends React.Component {
     this.switchSong = this.switchSong.bind(this);
     this.render = this.render.bind(this);
     this._onChange = this._onChange.bind(this);
+    
   }
 
   componentDidMount () {
@@ -45,15 +50,18 @@ class Home extends React.Component {
     return (
       <div>
         <AudioPlayer song = {this.state.currentsong} />
+<<<<<<< HEAD
         <h1>This is Home!!</h1>
         <SongList data = {this.state.songs.allSongs}  switchSong = {this.switchSong} />
 
+=======
+        <SongList data = {this.state.songs.allSongs}  switchSong = {this.switchSong} />
+>>>>>>> 4b39d5603336cc22374fe38d19c0bc127c46d5a7
       </div>
     );
   }
 
   _onChange() {
-    console.log('changes');
     this.setState({songs: AllSongStore.getAllSongs()});
     console.log(this.state);
   }
@@ -71,10 +79,14 @@ class SongList extends React.Component{
 
   render() {
     return (
-      <div>
+      <div className="playList" >
         {this.props.data.map(function(song, i) {
           return (
-            <div onClick={this.handleClick.bind(this, i)} key={i}> {song.title} </div>
+            <div className = "songItem" key={i}>
+              <span className = "title" onClick={this.handleClick.bind(this, i)} > {song.title} </span>
+              <span className> by {song.author} </span>
+              <span className="like-count" > <Glyphicon glyph='heart' /> {song.like} </span>
+            </div>
           );
         }, this)}
       </div>

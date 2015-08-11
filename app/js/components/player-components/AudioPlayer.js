@@ -5,6 +5,8 @@ var VolumeBar = require("./VolumeBar");
 var TimeLabel = require("./TimeLabel");
 var NameLabel = require("./NameLabel");
 
+import {Button,Glyphicon} from 'react-bootstrap';
+
 
 var Howl = require('./howler').Howl;
 
@@ -16,7 +18,7 @@ module.exports = React.createClass({
 			isPause: false,
 			isLoading: false,
 			volume: 0.5,
-			song:{}
+			song:null
 		};
 	},
 
@@ -32,7 +34,6 @@ module.exports = React.createClass({
 			this.setState({song:nextProps.song}, () => {
 				this.playEnd();
 				this.clearSoundObject();
-
 			})
 		}
 		console.log(nextProps.song);
@@ -40,6 +41,7 @@ module.exports = React.createClass({
 
 	render: function() {
 		var percent = 0;
+		var songName;
 		if (this.state.seek && this.state.duration) {
 			percent = this.state.seek / this.state.duration;
 		}
@@ -51,9 +53,14 @@ module.exports = React.createClass({
 			 onPlayBtnClick={this.onPlayBtnClick}
 			 onPauseBtnClick={this.onPauseBtnClick}/>,
 			<ProgressBar percent={percent} seekTo={this.seekTo} />,
-			<VolumeBar volume={this.state.volume} adjustVolumeTo={this.adjustVolumeTo} />
+			<VolumeBar volume={this.state.volume} adjustVolumeTo={this.adjustVolumeTo} />,
+			<Button bsSize="small" className="audio-heart"><Glyphicon glyph='heart' /></Button>
 		];
-		var songName = this.state.song.name;
+		if(this.state.song){
+			songName = this.state.song.title;
+		}else{
+			songName = 'Please add a song'
+		}
 
 		return (
 			<div className="audio-player">
@@ -61,8 +68,9 @@ module.exports = React.createClass({
 					{ topComponents }
 				</div>
 
+
 				<div className="audio-desc-container clearfix">
-					<NameLabel name={songName} />
+					<NameLabel title={songName} />
 					<TimeLabel seek={this.state.seek} duration={this.state.duration}/>
 				</div>
 
@@ -85,17 +93,17 @@ module.exports = React.createClass({
 	},
 
 	play: function() {
-
-		this.setState({ isPlaying: true, isPause: false });
-
-		if (!this.howler) {
-			this.initSoundObject();
-		} else {
-			var songUrl = this.state.song.url;
-			if (songUrl != this.howler._src) {
+		if(this.state.song){
+			this.setState({ isPlaying: true, isPause: false });
+			if (!this.howler) {
 				this.initSoundObject();
 			} else {
-				this._play();
+				var songUrl = this.state.song.url;
+				if (songUrl != this.howler._src) {
+					this.initSoundObject();
+				} else {
+					this._play();
+				}
 			}
 		}
 	},
