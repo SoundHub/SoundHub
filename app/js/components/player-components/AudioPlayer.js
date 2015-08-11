@@ -5,8 +5,9 @@ var VolumeBar = require("./VolumeBar");
 var TimeLabel = require("./TimeLabel");
 var NameLabel = require("./NameLabel");
 
-import {Button,Glyphicon} from 'react-bootstrap';
 
+
+import {Button,Glyphicon} from 'react-bootstrap';
 
 var Howl = require('./howler').Howl;
 
@@ -48,6 +49,8 @@ module.exports = React.createClass({
 		if (this.state.seek && this.state.duration) {
 			percent = this.state.seek / this.state.duration;
 		}
+
+
 		var topComponents = [
 			<ButtonPanel
 			 isPlaying={this.state.isPlaying}
@@ -98,6 +101,7 @@ module.exports = React.createClass({
 
 
 	},
+
 
 	onPlayBtnClick: function() {
 
