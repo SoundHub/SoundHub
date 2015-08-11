@@ -79,5 +79,22 @@ export default {
     .catch((err) => {
       console.log('failed: ', err)
     })
-  }
+  },
+
+  forkSong(
+    Utils.post('/newFork', userID, songID)
+    .then((response) => {
+      Dispatcher.dispatch({
+        type: ActionType.FORK,
+        message: 'Song successfully forked',
+        songData: songData
+      });
+      console.log('forking successful');
+
+    })
+    .catch((err) => {
+      console.log('forking failed: ', err)
+    })
+  )
+
 } 
