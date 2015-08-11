@@ -13,6 +13,7 @@ let _userSongs = {}; // keys: songsCreated, newestSong
 
 let setNewestSong = function(songData) {
   _userSongs.newestSong = songData;
+  console.log(_userSongs);
 }
 
 let UserSongStore = assign({}, EventEmitter.prototype, {
@@ -25,8 +26,8 @@ let UserSongStore = assign({}, EventEmitter.prototype, {
   removeChangeListener(callback) {
     this.removeListener(CHANGE_EVENT, callback)
   },
-  getNewestSong() {
-    return _userSongs[newestSong];
+  getUserSongs() {
+    return _userSongs;
   }
 
 })

@@ -6,7 +6,17 @@ import UserSongStore from '../stores/userSongStore';
 class Create extends React.Component {
   constructor() {
     super();
+    this.state = {showUpdate: false};
+
+    //bindings
+    this.componentDidMount = this.componentDidMount.bind(this);
     this.uploadSong = this.uploadSong.bind(this);
+    this.render = this.render.bind(this);
+    this._onChange = this._onChange.bind(this);
+  }
+
+  componentDidMount() {
+    UserSongStore.addChangeListener(this._onChange); 
   }
 
   uploadSong() {
@@ -30,19 +40,16 @@ class Create extends React.Component {
         <input type="text" placeholder="Name" ref="songName"/>
         <input type="text" placeholder="Genre" ref="songGenre" />
         <input type="button" value="Create" onClick={this.uploadSong}/>
+        { this.state.showUpdate ? <div>{this.state.newestSong.title} added!</div> : null }
       </div>
-      // <div>
-      //   <h1>UPLOAD YOUR MUSIC</h1>
-      //   <input type="text" placeholder="Title" ref="title" />
-      //   <input type="text" placeholder="Genre" ref="genre" />
-      //   <input type="file" />
-      //   <button>CREATE</button>
-      // </div>
     );
   }
 
   _onChange() {
-    this.setState({newestSong: UserSongStore.getNewestSong})
+    this.setState({
+      newestSong: UserSongStore.getUserSongs().newestSong, 
+      showUpdate: true
+    })
   }
 }
 
