@@ -81,8 +81,8 @@ export default {
     })
   },
 
-  forkSong(
-    Utils.post('/newFork', userID, songID)
+  forkSong(forkData) {
+    Utils.post('/newFork', forkData)
     .then((response) => {
       Dispatcher.dispatch({
         type: ActionType.FORK,
@@ -95,6 +95,6 @@ export default {
     .catch((err) => {
       console.log('forking failed: ', err)
     })
-  )
-
-} 
+  }
+  
+}
