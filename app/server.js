@@ -20,7 +20,7 @@ server.use(bodyParser.json());
 var db = require('./db.js');
 
 
-server.post('/login', function(req, res) {
+server.get('/login', function(req, res) {
   db.login(req.body.username, req.body.password, function(response) {
     if (response.success) {
       req.session.user = response.user;
@@ -30,7 +30,7 @@ server.post('/login', function(req, res) {
   })
 })
 
-server.get('/signup', function(req, res) {
+server.post('/signup', function(req, res) {
   var username = 'ferf'; //req.body.username
   var password = 'ferf'; //req.body.password
   db.signup(username, password, function(response) {
@@ -41,7 +41,7 @@ server.get('/signup', function(req, res) {
 server.post('/addSong', function(req, res) {  //** MVP **//
   var songData = req.body;
   db.addSong(songData.title, songData.genre, songData.author, songData.path, function(response) {
-    res.send('Song added');
+    res.send(response);
   });
 })
 
@@ -57,7 +57,6 @@ server.get('/tree', function(req, res) {       //NEED ROOTNODE ID
   });
 })
 
-
 server.get('/mySongs', function(req, res) { //NEED USER ID IN REQ
   // var userID = req.body.uid              //SO WE CAN UNCOMMENT THIS
   db.mySongs(1, function(data) {            //SO THIS CAN NOT BE HARD CODED
@@ -68,6 +67,15 @@ server.get('/mySongs', function(req, res) { //NEED USER ID IN REQ
 server.get('/myForks', function(req, res) {
   db.myForks(1, function(data) {
     res.send(data);
+  })
+})
+
+server.get('/addFork', function(req, res) {
+  var userID = 1;//req.body.userID;
+  var songID = 2;//req.body.songID;
+  db.addFork(userID, songID, function(forkData) {
+    console.log(forkData);
+    res.send('fork added');
   })
 })
 

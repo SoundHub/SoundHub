@@ -105,6 +105,7 @@ var signup = function(username, password, callback) {
 module.exports.login = login;
 module.exports.signup = signup;
 
+
 /** INSERT/QUERY FUNCTIONS **/
 
 var addSong = function(title, genre, author, pathString, callback) {
@@ -166,8 +167,6 @@ var mySongs = function(userID, callback) {
   })
 };
 
-
-
 var myForks = function(userID, callback) {
   //gotta make a join table yo
   User.findOne({
@@ -175,16 +174,29 @@ var myForks = function(userID, callback) {
       id: userID
     }
   })
-  .then(function(userObj) {
-    console.log(userObj);
-    userObj.getSongNodes()
-  })
+  // .then(function(userObj) {
+  //   console.log(userObj);
+  //   userObj.getSongNodes()
+  // })
+  // .then(function(stuff) {
+  //   console.log(stuff);
+  //   callback(stuff);
+  // })
   .then(function(stuff) {
-    console.log(stuff);
     callback(stuff);
   })
 };
 
+var addFork = function(userID, songID, callback) {
+  orm.sync().then(function() {
+    return Fork.create({
+      userId: userID,
+      songNodeId: songID
+    });
+  }).then(function(forkData) {
+    callback(forkData);
+  });
+};
 
 var myFavs = function(userID, callback) {  //I AM NOT MVP
   //gotta make a join table yo             //I AM A LEAF ON THE WIND
@@ -196,6 +208,7 @@ exports.allSongs = allSongs;
 exports.findSongsbyRoot = findSongsbyRoot;
 exports.mySongs = mySongs;
 exports.myForks = myForks;
+exports.addFork = addFork;
 
 
 

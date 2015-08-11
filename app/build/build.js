@@ -1044,7 +1044,7 @@ module.exports = React.createClass({
 
 });
 
-},{"classnames":28,"react-bootstrap":128,"react/addons":216}],14:[function(require,module,exports){
+},{"classnames":27,"react-bootstrap":128,"react/addons":216}],14:[function(require,module,exports){
 "use strict";
 
 module.exports = {
@@ -1232,7 +1232,7 @@ module.exports = _react2['default'].createClass({
 
 });
 
-},{"classnames":28,"react":388,"react-bootstrap":128}],17:[function(require,module,exports){
+},{"classnames":27,"react":388,"react-bootstrap":128}],17:[function(require,module,exports){
 /*! howler.js v2.0.0-beta | (c) 2013-2014, James Simpson of GoldFire Studios | MIT License | howlerjs.com */
 "use strict";
 
@@ -1876,7 +1876,7 @@ AllSongStore.dispatchToken = _dispatcherDispatcherJs2['default'].register(functi
 exports['default'] = AllSongStore;
 module.exports = exports['default'];
 
-},{"../constants/constants":21,"../dispatcher/dispatcher.js":22,"events":26,"object-assign":59}],24:[function(require,module,exports){
+},{"../constants/constants":21,"../dispatcher/dispatcher.js":22,"events":28,"object-assign":59}],24:[function(require,module,exports){
 // store for user created songs (at root)
 'use strict';
 
@@ -1944,7 +1944,7 @@ UserSongStore.dispatchToken = _dispatcherDispatcherJs2['default'].register(funct
 exports['default'] = UserSongStore;
 module.exports = exports['default'];
 
-},{"../constants/constants":21,"../dispatcher/dispatcher.js":22,"events":26,"object-assign":59}],25:[function(require,module,exports){
+},{"../constants/constants":21,"../dispatcher/dispatcher.js":22,"events":28,"object-assign":59}],25:[function(require,module,exports){
 // central location for all communication with our api
 
 'use strict';
@@ -1985,6 +1985,149 @@ exports['default'] = {
 module.exports = exports['default'];
 
 },{"whatwg-fetch":389}],26:[function(require,module,exports){
+// shim for using process in browser
+
+var process = module.exports = {};
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = setTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            currentQueue[queueIndex].run();
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    clearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        setTimeout(drainQueue, 0);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+// TODO(shtylman)
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+},{}],27:[function(require,module,exports){
+/*!
+  Copyright (c) 2015 Jed Watson.
+  Licensed under the MIT License (MIT), see
+  http://jedwatson.github.io/classnames
+*/
+
+(function () {
+	'use strict';
+
+	function classNames () {
+
+		var classes = '';
+
+		for (var i = 0; i < arguments.length; i++) {
+			var arg = arguments[i];
+			if (!arg) continue;
+
+			var argType = typeof arg;
+
+			if ('string' === argType || 'number' === argType) {
+				classes += ' ' + arg;
+
+			} else if (Array.isArray(arg)) {
+				classes += ' ' + classNames.apply(null, arg);
+
+			} else if ('object' === argType) {
+				for (var key in arg) {
+					if (arg.hasOwnProperty(key) && arg[key]) {
+						classes += ' ' + key;
+					}
+				}
+			}
+		}
+
+		return classes.substr(1);
+	}
+
+	if (typeof module !== 'undefined' && module.exports) {
+		module.exports = classNames;
+	} else if (typeof define === 'function' && typeof define.amd === 'object' && define.amd){
+		// AMD. Register as an anonymous module.
+		define(function () {
+			return classNames;
+		});
+	} else {
+		window.classNames = classNames;
+	}
+
+}());
+
+},{}],28:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -2286,149 +2429,6 @@ function isObject(arg) {
 function isUndefined(arg) {
   return arg === void 0;
 }
-
-},{}],27:[function(require,module,exports){
-// shim for using process in browser
-
-var process = module.exports = {};
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = setTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            currentQueue[queueIndex].run();
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    clearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        setTimeout(drainQueue, 0);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-// TODO(shtylman)
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-},{}],28:[function(require,module,exports){
-/*!
-  Copyright (c) 2015 Jed Watson.
-  Licensed under the MIT License (MIT), see
-  http://jedwatson.github.io/classnames
-*/
-
-(function () {
-	'use strict';
-
-	function classNames () {
-
-		var classes = '';
-
-		for (var i = 0; i < arguments.length; i++) {
-			var arg = arguments[i];
-			if (!arg) continue;
-
-			var argType = typeof arg;
-
-			if ('string' === argType || 'number' === argType) {
-				classes += ' ' + arg;
-
-			} else if (Array.isArray(arg)) {
-				classes += ' ' + classNames.apply(null, arg);
-
-			} else if ('object' === argType) {
-				for (var key in arg) {
-					if (arg.hasOwnProperty(key) && arg[key]) {
-						classes += ' ' + key;
-					}
-				}
-			}
-		}
-
-		return classes.substr(1);
-	}
-
-	if (typeof module !== 'undefined' && module.exports) {
-		module.exports = classNames;
-	} else if (typeof define === 'function' && typeof define.amd === 'object' && define.amd){
-		// AMD. Register as an anonymous module.
-		define(function () {
-			return classNames;
-		});
-	} else {
-		window.classNames = classNames;
-	}
-
-}());
 
 },{}],29:[function(require,module,exports){
 /**
@@ -16044,7 +16044,7 @@ var Affix = _react2['default'].createClass({
 
 exports['default'] = Affix;
 module.exports = exports['default'];
-},{"./AffixMixin":62,"./utils/domUtils":139,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":28,"react":388}],62:[function(require,module,exports){
+},{"./AffixMixin":62,"./utils/domUtils":139,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":27,"react":388}],62:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -16233,13 +16233,13 @@ var Alert = _react2['default'].createClass({
     return _react2['default'].createElement(
       'button',
       {
-        type: "button",
-        className: "close",
+        type: 'button',
+        className: 'close',
         'aria-label': this.props.closeLabel,
         onClick: this.props.onDismiss },
       _react2['default'].createElement(
         'span',
-        { 'aria-hidden': "true" },
+        { 'aria-hidden': 'true' },
         '×'
       )
     );
@@ -16272,7 +16272,7 @@ var Alert = _react2['default'].createClass({
 
 exports['default'] = Alert;
 module.exports = exports['default'];
-},{"./BootstrapMixin":65,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":28,"react":388}],64:[function(require,module,exports){
+},{"./BootstrapMixin":65,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":27,"react":388}],64:[function(require,module,exports){
 'use strict';
 
 var _extends = require('babel-runtime/helpers/extends')['default'];
@@ -16320,7 +16320,7 @@ var Badge = _react2['default'].createClass({
 
 exports['default'] = Badge;
 module.exports = exports['default'];
-},{"./utils/ValidComponentChildren":133,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":28,"react":388}],65:[function(require,module,exports){
+},{"./utils/ValidComponentChildren":133,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":27,"react":388}],65:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -16480,7 +16480,7 @@ var Button = _react2['default'].createClass({
       _extends({}, this.props, {
         href: href,
         className: _classnames2['default'](this.props.className, classes),
-        role: "button" }),
+        role: 'button' }),
       this.props.children
     );
   },
@@ -16512,7 +16512,7 @@ var Button = _react2['default'].createClass({
 
 exports['default'] = Button;
 module.exports = exports['default'];
-},{"./BootstrapMixin":65,"./ButtonInput":68,"./utils/CustomPropTypes":130,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":28,"react":388}],67:[function(require,module,exports){
+},{"./BootstrapMixin":65,"./ButtonInput":68,"./utils/CustomPropTypes":130,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":27,"react":388}],67:[function(require,module,exports){
 'use strict';
 
 var _extends = require('babel-runtime/helpers/extends')['default'];
@@ -16580,7 +16580,7 @@ var ButtonGroup = _react2['default'].createClass({
 
 exports['default'] = ButtonGroup;
 module.exports = exports['default'];
-},{"./BootstrapMixin":65,"./utils/CustomPropTypes":130,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":28,"react":388}],68:[function(require,module,exports){
+},{"./BootstrapMixin":65,"./utils/CustomPropTypes":130,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":27,"react":388}],68:[function(require,module,exports){
 'use strict';
 
 var _inherits = require('babel-runtime/helpers/inherits')['default'];
@@ -16646,7 +16646,7 @@ var ButtonInput = (function (_InputBase) {
     var other = _objectWithoutProperties(_props2, ['children', 'value']);
 
     var val = children ? children : value;
-    return _react2['default'].createElement(_Button2['default'], _extends({}, other, { componentClass: "input", ref: "input", key: "input", value: val }));
+    return _react2['default'].createElement(_Button2['default'], _extends({}, other, { componentClass: 'input', ref: 'input', key: 'input', value: val }));
   };
 
   return ButtonInput;
@@ -16708,7 +16708,7 @@ var ButtonToolbar = _react2['default'].createClass({
     return _react2['default'].createElement(
       'div',
       _extends({}, this.props, {
-        role: "toolbar",
+        role: 'toolbar',
         className: _classnames2['default'](this.props.className, classes) }),
       this.props.children
     );
@@ -16717,7 +16717,7 @@ var ButtonToolbar = _react2['default'].createClass({
 
 exports['default'] = ButtonToolbar;
 module.exports = exports['default'];
-},{"./BootstrapMixin":65,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":28,"react":388}],70:[function(require,module,exports){
+},{"./BootstrapMixin":65,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":27,"react":388}],70:[function(require,module,exports){
 'use strict';
 
 var _extends = require('babel-runtime/helpers/extends')['default'];
@@ -16775,8 +16775,8 @@ var Carousel = _react2['default'].createClass({
       wrap: true,
       indicators: true,
       controls: true,
-      prevIcon: _react2['default'].createElement(_Glyphicon2['default'], { glyph: "chevron-left" }),
-      nextIcon: _react2['default'].createElement(_Glyphicon2['default'], { glyph: "chevron-right" })
+      prevIcon: _react2['default'].createElement(_Glyphicon2['default'], { glyph: 'chevron-left' }),
+      nextIcon: _react2['default'].createElement(_Glyphicon2['default'], { glyph: 'chevron-right' })
     };
   },
 
@@ -16894,7 +16894,7 @@ var Carousel = _react2['default'].createClass({
       this.props.indicators ? this.renderIndicators() : null,
       _react2['default'].createElement(
         'div',
-        { className: "carousel-inner", ref: "inner" },
+        { className: 'carousel-inner', ref: 'inner' },
         _utilsValidComponentChildren2['default'].map(this.props.children, this.renderItem)
       ),
       this.props.controls ? this.renderControls() : null
@@ -16904,7 +16904,7 @@ var Carousel = _react2['default'].createClass({
   renderPrev: function renderPrev() {
     return _react2['default'].createElement(
       'a',
-      { className: "left carousel-control", href: "#prev", key: 0, onClick: this.prev },
+      { className: 'left carousel-control', href: '#prev', key: 0, onClick: this.prev },
       this.props.prevIcon
     );
   },
@@ -16912,7 +16912,7 @@ var Carousel = _react2['default'].createClass({
   renderNext: function renderNext() {
     return _react2['default'].createElement(
       'a',
-      { className: "right carousel-control", href: "#next", key: 1, onClick: this.next },
+      { className: 'right carousel-control', href: '#next', key: 1, onClick: this.next },
       this.props.nextIcon
     );
   },
@@ -16949,7 +16949,7 @@ var Carousel = _react2['default'].createClass({
 
     return _react2['default'].createElement(
       'ol',
-      { className: "carousel-indicators" },
+      { className: 'carousel-indicators' },
       indicators
     );
   },
@@ -17019,7 +17019,7 @@ var Carousel = _react2['default'].createClass({
 
 exports['default'] = Carousel;
 module.exports = exports['default'];
-},{"./BootstrapMixin":65,"./Glyphicon":84,"./utils/ValidComponentChildren":133,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":28,"react":388}],71:[function(require,module,exports){
+},{"./BootstrapMixin":65,"./Glyphicon":84,"./utils/ValidComponentChildren":133,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":27,"react":388}],71:[function(require,module,exports){
 'use strict';
 
 var _extends = require('babel-runtime/helpers/extends')['default'];
@@ -17122,7 +17122,7 @@ var CarouselItem = _react2['default'].createClass({
   renderCaption: function renderCaption() {
     return _react2['default'].createElement(
       'div',
-      { className: "carousel-caption" },
+      { className: 'carousel-caption' },
       this.props.caption
     );
   }
@@ -17130,7 +17130,7 @@ var CarouselItem = _react2['default'].createClass({
 
 exports['default'] = CarouselItem;
 module.exports = exports['default'];
-},{"./utils/TransitionEvents":132,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":28,"react":388}],72:[function(require,module,exports){
+},{"./utils/TransitionEvents":132,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":27,"react":388}],72:[function(require,module,exports){
 'use strict';
 
 var _extends = require('babel-runtime/helpers/extends')['default'];
@@ -17343,7 +17343,7 @@ var Col = _react2['default'].createClass({
 
 exports['default'] = Col;
 module.exports = exports['default'];
-},{"./styleMaps":129,"./utils/CustomPropTypes":130,"babel-runtime/core-js/object/keys":145,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":28,"react":388}],73:[function(require,module,exports){
+},{"./styleMaps":129,"./utils/CustomPropTypes":130,"babel-runtime/core-js/object/keys":145,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":27,"react":388}],73:[function(require,module,exports){
 'use strict';
 
 var _inherits = require('babel-runtime/helpers/inherits')['default'];
@@ -17425,7 +17425,7 @@ var Collapse = (function (_React$Component) {
       _extends({
         ref: 'transition'
       }, this.props, {
-        'aria-expanded': this.props['in'],
+        'aria-expanded': this.props.role ? this.props['in'] : null,
         className: this._dimension() === 'width' ? 'width' : '',
         exitedClassName: 'collapse',
         exitingClassName: 'collapsing',
@@ -17557,7 +17557,12 @@ Collapse.propTypes = {
    * should animate in its specified dimension. Called with the current
    * dimension prop value and the DOM node.
    */
-  getDimensionValue: _react2['default'].PropTypes.func
+  getDimensionValue: _react2['default'].PropTypes.func,
+
+  /**
+   * ARIA role of collapsible element
+   */
+  role: _react2['default'].PropTypes.string
 };
 
 Collapse.defaultProps = {
@@ -17591,8 +17596,6 @@ var _utilsDeprecationWarning = require('./utils/deprecationWarning');
 
 var _utilsDeprecationWarning2 = _interopRequireDefault(_utilsDeprecationWarning);
 
-var warned = false;
-
 var CollapsibleMixin = {
 
   propTypes: {
@@ -17610,10 +17613,7 @@ var CollapsibleMixin = {
   },
 
   componentWillMount: function componentWillMount() {
-    if (!warned) {
-      _utilsDeprecationWarning2['default']('CollapsibleMixin', 'Collapse Component');
-      warned = true;
-    }
+    _utilsDeprecationWarning2['default']('CollapsibleMixin', 'Collapse Component');
   },
 
   componentWillUpdate: function componentWillUpdate(nextProps, nextState) {
@@ -17877,7 +17877,7 @@ var CollapsibleNav = _react2['default'].createClass({
 
 exports['default'] = CollapsibleNav;
 module.exports = exports['default'];
-},{"./BootstrapMixin":65,"./Collapse":73,"./utils/ValidComponentChildren":133,"./utils/createChainedFunction":135,"babel-runtime/helpers/interop-require-default":150,"classnames":28,"react":388}],76:[function(require,module,exports){
+},{"./BootstrapMixin":65,"./Collapse":73,"./utils/ValidComponentChildren":133,"./utils/createChainedFunction":135,"babel-runtime/helpers/interop-require-default":150,"classnames":27,"react":388}],76:[function(require,module,exports){
 /* eslint react/prop-types: [2, {ignore: "bsSize"}] */
 /* BootstrapMixin contains `bsSize` type validation */
 
@@ -17948,12 +17948,12 @@ var DropdownButton = _react2['default'].createClass({
   render: function render() {
     var renderMethod = this.props.navItem ? 'renderNavItem' : 'renderButtonGroup';
 
-    var caret = this.props.noCaret ? null : _react2['default'].createElement('span', { className: "caret" });
+    var caret = this.props.noCaret ? null : _react2['default'].createElement('span', { className: 'caret' });
 
     return this[renderMethod]([_react2['default'].createElement(
       _Button2['default'],
       _extends({}, this.props, {
-        ref: "dropdownButton",
+        ref: 'dropdownButton',
         className: _classnames2['default']('dropdown-toggle', this.props.buttonClassName),
         onClick: _utilsCreateChainedFunction2['default'](this.props.onClick, this.handleDropdownClick),
         key: 0,
@@ -17968,7 +17968,7 @@ var DropdownButton = _react2['default'].createClass({
     ), _react2['default'].createElement(
       _DropdownMenu2['default'],
       {
-        ref: "menu",
+        ref: 'menu',
         'aria-labelledby': this.props.id,
         pullRight: this.props.pullRight,
         key: 1 },
@@ -18035,7 +18035,7 @@ var DropdownButton = _react2['default'].createClass({
 
 exports['default'] = DropdownButton;
 module.exports = exports['default'];
-},{"./BootstrapMixin":65,"./Button":66,"./ButtonGroup":67,"./DropdownMenu":77,"./DropdownStateMixin":78,"./utils/ValidComponentChildren":133,"./utils/createChainedFunction":135,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":28,"react":388}],77:[function(require,module,exports){
+},{"./BootstrapMixin":65,"./Button":66,"./ButtonGroup":67,"./DropdownMenu":77,"./DropdownStateMixin":78,"./utils/ValidComponentChildren":133,"./utils/createChainedFunction":135,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":27,"react":388}],77:[function(require,module,exports){
 'use strict';
 
 var _extends = require('babel-runtime/helpers/extends')['default'];
@@ -18078,7 +18078,7 @@ var DropdownMenu = _react2['default'].createClass({
       'ul',
       _extends({}, this.props, {
         className: _classnames2['default'](this.props.className, classes),
-        role: "menu" }),
+        role: 'menu' }),
       _utilsValidComponentChildren2['default'].map(this.props.children, this.renderMenuItem)
     );
   },
@@ -18096,7 +18096,7 @@ var DropdownMenu = _react2['default'].createClass({
 
 exports['default'] = DropdownMenu;
 module.exports = exports['default'];
-},{"./utils/ValidComponentChildren":133,"./utils/createChainedFunction":135,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":28,"react":388}],78:[function(require,module,exports){
+},{"./utils/ValidComponentChildren":133,"./utils/createChainedFunction":135,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":27,"react":388}],78:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -18113,6 +18113,8 @@ var _utilsDomUtils2 = _interopRequireDefault(_utilsDomUtils);
 
 var _utilsEventListener = require('./utils/EventListener');
 
+var _utilsEventListener2 = _interopRequireDefault(_utilsEventListener);
+
 /**
  * Checks whether a node is within
  * a root nodes tree
@@ -18121,9 +18123,6 @@ var _utilsEventListener = require('./utils/EventListener');
  * @param {DOMElement} root
  * @returns {boolean}
  */
-
-var _utilsEventListener2 = _interopRequireDefault(_utilsEventListener);
-
 function isNodeInRoot(node, root) {
   while (node) {
     if (node === root) {
@@ -18320,10 +18319,9 @@ var _utilsDomUtils2 = _interopRequireDefault(_utilsDomUtils);
 
 var _utilsDeprecationWarning = require('./utils/deprecationWarning');
 
-// TODO: listen for onTransitionEnd to remove el
-
 var _utilsDeprecationWarning2 = _interopRequireDefault(_utilsDeprecationWarning);
 
+// TODO: listen for onTransitionEnd to remove el
 function getElementsAndSelf(root, classes) {
   var els = root.querySelectorAll('.' + classes.join('.'));
 
@@ -18340,14 +18338,9 @@ function getElementsAndSelf(root, classes) {
   return els;
 }
 
-var warned = false;
-
 exports['default'] = {
   componentWillMount: function componentWillMount() {
-    if (!warned) {
-      _utilsDeprecationWarning2['default']('FadeMixin', 'Fade Component');
-      warned = true;
-    }
+    _utilsDeprecationWarning2['default']('FadeMixin', 'Fade Component');
   },
 
   _fadeIn: function _fadeIn() {
@@ -18452,7 +18445,7 @@ var Static = (function (_InputBase) {
   Static.prototype.renderInput = function renderInput() {
     return _react2['default'].createElement(
       'p',
-      _extends({}, this.props, { className: _classnames2['default'](this.props.className, 'form-control-static'), ref: "input", key: "input" }),
+      _extends({}, this.props, { className: _classnames2['default'](this.props.className, 'form-control-static'), ref: 'input', key: 'input' }),
       this.getValue()
     );
   };
@@ -18467,7 +18460,7 @@ Static.propTypes = {
 
 exports['default'] = Static;
 module.exports = exports['default'];
-},{"../InputBase":87,"../utils/childrenValueInputValidation":134,"babel-runtime/helpers/class-call-check":147,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/inherits":149,"babel-runtime/helpers/interop-require-default":150,"classnames":28,"react":388}],82:[function(require,module,exports){
+},{"../InputBase":87,"../utils/childrenValueInputValidation":134,"babel-runtime/helpers/class-call-check":147,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/inherits":149,"babel-runtime/helpers/interop-require-default":150,"classnames":27,"react":388}],82:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -18548,7 +18541,7 @@ FormGroup.propTypes = {
 
 exports['default'] = FormGroup;
 module.exports = exports['default'];
-},{"babel-runtime/helpers/class-call-check":147,"babel-runtime/helpers/inherits":149,"babel-runtime/helpers/interop-require-default":150,"classnames":28,"react":388}],84:[function(require,module,exports){
+},{"babel-runtime/helpers/class-call-check":147,"babel-runtime/helpers/inherits":149,"babel-runtime/helpers/interop-require-default":150,"classnames":27,"react":388}],84:[function(require,module,exports){
 'use strict';
 
 var _extends = require('babel-runtime/helpers/extends')['default'];
@@ -18579,12 +18572,14 @@ var Glyphicon = _react2['default'].createClass({
   mixins: [_BootstrapMixin2['default']],
 
   propTypes: {
-    glyph: _react2['default'].PropTypes.oneOf(_styleMaps2['default'].GLYPHS).isRequired
+    glyph: _react2['default'].PropTypes.oneOf(_styleMaps2['default'].GLYPHS).isRequired,
+    formControlFeedback: _react2['default'].PropTypes.bool
   },
 
   getDefaultProps: function getDefaultProps() {
     return {
-      bsClass: 'glyphicon'
+      bsClass: 'glyphicon',
+      formControlFeedback: false
     };
   },
 
@@ -18592,6 +18587,7 @@ var Glyphicon = _react2['default'].createClass({
     var classes = this.getBsClassSet();
 
     classes['glyphicon-' + this.props.glyph] = true;
+    classes['form-control-feedback'] = this.props.formControlFeedback;
 
     return _react2['default'].createElement(
       'span',
@@ -18603,7 +18599,7 @@ var Glyphicon = _react2['default'].createClass({
 
 exports['default'] = Glyphicon;
 module.exports = exports['default'];
-},{"./BootstrapMixin":65,"./styleMaps":129,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":28,"react":388}],85:[function(require,module,exports){
+},{"./BootstrapMixin":65,"./styleMaps":129,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":27,"react":388}],85:[function(require,module,exports){
 'use strict';
 
 var _extends = require('babel-runtime/helpers/extends')['default'];
@@ -18661,7 +18657,7 @@ var Grid = _react2['default'].createClass({
 
 exports['default'] = Grid;
 module.exports = exports['default'];
-},{"./utils/CustomPropTypes":130,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":28,"react":388}],86:[function(require,module,exports){
+},{"./utils/CustomPropTypes":130,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":27,"react":388}],86:[function(require,module,exports){
 'use strict';
 
 var _inherits = require('babel-runtime/helpers/inherits')['default'];
@@ -18742,6 +18738,10 @@ var _FormGroup = require('./FormGroup');
 
 var _FormGroup2 = _interopRequireDefault(_FormGroup);
 
+var _Glyphicon = require('./Glyphicon');
+
+var _Glyphicon2 = _interopRequireDefault(_Glyphicon);
+
 var InputBase = (function (_React$Component) {
   _inherits(InputBase, _React$Component);
 
@@ -18797,25 +18797,25 @@ var InputBase = (function (_React$Component) {
   InputBase.prototype.renderInputGroup = function renderInputGroup(children) {
     var addonBefore = this.props.addonBefore ? _react2['default'].createElement(
       'span',
-      { className: "input-group-addon", key: "addonBefore" },
+      { className: 'input-group-addon', key: 'addonBefore' },
       this.props.addonBefore
     ) : null;
 
     var addonAfter = this.props.addonAfter ? _react2['default'].createElement(
       'span',
-      { className: "input-group-addon", key: "addonAfter" },
+      { className: 'input-group-addon', key: 'addonAfter' },
       this.props.addonAfter
     ) : null;
 
     var buttonBefore = this.props.buttonBefore ? _react2['default'].createElement(
       'span',
-      { className: "input-group-btn" },
+      { className: 'input-group-btn' },
       this.props.buttonBefore
     ) : null;
 
     var buttonAfter = this.props.buttonAfter ? _react2['default'].createElement(
       'span',
-      { className: "input-group-btn" },
+      { className: 'input-group-btn' },
       this.props.buttonAfter
     ) : null;
 
@@ -18829,7 +18829,7 @@ var InputBase = (function (_React$Component) {
 
     return addonBefore || addonAfter || buttonBefore || buttonAfter ? _react2['default'].createElement(
       'div',
-      { className: _classnames2['default'](inputGroupClassName, 'input-group'), key: "input-group" },
+      { className: _classnames2['default'](inputGroupClassName, 'input-group'), key: 'input-group' },
       addonBefore,
       buttonBefore,
       children,
@@ -18839,21 +18839,30 @@ var InputBase = (function (_React$Component) {
   };
 
   InputBase.prototype.renderIcon = function renderIcon() {
-    var classes = {
-      'glyphicon': true,
-      'form-control-feedback': true,
-      'glyphicon-ok': this.props.bsStyle === 'success',
-      'glyphicon-warning-sign': this.props.bsStyle === 'warning',
-      'glyphicon-remove': this.props.bsStyle === 'error'
-    };
+    if (this.props.hasFeedback) {
+      if (this.props.feedbackIcon) {
+        return _react2['default'].cloneElement(this.props.feedbackIcon, { formControlFeedback: true });
+      }
 
-    return this.props.hasFeedback ? _react2['default'].createElement('span', { className: _classnames2['default'](classes), key: "icon" }) : null;
+      switch (this.props.bsStyle) {
+        case 'success':
+          return _react2['default'].createElement(_Glyphicon2['default'], { formControlFeedback: true, glyph: 'ok', key: 'icon' });
+        case 'warning':
+          return _react2['default'].createElement(_Glyphicon2['default'], { formControlFeedback: true, glyph: 'warning-sign', key: 'icon' });
+        case 'error':
+          return _react2['default'].createElement(_Glyphicon2['default'], { formControlFeedback: true, glyph: 'remove', key: 'icon' });
+        default:
+          return _react2['default'].createElement('span', { className: 'form-control-feedback', key: 'icon' });
+      }
+    } else {
+      return null;
+    }
   };
 
   InputBase.prototype.renderHelp = function renderHelp() {
     return this.props.help ? _react2['default'].createElement(
       'span',
-      { className: "help-block", key: "help" },
+      { className: 'help-block', key: 'help' },
       this.props.help
     ) : null;
   };
@@ -18866,7 +18875,7 @@ var InputBase = (function (_React$Component) {
 
     return _react2['default'].createElement(
       'div',
-      { className: _classnames2['default'](classes), key: "checkboxRadioWrapper" },
+      { className: _classnames2['default'](classes), key: 'checkboxRadioWrapper' },
       children
     );
   };
@@ -18874,7 +18883,7 @@ var InputBase = (function (_React$Component) {
   InputBase.prototype.renderWrapper = function renderWrapper(children) {
     return this.props.wrapperClassName ? _react2['default'].createElement(
       'div',
-      { className: this.props.wrapperClassName, key: "wrapper" },
+      { className: this.props.wrapperClassName, key: 'wrapper' },
       children
     ) : children;
   };
@@ -18887,7 +18896,7 @@ var InputBase = (function (_React$Component) {
 
     return this.props.label ? _react2['default'].createElement(
       'label',
-      { htmlFor: this.props.id, className: _classnames2['default'](classes), key: "label" },
+      { htmlFor: this.props.id, className: _classnames2['default'](classes), key: 'label' },
       children,
       this.props.label
     ) : children;
@@ -18902,21 +18911,21 @@ var InputBase = (function (_React$Component) {
       case 'select':
         return _react2['default'].createElement(
           'select',
-          _extends({}, this.props, { className: _classnames2['default'](this.props.className, 'form-control'), ref: "input", key: "input" }),
+          _extends({}, this.props, { className: _classnames2['default'](this.props.className, 'form-control'), ref: 'input', key: 'input' }),
           this.props.children
         );
       case 'textarea':
-        return _react2['default'].createElement('textarea', _extends({}, this.props, { className: _classnames2['default'](this.props.className, 'form-control'), ref: "input", key: "input" }));
+        return _react2['default'].createElement('textarea', _extends({}, this.props, { className: _classnames2['default'](this.props.className, 'form-control'), ref: 'input', key: 'input' }));
       case 'static':
         return _react2['default'].createElement(
           'p',
-          _extends({}, this.props, { className: _classnames2['default'](this.props.className, 'form-control-static'), ref: "input", key: "input" }),
+          _extends({}, this.props, { className: _classnames2['default'](this.props.className, 'form-control-static'), ref: 'input', key: 'input' }),
           this.props.value
         );
     }
 
     var className = this.isCheckboxOrRadio() || this.isFile() ? '' : 'form-control';
-    return _react2['default'].createElement('input', _extends({}, this.props, { className: _classnames2['default'](this.props.className, className), ref: "input", key: "input" }));
+    return _react2['default'].createElement('input', _extends({}, this.props, { className: _classnames2['default'](this.props.className, className), ref: 'input', key: 'input' }));
   };
 
   InputBase.prototype.renderFormGroup = function renderFormGroup(children) {
@@ -18950,6 +18959,7 @@ InputBase.propTypes = {
   bsSize: _react2['default'].PropTypes.oneOf(['small', 'medium', 'large']),
   bsStyle: _react2['default'].PropTypes.oneOf(['success', 'warning', 'error']),
   hasFeedback: _react2['default'].PropTypes.bool,
+  feedbackIcon: _react2['default'].PropTypes.node,
   id: _react2['default'].PropTypes.string,
   groupClassName: _react2['default'].PropTypes.string,
   wrapperClassName: _react2['default'].PropTypes.string,
@@ -18961,7 +18971,7 @@ InputBase.propTypes = {
 
 exports['default'] = InputBase;
 module.exports = exports['default'];
-},{"./FormGroup":83,"babel-runtime/helpers/class-call-check":147,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/inherits":149,"babel-runtime/helpers/interop-require-default":150,"classnames":28,"react":388}],88:[function(require,module,exports){
+},{"./FormGroup":83,"./Glyphicon":84,"babel-runtime/helpers/class-call-check":147,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/inherits":149,"babel-runtime/helpers/interop-require-default":150,"classnames":27,"react":388}],88:[function(require,module,exports){
 // https://www.npmjs.org/package/react-interpolate-component
 // TODO: Drop this in favor of es6 string interpolation
 
@@ -19105,7 +19115,7 @@ var Jumbotron = _react2['default'].createClass({
 
 exports['default'] = Jumbotron;
 module.exports = exports['default'];
-},{"./utils/CustomPropTypes":130,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":28,"react":388}],90:[function(require,module,exports){
+},{"./utils/CustomPropTypes":130,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":27,"react":388}],90:[function(require,module,exports){
 'use strict';
 
 var _extends = require('babel-runtime/helpers/extends')['default'];
@@ -19151,7 +19161,7 @@ var Label = _react2['default'].createClass({
 
 exports['default'] = Label;
 module.exports = exports['default'];
-},{"./BootstrapMixin":65,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":28,"react":388}],91:[function(require,module,exports){
+},{"./BootstrapMixin":65,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":27,"react":388}],91:[function(require,module,exports){
 'use strict';
 
 var _inherits = require('babel-runtime/helpers/inherits')['default'];
@@ -19247,7 +19257,7 @@ ListGroup.propTypes = {
 
 exports['default'] = ListGroup;
 module.exports = exports['default'];
-},{"./utils/ValidComponentChildren":133,"babel-runtime/helpers/class-call-check":147,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/inherits":149,"babel-runtime/helpers/interop-require-default":150,"classnames":28,"react":388}],92:[function(require,module,exports){
+},{"./utils/ValidComponentChildren":133,"babel-runtime/helpers/class-call-check":147,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/inherits":149,"babel-runtime/helpers/interop-require-default":150,"classnames":27,"react":388}],92:[function(require,module,exports){
 'use strict';
 
 var _extends = require('babel-runtime/helpers/extends')['default'];
@@ -19347,14 +19357,14 @@ var ListGroupItem = _react2['default'].createClass({
     } else {
       header = _react2['default'].createElement(
         'h4',
-        { key: 'header', className: "list-group-item-heading" },
+        { key: 'header', className: 'list-group-item-heading' },
         this.props.header
       );
     }
 
     var content = _react2['default'].createElement(
       'p',
-      { key: 'content', className: "list-group-item-text" },
+      { key: 'content', className: 'list-group-item-text' },
       this.props.children
     );
 
@@ -19364,7 +19374,7 @@ var ListGroupItem = _react2['default'].createClass({
 
 exports['default'] = ListGroupItem;
 module.exports = exports['default'];
-},{"./BootstrapMixin":65,"./SafeAnchor":118,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":28,"react":388}],93:[function(require,module,exports){
+},{"./BootstrapMixin":65,"./SafeAnchor":118,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":27,"react":388}],93:[function(require,module,exports){
 'use strict';
 
 var _extends = require('babel-runtime/helpers/extends')['default'];
@@ -19420,7 +19430,7 @@ var MenuItem = _react2['default'].createClass({
   renderAnchor: function renderAnchor() {
     return _react2['default'].createElement(
       _SafeAnchor2['default'],
-      { onClick: this.handleClick, href: this.props.href, target: this.props.target, title: this.props.title, tabIndex: "-1" },
+      { onClick: this.handleClick, href: this.props.href, target: this.props.target, title: this.props.title, tabIndex: '-1' },
       this.props.children
     );
   },
@@ -19442,7 +19452,7 @@ var MenuItem = _react2['default'].createClass({
 
     return _react2['default'].createElement(
       'li',
-      _extends({}, this.props, { role: "presentation", title: null, href: null,
+      _extends({}, this.props, { role: 'presentation', title: null, href: null,
         className: _classnames2['default'](this.props.className, classes) }),
       children
     );
@@ -19451,7 +19461,7 @@ var MenuItem = _react2['default'].createClass({
 
 exports['default'] = MenuItem;
 module.exports = exports['default'];
-},{"./SafeAnchor":118,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":28,"react":388}],94:[function(require,module,exports){
+},{"./SafeAnchor":118,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":27,"react":388}],94:[function(require,module,exports){
 /*eslint-disable react/prop-types */
 'use strict';
 
@@ -19517,6 +19527,8 @@ var _ModalTitle2 = _interopRequireDefault(_ModalTitle);
 
 var _ModalFooter = require('./ModalFooter');
 
+var _ModalFooter2 = _interopRequireDefault(_ModalFooter);
+
 /**
  * Gets the correct clientHeight of the modal container
  * when the body/window/document you need to use the docElement clientHeight
@@ -19524,9 +19536,6 @@ var _ModalFooter = require('./ModalFooter');
  * @param  {ReactElement|HTMLElement} context
  * @return {Number}
  */
-
-var _ModalFooter2 = _interopRequireDefault(_ModalFooter);
-
 function containerClientHeight(container, context) {
   var doc = _utilsDomUtils2['default'].ownerDocument(context);
 
@@ -19606,6 +19615,7 @@ var Modal = _react2['default'].createClass({
      * Include a backdrop component. Specify 'static' for a backdrop that doesn't trigger an "onHide" when clicked.
      */
     backdrop: _react2['default'].PropTypes.oneOf(['static', true, false]),
+
     /**
      * Close the modal when escape key is pressed
      */
@@ -19650,7 +19660,9 @@ var Modal = _react2['default'].createClass({
   },
 
   getInitialState: function getInitialState() {
-    return { exited: !this.props.show };
+    return {
+      exited: !this.props.show
+    };
   },
 
   render: function render() {
@@ -19679,9 +19691,8 @@ var Modal = _react2['default'].createClass({
       Dialog,
       _extends({}, props, {
         ref: this._setDialogRef,
-        className: _classnames2['default']({ 'in': show && !animation }),
-        onClick: backdrop === true ? this.handleBackdropClick : null
-      }),
+        className: _classnames2['default'](this.props.className, { 'in': show && !animation }),
+        onClick: backdrop === true ? this.handleBackdropClick : null }),
       this.renderContent()
     );
 
@@ -19698,8 +19709,7 @@ var Modal = _react2['default'].createClass({
           onExited: this.handleHidden,
           onEnter: onEnter,
           onEntering: onEntering,
-          onEntered: onEntered
-        },
+          onEntered: onEntered },
         modal
       );
     }
@@ -19739,14 +19749,15 @@ var Modal = _react2['default'].createClass({
     // Don't handle clicks for "static" backdrops
     var onClick = this.props.backdrop === true ? this.handleBackdropClick : null;
 
-    var backdrop = _react2['default'].createElement('div', { ref: "backdrop",
+    var backdrop = _react2['default'].createElement('div', {
+      ref: 'backdrop',
       className: _classnames2['default'](bsClass + '-backdrop', { 'in': this.props.show && !animation }),
-      onClick: onClick
-    });
+      onClick: onClick });
 
     return _react2['default'].createElement(
       'div',
-      { ref: 'modal' },
+      {
+        ref: 'modal' },
       animation ? _react2['default'].createElement(
         _Fade2['default'],
         { transitionAppear: true, 'in': this.props.show, duration: duration },
@@ -19976,7 +19987,7 @@ Modal.BACKDROP_TRANSITION_DURATION = 150;
 
 exports['default'] = Modal;
 module.exports = exports['default'];
-},{"./Fade":79,"./ModalBody":95,"./ModalDialog":96,"./ModalFooter":97,"./ModalHeader":98,"./ModalTitle":99,"./Portal":113,"./utils/CustomPropTypes":130,"./utils/EventListener":131,"./utils/createChainedFunction":135,"./utils/domUtils":139,"babel-runtime/core-js/object/is-frozen":144,"babel-runtime/core-js/object/keys":145,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"babel-runtime/helpers/object-without-properties":152,"classnames":28,"react":388}],95:[function(require,module,exports){
+},{"./Fade":79,"./ModalBody":95,"./ModalDialog":96,"./ModalFooter":97,"./ModalHeader":98,"./ModalTitle":99,"./Portal":113,"./utils/CustomPropTypes":130,"./utils/EventListener":131,"./utils/createChainedFunction":135,"./utils/domUtils":139,"babel-runtime/core-js/object/is-frozen":144,"babel-runtime/core-js/object/keys":145,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"babel-runtime/helpers/object-without-properties":152,"classnames":27,"react":388}],95:[function(require,module,exports){
 'use strict';
 
 var _inherits = require('babel-runtime/helpers/inherits')['default'];
@@ -20009,7 +20020,8 @@ var ModalBody = (function (_React$Component) {
   ModalBody.prototype.render = function render() {
     return _react2['default'].createElement(
       'div',
-      _extends({}, this.props, { className: _classnames2['default'](this.props.className, this.props.modalClassName) }),
+      _extends({}, this.props, {
+        className: _classnames2['default'](this.props.className, this.props.modalClassName) }),
       this.props.children
     );
   };
@@ -20030,7 +20042,7 @@ ModalBody.defaultProps = {
 
 exports['default'] = ModalBody;
 module.exports = exports['default'];
-},{"babel-runtime/helpers/class-call-check":147,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/inherits":149,"babel-runtime/helpers/interop-require-default":150,"classnames":28,"react":388}],96:[function(require,module,exports){
+},{"babel-runtime/helpers/class-call-check":147,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/inherits":149,"babel-runtime/helpers/interop-require-default":150,"classnames":27,"react":388}],96:[function(require,module,exports){
 /*eslint-disable react/prop-types */
 'use strict';
 
@@ -20058,7 +20070,6 @@ var ModalDialog = _react2['default'].createClass({
   mixins: [_BootstrapMixin2['default']],
 
   propTypes: {
-
     /**
      * A Callback fired when the header closeButton or non-static backdrop is clicked.
      * @type {function}
@@ -20092,11 +20103,10 @@ var ModalDialog = _react2['default'].createClass({
       'div',
       _extends({}, this.props, {
         title: null,
-        tabIndex: "-1",
-        role: "dialog",
+        tabIndex: '-1',
+        role: 'dialog',
         style: modalStyle,
-        className: _classnames2['default'](this.props.className, bsClass)
-      }),
+        className: _classnames2['default'](this.props.className, bsClass) }),
       _react2['default'].createElement(
         'div',
         { className: _classnames2['default'](this.props.dialogClassName, dialogClasses) },
@@ -20112,7 +20122,7 @@ var ModalDialog = _react2['default'].createClass({
 
 exports['default'] = ModalDialog;
 module.exports = exports['default'];
-},{"./BootstrapMixin":65,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":28,"react":388}],97:[function(require,module,exports){
+},{"./BootstrapMixin":65,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":27,"react":388}],97:[function(require,module,exports){
 'use strict';
 
 var _inherits = require('babel-runtime/helpers/inherits')['default'];
@@ -20145,7 +20155,8 @@ var ModalFooter = (function (_React$Component) {
   ModalFooter.prototype.render = function render() {
     return _react2['default'].createElement(
       'div',
-      _extends({}, this.props, { className: _classnames2['default'](this.props.className, this.props.modalClassName) }),
+      _extends({}, this.props, {
+        className: _classnames2['default'](this.props.className, this.props.modalClassName) }),
       this.props.children
     );
   };
@@ -20166,7 +20177,7 @@ ModalFooter.defaultProps = {
 
 exports['default'] = ModalFooter;
 module.exports = exports['default'];
-},{"babel-runtime/helpers/class-call-check":147,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/inherits":149,"babel-runtime/helpers/interop-require-default":150,"classnames":28,"react":388}],98:[function(require,module,exports){
+},{"babel-runtime/helpers/class-call-check":147,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/inherits":149,"babel-runtime/helpers/interop-require-default":150,"classnames":27,"react":388}],98:[function(require,module,exports){
 'use strict';
 
 var _inherits = require('babel-runtime/helpers/inherits')['default'];
@@ -20202,17 +20213,15 @@ var ModalHeader = (function (_React$Component) {
     return _react2['default'].createElement(
       'div',
       _extends({}, this.props, {
-        className: _classnames2['default'](this.props.className, this.props.modalClassName)
-      }),
+        className: _classnames2['default'](this.props.className, this.props.modalClassName) }),
       this.props.closeButton && _react2['default'].createElement(
         'button',
         {
           className: 'close',
-          onClick: this.props.onHide
-        },
+          onClick: this.props.onHide },
         _react2['default'].createElement(
           'span',
-          { 'aria-hidden': "true" },
+          { 'aria-hidden': 'true' },
           '×'
         )
       ),
@@ -20231,14 +20240,17 @@ ModalHeader.propTypes = {
    * It is used for Assistive Technology when the label text is not visible on screen.
    */
   'aria-label': _react2['default'].PropTypes.string,
+
   /**
    * A css class applied to the Component
    */
   modalClassName: _react2['default'].PropTypes.string,
+
   /**
    * Specify whether the Component should contain a close button
    */
   closeButton: _react2['default'].PropTypes.bool,
+
   /**
    * A Callback fired when the close button is clicked. If used directly inside a Modal component, the onHide will automatically
    * be propagated up to the parent Modal `onHide`.
@@ -20254,7 +20266,7 @@ ModalHeader.defaultProps = {
 
 exports['default'] = ModalHeader;
 module.exports = exports['default'];
-},{"babel-runtime/helpers/class-call-check":147,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/inherits":149,"babel-runtime/helpers/interop-require-default":150,"classnames":28,"react":388}],99:[function(require,module,exports){
+},{"babel-runtime/helpers/class-call-check":147,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/inherits":149,"babel-runtime/helpers/interop-require-default":150,"classnames":27,"react":388}],99:[function(require,module,exports){
 'use strict';
 
 var _inherits = require('babel-runtime/helpers/inherits')['default'];
@@ -20287,7 +20299,8 @@ var ModalTitle = (function (_React$Component) {
   ModalTitle.prototype.render = function render() {
     return _react2['default'].createElement(
       'h4',
-      _extends({}, this.props, { className: _classnames2['default'](this.props.className, this.props.modalClassName) }),
+      _extends({}, this.props, {
+        className: _classnames2['default'](this.props.className, this.props.modalClassName) }),
       this.props.children
     );
   };
@@ -20308,7 +20321,7 @@ ModalTitle.defaultProps = {
 
 exports['default'] = ModalTitle;
 module.exports = exports['default'];
-},{"babel-runtime/helpers/class-call-check":147,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/inherits":149,"babel-runtime/helpers/interop-require-default":150,"classnames":28,"react":388}],100:[function(require,module,exports){
+},{"babel-runtime/helpers/class-call-check":147,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/inherits":149,"babel-runtime/helpers/interop-require-default":150,"classnames":27,"react":388}],100:[function(require,module,exports){
 'use strict';
 
 var _extends = require('babel-runtime/helpers/extends')['default'];
@@ -20417,7 +20430,7 @@ var Nav = _react2['default'].createClass({
         role: this.props.bsStyle === 'tabs' ? 'tablist' : null,
         className: _classnames2['default'](this.props.ulClassName, classes),
         id: this.props.ulId,
-        ref: "ul"
+        ref: 'ul'
       }),
       _utilsValidComponentChildren2['default'].map(this.props.children, this.renderNavItem)
     );
@@ -20456,7 +20469,7 @@ var Nav = _react2['default'].createClass({
 
 exports['default'] = Nav;
 module.exports = exports['default'];
-},{"./BootstrapMixin":65,"./Collapse":73,"./utils/ValidComponentChildren":133,"./utils/createChainedFunction":135,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":28,"react":388}],101:[function(require,module,exports){
+},{"./BootstrapMixin":65,"./Collapse":73,"./utils/ValidComponentChildren":133,"./utils/createChainedFunction":135,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":27,"react":388}],101:[function(require,module,exports){
 'use strict';
 
 var _objectWithoutProperties = require('babel-runtime/helpers/object-without-properties')['default'];
@@ -20556,7 +20569,7 @@ var NavItem = _react2['default'].createClass({
 
 exports['default'] = NavItem;
 module.exports = exports['default'];
-},{"./BootstrapMixin":65,"./SafeAnchor":118,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"babel-runtime/helpers/object-without-properties":152,"classnames":28,"react":388}],102:[function(require,module,exports){
+},{"./BootstrapMixin":65,"./SafeAnchor":118,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"babel-runtime/helpers/object-without-properties":152,"classnames":27,"react":388}],102:[function(require,module,exports){
 'use strict';
 
 var _extends = require('babel-runtime/helpers/extends')['default'];
@@ -20690,7 +20703,7 @@ var Navbar = _react2['default'].createClass({
       } else {
         brand = _react2['default'].createElement(
           'span',
-          { className: "navbar-brand" },
+          { className: 'navbar-brand' },
           this.props.brand
         );
       }
@@ -20698,7 +20711,7 @@ var Navbar = _react2['default'].createClass({
 
     return _react2['default'].createElement(
       'div',
-      { className: "navbar-header" },
+      { className: 'navbar-header' },
       brand,
       this.props.toggleButton || this.props.toggleNavKey != null ? this.renderToggleButton() : null
     );
@@ -20717,13 +20730,13 @@ var Navbar = _react2['default'].createClass({
 
     children = this.props.toggleButton != null ? this.props.toggleButton : [_react2['default'].createElement(
       'span',
-      { className: "sr-only", key: 0 },
+      { className: 'sr-only', key: 0 },
       'Toggle navigation'
-    ), _react2['default'].createElement('span', { className: "icon-bar", key: 1 }), _react2['default'].createElement('span', { className: "icon-bar", key: 2 }), _react2['default'].createElement('span', { className: "icon-bar", key: 3 })];
+    ), _react2['default'].createElement('span', { className: 'icon-bar', key: 1 }), _react2['default'].createElement('span', { className: 'icon-bar', key: 2 }), _react2['default'].createElement('span', { className: 'icon-bar', key: 3 })];
 
     return _react2['default'].createElement(
       'button',
-      { className: "navbar-toggle", type: "button", onClick: this.handleToggle },
+      { className: 'navbar-toggle', type: 'button', onClick: this.handleToggle },
       children
     );
   }
@@ -20731,7 +20744,7 @@ var Navbar = _react2['default'].createClass({
 
 exports['default'] = Navbar;
 module.exports = exports['default'];
-},{"./BootstrapMixin":65,"./utils/CustomPropTypes":130,"./utils/ValidComponentChildren":133,"./utils/createChainedFunction":135,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":28,"react":388}],103:[function(require,module,exports){
+},{"./BootstrapMixin":65,"./utils/CustomPropTypes":130,"./utils/ValidComponentChildren":133,"./utils/createChainedFunction":135,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":27,"react":388}],103:[function(require,module,exports){
 /* eslint react/prop-types: [2, {ignore: ["container", "containerPadding", "target", "placement", "children"] }] */
 /* These properties are validated in 'Portal' and 'Position' components */
 
@@ -20833,13 +20846,13 @@ var Overlay = (function (_React$Component) {
 
     if (Transition) {
       var onExit = props.onExit;
-
-      // This animates the child node by injecting props, so it must precede
-      // anything that adds a wrapping div.
       var onExiting = props.onExiting;
       var onEnter = props.onEnter;
       var onEntering = props.onEntering;
       var onEntered = props.onEntered;
+
+      // This animates the child node by injecting props, so it must precede
+      // anything that adds a wrapping div.
       child = _react2['default'].createElement(
         Transition,
         {
@@ -20945,7 +20958,7 @@ Overlay.defaultProps = {
 
 exports['default'] = Overlay;
 module.exports = exports['default'];
-},{"./Fade":79,"./Portal":113,"./Position":114,"./RootCloseWrapper":116,"./utils/CustomPropTypes":130,"babel-runtime/helpers/class-call-check":147,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/inherits":149,"babel-runtime/helpers/interop-require-default":150,"babel-runtime/helpers/object-without-properties":152,"classnames":28,"react":388}],104:[function(require,module,exports){
+},{"./Fade":79,"./Portal":113,"./Position":114,"./RootCloseWrapper":116,"./utils/CustomPropTypes":130,"babel-runtime/helpers/class-call-check":147,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/inherits":149,"babel-runtime/helpers/interop-require-default":150,"babel-runtime/helpers/object-without-properties":152,"classnames":27,"react":388}],104:[function(require,module,exports){
 /*eslint-disable react/prop-types */
 'use strict';
 
@@ -20979,6 +20992,8 @@ var _reactLibWarning2 = _interopRequireDefault(_reactLibWarning);
 
 var _lodashObjectPick = require('lodash/object/pick');
 
+var _lodashObjectPick2 = _interopRequireDefault(_lodashObjectPick);
+
 /**
  * Check if value one is inside or equal to the of value
  *
@@ -20986,9 +21001,6 @@ var _lodashObjectPick = require('lodash/object/pick');
  * @param {string|array} of
  * @returns {boolean}
  */
-
-var _lodashObjectPick2 = _interopRequireDefault(_lodashObjectPick);
-
 function isOneOf(one, of) {
   if (Array.isArray(of)) {
     return of.indexOf(one) >= 0;
@@ -21274,7 +21286,7 @@ var PageHeader = _react2['default'].createClass({
 
 exports['default'] = PageHeader;
 module.exports = exports['default'];
-},{"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":28,"react":388}],106:[function(require,module,exports){
+},{"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":27,"react":388}],106:[function(require,module,exports){
 'use strict';
 
 var _extends = require('babel-runtime/helpers/extends')['default'];
@@ -21345,7 +21357,7 @@ var PageItem = _react2['default'].createClass({
 
 exports['default'] = PageItem;
 module.exports = exports['default'];
-},{"./SafeAnchor":118,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":28,"react":388}],107:[function(require,module,exports){
+},{"./SafeAnchor":118,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":27,"react":388}],107:[function(require,module,exports){
 'use strict';
 
 var _extends = require('babel-runtime/helpers/extends')['default'];
@@ -21396,7 +21408,7 @@ var Pager = _react2['default'].createClass({
 
 exports['default'] = Pager;
 module.exports = exports['default'];
-},{"./utils/ValidComponentChildren":133,"./utils/createChainedFunction":135,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":28,"react":388}],108:[function(require,module,exports){
+},{"./utils/ValidComponentChildren":133,"./utils/createChainedFunction":135,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":27,"react":388}],108:[function(require,module,exports){
 'use strict';
 
 var _extends = require('babel-runtime/helpers/extends')['default'];
@@ -21628,7 +21640,7 @@ var Pagination = _react2['default'].createClass({
 
 exports['default'] = Pagination;
 module.exports = exports['default'];
-},{"./BootstrapMixin":65,"./PaginationButton":109,"./SafeAnchor":118,"./utils/CustomPropTypes":130,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":28,"react":388}],109:[function(require,module,exports){
+},{"./BootstrapMixin":65,"./PaginationButton":109,"./SafeAnchor":118,"./utils/CustomPropTypes":130,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":27,"react":388}],109:[function(require,module,exports){
 'use strict';
 
 var _extends = require('babel-runtime/helpers/extends')['default'];
@@ -21684,6 +21696,10 @@ var PaginationButton = _react2['default'].createClass({
   },
 
   handleClick: function handleClick(event) {
+    if (this.props.disabled) {
+      return;
+    }
+
     if (this.props.onSelect) {
       var selectedEvent = _utilsCreateSelectedEvent2['default'](this.props.eventKey);
       this.props.onSelect(event, selectedEvent);
@@ -21714,7 +21730,7 @@ var PaginationButton = _react2['default'].createClass({
 
 exports['default'] = PaginationButton;
 module.exports = exports['default'];
-},{"./BootstrapMixin":65,"./utils/CustomPropTypes":130,"./utils/createSelectedEvent":137,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"babel-runtime/helpers/object-without-properties":152,"classnames":28,"react":388}],110:[function(require,module,exports){
+},{"./BootstrapMixin":65,"./utils/CustomPropTypes":130,"./utils/createSelectedEvent":137,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"babel-runtime/helpers/object-without-properties":152,"classnames":27,"react":388}],110:[function(require,module,exports){
 'use strict';
 
 var _extends = require('babel-runtime/helpers/extends')['default'];
@@ -21815,8 +21831,7 @@ var Panel = _react2['default'].createClass({
         {
           className: collapseClass,
           id: this.props.id,
-          ref: 'panel',
-          'aria-expanded': this.isExpanded() },
+          ref: 'panel' },
         this.renderBody()
       )
     );
@@ -21948,7 +21963,7 @@ var Panel = _react2['default'].createClass({
 
 exports['default'] = Panel;
 module.exports = exports['default'];
-},{"./BootstrapMixin":65,"./Collapse":73,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":28,"react":388}],111:[function(require,module,exports){
+},{"./BootstrapMixin":65,"./Collapse":73,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":27,"react":388}],111:[function(require,module,exports){
 /* eslint react/prop-types: [2, {ignore: "bsStyle"}] */
 /* BootstrapMixin contains `bsStyle` type validation */
 
@@ -22057,7 +22072,7 @@ var PanelGroup = _react2['default'].createClass({
 
 exports['default'] = PanelGroup;
 module.exports = exports['default'];
-},{"./BootstrapMixin":65,"./utils/ValidComponentChildren":133,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":28,"react":388}],112:[function(require,module,exports){
+},{"./BootstrapMixin":65,"./utils/ValidComponentChildren":133,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":27,"react":388}],112:[function(require,module,exports){
 'use strict';
 
 var _extends = require('babel-runtime/helpers/extends')['default'];
@@ -22149,11 +22164,11 @@ var Popover = _react2['default'].createClass({
     return _react2['default'].createElement(
       'div',
       _extends({ role: 'tooltip' }, this.props, { className: _classnames2['default'](this.props.className, classes), style: style, title: null }),
-      _react2['default'].createElement('div', { className: "arrow", style: arrowStyle }),
+      _react2['default'].createElement('div', { className: 'arrow', style: arrowStyle }),
       this.props.title ? this.renderTitle() : null,
       _react2['default'].createElement(
         'div',
-        { className: "popover-content" },
+        { className: 'popover-content' },
         this.props.children
       )
     );
@@ -22162,7 +22177,7 @@ var Popover = _react2['default'].createClass({
   renderTitle: function renderTitle() {
     return _react2['default'].createElement(
       'h3',
-      { className: "popover-title" },
+      { className: 'popover-title' },
       this.props.title
     );
   }
@@ -22170,7 +22185,7 @@ var Popover = _react2['default'].createClass({
 
 exports['default'] = Popover;
 module.exports = exports['default'];
-},{"./BootstrapMixin":65,"./utils/CustomPropTypes":130,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":28,"react":388}],113:[function(require,module,exports){
+},{"./BootstrapMixin":65,"./utils/CustomPropTypes":130,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":27,"react":388}],113:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -22228,7 +22243,6 @@ var Portal = _react2['default'].createClass({
   },
 
   _renderOverlay: function _renderOverlay() {
-
     var overlay = !this.props.children ? null : _react2['default'].Children.only(this.props.children);
 
     // Save reference for future access.
@@ -22441,7 +22455,7 @@ Position.defaultProps = {
 
 exports['default'] = Position;
 module.exports = exports['default'];
-},{"./utils/CustomPropTypes":130,"./utils/domUtils":139,"./utils/overlayPositionUtils":141,"babel-runtime/helpers/class-call-check":147,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/inherits":149,"babel-runtime/helpers/interop-require-default":150,"babel-runtime/helpers/object-without-properties":152,"classnames":28,"react":388}],115:[function(require,module,exports){
+},{"./utils/CustomPropTypes":130,"./utils/domUtils":139,"./utils/overlayPositionUtils":141,"babel-runtime/helpers/class-call-check":147,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/inherits":149,"babel-runtime/helpers/interop-require-default":150,"babel-runtime/helpers/object-without-properties":152,"classnames":27,"react":388}],115:[function(require,module,exports){
 /* eslint react/prop-types: [2, {ignore: "bsStyle"}] */
 /* BootstrapMixin contains `bsStyle` type validation */
 
@@ -22546,7 +22560,7 @@ var ProgressBar = _react2['default'].createClass({
     if (this.props.srOnly) {
       label = _react2['default'].createElement(
         'span',
-        { className: "sr-only" },
+        { className: 'sr-only' },
         label
       );
     }
@@ -22560,7 +22574,7 @@ var ProgressBar = _react2['default'].createClass({
       'div',
       _extends({}, this.props, {
         className: classes,
-        role: "progressbar",
+        role: 'progressbar',
         style: { width: percentage + '%' },
         'aria-valuenow': this.props.now,
         'aria-valuemin': this.props.min,
@@ -22612,7 +22626,7 @@ function onlyProgressBar(props, propName, componentName) {
 
 exports['default'] = ProgressBar;
 module.exports = exports['default'];
-},{"./BootstrapMixin":65,"./Interpolate":88,"./utils/ValidComponentChildren":133,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":28,"react":388}],116:[function(require,module,exports){
+},{"./BootstrapMixin":65,"./Interpolate":88,"./utils/ValidComponentChildren":133,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":27,"react":388}],116:[function(require,module,exports){
 'use strict';
 
 var _inherits = require('babel-runtime/helpers/inherits')['default'];
@@ -22633,12 +22647,11 @@ var _utilsDomUtils2 = _interopRequireDefault(_utilsDomUtils);
 
 var _utilsEventListener = require('./utils/EventListener');
 
+var _utilsEventListener2 = _interopRequireDefault(_utilsEventListener);
+
 // TODO: Merge this logic with dropdown logic once #526 is done.
 
 // TODO: Consider using an ES6 symbol here, once we use babel-runtime.
-
-var _utilsEventListener2 = _interopRequireDefault(_utilsEventListener);
-
 var CLICK_WAS_INSIDE = '__click_was_inside';
 
 function suppressRootClose(event) {
@@ -22777,7 +22790,7 @@ var Row = _react2['default'].createClass({
 
 exports['default'] = Row;
 module.exports = exports['default'];
-},{"./utils/CustomPropTypes":130,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":28,"react":388}],118:[function(require,module,exports){
+},{"./utils/CustomPropTypes":130,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":27,"react":388}],118:[function(require,module,exports){
 'use strict';
 
 var _inherits = require('babel-runtime/helpers/inherits')['default'];
@@ -22796,13 +22809,13 @@ var _react2 = _interopRequireDefault(_react);
 
 var _utilsCreateChainedFunction = require('./utils/createChainedFunction');
 
+var _utilsCreateChainedFunction2 = _interopRequireDefault(_utilsCreateChainedFunction);
+
 /**
  * Note: This is intended as a stop-gap for accessibility concerns that the
  * Bootstrap CSS does not address as they have styled anchors and not buttons
  * in many cases.
  */
-
-var _utilsCreateChainedFunction2 = _interopRequireDefault(_utilsCreateChainedFunction);
 
 var SafeAnchor = (function (_React$Component) {
   _inherits(SafeAnchor, _React$Component);
@@ -22913,7 +22926,7 @@ var SplitButton = _react2['default'].createClass({
     var button = _react2['default'].createElement(
       _Button2['default'],
       _extends({}, this.props, {
-        ref: "button",
+        ref: 'button',
         onClick: this.handleButtonClick,
         title: null,
         id: null }),
@@ -22923,7 +22936,7 @@ var SplitButton = _react2['default'].createClass({
     var dropdownButton = _react2['default'].createElement(
       _Button2['default'],
       _extends({}, this.props, {
-        ref: "dropdownButton",
+        ref: 'dropdownButton',
         className: _classnames2['default'](this.props.className, 'dropdown-toggle'),
         onClick: this.handleDropdownClick,
         title: null,
@@ -22932,10 +22945,10 @@ var SplitButton = _react2['default'].createClass({
         id: null }),
       _react2['default'].createElement(
         'span',
-        { className: "sr-only" },
+        { className: 'sr-only' },
         this.props.dropdownTitle
       ),
-      _react2['default'].createElement('span', { className: "caret" }),
+      _react2['default'].createElement('span', { className: 'caret' }),
       _react2['default'].createElement(
         'span',
         { style: { letterSpacing: '-.3em' } },
@@ -22954,7 +22967,7 @@ var SplitButton = _react2['default'].createClass({
       _react2['default'].createElement(
         _DropdownMenu2['default'],
         {
-          ref: "menu",
+          ref: 'menu',
           onSelect: this.handleOptionSelect,
           'aria-labelledby': this.props.id,
           pullRight: this.props.pullRight },
@@ -22990,7 +23003,7 @@ var SplitButton = _react2['default'].createClass({
 
 exports['default'] = SplitButton;
 module.exports = exports['default'];
-},{"./BootstrapMixin":65,"./Button":66,"./ButtonGroup":67,"./DropdownMenu":77,"./DropdownStateMixin":78,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":28,"react":388}],120:[function(require,module,exports){
+},{"./BootstrapMixin":65,"./Button":66,"./ButtonGroup":67,"./DropdownMenu":77,"./DropdownStateMixin":78,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":27,"react":388}],120:[function(require,module,exports){
 'use strict';
 
 var _extends = require('babel-runtime/helpers/extends')['default'];
@@ -23127,7 +23140,7 @@ var SubNav = _react2['default'].createClass({
       ),
       _react2['default'].createElement(
         'ul',
-        { className: "nav" },
+        { className: 'nav' },
         _utilsValidComponentChildren2['default'].map(this.props.children, this.renderNavItem)
       )
     );
@@ -23144,7 +23157,7 @@ var SubNav = _react2['default'].createClass({
 
 exports['default'] = SubNav;
 module.exports = exports['default'];
-},{"./BootstrapMixin":65,"./SafeAnchor":118,"./utils/ValidComponentChildren":133,"./utils/createChainedFunction":135,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":28,"react":388}],121:[function(require,module,exports){
+},{"./BootstrapMixin":65,"./SafeAnchor":118,"./utils/ValidComponentChildren":133,"./utils/createChainedFunction":135,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":27,"react":388}],121:[function(require,module,exports){
 'use strict';
 
 var _extends = require('babel-runtime/helpers/extends')['default'];
@@ -23253,7 +23266,7 @@ var TabPane = _react2['default'].createClass({
 
 exports['default'] = TabPane;
 module.exports = exports['default'];
-},{"./utils/TransitionEvents":132,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":28,"react":388}],122:[function(require,module,exports){
+},{"./utils/TransitionEvents":132,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":27,"react":388}],122:[function(require,module,exports){
 'use strict';
 
 var _objectWithoutProperties = require('babel-runtime/helpers/object-without-properties')['default'];
@@ -23377,7 +23390,7 @@ var TabbedArea = _react2['default'].createClass({
 
     var nav = _react2['default'].createElement(
       _Nav2['default'],
-      _extends({}, props, { activeKey: this.getActiveKey(), onSelect: this.handleSelect, ref: "tabs" }),
+      _extends({}, props, { activeKey: this.getActiveKey(), onSelect: this.handleSelect, ref: 'tabs' }),
       _utilsValidComponentChildren2['default'].map(this.props.children, renderTabIfSet, this)
     );
 
@@ -23387,7 +23400,7 @@ var TabbedArea = _react2['default'].createClass({
       nav,
       _react2['default'].createElement(
         'div',
-        { id: id, className: "tab-content", ref: "panes" },
+        { id: id, className: 'tab-content', ref: 'panes' },
         _utilsValidComponentChildren2['default'].map(this.props.children, this.renderPane)
       )
     );
@@ -23505,7 +23518,7 @@ var Table = _react2['default'].createClass({
 
     return this.props.responsive ? _react2['default'].createElement(
       'div',
-      { className: "table-responsive" },
+      { className: 'table-responsive' },
       table
     ) : table;
   }
@@ -23513,7 +23526,7 @@ var Table = _react2['default'].createClass({
 
 exports['default'] = Table;
 module.exports = exports['default'];
-},{"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":28,"react":388}],124:[function(require,module,exports){
+},{"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":27,"react":388}],124:[function(require,module,exports){
 'use strict';
 
 var _extends = require('babel-runtime/helpers/extends')['default'];
@@ -23572,7 +23585,7 @@ var Thumbnail = _react2['default'].createClass({
           _react2['default'].createElement('img', { src: this.props.src, alt: this.props.alt }),
           _react2['default'].createElement(
             'div',
-            { className: "caption" },
+            { className: 'caption' },
             this.props.children
           )
         );
@@ -23589,7 +23602,7 @@ var Thumbnail = _react2['default'].createClass({
 
 exports['default'] = Thumbnail;
 module.exports = exports['default'];
-},{"./BootstrapMixin":65,"./SafeAnchor":118,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":28,"react":388}],125:[function(require,module,exports){
+},{"./BootstrapMixin":65,"./SafeAnchor":118,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":27,"react":388}],125:[function(require,module,exports){
 'use strict';
 
 var _extends = require('babel-runtime/helpers/extends')['default'];
@@ -23681,10 +23694,10 @@ var Tooltip = _react2['default'].createClass({
     return _react2['default'].createElement(
       'div',
       _extends({ role: 'tooltip' }, this.props, { className: _classnames2['default'](this.props.className, classes), style: style }),
-      _react2['default'].createElement('div', { className: "tooltip-arrow", style: arrowStyle }),
+      _react2['default'].createElement('div', { className: 'tooltip-arrow', style: arrowStyle }),
       _react2['default'].createElement(
         'div',
-        { className: "tooltip-inner" },
+        { className: 'tooltip-inner' },
         this.props.children
       )
     );
@@ -23694,7 +23707,7 @@ var Tooltip = _react2['default'].createClass({
 exports['default'] = Tooltip;
 module.exports = exports['default'];
 // we don't want to expose the `style` property
-},{"./BootstrapMixin":65,"./utils/CustomPropTypes":130,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":28,"react":388}],126:[function(require,module,exports){
+},{"./BootstrapMixin":65,"./utils/CustomPropTypes":130,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":27,"react":388}],126:[function(require,module,exports){
 'use strict';
 
 var _inherits = require('babel-runtime/helpers/inherits')['default'];
@@ -24009,7 +24022,7 @@ Transition.defaultProps = {
 };
 
 exports['default'] = Transition;
-},{"./utils/TransitionEvents":132,"babel-runtime/core-js/object/keys":145,"babel-runtime/helpers/class-call-check":147,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/inherits":149,"babel-runtime/helpers/interop-require-default":150,"babel-runtime/helpers/object-without-properties":152,"classnames":28,"react":388}],127:[function(require,module,exports){
+},{"./utils/TransitionEvents":132,"babel-runtime/core-js/object/keys":145,"babel-runtime/helpers/class-call-check":147,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/inherits":149,"babel-runtime/helpers/interop-require-default":150,"babel-runtime/helpers/object-without-properties":152,"classnames":27,"react":388}],127:[function(require,module,exports){
 'use strict';
 
 var _extends = require('babel-runtime/helpers/extends')['default'];
@@ -24054,7 +24067,7 @@ var Well = _react2['default'].createClass({
 
 exports['default'] = Well;
 module.exports = exports['default'];
-},{"./BootstrapMixin":65,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":28,"react":388}],128:[function(require,module,exports){
+},{"./BootstrapMixin":65,"babel-runtime/helpers/extends":148,"babel-runtime/helpers/interop-require-default":150,"classnames":27,"react":388}],128:[function(require,module,exports){
 'use strict';
 
 var _interopRequireDefault = require('babel-runtime/helpers/interop-require-default')['default'];
@@ -24856,6 +24869,8 @@ exports.__esModule = true;
 
 var _react = require('react');
 
+var _react2 = _interopRequireDefault(_react);
+
 /**
  * Maps children that are typically specified as `props.children`,
  * but only iterates over children that are "valid components".
@@ -24868,9 +24883,6 @@ var _react = require('react');
  * @param {*} mapContext Context for mapFunction.
  * @return {object} Object containing the ordered map of results.
  */
-
-var _react2 = _interopRequireDefault(_react);
-
 function mapValidComponents(children, func, context) {
   var index = 0;
 
@@ -25037,11 +25049,11 @@ exports['default'] = createContextWrapper;
 
 var _react = require('react');
 
+var _react2 = _interopRequireDefault(_react);
+
 /**
  * Creates new trigger class that injects context into overlay.
  */
-
-var _react2 = _interopRequireDefault(_react);
 
 function createContextWrapper(Trigger, propName) {
   return function (contextTypes) {
@@ -25142,7 +25154,14 @@ var _reactLibWarning = require('react/lib/warning');
 
 var _reactLibWarning2 = _interopRequireDefault(_reactLibWarning);
 
+var warned = {};
+
 function deprecationWarning(oldname, newname, link) {
+  var warnKey = oldname + '\n' + newname;
+  if (warned[warnKey]) {
+    return;
+  }
+
   var message = oldname + ' is deprecated. Use ' + newname + ' instead.';
 
   if (link) {
@@ -25150,6 +25169,7 @@ function deprecationWarning(oldname, newname, link) {
   }
 
   _reactLibWarning2['default'](false, message);
+  warned[warnKey] = true;
 }
 
 module.exports = exports['default'];
@@ -27827,7 +27847,7 @@ function createRouter(options) {
 module.exports = createRouter;
 }).call(this,require('_process'))
 
-},{"./Cancellation":177,"./History":178,"./Match":179,"./PathUtils":181,"./PropTypes":182,"./Redirect":183,"./Route":184,"./ScrollHistory":185,"./Transition":187,"./actions/LocationActions":188,"./behaviors/ImitateBrowserBehavior":189,"./createRoutesFromReactChildren":199,"./isReactChildren":202,"./locations/HashLocation":203,"./locations/HistoryLocation":204,"./locations/RefreshLocation":205,"./locations/StaticLocation":206,"./supportsHistory":209,"_process":27,"react":388,"react/lib/ExecutionEnvironment":237,"react/lib/invariant":366,"react/lib/warning":387}],199:[function(require,module,exports){
+},{"./Cancellation":177,"./History":178,"./Match":179,"./PathUtils":181,"./PropTypes":182,"./Redirect":183,"./Route":184,"./ScrollHistory":185,"./Transition":187,"./actions/LocationActions":188,"./behaviors/ImitateBrowserBehavior":189,"./createRoutesFromReactChildren":199,"./isReactChildren":202,"./locations/HashLocation":203,"./locations/HistoryLocation":204,"./locations/RefreshLocation":205,"./locations/StaticLocation":206,"./supportsHistory":209,"_process":26,"react":388,"react/lib/ExecutionEnvironment":237,"react/lib/invariant":366,"react/lib/warning":387}],199:[function(require,module,exports){
 /* jshint -W084 */
 'use strict';
 
@@ -29500,7 +29520,7 @@ module.exports = CSSCore;
 
 }).call(this,require('_process'))
 
-},{"./invariant":366,"_process":27}],220:[function(require,module,exports){
+},{"./invariant":366,"_process":26}],220:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -29808,7 +29828,7 @@ module.exports = CSSPropertyOperations;
 
 }).call(this,require('_process'))
 
-},{"./CSSProperty":220,"./ExecutionEnvironment":237,"./camelizeStyleName":337,"./dangerousStyleValue":344,"./hyphenateStyleName":364,"./memoizeStringOnly":375,"./warning":387,"_process":27}],222:[function(require,module,exports){
+},{"./CSSProperty":220,"./ExecutionEnvironment":237,"./camelizeStyleName":337,"./dangerousStyleValue":344,"./hyphenateStyleName":364,"./memoizeStringOnly":375,"./warning":387,"_process":26}],222:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -29909,7 +29929,7 @@ module.exports = CallbackQueue;
 
 }).call(this,require('_process'))
 
-},{"./Object.assign":244,"./PooledClass":245,"./invariant":366,"_process":27}],223:[function(require,module,exports){
+},{"./Object.assign":244,"./PooledClass":245,"./invariant":366,"_process":26}],223:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -30455,7 +30475,7 @@ module.exports = DOMChildrenOperations;
 
 }).call(this,require('_process'))
 
-},{"./Danger":228,"./ReactMultiChildUpdateTypes":294,"./invariant":366,"./setTextContent":381,"_process":27}],226:[function(require,module,exports){
+},{"./Danger":228,"./ReactMultiChildUpdateTypes":294,"./invariant":366,"./setTextContent":381,"_process":26}],226:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -30755,7 +30775,7 @@ module.exports = DOMProperty;
 
 }).call(this,require('_process'))
 
-},{"./invariant":366,"_process":27}],227:[function(require,module,exports){
+},{"./invariant":366,"_process":26}],227:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -30948,7 +30968,7 @@ module.exports = DOMPropertyOperations;
 
 }).call(this,require('_process'))
 
-},{"./DOMProperty":226,"./quoteAttributeValueForBrowser":379,"./warning":387,"_process":27}],228:[function(require,module,exports){
+},{"./DOMProperty":226,"./quoteAttributeValueForBrowser":379,"./warning":387,"_process":26}],228:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -31136,7 +31156,7 @@ module.exports = Danger;
 
 }).call(this,require('_process'))
 
-},{"./ExecutionEnvironment":237,"./createNodesFromMarkup":342,"./emptyFunction":345,"./getMarkupWrap":358,"./invariant":366,"_process":27}],229:[function(require,module,exports){
+},{"./ExecutionEnvironment":237,"./createNodesFromMarkup":342,"./emptyFunction":345,"./getMarkupWrap":358,"./invariant":366,"_process":26}],229:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -31478,7 +31498,7 @@ module.exports = EventListener;
 
 }).call(this,require('_process'))
 
-},{"./emptyFunction":345,"_process":27}],233:[function(require,module,exports){
+},{"./emptyFunction":345,"_process":26}],233:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -31757,7 +31777,7 @@ module.exports = EventPluginHub;
 
 }).call(this,require('_process'))
 
-},{"./EventPluginRegistry":234,"./EventPluginUtils":235,"./accumulateInto":334,"./forEachAccumulated":351,"./invariant":366,"_process":27}],234:[function(require,module,exports){
+},{"./EventPluginRegistry":234,"./EventPluginUtils":235,"./accumulateInto":334,"./forEachAccumulated":351,"./invariant":366,"_process":26}],234:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -32038,7 +32058,7 @@ module.exports = EventPluginRegistry;
 
 }).call(this,require('_process'))
 
-},{"./invariant":366,"_process":27}],235:[function(require,module,exports){
+},{"./invariant":366,"_process":26}],235:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -32260,7 +32280,7 @@ module.exports = EventPluginUtils;
 
 }).call(this,require('_process'))
 
-},{"./EventConstants":231,"./invariant":366,"_process":27}],236:[function(require,module,exports){
+},{"./EventConstants":231,"./invariant":366,"_process":26}],236:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -32403,7 +32423,7 @@ module.exports = EventPropagators;
 
 }).call(this,require('_process'))
 
-},{"./EventConstants":231,"./EventPluginHub":233,"./accumulateInto":334,"./forEachAccumulated":351,"_process":27}],237:[function(require,module,exports){
+},{"./EventConstants":231,"./EventPluginHub":233,"./accumulateInto":334,"./forEachAccumulated":351,"_process":26}],237:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -32947,7 +32967,7 @@ module.exports = LinkedValueUtils;
 
 }).call(this,require('_process'))
 
-},{"./ReactPropTypes":301,"./invariant":366,"_process":27}],242:[function(require,module,exports){
+},{"./ReactPropTypes":301,"./invariant":366,"_process":26}],242:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -33005,7 +33025,7 @@ module.exports = LocalEventTrapMixin;
 
 }).call(this,require('_process'))
 
-},{"./ReactBrowserEventEmitter":248,"./accumulateInto":334,"./forEachAccumulated":351,"./invariant":366,"_process":27}],243:[function(require,module,exports){
+},{"./ReactBrowserEventEmitter":248,"./accumulateInto":334,"./forEachAccumulated":351,"./invariant":366,"_process":26}],243:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -33229,7 +33249,7 @@ module.exports = PooledClass;
 
 }).call(this,require('_process'))
 
-},{"./invariant":366,"_process":27}],246:[function(require,module,exports){
+},{"./invariant":366,"_process":26}],246:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -33382,7 +33402,7 @@ module.exports = React;
 
 }).call(this,require('_process'))
 
-},{"./EventPluginUtils":235,"./ExecutionEnvironment":237,"./Object.assign":244,"./ReactChildren":252,"./ReactClass":253,"./ReactComponent":254,"./ReactContext":259,"./ReactCurrentOwner":260,"./ReactDOM":261,"./ReactDOMTextComponent":272,"./ReactDefaultInjection":275,"./ReactElement":278,"./ReactElementValidator":279,"./ReactInstanceHandles":287,"./ReactMount":292,"./ReactPerf":297,"./ReactPropTypes":301,"./ReactReconciler":304,"./ReactServerRendering":307,"./findDOMNode":348,"./onlyChild":376,"_process":27}],247:[function(require,module,exports){
+},{"./EventPluginUtils":235,"./ExecutionEnvironment":237,"./Object.assign":244,"./ReactChildren":252,"./ReactClass":253,"./ReactComponent":254,"./ReactContext":259,"./ReactCurrentOwner":260,"./ReactDOM":261,"./ReactDOMTextComponent":272,"./ReactDefaultInjection":275,"./ReactElement":278,"./ReactElementValidator":279,"./ReactInstanceHandles":287,"./ReactMount":292,"./ReactPerf":297,"./ReactPropTypes":301,"./ReactReconciler":304,"./ReactServerRendering":307,"./findDOMNode":348,"./onlyChild":376,"_process":26}],247:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -33985,7 +34005,7 @@ module.exports = ReactCSSTransitionGroupChild;
 
 }).call(this,require('_process'))
 
-},{"./CSSCore":219,"./React":246,"./ReactTransitionEvents":312,"./onlyChild":376,"./warning":387,"_process":27}],251:[function(require,module,exports){
+},{"./CSSCore":219,"./React":246,"./ReactTransitionEvents":312,"./onlyChild":376,"./warning":387,"_process":26}],251:[function(require,module,exports){
 /**
  * Copyright 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -34266,7 +34286,7 @@ module.exports = ReactChildren;
 
 }).call(this,require('_process'))
 
-},{"./PooledClass":245,"./ReactFragment":284,"./traverseAllChildren":385,"./warning":387,"_process":27}],253:[function(require,module,exports){
+},{"./PooledClass":245,"./ReactFragment":284,"./traverseAllChildren":385,"./warning":387,"_process":26}],253:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -35213,7 +35233,7 @@ module.exports = ReactClass;
 
 }).call(this,require('_process'))
 
-},{"./Object.assign":244,"./ReactComponent":254,"./ReactCurrentOwner":260,"./ReactElement":278,"./ReactErrorUtils":281,"./ReactInstanceMap":288,"./ReactLifeCycle":289,"./ReactPropTypeLocationNames":299,"./ReactPropTypeLocations":300,"./ReactUpdateQueue":314,"./invariant":366,"./keyMirror":372,"./keyOf":373,"./warning":387,"_process":27}],254:[function(require,module,exports){
+},{"./Object.assign":244,"./ReactComponent":254,"./ReactCurrentOwner":260,"./ReactElement":278,"./ReactErrorUtils":281,"./ReactInstanceMap":288,"./ReactLifeCycle":289,"./ReactPropTypeLocationNames":299,"./ReactPropTypeLocations":300,"./ReactUpdateQueue":314,"./invariant":366,"./keyMirror":372,"./keyOf":373,"./warning":387,"_process":26}],254:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -35368,7 +35388,7 @@ module.exports = ReactComponent;
 
 }).call(this,require('_process'))
 
-},{"./ReactUpdateQueue":314,"./invariant":366,"./warning":387,"_process":27}],255:[function(require,module,exports){
+},{"./ReactUpdateQueue":314,"./invariant":366,"./warning":387,"_process":26}],255:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -35477,7 +35497,7 @@ module.exports = ReactComponentEnvironment;
 
 }).call(this,require('_process'))
 
-},{"./invariant":366,"_process":27}],257:[function(require,module,exports){
+},{"./invariant":366,"_process":26}],257:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -36440,7 +36460,7 @@ module.exports = ReactCompositeComponent;
 
 }).call(this,require('_process'))
 
-},{"./Object.assign":244,"./ReactComponentEnvironment":256,"./ReactContext":259,"./ReactCurrentOwner":260,"./ReactElement":278,"./ReactElementValidator":279,"./ReactInstanceMap":288,"./ReactLifeCycle":289,"./ReactNativeComponent":295,"./ReactPerf":297,"./ReactPropTypeLocationNames":299,"./ReactPropTypeLocations":300,"./ReactReconciler":304,"./ReactUpdates":315,"./emptyObject":346,"./invariant":366,"./shouldUpdateReactComponent":383,"./warning":387,"_process":27}],259:[function(require,module,exports){
+},{"./Object.assign":244,"./ReactComponentEnvironment":256,"./ReactContext":259,"./ReactCurrentOwner":260,"./ReactElement":278,"./ReactElementValidator":279,"./ReactInstanceMap":288,"./ReactLifeCycle":289,"./ReactNativeComponent":295,"./ReactPerf":297,"./ReactPropTypeLocationNames":299,"./ReactPropTypeLocations":300,"./ReactReconciler":304,"./ReactUpdates":315,"./emptyObject":346,"./invariant":366,"./shouldUpdateReactComponent":383,"./warning":387,"_process":26}],259:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -36519,7 +36539,7 @@ module.exports = ReactContext;
 
 }).call(this,require('_process'))
 
-},{"./Object.assign":244,"./emptyObject":346,"./warning":387,"_process":27}],260:[function(require,module,exports){
+},{"./Object.assign":244,"./emptyObject":346,"./warning":387,"_process":26}],260:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -36733,7 +36753,7 @@ module.exports = ReactDOM;
 
 }).call(this,require('_process'))
 
-},{"./ReactElement":278,"./ReactElementValidator":279,"./mapObject":374,"_process":27}],262:[function(require,module,exports){
+},{"./ReactElement":278,"./ReactElementValidator":279,"./mapObject":374,"_process":26}],262:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -37308,7 +37328,7 @@ module.exports = ReactDOMComponent;
 
 }).call(this,require('_process'))
 
-},{"./CSSPropertyOperations":221,"./DOMProperty":226,"./DOMPropertyOperations":227,"./Object.assign":244,"./ReactBrowserEventEmitter":248,"./ReactComponentBrowserEnvironment":255,"./ReactMount":292,"./ReactMultiChild":293,"./ReactPerf":297,"./escapeTextContentForBrowser":347,"./invariant":366,"./isEventSupported":367,"./keyOf":373,"./warning":387,"_process":27}],264:[function(require,module,exports){
+},{"./CSSPropertyOperations":221,"./DOMProperty":226,"./DOMPropertyOperations":227,"./Object.assign":244,"./ReactBrowserEventEmitter":248,"./ReactComponentBrowserEnvironment":255,"./ReactMount":292,"./ReactMultiChild":293,"./ReactPerf":297,"./escapeTextContentForBrowser":347,"./invariant":366,"./isEventSupported":367,"./keyOf":373,"./warning":387,"_process":26}],264:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -37526,7 +37546,7 @@ module.exports = ReactDOMIDOperations;
 
 }).call(this,require('_process'))
 
-},{"./CSSPropertyOperations":221,"./DOMChildrenOperations":225,"./DOMPropertyOperations":227,"./ReactMount":292,"./ReactPerf":297,"./invariant":366,"./setInnerHTML":380,"_process":27}],266:[function(require,module,exports){
+},{"./CSSPropertyOperations":221,"./DOMChildrenOperations":225,"./DOMPropertyOperations":227,"./ReactMount":292,"./ReactPerf":297,"./invariant":366,"./setInnerHTML":380,"_process":26}],266:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -37795,7 +37815,7 @@ module.exports = ReactDOMInput;
 
 }).call(this,require('_process'))
 
-},{"./AutoFocusMixin":217,"./DOMPropertyOperations":227,"./LinkedValueUtils":241,"./Object.assign":244,"./ReactBrowserComponentMixin":247,"./ReactClass":253,"./ReactElement":278,"./ReactMount":292,"./ReactUpdates":315,"./invariant":366,"_process":27}],269:[function(require,module,exports){
+},{"./AutoFocusMixin":217,"./DOMPropertyOperations":227,"./LinkedValueUtils":241,"./Object.assign":244,"./ReactBrowserComponentMixin":247,"./ReactClass":253,"./ReactElement":278,"./ReactMount":292,"./ReactUpdates":315,"./invariant":366,"_process":26}],269:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -37848,7 +37868,7 @@ module.exports = ReactDOMOption;
 
 }).call(this,require('_process'))
 
-},{"./ReactBrowserComponentMixin":247,"./ReactClass":253,"./ReactElement":278,"./warning":387,"_process":27}],270:[function(require,module,exports){
+},{"./ReactBrowserComponentMixin":247,"./ReactClass":253,"./ReactElement":278,"./warning":387,"_process":26}],270:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -38497,7 +38517,7 @@ module.exports = ReactDOMTextarea;
 
 }).call(this,require('_process'))
 
-},{"./AutoFocusMixin":217,"./DOMPropertyOperations":227,"./LinkedValueUtils":241,"./Object.assign":244,"./ReactBrowserComponentMixin":247,"./ReactClass":253,"./ReactElement":278,"./ReactUpdates":315,"./invariant":366,"./warning":387,"_process":27}],274:[function(require,module,exports){
+},{"./AutoFocusMixin":217,"./DOMPropertyOperations":227,"./LinkedValueUtils":241,"./Object.assign":244,"./ReactBrowserComponentMixin":247,"./ReactClass":253,"./ReactElement":278,"./ReactUpdates":315,"./invariant":366,"./warning":387,"_process":26}],274:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -38730,7 +38750,7 @@ module.exports = {
 
 }).call(this,require('_process'))
 
-},{"./BeforeInputEventPlugin":218,"./ChangeEventPlugin":223,"./ClientReactRootIndex":224,"./DefaultEventPluginOrder":229,"./EnterLeaveEventPlugin":230,"./ExecutionEnvironment":237,"./HTMLDOMPropertyConfig":239,"./MobileSafariClickEventPlugin":243,"./ReactBrowserComponentMixin":247,"./ReactClass":253,"./ReactComponentBrowserEnvironment":255,"./ReactDOMButton":262,"./ReactDOMComponent":263,"./ReactDOMForm":264,"./ReactDOMIDOperations":265,"./ReactDOMIframe":266,"./ReactDOMImg":267,"./ReactDOMInput":268,"./ReactDOMOption":269,"./ReactDOMSelect":270,"./ReactDOMTextComponent":272,"./ReactDOMTextarea":273,"./ReactDefaultBatchingStrategy":274,"./ReactDefaultPerf":276,"./ReactElement":278,"./ReactEventListener":283,"./ReactInjection":285,"./ReactInstanceHandles":287,"./ReactMount":292,"./ReactReconcileTransaction":303,"./SVGDOMPropertyConfig":317,"./SelectEventPlugin":318,"./ServerReactRootIndex":319,"./SimpleEventPlugin":320,"./createFullPageComponent":341,"_process":27}],276:[function(require,module,exports){
+},{"./BeforeInputEventPlugin":218,"./ChangeEventPlugin":223,"./ClientReactRootIndex":224,"./DefaultEventPluginOrder":229,"./EnterLeaveEventPlugin":230,"./ExecutionEnvironment":237,"./HTMLDOMPropertyConfig":239,"./MobileSafariClickEventPlugin":243,"./ReactBrowserComponentMixin":247,"./ReactClass":253,"./ReactComponentBrowserEnvironment":255,"./ReactDOMButton":262,"./ReactDOMComponent":263,"./ReactDOMForm":264,"./ReactDOMIDOperations":265,"./ReactDOMIframe":266,"./ReactDOMImg":267,"./ReactDOMInput":268,"./ReactDOMOption":269,"./ReactDOMSelect":270,"./ReactDOMTextComponent":272,"./ReactDOMTextarea":273,"./ReactDefaultBatchingStrategy":274,"./ReactDefaultPerf":276,"./ReactElement":278,"./ReactEventListener":283,"./ReactInjection":285,"./ReactInstanceHandles":287,"./ReactMount":292,"./ReactReconcileTransaction":303,"./SVGDOMPropertyConfig":317,"./SelectEventPlugin":318,"./ServerReactRootIndex":319,"./SimpleEventPlugin":320,"./createFullPageComponent":341,"_process":26}],276:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -39511,7 +39531,7 @@ module.exports = ReactElement;
 
 }).call(this,require('_process'))
 
-},{"./Object.assign":244,"./ReactContext":259,"./ReactCurrentOwner":260,"./warning":387,"_process":27}],279:[function(require,module,exports){
+},{"./Object.assign":244,"./ReactContext":259,"./ReactCurrentOwner":260,"./warning":387,"_process":26}],279:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -39977,7 +39997,7 @@ module.exports = ReactElementValidator;
 
 }).call(this,require('_process'))
 
-},{"./ReactCurrentOwner":260,"./ReactElement":278,"./ReactFragment":284,"./ReactNativeComponent":295,"./ReactPropTypeLocationNames":299,"./ReactPropTypeLocations":300,"./getIteratorFn":357,"./invariant":366,"./warning":387,"_process":27}],280:[function(require,module,exports){
+},{"./ReactCurrentOwner":260,"./ReactElement":278,"./ReactFragment":284,"./ReactNativeComponent":295,"./ReactPropTypeLocationNames":299,"./ReactPropTypeLocations":300,"./getIteratorFn":357,"./invariant":366,"./warning":387,"_process":26}],280:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -40073,7 +40093,7 @@ module.exports = ReactEmptyComponent;
 
 }).call(this,require('_process'))
 
-},{"./ReactElement":278,"./ReactInstanceMap":288,"./invariant":366,"_process":27}],281:[function(require,module,exports){
+},{"./ReactElement":278,"./ReactInstanceMap":288,"./invariant":366,"_process":26}],281:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -40524,7 +40544,7 @@ module.exports = ReactFragment;
 
 }).call(this,require('_process'))
 
-},{"./ReactElement":278,"./warning":387,"_process":27}],285:[function(require,module,exports){
+},{"./ReactElement":278,"./warning":387,"_process":26}],285:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -41038,7 +41058,7 @@ module.exports = ReactInstanceHandles;
 
 }).call(this,require('_process'))
 
-},{"./ReactRootIndex":306,"./invariant":366,"_process":27}],288:[function(require,module,exports){
+},{"./ReactRootIndex":306,"./invariant":366,"_process":26}],288:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -42137,7 +42157,7 @@ module.exports = ReactMount;
 
 }).call(this,require('_process'))
 
-},{"./DOMProperty":226,"./ReactBrowserEventEmitter":248,"./ReactCurrentOwner":260,"./ReactElement":278,"./ReactElementValidator":279,"./ReactEmptyComponent":280,"./ReactInstanceHandles":287,"./ReactInstanceMap":288,"./ReactMarkupChecksum":291,"./ReactPerf":297,"./ReactReconciler":304,"./ReactUpdateQueue":314,"./ReactUpdates":315,"./containsNode":339,"./emptyObject":346,"./getReactRootElementInContainer":360,"./instantiateReactComponent":365,"./invariant":366,"./setInnerHTML":380,"./shouldUpdateReactComponent":383,"./warning":387,"_process":27}],293:[function(require,module,exports){
+},{"./DOMProperty":226,"./ReactBrowserEventEmitter":248,"./ReactCurrentOwner":260,"./ReactElement":278,"./ReactElementValidator":279,"./ReactEmptyComponent":280,"./ReactInstanceHandles":287,"./ReactInstanceMap":288,"./ReactMarkupChecksum":291,"./ReactPerf":297,"./ReactReconciler":304,"./ReactUpdateQueue":314,"./ReactUpdates":315,"./containsNode":339,"./emptyObject":346,"./getReactRootElementInContainer":360,"./instantiateReactComponent":365,"./invariant":366,"./setInnerHTML":380,"./shouldUpdateReactComponent":383,"./warning":387,"_process":26}],293:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -42708,7 +42728,7 @@ module.exports = ReactNativeComponent;
 
 }).call(this,require('_process'))
 
-},{"./Object.assign":244,"./invariant":366,"_process":27}],296:[function(require,module,exports){
+},{"./Object.assign":244,"./invariant":366,"_process":26}],296:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -42821,7 +42841,7 @@ module.exports = ReactOwner;
 
 }).call(this,require('_process'))
 
-},{"./invariant":366,"_process":27}],297:[function(require,module,exports){
+},{"./invariant":366,"_process":26}],297:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -42926,7 +42946,7 @@ module.exports = ReactPerf;
 
 }).call(this,require('_process'))
 
-},{"_process":27}],298:[function(require,module,exports){
+},{"_process":26}],298:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -43065,7 +43085,7 @@ module.exports = ReactPropTypeLocationNames;
 
 }).call(this,require('_process'))
 
-},{"_process":27}],300:[function(require,module,exports){
+},{"_process":26}],300:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -43795,7 +43815,7 @@ module.exports = ReactReconciler;
 
 }).call(this,require('_process'))
 
-},{"./ReactElementValidator":279,"./ReactRef":305,"_process":27}],305:[function(require,module,exports){
+},{"./ReactElementValidator":279,"./ReactRef":305,"_process":26}],305:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -43980,7 +44000,7 @@ module.exports = {
 
 }).call(this,require('_process'))
 
-},{"./ReactElement":278,"./ReactInstanceHandles":287,"./ReactMarkupChecksum":291,"./ReactServerRenderingTransaction":308,"./emptyObject":346,"./instantiateReactComponent":365,"./invariant":366,"_process":27}],308:[function(require,module,exports){
+},{"./ReactElement":278,"./ReactInstanceHandles":287,"./ReactMarkupChecksum":291,"./ReactServerRenderingTransaction":308,"./emptyObject":346,"./instantiateReactComponent":365,"./invariant":366,"_process":26}],308:[function(require,module,exports){
 /**
  * Copyright 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -45459,7 +45479,7 @@ module.exports = ReactUpdateQueue;
 
 }).call(this,require('_process'))
 
-},{"./Object.assign":244,"./ReactCurrentOwner":260,"./ReactElement":278,"./ReactInstanceMap":288,"./ReactLifeCycle":289,"./ReactUpdates":315,"./invariant":366,"./warning":387,"_process":27}],315:[function(require,module,exports){
+},{"./Object.assign":244,"./ReactCurrentOwner":260,"./ReactElement":278,"./ReactInstanceMap":288,"./ReactLifeCycle":289,"./ReactUpdates":315,"./invariant":366,"./warning":387,"_process":26}],315:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -45742,7 +45762,7 @@ module.exports = ReactUpdates;
 
 }).call(this,require('_process'))
 
-},{"./CallbackQueue":222,"./Object.assign":244,"./PooledClass":245,"./ReactCurrentOwner":260,"./ReactPerf":297,"./ReactReconciler":304,"./Transaction":332,"./invariant":366,"./warning":387,"_process":27}],316:[function(require,module,exports){
+},{"./CallbackQueue":222,"./Object.assign":244,"./PooledClass":245,"./ReactCurrentOwner":260,"./ReactPerf":297,"./ReactReconciler":304,"./Transaction":332,"./invariant":366,"./warning":387,"_process":26}],316:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -45799,7 +45819,7 @@ module.exports = React;
 
 }).call(this,require('_process'))
 
-},{"./LinkedStateMixin":240,"./React":246,"./ReactCSSTransitionGroup":249,"./ReactComponentWithPureRenderMixin":257,"./ReactDefaultPerf":276,"./ReactFragment":284,"./ReactTestUtils":310,"./ReactTransitionGroup":313,"./ReactUpdates":315,"./cloneWithProps":338,"./cx":343,"./update":386,"_process":27}],317:[function(require,module,exports){
+},{"./LinkedStateMixin":240,"./React":246,"./ReactCSSTransitionGroup":249,"./ReactComponentWithPureRenderMixin":257,"./ReactDefaultPerf":276,"./ReactFragment":284,"./ReactTestUtils":310,"./ReactTransitionGroup":313,"./ReactUpdates":315,"./cloneWithProps":338,"./cx":343,"./update":386,"_process":26}],317:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -46548,7 +46568,7 @@ module.exports = SimpleEventPlugin;
 
 }).call(this,require('_process'))
 
-},{"./EventConstants":231,"./EventPluginUtils":235,"./EventPropagators":236,"./SyntheticClipboardEvent":321,"./SyntheticDragEvent":323,"./SyntheticEvent":324,"./SyntheticFocusEvent":325,"./SyntheticKeyboardEvent":327,"./SyntheticMouseEvent":328,"./SyntheticTouchEvent":329,"./SyntheticUIEvent":330,"./SyntheticWheelEvent":331,"./getEventCharCode":353,"./invariant":366,"./keyOf":373,"./warning":387,"_process":27}],321:[function(require,module,exports){
+},{"./EventConstants":231,"./EventPluginUtils":235,"./EventPropagators":236,"./SyntheticClipboardEvent":321,"./SyntheticDragEvent":323,"./SyntheticEvent":324,"./SyntheticFocusEvent":325,"./SyntheticKeyboardEvent":327,"./SyntheticMouseEvent":328,"./SyntheticTouchEvent":329,"./SyntheticUIEvent":330,"./SyntheticWheelEvent":331,"./getEventCharCode":353,"./invariant":366,"./keyOf":373,"./warning":387,"_process":26}],321:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -47509,7 +47529,7 @@ module.exports = Transaction;
 
 }).call(this,require('_process'))
 
-},{"./invariant":366,"_process":27}],333:[function(require,module,exports){
+},{"./invariant":366,"_process":26}],333:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -47605,7 +47625,7 @@ module.exports = accumulateInto;
 
 }).call(this,require('_process'))
 
-},{"./invariant":366,"_process":27}],335:[function(require,module,exports){
+},{"./invariant":366,"_process":26}],335:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -47773,7 +47793,7 @@ module.exports = cloneWithProps;
 
 }).call(this,require('_process'))
 
-},{"./ReactElement":278,"./ReactPropTransferer":298,"./keyOf":373,"./warning":387,"_process":27}],339:[function(require,module,exports){
+},{"./ReactElement":278,"./ReactPropTransferer":298,"./keyOf":373,"./warning":387,"_process":26}],339:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -47966,7 +47986,7 @@ module.exports = createFullPageComponent;
 
 }).call(this,require('_process'))
 
-},{"./ReactClass":253,"./ReactElement":278,"./invariant":366,"_process":27}],342:[function(require,module,exports){
+},{"./ReactClass":253,"./ReactElement":278,"./invariant":366,"_process":26}],342:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -48057,7 +48077,7 @@ module.exports = createNodesFromMarkup;
 
 }).call(this,require('_process'))
 
-},{"./ExecutionEnvironment":237,"./createArrayFromMixed":340,"./getMarkupWrap":358,"./invariant":366,"_process":27}],343:[function(require,module,exports){
+},{"./ExecutionEnvironment":237,"./createArrayFromMixed":340,"./getMarkupWrap":358,"./invariant":366,"_process":26}],343:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -48114,7 +48134,7 @@ module.exports = cx;
 
 }).call(this,require('_process'))
 
-},{"./warning":387,"_process":27}],344:[function(require,module,exports){
+},{"./warning":387,"_process":26}],344:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -48231,7 +48251,7 @@ module.exports = emptyObject;
 
 }).call(this,require('_process'))
 
-},{"_process":27}],347:[function(require,module,exports){
+},{"_process":26}],347:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -48345,7 +48365,7 @@ module.exports = findDOMNode;
 
 }).call(this,require('_process'))
 
-},{"./ReactCurrentOwner":260,"./ReactInstanceMap":288,"./ReactMount":292,"./invariant":366,"./isNode":368,"./warning":387,"_process":27}],349:[function(require,module,exports){
+},{"./ReactCurrentOwner":260,"./ReactInstanceMap":288,"./ReactMount":292,"./invariant":366,"./isNode":368,"./warning":387,"_process":26}],349:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -48404,7 +48424,7 @@ module.exports = flattenChildren;
 
 }).call(this,require('_process'))
 
-},{"./traverseAllChildren":385,"./warning":387,"_process":27}],350:[function(require,module,exports){
+},{"./traverseAllChildren":385,"./warning":387,"_process":26}],350:[function(require,module,exports){
 /**
  * Copyright 2014-2015, Facebook, Inc.
  * All rights reserved.
@@ -48892,7 +48912,7 @@ module.exports = getMarkupWrap;
 
 }).call(this,require('_process'))
 
-},{"./ExecutionEnvironment":237,"./invariant":366,"_process":27}],359:[function(require,module,exports){
+},{"./ExecutionEnvironment":237,"./invariant":366,"_process":26}],359:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -49292,7 +49312,7 @@ module.exports = instantiateReactComponent;
 
 }).call(this,require('_process'))
 
-},{"./Object.assign":244,"./ReactCompositeComponent":258,"./ReactEmptyComponent":280,"./ReactNativeComponent":295,"./invariant":366,"./warning":387,"_process":27}],366:[function(require,module,exports){
+},{"./Object.assign":244,"./ReactCompositeComponent":258,"./ReactEmptyComponent":280,"./ReactNativeComponent":295,"./invariant":366,"./warning":387,"_process":26}],366:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -49350,7 +49370,7 @@ module.exports = invariant;
 
 }).call(this,require('_process'))
 
-},{"_process":27}],367:[function(require,module,exports){
+},{"_process":26}],367:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -49607,7 +49627,7 @@ module.exports = keyMirror;
 
 }).call(this,require('_process'))
 
-},{"./invariant":366,"_process":27}],373:[function(require,module,exports){
+},{"./invariant":366,"_process":26}],373:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -49770,7 +49790,7 @@ module.exports = onlyChild;
 
 }).call(this,require('_process'))
 
-},{"./ReactElement":278,"./invariant":366,"_process":27}],377:[function(require,module,exports){
+},{"./ReactElement":278,"./invariant":366,"_process":26}],377:[function(require,module,exports){
 /**
  * Copyright 2013-2015, Facebook, Inc.
  * All rights reserved.
@@ -50134,7 +50154,7 @@ module.exports = shouldUpdateReactComponent;
 
 }).call(this,require('_process'))
 
-},{"./warning":387,"_process":27}],384:[function(require,module,exports){
+},{"./warning":387,"_process":26}],384:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -50207,7 +50227,7 @@ module.exports = toArray;
 
 }).call(this,require('_process'))
 
-},{"./invariant":366,"_process":27}],385:[function(require,module,exports){
+},{"./invariant":366,"_process":26}],385:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -50461,7 +50481,7 @@ module.exports = traverseAllChildren;
 
 }).call(this,require('_process'))
 
-},{"./ReactElement":278,"./ReactFragment":284,"./ReactInstanceHandles":287,"./getIteratorFn":357,"./invariant":366,"./warning":387,"_process":27}],386:[function(require,module,exports){
+},{"./ReactElement":278,"./ReactFragment":284,"./ReactInstanceHandles":287,"./getIteratorFn":357,"./invariant":366,"./warning":387,"_process":26}],386:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -50633,7 +50653,7 @@ module.exports = update;
 
 }).call(this,require('_process'))
 
-},{"./Object.assign":244,"./invariant":366,"./keyOf":373,"_process":27}],387:[function(require,module,exports){
+},{"./Object.assign":244,"./invariant":366,"./keyOf":373,"_process":26}],387:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -50697,7 +50717,7 @@ module.exports = warning;
 
 }).call(this,require('_process'))
 
-},{"./emptyFunction":345,"_process":27}],388:[function(require,module,exports){
+},{"./emptyFunction":345,"_process":26}],388:[function(require,module,exports){
 module.exports = require('./lib/React');
 
 },{"./lib/React":246}],389:[function(require,module,exports){
