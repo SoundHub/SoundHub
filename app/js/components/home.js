@@ -14,12 +14,12 @@ var arr = [{
   title:'bang bang bang',
   url: "assets/bang.mp3",
   author:"big bang",
-  like:"223"
+  like:"53"
 },{
   title:'tonight',
   url: "assets/giveyouup.mp3",
   author:"big bang",
-  like:"223"
+  like:"103"
 }];
 
 
@@ -82,7 +82,10 @@ class SongList extends React.Component{
         {this.props.data.map(function(song, i) {
           return (
             <div className = "songItem" key={i}>
-              <span className = "title" onClick={this.handleClick.bind(this, i)} > {song.title} </span>
+              <div className="itemPlay" onClick={this.handleClick.bind(this, i)}>
+                <Glyphicon glyph='play' />
+              </div>
+              <span className = "title"  > {song.title} </span>
               <span className> by {song.author} </span>
               <span className="like-count" > <Glyphicon glyph='heart' /> {song.like} </span>
             </div>
