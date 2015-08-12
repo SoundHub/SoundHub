@@ -1,6 +1,7 @@
 'use strict';
 import React from 'react';
 import {Glyphicon} from 'react-bootstrap';
+var AudioPlayer = require("./player-components/AudioPlayer");
 
 var arr = [{
   title:'song1',
@@ -92,8 +93,14 @@ class User extends React.Component {
       profilePage = <Edit />
     }
 
+    var usersong = {
+      title:'badboy',
+      url: "assets/badboy.mp3"
+    }
+
     return (
       <div className="profilePage">
+      <AudioPlayer song = {usersong} mode = "user" />
         <img className='randomBG' src="../assets/random-bg/13772829224_76f2c28068_h.jpg"></img>
         <img className='profileImg' src = "../assets/placeholder.jpg"></img>
         <div className="profileButtonCollection">

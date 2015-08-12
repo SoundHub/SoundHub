@@ -20,13 +20,21 @@ module.exports = React.createClass({
 		}
 
 		var buttonPanelClasses = "audio-button-panel pull-left";
-
+		if(this.props.mode==='user'){
+			return(
+					<Button className="userPlayButton" onClick={buttonClickHandler}>
+						<Glyphicon className={iconClasses} glyph={iconName} />
+					</Button>
+			);
+		}else{
 			return (
 				<ButtonGroup className={buttonPanelClasses}>
-					<Button bsSize="small" onClick={buttonClickHandler}>
+					<Button bsSize="small" class onClick={buttonClickHandler}>
 						<Glyphicon className={iconClasses} glyph={iconName} />
 					</Button>
 				</ButtonGroup>
 			);
+		}
+
 	}
 });
