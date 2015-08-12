@@ -1,0 +1,26 @@
+{
+  "name": "SoundHub",
+  "version": "1.0.0",
+  "homepage": "https://github.com/alemontree/SoundHub",
+  "description": "\"github for music\"",
+  "main": "index.js",
+  "moduleType": [
+    "es6"
+  ],
+  "keywords": [
+    "music",
+    "es6",
+    "react"
+  ],
+  "license": "ISC",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.5"
+  }
+}

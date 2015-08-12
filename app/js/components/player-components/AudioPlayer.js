@@ -35,6 +35,9 @@ module.exports = React.createClass({
 			this.setState({song:nextProps.song}, () => {
 				this.playEnd();
 				this.clearSoundObject();
+				if(nextProps.song.url){
+					this.play();
+				}
 			})
 		}
 		console.log(nextProps.song);

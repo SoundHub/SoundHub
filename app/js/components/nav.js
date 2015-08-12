@@ -34,7 +34,6 @@ class Nav extends React.Component {
 
           <Router.Link to="auth">
             <button className="authButton">Login</button>
-            <button className="authButton">Logout</button>
 
           </Router.Link>
 

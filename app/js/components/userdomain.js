@@ -1,15 +1,26 @@
 'use strict';
 import React from 'react';
 import {Glyphicon} from 'react-bootstrap';
-var AudioPlayer = require("./player-components/AudioPlayer");
+import {SongList} from './home';
+import Router from 'react-router';
+import AudioPlayer from './player-components/AudioPlayer';
 
 var arr = [{
-  title:'song1',
-  url:'www.song.com'
+  title:'badboy',
+  url: "assets/badboy.mp3",
+  author:"big bang",
+  like:"223"
 },{
-  title:'song2',
-  url:'www.sogdfg.com'
-}]
+  title:'bang bang bang',
+  url: "assets/bang.mp3",
+  author:"big bang",
+  like:"53"
+},{
+  title:'tonight',
+  url: "assets/giveyouup.mp3",
+  author:"big bang",
+  like:"103"
+}];
 
 
 class ForkList extends React.Component {
@@ -27,10 +38,18 @@ class ForkList extends React.Component {
 class MyMusic extends React.Component {
   constructor() {
     super();
+    this.switchSong = this.switchSong.bind(this);
   }
+
+  switchSong(song){
+    this.props.switchsong(song)
+  }
+
   render() {
     return (
-      <div>MyList</div>
+      <div className="mylist">
+        <SongList data = {arr}  switchSong = {this.switchSong} />
+      </div>
     );
   }
 }
@@ -73,18 +92,23 @@ class User extends React.Component {
     this.gotoBranches = this.gotoBranches.bind(this);
     this.gotoFavourites = this.gotoFavourites.bind(this);
     this.gotoProfile = this.gotoProfile.bind(this);
-    this.state = {pageType: props.pageType}
+    this.setsong = this.setsong.bind(this);
+    this.state = {
+      pageType: props.pageType,
+      currentsong: {}
+    }
    }
 
    gotoMusic(){this.setState({pageType:'music'});}
    gotoBranches(){this.setState({pageType:'branch'});}
    gotoFavourites(){ this.setState({pageType:'fav'}); }
    gotoProfile(){ this.setState({pageType:'profile'}); }
+   setsong(song){ this.setState({currentsong:song}); }
 
   render() {
-    var profilePage = <MyMusic />;
+    var profilePage = <MyMusic switchsong = {this.setsong}/>;
     if(this.state.pageType==='music'){
-      profilePage = <MyMusic />
+      profilePage = <MyMusic switchsong = {this.setsong}/>
     }else if(this.state.pageType==='branch'){
       profilePage = <ForkList />
     }else if(this.state.pageType==='fav'){
@@ -93,14 +117,9 @@ class User extends React.Component {
       profilePage = <Edit />
     }
 
-    var usersong = {
-      title:'badboy',
-      url: "assets/badboy.mp3"
-    }
-
     return (
       <div className="profilePage">
-      <AudioPlayer song = {usersong} mode = "user" />
+      <AudioPlayer song = {this.state.currentsong} mode = "user" />
         <img className='randomBG' src="../assets/random-bg/13772829224_76f2c28068_h.jpg"></img>
         <img className='profileImg' src = "../assets/placeholder.jpg"></img>
         <div className="profileButtonCollection">
@@ -108,6 +127,9 @@ class User extends React.Component {
           <button className="profileButton" onClick={this.gotoBranches}><Glyphicon glyph='paperclip' onClick={this.gotoBranches} /> Branches</button>
           <button className="profileButton" onClick={this.gotoFavourites}><Glyphicon glyph='heart' /> Favourites</button>
           <button className="profileButton" onClick={this.gotoProfile}><Glyphicon glyph='user' /> Profile</button>
+          <Router.Link to="create">
+            <button className="profileButton"><Glyphicon glyph='upload' /> Create</button>
+          </Router.Link>
         </div>
         {profilePage}
       </div>
