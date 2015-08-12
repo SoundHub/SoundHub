@@ -1,10 +1,11 @@
-// store for user's forked song
+'use strict';
 
-var Dispatcher = require('../dispatcher/dispatcher.js');
-var Constants = require('../constants/constants');
-var EventEmitter = require('events').EventEmitter;
-var assign = require('object-assign');
+import Dispatcher from '../dispatcher/dispatcher.js';
+import Constants from '../constants/constants';
+import EventEmitter from 'events';
+import assign from 'object-assign';
 
-var ActionType = Constants.ActionTypes;
-var CHANGE_EVENT = 'change';
+const ActionType = Constants.ActionTypes;
+const CHANGE_EVENT = 'change';
+
 
