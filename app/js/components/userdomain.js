@@ -95,10 +95,7 @@ class User extends React.Component {
       profilePage = <Edit />
     }
 
-    var usersong = {
-      title:'badboy',
-      url: "assets/badboy.mp3"
-    }
+    var usersong = {}
 
     return (
       <div className="profilePage">
