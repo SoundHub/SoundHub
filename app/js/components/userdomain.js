@@ -1,6 +1,8 @@
 'use strict';
 import React from 'react';
 import {Glyphicon} from 'react-bootstrap';
+import Create from './create';
+import Router from 'react-router';
 var AudioPlayer = require("./player-components/AudioPlayer");
 
 var arr = [{
@@ -108,6 +110,9 @@ class User extends React.Component {
           <button className="profileButton" onClick={this.gotoBranches}><Glyphicon glyph='paperclip' onClick={this.gotoBranches} /> Branches</button>
           <button className="profileButton" onClick={this.gotoFavourites}><Glyphicon glyph='heart' /> Favourites</button>
           <button className="profileButton" onClick={this.gotoProfile}><Glyphicon glyph='user' /> Profile</button>
+          <Router.Link to="create">
+            <button className="profileButton"><Glyphicon glyph='upload' /> Create</button>
+          </Router.Link>
         </div>
         {profilePage}
       </div>

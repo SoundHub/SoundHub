@@ -7,13 +7,19 @@ var AudioPlayer = require("./player-components/AudioPlayer");
 
 var arr = [{
   title:'badboy',
-  url: "assets/badboy.mp3"
+  url: "assets/badboy.mp3",
+  author:"big bang",
+  like:"223"
 },{
   title:'bang bang bang',
-  url: "assets/bang.mp3"
+  url: "assets/bang.mp3",
+  author:"big bang",
+  like:"223"
 },{
   title:'tonight',
-  url: "assets/giveyouup.mp3"
+  url: "assets/giveyouup.mp3",
+  author:"big bang",
+  like:"223"
 }];
 
 
@@ -48,7 +54,7 @@ class Home extends React.Component {
       <div className= "playerBox">
         <AudioPlayer song = {this.state.currentsong} mode = "home" />
       </div>
-        <SongList data = {this.state.songs.allSongs}  switchSong = {this.switchSong} />
+        <SongList data = {arr}  switchSong = {this.switchSong} />
       </div>
     );
   }

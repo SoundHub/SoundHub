@@ -28,8 +28,6 @@ class Nav extends React.Component {
 
           <NavLink to="user">MyMusic</NavLink>
           <NavLink to="tree">Tree</NavLink>
-          <NavLink to="create">create</NavLink>
-
           <Router.Link to="auth">
             <button className="authButton">Login</button>
           </Router.Link>
