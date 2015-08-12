@@ -300,3 +300,12 @@ $animate-sec: 1.5s;
     stroke: red;
     stroke-width: 3px;
   }
+
+  .treeDiv {
+    .sideBar {
+      float: right;
+      width: 25%;
+      border: 3px solid black;
+      padding: 5px;
+    }
+  }
