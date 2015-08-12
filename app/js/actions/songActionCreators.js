@@ -95,6 +95,22 @@ export default {
     .catch((err) => {
       console.log('forking failed: ', err)
     })
+  },
+
+  addSongVote(userId, songId, value) {
+    let voteInfo = {
+      userId: userId,
+      songId: songId,
+      value: value
+    }
+    Dispatcher.dispatch({
+      type: ActionType.VOTE,
+      voteInfo: voteInfo
+    })
+    Utils.post('/addVote', voteInfo)
+    .catch((err) => {
+      console.log('voting failed: ', err)
+    })
   }
   
 }

@@ -15,6 +15,15 @@ let setAllSongs = function (songs) {
   _songs.allSongs = songs;
 };
 
+let addVote = function(voteInfo) {
+  _songs.allSongs.forEach(function(song) {
+    if(song.id === voteInfo.songId) {
+      song.like += voteInfo.value;
+      console.log('after vote: ', song)
+    }
+  })
+}
+
 let AllSongStore = assign({}, EventEmitter.prototype, {
   emitChange() {
     this.emit(CHANGE_EVENT)
@@ -40,7 +49,13 @@ AllSongStore.dispatchToken = Dispatcher.register(function(payload) {
       setAllSongs(songs);      
       AllSongStore.emitChange();
       break;
-    
+
+    case ActionType.VOTE:
+      console.log('voted!');
+      addVote(payload.voteInfo);
+      AllSongStore.emitChange();
+      break;
+
     case ActionType.SONG_ADD_SUCCESS:
       console.log('song add success');
       break;
