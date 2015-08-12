@@ -97,8 +97,24 @@ export default {
     })
   },
 
+  addSongVote(userId, songId, value) {
+    let voteInfo = {
+      userId: userId,
+      songId: songId,
+      value: value
+    }
+    Dispatcher.dispatch({
+      type: ActionType.VOTE,
+      voteInfo: voteInfo
+    })
+    Utils.post('/addVote', voteInfo)
+    .catch((err) => {
+      console.log('voting failed: ', err)
+    })
+  },
+
   // get forked songs data
-  getAllSongs() {
+  getAllForks() {
     Utils.get('/myForks')
     .then((response) => {
       return response.json();
@@ -106,7 +122,7 @@ export default {
     .then((json) => {
       console.log("dispatch forked songs ", json);
       Dispatcher.dispatch({
-        type: ActionType.RECEIVE_ALL_SONGS,
+        type: ActionType.GET_USER_FORKS,
         songs: json
       })
     })
