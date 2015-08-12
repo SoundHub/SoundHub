@@ -57,7 +57,7 @@ class Home extends React.Component {
       <div className= "playerBox">
         <AudioPlayer song = {this.state.currentsong} mode = "home" />
       </div>
-        <SongList data = {arr}  switchSong = {this.switchSong} />
+        <SongList data = {this.state.songs.allSongs}  switchSong = {this.switchSong} />
       </div>
     );
   }

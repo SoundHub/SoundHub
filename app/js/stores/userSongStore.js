@@ -9,11 +9,34 @@ import assign from 'object-assign';
 let ActionType = Constants.ActionTypes;
 let CHANGE_EVENT = 'change';
 
-let _userSongs = {}; // keys: songsCreated, newestSong
+let _userSongs = {
+  allCreated: [],
+  voted: {}
+}; // keys: allCreated, newestCreated, forked, voted, favs
 
-let setNewestSong = function(songData) {
-  _userSongs.newestSong = songData;
+let setNewestCreated = function(songData) {
+  _userSongs.newestCreated = songData;
   console.log(_userSongs);
+}
+
+let setVote = function(voteInfo) {
+  let songId = voteInfo.songId;
+    console.log(_userSongs.voted[songId])
+  if(!_userSongs.voted[songId].val) {
+    _userSongs.voted[songId].val = voteInfo.value;
+    _userSongs.voted[songId].userVoted = true;
+    return;
+  } else {
+    let newVote = songVote.val + voteInfo.value;
+    if(Math.abs(newVote) === 1 || newVote === 0) {
+      _userSongs.voted[songId].val += voteInfo.value;
+      _userSongs.voted[songId].userVoted = true;
+      console.log('voted', _userSongs.voted[songId])
+    } else {
+      _userSongs.voted[songId].userVoted = false;
+      return;
+    }
+  } 
 }
 
 let UserSongStore = assign({}, EventEmitter.prototype, {
@@ -28,8 +51,13 @@ let UserSongStore = assign({}, EventEmitter.prototype, {
   },
   getUserSongs() {
     return _userSongs;
+  },
+  getSongVote(songId) {
+    return _userSongs.voted.songId;
+  },
+  canVote(songId) {
+    return _userSongs.voted.songId.userVoted;
   }
-
 })
 
 UserSongStore.dispatchToken = Dispatcher.register(function(payload) {
@@ -37,8 +65,13 @@ UserSongStore.dispatchToken = Dispatcher.register(function(payload) {
   switch(payload.type) {    
     case ActionType.SONG_ADD_SUCCESS:
       console.log('enter user song store', payload)
-      setNewestSong(payload.songData);   
+      setNewestCreated(payload.songData);   
       UserSongStore.emitChange();
+      break;
+
+    case ActionType.VOTE:
+      console.log('enter user song store', payload)
+      setVote(payload.voteInfo);
       break;
 
     default:
