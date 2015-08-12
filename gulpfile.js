@@ -44,6 +44,9 @@ gulp.task('sass', function() {
     .pipe(concat('styles.css'))
     .pipe(gulp.dest('./app/build'));
 });
+gulp.task("heroku:production", function(){
+    console.log('hello'); 
+});
 
 gulp.task('build', function() { return compile(); });
 gulp.task('watch', function() {
