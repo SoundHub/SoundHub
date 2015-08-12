@@ -121,7 +121,7 @@ button:focus {outline:0;}
 }
 
 .playList{
-    background: #f18562;
+    background: #F3693C;
     vertical-align: middle;
     padding: 5px;
     width: 80%;
@@ -161,7 +161,7 @@ button:focus {outline:0;}
         height: 100px;
       position: absolute;
       top: 120px;
-      left: 45%;
+      left: 15%;
       border-radius: 100%;
       border-width: 5px;
       border-color: white;
@@ -183,6 +183,9 @@ button:focus {outline:0;}
     color: #D21D6F;
     border-color: #D21D6F;
   }
+  .profileButtonCollection{
+    margin-left: 30%;
+  }
 
 }
 
@@ -192,7 +195,7 @@ $common-padding: 5px;
 $animate-sec: 1.5s;
 
 .audio-player {
-    background: #f15d5a;
+    background: #F5332F;
     vertical-align: middle;
     padding: 10px 0px 0px 0px;
     width: 80%;
@@ -312,7 +315,7 @@ $animate-sec: 1.5s;
   width: 100%;
   vertical-align: middle;
   padding-top: 3px;
-  background-color: #795844;
+  background-color: #8A3D6B;
    color: white;
 }
 

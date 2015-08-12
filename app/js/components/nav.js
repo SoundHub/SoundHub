@@ -19,14 +19,15 @@ class Nav extends React.Component {
     return (
       <div className="topBar">
         <span className = "topBarLeft">
-          <img src='../assets/logo2.png'></img>
+          <NavLink to="home">
+             <img src='../assets/logo2.png'></img>
+          </NavLink>
         </span>
 
         <nav>
-          <NavLink to="home">Home</NavLink>
-          <NavLink to="mymusic">MyMusic</NavLink>
+
+          <NavLink to="user">MyMusic</NavLink>
           <NavLink to="tree">Tree</NavLink>
-          <NavLink to="profile">profile</NavLink>
           <NavLink to="create">create</NavLink>
 
           <Router.Link to="auth">

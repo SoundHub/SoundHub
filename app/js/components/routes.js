@@ -6,9 +6,8 @@ import Layout from './layout';
 import Home from './home';
 import NotFound from './notfound';
 import Auth from './auth';
-import MyMusic from './mymusic';
+import User from './userdomain';
 import Tree from './treePage';
-import Profile from './profile';
 import Create from './create';
 
 
@@ -20,9 +19,8 @@ const NotFoundRoute = Router.NotFoundRoute;
 const routes = (
   <Route handler={Layout}>
     <DefaultRoute name="home" handler={Home}/>
-    <Route name="mymusic" handler={MyMusic}/>
+    <Route name="user" handler={User}/>
     <Route name="tree" handler={Tree}/>
-    <Route name="profile" handler={Profile}/>
     <Route name="create" handler={Create}/>
     <Route name="auth" handler={Auth}/>
     <NotFoundRoute name="not-found" handler={NotFound}/>
