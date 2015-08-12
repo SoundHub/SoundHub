@@ -80,6 +80,13 @@ button:focus {
   vertical-align: middle; }
 
 /* ================ Home ================= */
+.userSongTitle {
+  font-size: 20px;
+  position: absolute;
+  margin-left: 50%;
+  margin-top: 3%;
+  color: #FFFFFF; }
+
 .HomePage {
   height: 100%;
   width: 100%;
@@ -91,7 +98,7 @@ button:focus {
     display: flex; }
 
 .playList {
-  background: #f18562;
+  background: #F3693C;
   vertical-align: middle;
   padding: 5px;
   width: 80%;
@@ -115,9 +122,43 @@ button:focus {
   color: #FF598E;
   float: right; }
 
+/* ================ MyMusic ================= */
+.profilePage .randomBG {
+  height: 100px;
+  width: 100%; }
+
+.profilePage .profileImg {
+  height: 100px;
+  position: absolute;
+  top: 120px;
+  left: 15%;
+  border-radius: 100%;
+  border-width: 5px;
+  border-color: white;
+  border-style: solid; }
+
+.profilePage .profileButton {
+  background-color: #FFFFFF;
+  outline: 0;
+  color: #C7ABAB;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #ECCCDB;
+  border-right: 0px;
+  border-left: 0px;
+  border-top: 0px;
+  margin: 10px; }
+
+.profilePage .profileButton:hover {
+  color: #D21D6F;
+  border-color: #D21D6F; }
+
+.profilePage .profileButtonCollection {
+  margin-left: 30%; }
+
 /* ================ MusicPlayer ================= */
 .audio-player {
-  background: #f15d5a;
+  background: #F5332F;
   vertical-align: middle;
   padding: 10px 0px 0px 0px;
   width: 80%;
@@ -210,7 +251,7 @@ button:focus {
   width: 100%;
   vertical-align: middle;
   padding-top: 3px;
-  background-color: #795844;
+  background-color: #8A3D6B;
   color: white; }
 
 .audio-time {
@@ -221,6 +262,15 @@ button:focus {
   padding-left: 20px;
   height: 20px;
   overflow: hidden; }
+
+.userPlayButton {
+  position: absolute;
+  margin-left: 70%;
+  margin-top: 2%;
+  width: 60px;
+  height: 50px;
+  border-radius: 10%;
+  font-size: 25px; }
 
 @keyframes rotating {
   from {
@@ -273,3 +323,9 @@ button:focus {
   fill: none;
   stroke: red;
   stroke-width: 3px; }
+
+.treeDiv .sideBar {
+  float: right;
+  width: 25%;
+  border: 3px solid black;
+  padding: 5px; }
