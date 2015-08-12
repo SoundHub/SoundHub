@@ -20,7 +20,7 @@ class Login extends React.Component {
           <input type="password" placeholder="Password" ref="password" />
 
           <Router.Link to="home">
-            <input type="button" value="Login" onClick={this.login}/>
+            <input type="button" value="Login" />
           </Router.Link>
 
           <input type="button" value="Signup" onClick={this.toggleAuth}/>
