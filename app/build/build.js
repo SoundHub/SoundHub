@@ -195,7 +195,7 @@ var Login = (function (_React$Component) {
         _react2['default'].createElement(
           _reactRouter2['default'].Link,
           { to: 'home' },
-          _react2['default'].createElement('input', { type: 'button', value: 'Login', onClick: this.login })
+          _react2['default'].createElement('input', { type: 'button', value: 'Login' })
         ),
         _react2['default'].createElement('input', { type: 'button', value: 'Signup', onClick: this.toggleAuth })
       );
@@ -482,13 +482,19 @@ var AudioPlayer = require("./player-components/AudioPlayer");
 
 var arr = [{
   title: 'badboy',
-  url: "assets/badboy.mp3"
+  url: "assets/badboy.mp3",
+  author: "big bang",
+  like: "223"
 }, {
   title: 'bang bang bang',
-  url: "assets/bang.mp3"
+  url: "assets/bang.mp3",
+  author: "big bang",
+  like: "53"
 }, {
   title: 'tonight',
-  url: "assets/giveyouup.mp3"
+  url: "assets/giveyouup.mp3",
+  author: "big bang",
+  like: "103"
 }];
 
 var Home = (function (_React$Component) {
@@ -533,7 +539,7 @@ var Home = (function (_React$Component) {
           { className: 'playerBox' },
           _react2['default'].createElement(AudioPlayer, { song: this.state.currentsong, mode: 'home' })
         ),
-        _react2['default'].createElement(SongList, { data: this.state.songs.allSongs, switchSong: this.switchSong })
+        _react2['default'].createElement(SongList, { data: arr, switchSong: this.switchSong })
       );
     }
 
@@ -576,8 +582,13 @@ var SongList = (function (_React$Component2) {
             'div',
             { className: 'songItem', key: i },
             _react2['default'].createElement(
+              'div',
+              { className: 'itemPlay', onClick: this.handleClick.bind(this, i) },
+              _react2['default'].createElement(_reactBootstrap.Glyphicon, { glyph: 'play' })
+            ),
+            _react2['default'].createElement(
               'span',
-              { className: 'title', onClick: this.handleClick.bind(this, i) },
+              { className: 'title' },
               ' ',
               song.title,
               ' '
@@ -607,8 +618,9 @@ var SongList = (function (_React$Component2) {
   return SongList;
 })(_react2['default'].Component);
 
+exports.SongList = SongList;
+exports.Home = Home;
 exports['default'] = Home;
-module.exports = exports['default'];
 
 },{"../actions/songActionCreators":2,"../stores/allSongStore":24,"./player-components/AudioPlayer":10,"react":396,"react-bootstrap":131}],6:[function(require,module,exports){
 'use strict';
@@ -1172,11 +1184,6 @@ var Nav = (function (_React$Component2) {
               'button',
               { className: 'authButton' },
               'Login'
-            ),
-            _react2['default'].createElement(
-              'button',
-              { className: 'authButton' },
-              'Logout'
             )
           )
         )
@@ -1277,6 +1284,9 @@ module.exports = React.createClass({
 			this.setState({ song: nextProps.song }, function () {
 				_this.playEnd();
 				_this.clearSoundObject();
+				if (nextProps.song.url) {
+					_this.play();
+				}
 			});
 		}
 		console.log(nextProps.song);
@@ -2380,14 +2390,31 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactBootstrap = require('react-bootstrap');
 
-var AudioPlayer = require("./player-components/AudioPlayer");
+var _home = require('./home');
+
+var _reactRouter = require('react-router');
+
+var _reactRouter2 = _interopRequireDefault(_reactRouter);
+
+var _playerComponentsAudioPlayer = require('./player-components/AudioPlayer');
+
+var _playerComponentsAudioPlayer2 = _interopRequireDefault(_playerComponentsAudioPlayer);
 
 var arr = [{
-  title: 'song1',
-  url: 'www.song.com'
+  title: 'badboy',
+  url: "assets/badboy.mp3",
+  author: "big bang",
+  like: "223"
 }, {
-  title: 'song2',
-  url: 'www.sogdfg.com'
+  title: 'bang bang bang',
+  url: "assets/bang.mp3",
+  author: "big bang",
+  like: "53"
+}, {
+  title: 'tonight',
+  url: "assets/giveyouup.mp3",
+  author: "big bang",
+  like: "103"
 }];
 
 var ForkList = (function (_React$Component) {
@@ -2420,15 +2447,21 @@ var MyMusic = (function (_React$Component2) {
     _classCallCheck(this, MyMusic);
 
     _get(Object.getPrototypeOf(MyMusic.prototype), 'constructor', this).call(this);
+    this.switchSong = this.switchSong.bind(this);
   }
 
   _createClass(MyMusic, [{
+    key: 'switchSong',
+    value: function switchSong(song) {
+      this.props.switchsong(song);
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2['default'].createElement(
         'div',
-        null,
-        'MyList'
+        { className: 'mylist' },
+        _react2['default'].createElement(_home.SongList, { data: arr, switchSong: this.switchSong })
       );
     }
   }]);
@@ -2517,7 +2550,11 @@ var User = (function (_React$Component5) {
     this.gotoBranches = this.gotoBranches.bind(this);
     this.gotoFavourites = this.gotoFavourites.bind(this);
     this.gotoProfile = this.gotoProfile.bind(this);
-    this.state = { pageType: props.pageType };
+    this.setsong = this.setsong.bind(this);
+    this.state = {
+      pageType: props.pageType,
+      currentsong: {}
+    };
   }
 
   _createClass(User, [{
@@ -2541,11 +2578,16 @@ var User = (function (_React$Component5) {
       this.setState({ pageType: 'profile' });
     }
   }, {
+    key: 'setsong',
+    value: function setsong(song) {
+      this.setState({ currentsong: song });
+    }
+  }, {
     key: 'render',
     value: function render() {
-      var profilePage = _react2['default'].createElement(MyMusic, null);
+      var profilePage = _react2['default'].createElement(MyMusic, { switchsong: this.setsong });
       if (this.state.pageType === 'music') {
-        profilePage = _react2['default'].createElement(MyMusic, null);
+        profilePage = _react2['default'].createElement(MyMusic, { switchsong: this.setsong });
       } else if (this.state.pageType === 'branch') {
         profilePage = _react2['default'].createElement(ForkList, null);
       } else if (this.state.pageType === 'fav') {
@@ -2554,15 +2596,10 @@ var User = (function (_React$Component5) {
         profilePage = _react2['default'].createElement(Edit, null);
       }
 
-      var usersong = {
-        title: 'badboy',
-        url: "assets/badboy.mp3"
-      };
-
       return _react2['default'].createElement(
         'div',
         { className: 'profilePage' },
-        _react2['default'].createElement(AudioPlayer, { song: usersong, mode: 'user' }),
+        _react2['default'].createElement(_playerComponentsAudioPlayer2['default'], { song: this.state.currentsong, mode: 'user' }),
         _react2['default'].createElement('img', { className: 'randomBG', src: '../assets/random-bg/13772829224_76f2c28068_h.jpg' }),
         _react2['default'].createElement('img', { className: 'profileImg', src: '../assets/placeholder.jpg' }),
         _react2['default'].createElement(
@@ -2591,6 +2628,16 @@ var User = (function (_React$Component5) {
             { className: 'profileButton', onClick: this.gotoProfile },
             _react2['default'].createElement(_reactBootstrap.Glyphicon, { glyph: 'user' }),
             ' Profile'
+          ),
+          _react2['default'].createElement(
+            _reactRouter2['default'].Link,
+            { to: 'create' },
+            _react2['default'].createElement(
+              'button',
+              { className: 'profileButton' },
+              _react2['default'].createElement(_reactBootstrap.Glyphicon, { glyph: 'upload' }),
+              ' Create'
+            )
           )
         ),
         profilePage
@@ -2604,7 +2651,7 @@ var User = (function (_React$Component5) {
 exports['default'] = User;
 module.exports = exports['default'];
 
-},{"./player-components/AudioPlayer":10,"react":396,"react-bootstrap":131}],22:[function(require,module,exports){
+},{"./home":5,"./player-components/AudioPlayer":10,"react":396,"react-bootstrap":131,"react-router":205}],22:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', {

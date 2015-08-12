@@ -1,6 +1,6 @@
 /* ============== General =============== */
 button:focus {
-  outline: 0; }
+  outline: 0 !important; }
 
 /* ============== TOP BAR =============== */
 .topBar {
@@ -10,13 +10,13 @@ button:focus {
   -moz-box-shadow: 0 5px 6px -6px rgba(158, 171, 195, 0.59);
   box-shadow: 0 5px 6px -6px rgba(158, 171, 195, 0.59); }
   .topBar nav {
-    position: absolute;
+    float: right;
     vertical-align: text-top;
     display: inline;
-    text-align: center;
-    margin-left: 150px;
+    text-align: right;
     margin-top: 20px;
-    width: 950px; }
+    margin-right: 10px;
+    width: 300px; }
     .topBar nav a {
       height: 50px;
       color: #000;
@@ -84,7 +84,7 @@ button:focus {
   font-size: 20px;
   position: absolute;
   margin-left: 50%;
-  margin-top: 3%;
+  margin-top: 35px;
   color: #FFFFFF; }
 
 .HomePage {
@@ -98,25 +98,37 @@ button:focus {
     display: flex; }
 
 .playList {
-  background: #F3693C;
+  background: #FFFFFF;
   vertical-align: middle;
   padding: 5px;
-  width: 80%;
+  width: 100%;
+  height: 100%;
   margin-left: auto;
   margin-right: auto; }
 
 .songItem {
-  margin: 10px;
-  padding: 10px;
-  background-color: rgba(255, 255, 255, 0.28); }
+  float: left;
+  width: 300px;
+  margin: 5px;
+  padding: 5px;
+  background-color: rgba(140, 146, 149, 0.6); }
   .songItem .title {
-    font-size: 20px;
+    font-size: 15px;
     color: white;
     text-transform: capitalize; }
+  .songItem .itemPlay {
+    margin: 0;
+    width: 30px;
+    padding: 7px 0px 0px 9px;
+    background-color: #FFFFFF;
+    text-align: center;
+    height: 30px;
+    border-radius: 100%;
+    display: -webkit-inline-box; }
 
 .songItem:hover {
   transition: background-color 0.6s;
-  background-color: #A9B3B9; }
+  background-color: #879EAB; }
 
 .like-count {
   color: #FF598E;
@@ -154,17 +166,22 @@ button:focus {
   border-color: #D21D6F; }
 
 .profilePage .profileButtonCollection {
-  margin-left: 30%; }
+  margin-left: 30%;
+  min-width: 900px; }
+
+.mylist {
+  width: 100%;
+  padding: 10px; }
 
 /* ================ MusicPlayer ================= */
 .audio-player {
-  background: #F5332F;
+  min-width: 780px;
+  background: url(../assets/random-bg/playerbg3.jpg);
   vertical-align: middle;
   padding: 10px 0px 0px 0px;
-  width: 80%;
+  width: 100%;
   margin-left: auto;
-  margin-right: auto;
-  margin-top: 15px; }
+  margin-right: auto; }
 
 .audio-button-panel {
   padding-top: 2px;
@@ -188,7 +205,7 @@ button:focus {
   width: 130px; }
 
 .audio-progress {
-  background: #FAFFAF;
+  background: rgba(255, 236, 141, 0.95);
   width: 100%;
   height: 100%; }
 
@@ -250,8 +267,8 @@ button:focus {
   margin-top: 10px;
   width: 100%;
   vertical-align: middle;
-  padding-top: 3px;
-  background-color: #8A3D6B;
+  padding: 5px;
+  background-color: rgba(241, 172, 213, 0.42);
   color: white; }
 
 .audio-time {
@@ -266,7 +283,7 @@ button:focus {
 .userPlayButton {
   position: absolute;
   margin-left: 70%;
-  margin-top: 2%;
+  margin-top: 25px;
   width: 60px;
   height: 50px;
   border-radius: 10%;
