@@ -205,10 +205,14 @@ button:focus {outline:0 !important;}
   }
   .profileButtonCollection{
     margin-left: 30%;
+    min-width: 900px;
   }
 
 }
-
+.mylist{
+  width: 100%;
+  padding: 10px;
+}
 
 
 

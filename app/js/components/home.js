@@ -97,6 +97,6 @@ class SongList extends React.Component{
 }
 
 
-
+export { SongList, Home };
 export default Home;
 
