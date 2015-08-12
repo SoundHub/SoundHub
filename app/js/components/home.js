@@ -24,7 +24,6 @@ class Home extends React.Component {
     SongActions.getAllSongs();
     //should this be this.setState instead?
 
-
     this.state = {songs: {
         allSongs: [],
       }
