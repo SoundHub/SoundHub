@@ -17,24 +17,24 @@ var arr = [{
 }];
 
 
-
 class Home extends React.Component {
   constructor(props) {
     super(props);
     SongActions.getAllSongs();
+<<<<<<< HEAD
     //should this be this.setState instead?
 
+=======
+>>>>>>> 990c369c2870a34549af90d8a8dea16d7ccaac9c
     this.state = {songs: {
         allSongs: [],
       }
     }
-
     //bindings
     this.componentDidMount = this.componentDidMount.bind(this);
     this.switchSong = this.switchSong.bind(this);
     this.render = this.render.bind(this);
     this._onChange = this._onChange.bind(this);
-
   }
 
   componentDidMount () {
@@ -48,10 +48,10 @@ class Home extends React.Component {
   render() {
     return (
       <div className= "HomePage">
-        <div className= "playerBox">
-          <AudioPlayer song = {this.state.currentsong} />
-        </div>
-        <SongList data = {arr}  switchSong = {this.switchSong} />
+      <div className= "playerBox">
+        <AudioPlayer song = {this.state.currentsong} />
+      </div>
+        <SongList data = {this.state.songs.allSongs}  switchSong = {this.switchSong} />
       </div>
     );
   }
@@ -59,6 +59,7 @@ class Home extends React.Component {
 
   _onChange() {
     this.setState({songs: AllSongStore.getAllSongs()});
+    console.log(this.state);
   }
 }
 
