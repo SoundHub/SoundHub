@@ -68,20 +68,35 @@ module.exports = React.createClass({
 			songName = 'Please add a song'
 		}
 
-		return (
-			<div className="audio-player">
-				<div className="clearfix">
-					{ topComponents }
+		var userPageComponents = [
+			<ButtonPanel mode='user'
+			 isPlaying={this.state.isPlaying}
+			 isPause={this.state.isPause}
+			 isLoading={this.state.isLoading}
+			 onPlayBtnClick={this.onPlayBtnClick}
+			 onPauseBtnClick={this.onPauseBtnClick}/>,
+		  <NameLabel mode='user' title={songName} />
+	  ];
+
+	  if(this.props.mode==='user'){
+	  	return (
+	  		<div>{ userPageComponents }</div>
+	  		);
+	  }else{
+	  	return (
+				<div className="audio-player">
+					<div className="clearfix">
+						{ topComponents }
+					</div>
+					<div className="audio-desc-container clearfix">
+						<NameLabel title={songName} />
+						<TimeLabel seek={this.state.seek} duration={this.state.duration}/>
+					</div>
 				</div>
+			);
+	  }
 
 
-				<div className="audio-desc-container clearfix">
-					<NameLabel title={songName} />
-					<TimeLabel seek={this.state.seek} duration={this.state.duration}/>
-				</div>
-
-			</div>
-		);
 	},
 
 

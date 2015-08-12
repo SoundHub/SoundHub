@@ -2,7 +2,6 @@ node_modules
 bower_components
 .DS_Store
 
+/app/build/*
+soundhub.sqlite
 
-app/build/build.js.fake
-app/build/build.js.map.fake
-app/build/styles.css.fake

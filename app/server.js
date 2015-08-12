@@ -16,9 +16,13 @@ server.use(function(req, res, next) {
 
 server.use(bodyParser.json()); 
 
+server.use('/s3', require('react-s3-uploader/s3router')({
+    bucket: "soundhub"
+}));
+
+
 /** DB ROUTES **/
 var db = require('./db.js');
-
 
 server.get('/login', function(req, res) {
   db.login(req.body.username, req.body.password, function(response) {
@@ -31,8 +35,8 @@ server.get('/login', function(req, res) {
 })
 
 server.post('/signup', function(req, res) {
-  var username = 'ferf'; //req.body.username
-  var password = 'ferf'; //req.body.password
+  var username = req.body.username
+  var password = req.body.password
   db.signup(username, password, function(response) {
     res.send(response);
   });
@@ -40,7 +44,7 @@ server.post('/signup', function(req, res) {
 
 server.post('/addSong', function(req, res) {  //** MVP **//
   var songData = req.body;
-  db.addSong(songData.title, songData.genre, songData.author, songData.path, function(response) {
+  db.addSong(songData.title, songData.genre, songData.author, songData.path, songData.description, songData.url, function(response) {
     res.send(response);
   });
 })
@@ -51,29 +55,31 @@ server.get('/allSongs', function(req, res) {  //** MVP **//
   });
 })
 
-server.get('/tree', function(req, res) {       //NEED ROOTNODE ID
-  db.findSongsbyRoot('/1/', function(data) {   //INSTEAD OF '/1/'
-    res.send(db.treeify(data));                //BUT IN THAT FORMAT (req.body.path === '/x/')
+server.get('/tree', function(req, res) {       //** MVP **//
+  var rootId = req.body.rootId;
+  db.findSongsbyRoot(rootId, function(data) {   
+    res.send(db.treeify(data));                
   });
 })
 
-server.get('/mySongs', function(req, res) { //NEED USER ID IN REQ
-  // var userID = req.body.uid              //SO WE CAN UNCOMMENT THIS
-  db.mySongs(1, function(data) {            //SO THIS CAN NOT BE HARD CODED
+server.get('/mySongs', function(req, res) {   //** MVP **//
+  var userId = req.body.userId              
+  db.mySongs(userId, function(data) {            
     res.send(data);
   })
 })
 
-server.get('/myForks', function(req, res) {
-  db.myForks(1, function(stuff) {
+server.get('/myForks', function(req, res) {  //** MVP **//
+  var userId = req.body.userId
+  db.myForks(userId, function(stuff) {
     res.send(stuff);
   })
 })
 
-server.get('/addFork', function(req, res) {
-  var userID = req.body.userID;
-  var songID = req.body.songID;
-  db.addFork(userID, songID, function(forkData) {
+server.post('/addFork', function(req, res) { //** MVP **//
+  var userID = req.body.userId;
+  var songID = req.body.songId;
+  db.addFork(userId, songId, function(forkData) {
     console.log(forkData);
     res.send('fork added');
   })

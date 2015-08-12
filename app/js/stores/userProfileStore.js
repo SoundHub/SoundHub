@@ -1,35 +1,40 @@
 // store for profile components (not including songs)
+'use strict';
 
-var Dispatcher = require('../dispatcher/dispatcher.js');
-var Constants = require('../constants/constants');
-var EventEmitter = require('events').EventEmitter;
-var assign = require('object-assign');
+import Dispatcher from '../dispatcher/dispatcher.js';
+import Constants from '../constants/constants';
+import EventEmitter from 'events';
+import assign from 'object-assign';
 
-var ActionTypes = Constants.ActionTypes;
-var CHANGE_EVENT = 'change';
+const ActionType = Constants.ActionTypes;
+const CHANGE_EVENT = 'change';
 
-var _user = {};
+// some fake data
+let _user = {
+  loggedIn: true,
+  userInfo: {
+    username: 'algore7',
+    userId: 123,
+    firstName: 'Al',
+    lastName: 'Gore'
+  }
+};
 
 
-var UserProfile = assign({}, EventEmitter.prototype, {
-
-  emitChange: function () {
-    this.emit(CHANGE_EVENT);
-
+let UserProfile = assign({}, EventEmitter.prototype, {
+  emitChange() {
+    this.emit(CHANGE_EVENT)
   },
-
-  addChangeListener: function(callback) {
-    this.on(CHANGE_EVENT, callback);
+  addChangeListener(callback) {
+    this.on(CHANGE_EVENT, callback)
   },
-
-  removeChangeListener: function(callback) {
-    this.removeListener(CHANGE_EVENT, callback);
+  removeChangeListener(callback) {
+    this.removeListener(CHANGE_EVENT, callback)
   },
-
-  get: function(id) {
-
+  getLoggedInUser() {
+    return _user.userInfo;
   }
 
-
-
 });
+
+export default UserProfile;
