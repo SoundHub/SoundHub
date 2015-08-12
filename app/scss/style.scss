@@ -1,7 +1,7 @@
 /* ============== General =============== */
 
 button:focus {outline:0 !important;}
-
+input:focus {outline:0 !important;}
 
 
 
@@ -116,12 +116,6 @@ button:focus {outline:0 !important;}
     color: #FFFFFF;
 }
 .HomePage{
-  height: 100%;
-  width: 100%;
-  position: fixed;
-  top: 80px;
-  left: 0;
-  background-color:rgba(249, 255, 224, 0.33);
   .playerBox {
     display: flex;
   }
@@ -168,6 +162,23 @@ button:focus {outline:0 !important;}
 .like-count{
   color: #FF598E;
   float: right;
+}
+
+.Carcouselbox
+{
+}
+
+.banner{
+  height: 400px !important;
+  width: 100%;
+}
+.bannerTitle{
+  font-weight: bold;
+  font-size: 40px;
+}
+
+.bannerText{
+  padding-bottom: 100px;
 }
 /* ================ MyMusic ================= */
 .profilePage{

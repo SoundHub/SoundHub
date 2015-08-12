@@ -45,7 +45,7 @@ class Create extends React.Component {
   }
 
   componentDidMount() {
-    UserSongStore.addChangeListener(this._onChange); 
+    UserSongStore.addChangeListener(this._onChange);
   }
 
   uploadSong() {
@@ -87,7 +87,7 @@ class Create extends React.Component {
 
   _onChange() {
     this.setState({
-      newestSong: UserSongStore.getUserSongs().newestSong, 
+      newestSong: UserSongStore.getUserSongs().newestSong,
       showUpdate: true
     })
   }

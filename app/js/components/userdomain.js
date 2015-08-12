@@ -23,6 +23,11 @@ var arr = [{
 }];
 
 
+var user = {
+  username:"Richie",
+  profileImg:"../assets/profileImg.jpg"
+}
+
 class ForkList extends React.Component {
   constructor() {
     super();
@@ -57,7 +62,13 @@ class MyMusic extends React.Component {
 class Edit extends React.Component {
   constructor() {
     super();
+    this.save = this.save.bind(this);
   }
+
+  save(){
+    console.log(this.refs.username.getDOMNode().value)
+  }
+
   render() {
     return (
       <div className="Profile">
@@ -65,9 +76,9 @@ class Edit extends React.Component {
         <div>Profile picture</div>
         <div className="edit-profile">
           <div>Name</div>
-          <input size="20" type="text" placeholder=" Username " ></input>
+          <input size="20" type="text" placeholder= {this.props.username} ref="username" ></input>
         </div>
-        <button className="btn btn-success">SAVE</button>
+        <button className="btn btn-success" onClick={this.save}>SAVE</button>
       </div>
     );
   }
@@ -94,19 +105,26 @@ class User extends React.Component {
     this.gotoProfile = this.gotoProfile.bind(this);
     this.setsong = this.setsong.bind(this);
     this.state = {
+      profileImg:props.profileImg,
+      username:"",
       pageType: props.pageType,
-      currentsong: {}
+      currentsong: {},
     }
    }
 
-   gotoMusic(){this.setState({pageType:'music'});}
-   gotoBranches(){this.setState({pageType:'branch'});}
-   gotoFavourites(){ this.setState({pageType:'fav'}); }
-   gotoProfile(){ this.setState({pageType:'profile'}); }
+   componentDidMount(){
+    this.setState({profileImg:user.profileImg})
+    this.setState({username:user.username})
+   }
+
+   gotoMusic(){this.setState({pageType:'music',currentsong:{}});}
+   gotoBranches(){this.setState({pageType:'branch',currentsong:{}});}
+   gotoFavourites(){ this.setState({pageType:'fav',currentsong:{}}); }
+   gotoProfile(){ this.setState({pageType:'profile',currentsong:{}}); }
    setsong(song){ this.setState({currentsong:song}); }
 
   render() {
-    var profilePage = <MyMusic switchsong = {this.setsong}/>;
+    var profilePage;
     if(this.state.pageType==='music'){
       profilePage = <MyMusic switchsong = {this.setsong}/>
     }else if(this.state.pageType==='branch'){
@@ -114,14 +132,14 @@ class User extends React.Component {
     }else if(this.state.pageType==='fav'){
       profilePage = <Favor />
     }else if(this.state.pageType==='profile'){
-      profilePage = <Edit />
+      profilePage = <Edit username = {this.state.username}/>
     }
 
     return (
       <div className="profilePage">
       <AudioPlayer song = {this.state.currentsong} mode = "user" />
         <img className='randomBG' src="../assets/random-bg/13772829224_76f2c28068_h.jpg"></img>
-        <img className='profileImg' src = "../assets/placeholder.jpg"></img>
+        <img className='profileImg' src = {this.state.profileImg}></img>
         <div className="profileButtonCollection">
           <button className="profileButton" onClick={this.gotoMusic}><Glyphicon glyph='music'  /> MyMusic</button>
           <button className="profileButton" onClick={this.gotoBranches}><Glyphicon glyph='paperclip' onClick={this.gotoBranches} /> Branches</button>
@@ -135,7 +153,7 @@ class User extends React.Component {
       </div>
     )
   }
-
 }
+User.defaultProps = { profileImg: "../assets/placeholder.jpg" , pageType: "music"};
 
 export default User;

@@ -9,17 +9,20 @@ var arr = [{
   title:'badboy',
   url: "assets/badboy.mp3",
   author:"big bang",
-  like:"223"
+  like:"223",
+  img:"assets/album/1.png"
 },{
   title:'bang bang bang',
   url: "assets/bang.mp3",
   author:"big bang",
-  like:"53"
+  like:"53",
+  img:"assets/album/2.jpg"
 },{
   title:'tonight',
   url: "assets/giveyouup.mp3",
   author:"big bang",
-  like:"103"
+  like:"103",
+  img:"assets/album/3.jpg"
 }];
 
 
@@ -51,10 +54,10 @@ class Home extends React.Component {
   render() {
     return (
       <div className= "HomePage">
-      <div className= "playerBox">
-        <AudioPlayer song = {this.state.currentsong} mode = "home" />
-      </div>
-        <SongList data = {arr}  switchSong = {this.switchSong} />
+        <div className= "playerBox">
+          <AudioPlayer song = {this.state.currentsong} mode = "home" />
+        </div>
+        <SongList data = {arr}  switchSong = {this.switchSong} mode="home"/>
       </div>
     );
   }
