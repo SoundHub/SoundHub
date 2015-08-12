@@ -81,8 +81,8 @@ export default {
     })
   },
 
-  forkSong(forkData) {
-    Utils.post('/newFork', forkData)
+  forkSong(userID, songID) {
+    Utils.post('/newFork', userID, songID)
     .then((response) => {
       Dispatcher.dispatch({
         type: ActionType.FORK,
@@ -110,6 +110,24 @@ export default {
     Utils.post('/addVote', voteInfo)
     .catch((err) => {
       console.log('voting failed: ', err)
+    })
+  },
+
+  // get forked songs data
+  getAllForks() {
+    Utils.get('/myForks')
+    .then((response) => {
+      return response.json();
+    })
+    .then((json) => {
+      console.log("dispatch forked songs ", json);
+      Dispatcher.dispatch({
+        type: ActionType.GET_USER_FORKS,
+        songs: json
+      })
+    })
+    .catch((err) => {
+      console.log('failed: ', err)
     })
   }
   

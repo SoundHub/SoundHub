@@ -36,6 +36,9 @@ module.exports = React.createClass({
 			this.setState({song:nextProps.song}, () => {
 				this.playEnd();
 				this.clearSoundObject();
+				if(nextProps.song.url){
+					this.play();
+				}
 			})
 		}
 		console.log(nextProps.song);
@@ -52,6 +55,8 @@ module.exports = React.createClass({
 		if (this.state.seek && this.state.duration) {
 			percent = this.state.seek / this.state.duration;
 		}
+
+
 		var topComponents = [
 			<ButtonPanel
 			 isPlaying={this.state.isPlaying}
@@ -102,6 +107,7 @@ module.exports = React.createClass({
 
 
 	},
+
 
 	onPlayBtnClick: function() {
 

@@ -12,7 +12,8 @@ let constants = {
       RECEIVE_SONG_TREE: null,
       CREATE_SONG: null,
       SONG_ADD_SUCCESS: null,
-      VOTE: null
+      VOTE: null,
+      GET_USER_FORKS: null
   })
 }
 

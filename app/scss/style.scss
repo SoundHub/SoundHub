@@ -140,19 +140,29 @@ button:focus {outline:0 !important;}
 
 .songItem{
   float: left;
-  width: 270px;
+  width: 300px;
   margin: 5px;
   padding: 5px;
-  background-color: rgba(255, 82, 0, 0.6);
+  background-color: rgba(140, 146, 149, 0.6);
   .title{
     font-size: 15px;
     color: white;
     text-transform: capitalize;
   }
+  .itemPlay{
+    margin: 0;
+    width: 30px;
+    padding: 7px 0px 0px 9px;
+    background-color: #FFFFFF;
+    text-align: center;
+    height: 30px;
+    border-radius: 100%;
+    display: -webkit-inline-box;
+  }
 }
 .songItem:hover{
   transition: background-color .6s;
-  background-color: #A9B3B9;
+  background-color: #879EAB;
 }
 
 .like-count{
@@ -195,10 +205,14 @@ button:focus {outline:0 !important;}
   }
   .profileButtonCollection{
     margin-left: 30%;
+    min-width: 900px;
   }
 
 }
-
+.mylist{
+  width: 100%;
+  padding: 10px;
+}
 
 
 
@@ -326,7 +340,7 @@ $animate-sec: 1.5s;
   margin-top: 10px;
   width: 100%;
   vertical-align: middle;
-  padding-top: 3px;
+  padding: 5px;
   background-color: rgba(241, 172, 213, 0.42);
   color: white;
 }
