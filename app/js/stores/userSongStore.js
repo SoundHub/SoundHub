@@ -21,13 +21,15 @@ let setNewestCreated = function(songData) {
 
 let setVote = function(voteInfo) {
   let songId = voteInfo.songId;
-    console.log(_userSongs.voted[songId])
-  if(!_userSongs.voted[songId].val) {
+  let songVoteInfo = _userSongs.voted[songId];
+  if(!songVoteInfo) {
+    _userSongs.voted[songId] = {}
     _userSongs.voted[songId].val = voteInfo.value;
     _userSongs.voted[songId].userVoted = true;
+    console.log('voted', _userSongs.voted[songId])
     return;
   } else {
-    let newVote = songVote.val + voteInfo.value;
+    let newVote = songVoteInfo.val + voteInfo.value;
     if(Math.abs(newVote) === 1 || newVote === 0) {
       _userSongs.voted[songId].val += voteInfo.value;
       _userSongs.voted[songId].userVoted = true;
@@ -56,7 +58,7 @@ let UserSongStore = assign({}, EventEmitter.prototype, {
     return _userSongs.voted.songId;
   },
   canVote(songId) {
-    return _userSongs.voted.songId.userVoted;
+    return _userSongs.voted[songId].userVoted;
   }
 })
 
