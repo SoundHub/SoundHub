@@ -3,3 +3,6 @@ bower_components
 .DS_Store
 
 
+app/build/build.js.fake
+app/build/build.js.map.fake
+app/build/styles.css.fake
