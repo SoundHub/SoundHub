@@ -52,21 +52,22 @@ server.get('/allSongs', function(req, res) {  //** MVP **//
 })
 
 server.get('/tree', function(req, res) {       //** MVP **//
-  var rootId = req.body.rootId;
-  db.findSongsbyRoot(rootId, function(data) {   
+  var rootId = '/1/';//req.body.rootId;
+  db.findSongsbyRoot(rootId, function(data) {
+    console.log(data);   
     res.send(db.treeify(data));                
   });
 })
 
 server.get('/mySongs', function(req, res) {   //** MVP **//
-  var userId = req.body.userId              
+  var userId = 1; //req.body.userId;             
   db.mySongs(userId, function(data) {            
     res.send(data);
   })
 })
 
 server.get('/myForks', function(req, res) {  //** MVP **//
-  var userId = req.body.userId
+  var userId = 1; //req.body.userId
   db.myForks(userId, function(stuff) {
     res.send(stuff);
   })

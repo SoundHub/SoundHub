@@ -16,8 +16,8 @@ var SongNode = orm.define('songNodes', {
   forks: { type: Sequelize.INTEGER, defaultValue: 0 },
   author: { type: Sequelize.INTEGER, allowNull: false },
   path: { type: Sequelize.STRING, allowNull: false }
-  description: { type: Sequelize.STRING, defaultValue: 'This person didn\'t care enough to put a description in' }
-  url: { type: Sequelize.STRING, allowNull: false }  //when we have urls for songz
+  //description: { type: Sequelize.STRING, defaultValue: 'This person didn\'t care enough to put a description in' },
+  //url: { type: Sequelize.STRING, allowNull: false }  //when we have urls for songz
 });
 
 var User = orm.define('users', {
@@ -27,18 +27,45 @@ var User = orm.define('users', {
   profilePic: { type: Sequelize.STRING, allowNull: true }
 });
 
-// Define the join table which joins Users and SongNodes
+// Define the join table which joins Users and 'forked' SongNodes
 var Fork = orm.define('forks', {
 });
 
-// Setup the many-many relationship through the orm
 User.belongsToMany(SongNode, {
   through: Fork
 });
 
 SongNode.belongsToMany(User, {
-  through: Fork
+  through: Fork,
+  as: 'userForks'
 });
+
+// Define the join table which joins Users and 'favorited' SongNodes
+var Favorite = orm.define('favorite', {
+});
+
+// User.belongsToMany(SongNode, {
+//   through: Favorite
+// });
+
+SongNode.belongsToMany(User, {
+  through: Favorite,
+  as: 'userFavorites'
+});
+
+//Define the join table which joins Users and 'upvoted/downvoted' SongNodes
+var Upvote = orm.define('upvotes', {
+  upvote: { type: Sequelize.INTEGER, allowNull: true }
+})
+
+// User.belongsToMany(SongNode, {
+//   through: Upvote
+// })
+
+SongNode.belongsToMany(User, {
+  through: Upvote,
+  as: 'userForks'
+})
 
 orm.sync();
 
@@ -141,7 +168,9 @@ var allSongs = function(callback) {
 };
 
 var findSongsbyRoot = function(rootNodeID, callback) {
+  console.log('fuck fuck: ', rootNodeID);
   rootNodeID = rootNodeID.split('/')[1];
+  console.log('fuck fuck fuck: ', rootNodeID);
   SongNode.findAll({
   where: {
       path: { like: '%/' + rootNodeID + '/%' }
@@ -161,21 +190,30 @@ var mySongs = function(userID, callback) {
   })
   .then(function(data) {
     var mySongs = songCompiler(data);
+    callback(mySongs);
   })
 };
 
 var myForks = function(userID, callback) {
-  User.findOne({
-    where: {
-      id: 1
-    }
-  })
-  .then(function(userObj) {
-    userObj.getSongNodes()
+  orm.query('select songNodes.title, songNodes.author from ' +
+    'favorites join users on favorites.userId = '+ userID + ' join ' +
+    'songNodes on favorites.songNodeId = songNodes.id;')
+  // User.findOne({
+  //   where: {
+  //     id: 1
+  //   }
+  // })
+  // .then(function(userObj) {
+  //   userObj.getSongNodes({
+  //     include: [{
+  //       model: User,
+  //       as: 'userForks'
+  //     }
+  //   ]})
     .then(function(stuff) {
       callback(stuff);
     })
-  })
+  // })
 };
 
 var addFork = function(userID, songID, callback) {
@@ -209,6 +247,7 @@ exports.addFork = addFork;
 //this should be optimized, currently O(n^2)
 var treeify = function(nodesArray) {
   var tree;
+  console.log(nodesArray);
   //determine root node
   for (var i = 0, j = nodesArray.length; i < j; i++) {
     var pathArr = nodesArray[i].path.split('/');
