@@ -108,6 +108,14 @@ button:focus {outline:0;}
 
 }
 /* ================ Home ================= */
+
+.userSongTitle{
+    font-size: 20px;
+    position: absolute;
+    margin-left: 50%;
+    margin-top: 3%;
+    color: #FFFFFF;
+}
 .HomePage{
   height: 100%;
   width: 100%;
@@ -188,6 +196,8 @@ button:focus {outline:0;}
   }
 
 }
+
+
 
 
 /* ================ MusicPlayer ================= */
@@ -330,6 +340,16 @@ $animate-sec: 1.5s;
     overflow: hidden;
 
 }
+
+  .userPlayButton{
+    position: absolute;
+    margin-left: 70%;
+    margin-top: 2%;
+    width: 60px;
+    height: 50px;
+    border-radius: 10%;
+    font-size: 25px;
+  }
 
 @keyframes rotating {
   from {
