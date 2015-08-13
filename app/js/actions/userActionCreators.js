@@ -44,7 +44,6 @@ export default ({
         user: user
       });
       console.log('logged in successfuly');
-
     })
     .catch((err) => {
       console.error('login failed: ', err);
