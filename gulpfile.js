@@ -9,6 +9,7 @@ var sass = require('gulp-sass');
 var concat = require('gulp-concat');
 var nodemon = require('gulp-nodemon');
 var jest = require('gulp-jest');
+var mocha = require('gulp-mocha');
 
 function compile(watch) {
   var bundler = watchify(browserify('./app/client.js', { debug: true }).transform(babel));
@@ -60,6 +61,11 @@ gulp.task('watch', function() {
   return watch();
 });
 
+gulp.task('mocha', function () {
+    return gulp.src('specs/server-tests.js', {read: false})
+        .pipe(mocha({reporter: 'nyan'}));
+});
+
 gulp.task('jest', function () {
   return gulp.src('__tests__').pipe(jest({
     unmockedModulePathPatterns: [
@@ -79,7 +85,7 @@ gulp.task('jest', function () {
 });
 
 gulp.task('default', ['build','sass','watch']);
-gulp.task('test', ['jest']);
+gulp.task('test', ['mocha']);
 
 
 
