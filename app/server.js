@@ -56,30 +56,16 @@ server.get('/allSongs', function(req, res) {  //** MVP **//
   });
 })
 
-<<<<<<< HEAD
-server.get('/tree', function(req, res) {       //** MVP **//
-  var rootId = '/1/';//req.body.rootId;
-  db.findSongsbyRoot(rootId, function(data) {
-    console.log(data);   
-    res.send(db.treeify(data));                
-=======
 server.post('/tree', function(req, res) {       //** MVP **//
   var rootId = req.body.rootId;
   db.findSongsbyRoot(rootId, function(data) {
-    var responseObj = db.treeify(data);
-    res.json(responseObj);
->>>>>>> c0ca697570343cc51957c705d4783acecf3734c1
+    res.json(db.treeify(data));
   });
 })
 
 server.get('/mySongs', function(req, res) {   //** MVP **//
-<<<<<<< HEAD
   var userId = 1; //req.body.userId;             
   db.mySongs(userId, function(data) {            
-=======
-  var userId = req.body.userId
-  db.mySongs(userId, function(data) {
->>>>>>> c0ca697570343cc51957c705d4783acecf3734c1
     res.send(data);
   })
 })
