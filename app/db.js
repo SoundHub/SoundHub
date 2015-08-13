@@ -16,8 +16,8 @@ var SongNode = orm.define('songNodes', {
   forks: { type: Sequelize.INTEGER, defaultValue: 0 },
   author: { type: Sequelize.INTEGER, allowNull: false },
   path: { type: Sequelize.STRING, allowNull: false },
-  description: { type: Sequelize.STRING, defaultValue: 'This person didn\'t care enough to put a description in' },
-  url: { type: Sequelize.STRING, allowNull: false }  //when we have urls for songz
+  description: { type: Sequelize.STRING, defaultValue: '' },
+  url: { type: Sequelize.STRING, allowNull: true }  //when we have urls for songz
 });
 
 var User = orm.define('users', {
@@ -27,18 +27,24 @@ var User = orm.define('users', {
   profilePic: { type: Sequelize.STRING, allowNull: true }
 });
 
-// Define the join table which joins Users and SongNodes
+// Define the join table which joins Users and 'forked' SongNodes
 var Fork = orm.define('forks', {
+  userId: { type: Sequelize.INTEGER, allowNull: false },
+  songNodeId: { type: Sequelize.INTEGER, allowNull: false}
 });
 
-// Setup the many-many relationship through the orm
-User.belongsToMany(SongNode, {
-  through: Fork
+// Define the join table which joins Users and 'favorited' SongNodes
+var Favorite = orm.define('favorites', {
+  userId: { type: Sequelize.INTEGER, allowNull: false },
+  songNodeId: { type: Sequelize.INTEGER, allowNull: false}
 });
 
-SongNode.belongsToMany(User, {
-  through: Fork
-});
+//Define the join table which joins Users and 'upvoted/downvoted' SongNodes
+var Upvote = orm.define('upvotes', {
+  userId: { type: Sequelize.INTEGER, allowNull: false },
+  songNodeId: { type: Sequelize.INTEGER, allowNull: false},
+  upvote: { type: Sequelize.INTEGER, allowNull: true }
+})
 
 orm.sync();
 
@@ -49,7 +55,7 @@ var login = function(username, password, callback) {
   response.success = false;
   var hashedPw;
   var userObj;
-  sequelize.User.findAll({
+  User.findAll({
     where: {
       username: username
     }
@@ -142,7 +148,9 @@ var allSongs = function(callback) {
 };
 
 var findSongsbyRoot = function(rootNodeID, callback) {
+  console.log('fuck fuck: ', rootNodeID);
   rootNodeID = rootNodeID.split('/')[1];
+  console.log('fuck fuck fuck: ', rootNodeID);
   SongNode.findAll({
   where: {
       path: { like: '%/' + rootNodeID + '/%' }
@@ -162,37 +170,84 @@ var mySongs = function(userID, callback) {
   })
   .then(function(data) {
     var mySongs = songCompiler(data);
+    callback(mySongs);
   })
 };
 
-var myForks = function(userID, callback) {
-  User.findOne({
-    where: {
-      id: 1
-    }
-  })
-  .then(function(userObj) {
-    userObj.getSongNodes()
-    .then(function(stuff) {
-      callback(stuff);
-    })
+var myForks = function(userId, callback) {
+  orm.query(
+    'select songNodes.title, songNodes.author from ' +
+    'forks join users on forks.userId = '+userId+
+    ' join songNodes on forks.songNodeId = songNodes.id;'
+  ).then(function(data) {
+    callback(data.slice(0, (data.length - 1))[0]);
   })
 };
 
-var addFork = function(userID, songID, callback) {
-  orm.sync().then(function() {
-    return Fork.create({
-      userId: userID,
-      songNodeId: songID
-    })
-  }).then(function(forkData) {
+var addFork = function(userId, songNodeId, callback) {
+  Fork.create({
+    userId: userId,
+    songNodeId: songNodeId
+  })
+  .then(function(forkData) {
     callback(forkData);
   });
 };
 
-var myFavs = function(userID, callback) {  //I AM NOT MVP
-  //gotta make a join table yo             //I AM A LEAF ON THE WIND
+var myFavs = function(userId, callback) {  //I AM NOT MVP
+  orm.query(
+    'select songNodes.title, songNodes.author from ' +
+    'favorites join users on favorites.userId = '+userId+
+    ' join songNodes on favorites.songNodeId = songNodes.id;'
+  ).then(function(data) {
+    callback(data.slice(0, (data.length - 1))[0]);
+  })
 };
+
+var addFav = function(userId, songNodeId, callback) {
+  Favorite.create({
+    userId: userId,
+    songNodeId: songNodeId
+  })
+  .then(function(forkData) {
+    callback(forkData);
+  });
+};
+
+var myVotes = function(userId, callback) {
+  orm.query(
+    'select songNodes.id, upvotes.upvote from ' +
+    'upvotes join users on upvotes.userId = '+userId+
+    ' join songNodes on upvotes.songNodeId = songNodes.id;'
+  ).then(function(data) {
+    callback(data.slice(0, (data.length - 1))[0]);
+  })
+};
+
+var addVote = function(voteVal, userId, songNodeId, callback) {
+  Upvote.findOne({
+    where: {
+      userId: userId,
+      songNodeId: songNodeId
+    }
+  })
+  .then(function(data) {
+    console.log('some data: ', data);
+    if (data) {
+      console.log(data.dataValues.upvote, voteVal);
+    } else {
+      console.log('found');
+    }
+    Upvote.create({
+      upvote: voteVal,
+      userId: userId,
+      songNodeId: songNodeId
+    })
+    .then(function(forkData) {
+      callback(forkData);
+    })
+  })
+}
 
 
 exports.addSong = addSong;
@@ -201,12 +256,17 @@ exports.findSongsbyRoot = findSongsbyRoot;
 exports.mySongs = mySongs;
 exports.myForks = myForks;
 exports.addFork = addFork;
+exports.myFavs = myFavs;
+exports.addFav = addFav;
+exports.myVotes = myVotes;
+exports.addVote = addVote;
 
 /* BUILD TREE FROM FLATTENED ARRAY, PROBS FOR FRONT END */
 
 //this should be optimized, currently O(n^2)
 var treeify = function(nodesArray) {
   var tree;
+  console.log(nodesArray);
   //determine root node
   for (var i = 0, j = nodesArray.length; i < j; i++) {
     var pathArr = nodesArray[i].path.split('/');
