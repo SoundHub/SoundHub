@@ -20,7 +20,7 @@ input:focus {outline:0 !important;}
     text-align: right;
     margin-top: 20px;
     margin-right: 10px;
-    width: 300px;
+    width: 220px;
     a {
       height: 50px;
       color: #000;
@@ -184,8 +184,7 @@ input:focus {outline:0 !important;}
     padding: 5px;
     width: 100%;
     height: 100%;
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: 8%;
 }
 
 
@@ -273,7 +272,7 @@ input:focus {outline:0 !important;}
     border-color: #D21D6F;
   }
   .profileButtonCollection{
-    margin-top: 30px;
+    margin-top: 40px;
     margin-left: 70px;
     min-width: 100px;
     display: inline;
@@ -282,10 +281,10 @@ input:focus {outline:0 !important;}
 
 }
 .mylist{
-      width: 100%;
+    min-width: 500px;
+    width: 100%;
     margin-top: 50px;
-    margin-left: 18%;
-    padding: 10px;
+    margin-left: 10%;
 }
 
 
