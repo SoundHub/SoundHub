@@ -3,6 +3,7 @@ import React from 'react';
 import SongActions from '../actions/songActionCreators';
 import AllSongStore from '../stores/allSongStore';
 import {Glyphicon} from 'react-bootstrap';
+
 var AudioPlayer = require("./player-components/AudioPlayer");
 
 var arr = [{
@@ -70,10 +71,18 @@ class SongList extends React.Component{
   constructor() {
     super();
     this.handleClick = this.handleClick.bind(this);
+    this.forkclick = this.forkclick.bind(this);
    }
 
   handleClick(i){
     this.props.switchSong(this.props.data[i]);
+  }
+
+  forkclick(i){
+    let forkSong = this.props.data[i]
+    SongActions.createFromFork(forkSong);
+    //action pass data to create comp and pass state to user panel(pageType==='create')
+
   }
 
   render() {
@@ -88,6 +97,8 @@ class SongList extends React.Component{
               <span className = "title"  > {i} {song.title} </span>
               <span className> by {song.author} </span>
               <span className="like-count" > <Glyphicon glyph='heart' /> {song.like} </span>
+
+              { this.props.uploadmode ? <button onClick={this.forkclick.bind(this,i)}> + </button>: null }
             </div>
           );
         }, this)}

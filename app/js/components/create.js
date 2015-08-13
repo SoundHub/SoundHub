@@ -77,6 +77,7 @@ class Create extends React.Component {
                   onFinish={this.onUploadFinish}/>
                 <input type="text" placeholder="Name" ref="songName"/>
                 <input type="text" placeholder="Genre" ref="songGenre" />
+                <div>{this.props.forksong.title}</div>
                 <input className="btn btn-success" type="button" value="Create" onClick={this.uploadSong}/>
                 { this.state.showUpdate ? <div>{this.state.newestCreated.title} added!</div> : null }
             </div>

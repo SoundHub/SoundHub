@@ -130,6 +130,14 @@ export default {
     .catch((err) => {
       console.log('failed: ', err)
     })
+  },
+
+  createFromFork(forkSong){
+    Dispatcher.dispatch({
+      type:ActionType.CREATE_FROM_FORKS,
+      song:forkSong,
+      page:'create'
+    })
   }
 
 }

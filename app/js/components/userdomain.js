@@ -5,6 +5,7 @@ import {SongList} from './home';
 import Create from './create';
 import Router from 'react-router';
 import AudioPlayer from './player-components/AudioPlayer';
+import UserSongStore from '../stores/userSongStore';
 
 var arr = [{
   title:'badboy',
@@ -35,7 +36,12 @@ class ForkList extends React.Component {
   }
   render() {
     return (
-      <div>Branches</div>
+      <div className="boxed-group-profile">
+          <div className="pageTitle">Branches</div>
+          <div className="mylist">
+            <SongList data = {arr}  switchSong = {this.switchSong} uploadmode={true}/>
+          </div>
+      </div>
     );
   }
 }
@@ -117,15 +123,29 @@ class User extends React.Component {
     this.gotoProfile = this.gotoProfile.bind(this);
     this.gotoCreate = this.gotoCreate.bind(this);
     this.setsong = this.setsong.bind(this);
+    this.componentDidMount = this.componentDidMount.bind(this);
+    this._onChange = this._onChange.bind(this);
     this.state = {
       profileImg:props.profileImg,
       username:"",
       pageType: props.pageType,
       currentsong: {},
+      forkSong:{}
     }
    }
 
+   _onChange() {
+    this.setState({
+      forkSong: UserSongStore.getForkCreate()
+    },() => {
+      this.setState({
+        pageType:'create'
+      })
+    });
+  }
+
    componentDidMount(){
+    UserSongStore.addChangeListener(this._onChange);
     this.setState({profileImg:user.profileImg})
     this.setState({username:user.username})
    }
@@ -148,7 +168,7 @@ class User extends React.Component {
     }else if(this.state.pageType==='profile'){
       profilePage = <Edit username = {this.state.username}/>
     }else if(this.state.pageType==='create'){
-      profilePage = <Create />
+      profilePage = <Create forksong = {this.state.forkSong}/>
     }
 
     return (

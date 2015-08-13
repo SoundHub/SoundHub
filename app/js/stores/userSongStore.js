@@ -12,7 +12,16 @@ let CHANGE_EVENT = 'change';
 let _userSongs = {
   allCreated: [],
   voted: {}
-}; // keys: allCreated, newestCreated, forked, voted, favs
+};
+
+// keys: allCreated, newestCreated, forked, voted, favs
+
+let _forksong = {}
+
+let setForkCreate = function(forkSong){
+  _forksong = forkSong;
+  console.log(_forksong);
+}
 
 let setNewestCreated = function(songData) {
   _userSongs.newestCreated = songData;
@@ -38,7 +47,7 @@ let setVote = function(voteInfo) {
       _userSongs.voted[songId].userVoted = false;
       return;
     }
-  } 
+  }
 }
 
 let UserSongStore = assign({}, EventEmitter.prototype, {
@@ -54,6 +63,9 @@ let UserSongStore = assign({}, EventEmitter.prototype, {
   getUserSongs() {
     return _userSongs;
   },
+  getForkCreate(){
+    return _forksong;
+  },
   getSongVote(songId) {
     return _userSongs.voted.songId;
   },
@@ -63,17 +75,24 @@ let UserSongStore = assign({}, EventEmitter.prototype, {
 })
 
 UserSongStore.dispatchToken = Dispatcher.register(function(payload) {
-  
-  switch(payload.type) {    
+
+  switch(payload.type) {
     case ActionType.SONG_ADD_SUCCESS:
       console.log('enter user song store', payload)
-      setNewestCreated(payload.songData);   
+      setNewestCreated(payload.songData);
       UserSongStore.emitChange();
       break;
 
     case ActionType.VOTE:
       console.log('enter user song store', payload)
       setVote(payload.voteInfo);
+      UserSongStore.emitChange();
+      break;
+
+    case ActionType.CREATE_FROM_FORKS:
+      console.log('enter user song store', payload)
+      setForkCreate(payload.song);
+      UserSongStore.emitChange();
       break;
 
     default:
