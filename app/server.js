@@ -17,7 +17,8 @@ server.use(function(req, res, next) {
 server.use(bodyParser.json()); 
 
 server.use('/s3', require('react-s3-uploader/s3router')({
-    bucket: "soundhub"
+    bucket: "soundhub",
+    ACL: "public-read"
 }));
 
 

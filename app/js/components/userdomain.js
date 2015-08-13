@@ -2,6 +2,7 @@
 import React from 'react';
 import {Glyphicon} from 'react-bootstrap';
 import {SongList} from './home';
+import Create from './create';
 import Router from 'react-router';
 import AudioPlayer from './player-components/AudioPlayer';
 
@@ -113,6 +114,7 @@ class User extends React.Component {
     this.gotoBranches = this.gotoBranches.bind(this);
     this.gotoFavourites = this.gotoFavourites.bind(this);
     this.gotoProfile = this.gotoProfile.bind(this);
+    this.gotoCreate = this.gotoCreate.bind(this);
     this.setsong = this.setsong.bind(this);
     this.state = {
       profileImg:props.profileImg,
@@ -131,6 +133,7 @@ class User extends React.Component {
    gotoBranches(){this.setState({pageType:'branch',currentsong:{}});}
    gotoFavourites(){ this.setState({pageType:'fav',currentsong:{}}); }
    gotoProfile(){ this.setState({pageType:'profile',currentsong:{}}); }
+   gotoCreate(){ this.setState({pageType:'create',currentsong:{}}); }
    setsong(song){ this.setState({currentsong:song}); }
 
   render() {
@@ -143,6 +146,8 @@ class User extends React.Component {
       profilePage = <Favor />
     }else if(this.state.pageType==='profile'){
       profilePage = <Edit username = {this.state.username}/>
+    }else if(this.state.pageType==='create'){
+      profilePage = <Create />
     }
 
     return (
@@ -155,9 +160,7 @@ class User extends React.Component {
           <button className="profileButton" onClick={this.gotoBranches}><Glyphicon glyph='paperclip' onClick={this.gotoBranches} /> Branches</button>
           <button className="profileButton" onClick={this.gotoFavourites}><Glyphicon glyph='heart' /> Favourites</button>
           <button className="profileButton" onClick={this.gotoProfile}><Glyphicon glyph='user' /> Profile</button>
-          <Router.Link to="create">
-            <button className="profileButton"><Glyphicon glyph='upload' /> Create</button>
-          </Router.Link>
+          <button className="profileButton" onClick={this.gotoCreate}><Glyphicon glyph='upload' /> Create</button>
         </div>
         {profilePage}
       </div>

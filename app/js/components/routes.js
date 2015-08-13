@@ -21,7 +21,6 @@ const routes = (
     <DefaultRoute name="home" handler={Home}/>
     <Route name="user" handler={User}/>
     <Route name="tree" handler={Tree}/>
-    <Route name="create" handler={Create}/>
     <Route name="auth" handler={Auth}/>
     <NotFoundRoute name="not-found" handler={NotFound}/>
   </Route>

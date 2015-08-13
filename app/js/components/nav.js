@@ -25,7 +25,6 @@ class Nav extends React.Component {
         </span>
 
         <nav>
-
           <NavLink to="user">MyMusic</NavLink>
           <NavLink to="tree">Tree</NavLink>
           <Router.Link to="auth">

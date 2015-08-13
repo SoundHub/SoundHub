@@ -6,6 +6,8 @@ var TimeLabel = require("./TimeLabel");
 var NameLabel = require("./NameLabel");
 
 import {Button,Glyphicon} from 'react-bootstrap';
+import SongActions from '../../actions/songActionCreators';
+import UserProfileStore from '../../stores/userProfileStore';
 
 
 var Howl = require('./howler').Howl;
@@ -42,12 +44,19 @@ module.exports = React.createClass({
 		console.log(nextProps.song);
 	},
 
+	voteSong: function(val) {
+		var userId = UserProfileStore.getLoggedInUser().userId;
+		SongActions.addSongVote(userId, this.props.song.id, val);
+	},
+
 	render: function() {
 		var percent = 0;
 		var songName;
 		if (this.state.seek && this.state.duration) {
 			percent = this.state.seek / this.state.duration;
 		}
+
+
 		var topComponents = [
 			<ButtonPanel
 			 isPlaying={this.state.isPlaying}
@@ -58,8 +67,8 @@ module.exports = React.createClass({
 			<ProgressBar percent={percent} seekTo={this.seekTo} />,
 			<VolumeBar volume={this.state.volume} adjustVolumeTo={this.adjustVolumeTo} />,
 			<Button bsSize="small" className="audio-rbtn"><Glyphicon glyph='heart' /></Button>,
-			<Button bsSize="small" className="audio-rbtn"><Glyphicon glyph='chevron-up' /></Button>,
-			<Button bsSize="small" className="audio-rbtn"><Glyphicon glyph='chevron-down' /></Button>,
+			<Button bsSize="small" className="audio-rbtn" onClick={this.voteSong.bind(this, 1)}><Glyphicon glyph='chevron-up' /></Button>,
+			<Button bsSize="small" className="audio-rbtn" onClick={this.voteSong.bind(this, -1)}><Glyphicon glyph='chevron-down' /></Button>,
 			<Button bsSize="small" className="audio-rbtn"><Glyphicon glyph='paperclip' /></Button>
 		];
 		if(this.state.song){
@@ -98,6 +107,7 @@ module.exports = React.createClass({
 
 
 	},
+
 
 	onPlayBtnClick: function() {
 
