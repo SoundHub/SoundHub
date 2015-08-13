@@ -10,18 +10,21 @@ var arr = [{
   url: "assets/badboy.mp3",
   author:"big bang",
   like:"223",
+  img:"assets/album/1.png",
   id: 1
 },{
   title:'bang bang bang',
   url: "assets/bang.mp3",
   author:"big bang",
   like:"53",
+  img:"assets/album/2.jpg",
   id: 2
 },{
   title:'tonight',
   url: "assets/giveyouup.mp3",
   author:"big bang",
   like:"103",
+  img:"assets/album/3.jpg",
   id: 3
 }];
 
