@@ -102,11 +102,9 @@ var signup = function(username, password, callback) {
   });
 };
 
-module.exports.User = User;
-module.exports.SongNode = SongNode;
-module.exports.orm = orm;
-module.exports.login = login;
-module.exports.signup = signup;
+
+exports.login = login;
+exports.signup = signup;
 
 
 /** INSERT/QUERY FUNCTIONS **/
@@ -203,9 +201,6 @@ exports.findSongsbyRoot = findSongsbyRoot;
 exports.mySongs = mySongs;
 exports.myForks = myForks;
 exports.addFork = addFork;
-
-
-
 
 /* BUILD TREE FROM FLATTENED ARRAY, PROBS FOR FRONT END */
 

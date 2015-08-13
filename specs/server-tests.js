@@ -29,25 +29,6 @@ describe('API Integration:', function() {
   });
 
   describe('User table', function() {
-    before(function(done) {
-      return db.User.bulkCreate([{
-        username:'suz',
-        password: '123',
-        email: 'suz@mks.com'
-      }]).then(function() {
-        return db.SongNode.create({
-          title: 'runaway',
-          like: 2,
-          genre: 'electronic',
-          forks: 3,
-          author: 1,
-          path: '/1/2/',
-          url: 'whatever.aws.com/blah'
-        }).then(function() {
-        done();
-        })
-      })
-    })
 
     // after(function(done) {
     //   db.orm.sync({force: true})
@@ -56,12 +37,27 @@ describe('API Integration:', function() {
     //     })
     // })
 
-    it('should retrieve values from users table', function(done) {
-      var uri = 'http://localhost:3030/allSongs';
-      request({'uri': uri, 'json': true}, function(err, res, body) {
-        expect(body).to.be.an('array');
-        expect(body[0].title).to.be.eql('runaway');
-        done();
+    it('create a song', function(done) {
+      var uri = 'http://localhost:3030/addSong';
+      request({
+        uri: uri, 
+        json: true,
+        body: {
+          title: 'bagfries',
+          like: 2,
+          genre: 'electronic',
+          forks: 3,
+          author: 1,
+          path: '/1/2/',
+          url: 'whatever.aws.com/blah'
+        },
+        method: 'post'
+      }, function(err, res, body) {
+        db.allSongs(function(song) {
+          expect(song).to.be.an('array');
+          expect(song[0].title).to.be.eql('bagfries');
+          done();
+        })
       })
     }); 
 
