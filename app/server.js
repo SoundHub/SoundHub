@@ -16,9 +16,14 @@ server.use(function(req, res, next) {
 
 server.use(bodyParser.json()); 
 
+server.use('/s3', require('react-s3-uploader/s3router')({
+    bucket: "soundhub",
+    ACL: "public-read"
+}));
+
+
 /** DB ROUTES **/
 var db = require('./db.js');
-
 
 server.get('/login', function(req, res) {
   db.login(req.body.username, req.body.password, function(response) {
@@ -68,17 +73,33 @@ server.get('/mySongs', function(req, res) {   //** MVP **//
 
 server.get('/myForks', function(req, res) {  //** MVP **//
   var userId = 1; //req.body.userId
-  db.myForks(userId, function(stuff) {
-    res.send(stuff);
+  db.myForks(userId, function(data) {
+    res.send(data);
+  })
+})
+
+server.get('/myFavs', function(req, res) {
+  var userId = 1; //req.body.userId
+  db.myFavs(userId, function(data) {
+    res.send(data);
   })
 })
 
 server.post('/addFork', function(req, res) { //** MVP **//
-  var userID = req.body.userId;
-  var songID = req.body.songId;
+  var userId = req.body.userId;
+  var songId = req.body.songId;
   db.addFork(userId, songId, function(forkData) {
     console.log(forkData);
     res.send('fork added');
+  })
+})
+
+server.get('/myVotes', function(req, res) {
+  console.log('routed');
+  var userId = 1; //req.body.userId
+  db.myVotes(userId, function(data) {
+    console.log('derp');
+    res.send(data);
   })
 })
 

@@ -7,15 +7,23 @@ var AudioPlayer = require("./player-components/AudioPlayer");
 
 var arr = [{
   title:'badboy',
-  url: "assets/badboy.mp3"
+  url: "assets/badboy.mp3",
+  author:"big bang",
+  like:"223",
+  id: 1
 },{
   title:'bang bang bang',
-  url: "assets/bang.mp3"
+  url: "assets/bang.mp3",
+  author:"big bang",
+  like:"53",
+  id: 2
 },{
   title:'tonight',
-  url: "assets/giveyouup.mp3"
+  url: "assets/giveyouup.mp3",
+  author:"big bang",
+  like:"103",
+  id: 3
 }];
-
 
 
 class Home extends React.Component {
@@ -24,18 +32,15 @@ class Home extends React.Component {
     SongActions.getAllSongs();
     //should this be this.setState instead?
 
-
     this.state = {songs: {
         allSongs: [],
       }
     }
-
     //bindings
     this.componentDidMount = this.componentDidMount.bind(this);
     this.switchSong = this.switchSong.bind(this);
     this.render = this.render.bind(this);
     this._onChange = this._onChange.bind(this);
-
   }
 
   componentDidMount () {
@@ -50,9 +55,9 @@ class Home extends React.Component {
     return (
       <div className= "HomePage">
       <div className= "playerBox">
-        <AudioPlayer song = {this.state.currentsong} />
+        <AudioPlayer song = {this.state.currentsong} mode = "home" />
       </div>
-        <SongList data = {arr}  switchSong = {this.switchSong} />
+        <SongList data = {this.state.songs.allSongs}  switchSong = {this.switchSong} />
       </div>
     );
   }
@@ -60,6 +65,7 @@ class Home extends React.Component {
 
   _onChange() {
     this.setState({songs: AllSongStore.getAllSongs()});
+    console.log(this.state);
   }
 }
 
@@ -79,7 +85,10 @@ class SongList extends React.Component{
         {this.props.data.map(function(song, i) {
           return (
             <div className = "songItem" key={i}>
-              <span className = "title" onClick={this.handleClick.bind(this, i)} > {song.title} </span>
+              <div className="itemPlay" onClick={this.handleClick.bind(this, i)}>
+                <Glyphicon glyph='play' />
+              </div>
+              <span className = "title"  > {song.title} </span>
               <span className> by {song.author} </span>
               <span className="like-count" > <Glyphicon glyph='heart' /> {song.like} </span>
             </div>
@@ -91,6 +100,6 @@ class SongList extends React.Component{
 }
 
 
-
+export { SongList, Home };
 export default Home;
 

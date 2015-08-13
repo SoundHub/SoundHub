@@ -5,6 +5,7 @@ import Dispatcher from '../dispatcher/dispatcher.js';
 import Constants from '../constants/constants';
 import EventEmitter from 'events';
 import assign from 'object-assign';
+import UserSongStore from './userSongStore';
 
 const ActionType = Constants.ActionTypes;
 const CHANGE_EVENT = 'change';
@@ -14,6 +15,17 @@ let _songs = {};
 let setAllSongs = function (songs) {
   _songs.allSongs = songs;
 };
+
+let addVote = function(voteInfo) {
+  if(UserSongStore.canVote(voteInfo.songId)) {
+    _songs.allSongs.forEach(function(song) {
+      if(song.id === voteInfo.songId) {
+        song.like += voteInfo.value;
+        console.log('after vote: ', song)
+      }
+    })
+  }
+}
 
 let AllSongStore = assign({}, EventEmitter.prototype, {
   emitChange() {
@@ -40,7 +52,13 @@ AllSongStore.dispatchToken = Dispatcher.register(function(payload) {
       setAllSongs(songs);      
       AllSongStore.emitChange();
       break;
-    
+
+    case ActionType.VOTE:
+      Dispatcher.waitFor([UserSongStore.dispatchToken]);
+      addVote(payload.voteInfo);
+      AllSongStore.emitChange();
+      break;
+
     case ActionType.SONG_ADD_SUCCESS:
       console.log('song add success');
       break;

@@ -15,9 +15,9 @@ var SongNode = orm.define('songNodes', {
   genre: { type: Sequelize.STRING, allowNull: true },
   forks: { type: Sequelize.INTEGER, defaultValue: 0 },
   author: { type: Sequelize.INTEGER, allowNull: false },
-  path: { type: Sequelize.STRING, allowNull: false }
-  //description: { type: Sequelize.STRING, defaultValue: 'This person didn\'t care enough to put a description in' },
-  //url: { type: Sequelize.STRING, allowNull: false }  //when we have urls for songz
+  path: { type: Sequelize.STRING, allowNull: false },
+  description: { type: Sequelize.STRING, defaultValue: '' },
+  url: { type: Sequelize.STRING, allowNull: true }  //when we have urls for songz
 });
 
 var User = orm.define('users', {
@@ -194,41 +194,47 @@ var mySongs = function(userID, callback) {
   })
 };
 
-var myForks = function(userID, callback) {
-  orm.query('select songNodes.title, songNodes.author from ' +
-    'favorites join users on favorites.userId = '+ userID + ' join ' +
-    'songNodes on favorites.songNodeId = songNodes.id;')
-  // User.findOne({
-  //   where: {
-  //     id: 1
-  //   }
-  // })
-  // .then(function(userObj) {
-  //   userObj.getSongNodes({
-  //     include: [{
-  //       model: User,
-  //       as: 'userForks'
-  //     }
-  //   ]})
-    .then(function(stuff) {
-      callback(stuff);
-    })
-  // })
+var myForks = function(userId, callback) {
+  orm.query(
+    'select songNodes.title, songNodes.author from ' +
+    'forks join users on forks.userId = '+userId+
+    ' join songNodes on forks.songNodeId = songNodes.id;'
+  ).then(function(data) {
+    callback(data.slice(0, (data.length - 1))[0]);
+  })
 };
 
-var addFork = function(userID, songID, callback) {
+var addFork = function(userId, songId, callback) {
   orm.sync().then(function() {
     return Fork.create({
-      userId: userID,
-      songNodeId: songID
+      userId: userId,
+      songNodeId: songId
     })
   }).then(function(forkData) {
     callback(forkData);
   });
 };
 
-var myFavs = function(userID, callback) {  //I AM NOT MVP
-  //gotta make a join table yo             //I AM A LEAF ON THE WIND
+var myFavs = function(userId, callback) {  //I AM NOT MVP
+  orm.query(
+    'select songNodes.title, songNodes.author from ' +
+    'favorites join users on favorites.userId = '+userId+
+    ' join songNodes on favorites.songNodeId = songNodes.id;'
+  ).then(function(data) {
+    callback(data.slice(0, (data.length - 1))[0]);
+  })
+};
+
+var myVotes = function(userId, callback) {
+  console.log('got here');
+  orm.query(
+    'select songNodes.id, upvotes.upvote from ' +
+    'upvotes join users on upvotes.userId = '+userId+
+    ' join songNodes on upvotes.songNodeId = songNodes.id;'
+  ).then(function(data) {
+    console.log(typeof data);
+    callback(data.slice(0, (data.length - 1))[0]);
+  })
 };
 
 
@@ -238,6 +244,8 @@ exports.findSongsbyRoot = findSongsbyRoot;
 exports.mySongs = mySongs;
 exports.myForks = myForks;
 exports.addFork = addFork;
+exports.myFavs = myFavs;
+exports.myVotes = myVotes;
 
 
 

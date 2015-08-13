@@ -1,7 +1,6 @@
 /* ============== General =============== */
 
-button:focus {outline:0;}
-
+button:focus {outline:0 !important;}
 
 
 
@@ -15,13 +14,13 @@ button:focus {outline:0;}
           box-shadow: 0 5px 6px -6px rgba(158, 171, 195, 0.59);
 
   nav{
-    position: absolute;
+    float: right;
     vertical-align: text-top;
     display: inline;
-    text-align: center;
-    margin-left: 150px;
+    text-align: right;
     margin-top: 20px;
-    width: 950px;
+    margin-right: 10px;
+    width: 300px;
     a {
       height: 50px;
       color: #000;
@@ -108,6 +107,14 @@ button:focus {outline:0;}
 
 }
 /* ================ Home ================= */
+
+.userSongTitle{
+    font-size: 20px;
+    position: absolute;
+    margin-left: 50%;
+    margin-top: 35px;
+    color: #FFFFFF;
+}
 .HomePage{
   height: 100%;
   width: 100%;
@@ -121,34 +128,92 @@ button:focus {outline:0;}
 }
 
 .playList{
-    background: #f18562;
+    background: #FFFFFF;
     vertical-align: middle;
     padding: 5px;
-    width: 80%;
+    width: 100%;
+    height: 100%;
     margin-left: auto;
     margin-right: auto;
 }
 
 
 .songItem{
-  margin: 10px;
-  padding: 10px;
-  background-color: rgba(255, 255, 255, 0.28);
+  float: left;
+  width: 300px;
+  margin: 5px;
+  padding: 5px;
+  background-color: rgba(140, 146, 149, 0.6);
   .title{
-    font-size: 20px;
+    font-size: 15px;
     color: white;
     text-transform: capitalize;
+  }
+  .itemPlay{
+    margin: 0;
+    width: 30px;
+    padding: 7px 0px 0px 9px;
+    background-color: #FFFFFF;
+    text-align: center;
+    height: 30px;
+    border-radius: 100%;
+    display: -webkit-inline-box;
   }
 }
 .songItem:hover{
   transition: background-color .6s;
-  background-color: #A9B3B9;
+  background-color: #879EAB;
 }
 
 .like-count{
   color: #FF598E;
   float: right;
 }
+/* ================ MyMusic ================= */
+.profilePage{
+  .randomBG{
+    height: 100px;
+    width: 100%;
+
+  }
+
+  .profileImg{
+        height: 100px;
+      position: absolute;
+      top: 120px;
+      left: 15%;
+      border-radius: 100%;
+      border-width: 5px;
+      border-color: white;
+      border-style: solid;
+  }
+  .profileButton{
+    background-color: #FFFFFF;
+    outline: 0;
+    color: #C7ABAB;
+    border-style: solid;
+    border-width: 1px;
+    border-color: #ECCCDB;
+    border-right: 0px;
+    border-left: 0px;
+    border-top: 0px;
+    margin: 10px;
+  }
+  .profileButton:hover{
+    color: #D21D6F;
+    border-color: #D21D6F;
+  }
+  .profileButtonCollection{
+    margin-left: 30%;
+    min-width: 900px;
+  }
+
+}
+.mylist{
+  width: 100%;
+  padding: 10px;
+}
+
 
 
 /* ================ MusicPlayer ================= */
@@ -156,13 +221,13 @@ $common-padding: 5px;
 $animate-sec: 1.5s;
 
 .audio-player {
-    background: #f15d5a;
+  min-width: 780px;
+    background: url(../assets/random-bg/playerbg3.jpg);
     vertical-align: middle;
     padding: 10px 0px 0px 0px;
-    width: 80%;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 15px;
 }
 
 .audio-button-panel {
@@ -191,7 +256,7 @@ $animate-sec: 1.5s;
 }
 
 .audio-progress {
-  background: #FAFFAF;
+  background: rgba(255, 236, 141, 0.95);
   width: 100%;
   height: 100%;
 }
@@ -275,9 +340,9 @@ $animate-sec: 1.5s;
   margin-top: 10px;
   width: 100%;
   vertical-align: middle;
-  padding-top: 3px;
-  background-color: #795844;
-   color: white;
+  padding: 5px;
+  background-color: rgba(241, 172, 213, 0.42);
+  color: white;
 }
 
 .audio-time {
@@ -291,6 +356,16 @@ $animate-sec: 1.5s;
     overflow: hidden;
 
 }
+
+  .userPlayButton{
+    position: absolute;
+    margin-left: 70%;
+    margin-top: 25px;
+    width: 60px;
+    height: 50px;
+    border-radius: 10%;
+    font-size: 25px;
+  }
 
 @keyframes rotating {
   from {
@@ -357,4 +432,13 @@ $animate-sec: 1.5s;
     fill: none;
     stroke: red;
     stroke-width: 3px;
+  }
+
+  .treeDiv {
+    .sideBar {
+      float: right;
+      width: 25%;
+      border: 3px solid black;
+      padding: 5px;
+    }
   }
