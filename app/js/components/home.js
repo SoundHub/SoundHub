@@ -3,8 +3,7 @@ import React from 'react';
 import SongActions from '../actions/songActionCreators';
 import AllSongStore from '../stores/allSongStore';
 import {Glyphicon} from 'react-bootstrap';
-
-var AudioPlayer = require("./player-components/AudioPlayer");
+import AudioPlayer from './player-components/AudioPlayer';
 
 var arr = [{
   title:'badboy',
