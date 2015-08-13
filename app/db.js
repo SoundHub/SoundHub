@@ -102,6 +102,9 @@ var signup = function(username, password, callback) {
   });
 };
 
+module.exports.User = User;
+module.exports.SongNode = SongNode;
+module.exports.orm = orm;
 module.exports.login = login;
 module.exports.signup = signup;
 
