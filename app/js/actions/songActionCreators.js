@@ -78,15 +78,10 @@ export default {
     }
     Utils.post('/addFork', forkInfo)
     .then((response) => {
-      return response.json();
-    })
-    .then((json) => {
-      console.log(json);
       Dispatcher.dispatch({
-        type: ActionType.FORK,
-        message: json
-      });
-      console.log('forking successful');
+        type: ActionType.FORK_SUCCESS,
+        forkInfo: forkInfo
+      })
     })
     .catch((err) => {
       console.log('forking failed: ', err)

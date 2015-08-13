@@ -13,7 +13,8 @@ let constants = {
       CREATE_SONG: null,
       SONG_ADD_SUCCESS: null,
       VOTE: null,
-      GET_USER_FORKS: null
+      GET_USER_FORKS: null,
+      FORK_SUCCESS: null
   })
 }
 

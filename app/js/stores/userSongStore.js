@@ -5,6 +5,7 @@ import Dispatcher from '../dispatcher/dispatcher.js';
 import Constants from '../constants/constants';
 import EventEmitter from 'events';
 import assign from 'object-assign';
+import AllSongStore from './allSongStore.js'
 
 let ActionType = Constants.ActionTypes;
 let CHANGE_EVENT = 'change';
@@ -48,6 +49,11 @@ let setUserForks = function() {
 
 }
 
+let setNewFork = function(forkInfo) {
+  var song = AllSongStore.getSongById(forkInfo.songId);
+  _userSongs.forked.push(song);
+}
+
 let UserSongStore = assign({}, EventEmitter.prototype, {
   emitChange() {
     this.emit(CHANGE_EVENT)
@@ -85,6 +91,13 @@ UserSongStore.dispatchToken = Dispatcher.register(function(payload) {
 
     case ActionType.GET_USER_FORKS:
       setUserForks(payload)
+      break;
+
+    case ActionType.FORK_SUCCESS:
+      Dispatcher.waitFor([AllSongStore.dispatchToken]);
+      setNewFork(payload.forkInfo);
+      UserSongStore.emitChange();
+      break;
 
     default:
       // do nothing

@@ -49,7 +49,7 @@ var login = function(username, password, callback) {
   response.success = false;
   var hashedPw;
   var userObj;
-  sequelize.User.findAll({
+  Sequelize.User.findAll({
     where: {
       username: username
     }
