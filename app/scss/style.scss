@@ -2,7 +2,7 @@
 
 button:focus {outline:0 !important;}
 input:focus {outline:0 !important;}
-
+body{min-width: 700px;}
 
 
 /* ============== TOP BAR =============== */
@@ -111,7 +111,7 @@ input:focus {outline:0 !important;}
 .boxed-group-profile{
     margin-top: 30px;
     margin-left: 3%;
-    padding-left: 50px;
+    padding-left: 3%;
     min-width: 500px;
     min-height: 400px;
     z-index: 10;
@@ -266,7 +266,7 @@ input:focus {outline:0 !important;}
   }
   .profileButtonCollection{
     margin-top: 40px;
-    margin-left: 70px;
+    margin-left: 7%;
     min-width: 100px;
     display: inline;
     float: left;
