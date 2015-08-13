@@ -23,7 +23,6 @@ module.exports = React.createClass({
 	},
 
 	componentWillUnmount:function(){
-		console.log('END!!!!!')
 		this.clearSoundObject();
 		this.playEnd();
 	},
@@ -40,7 +39,6 @@ module.exports = React.createClass({
 				}
 			})
 		}
-		console.log(nextProps.song);
 	},
 
 	voteSong: function(val) {
@@ -114,7 +112,6 @@ module.exports = React.createClass({
 
 
 	onPlayBtnClick: function() {
-
 		if (this.state.isPlaying && !this.state.isPause) {
 			return;
 		};

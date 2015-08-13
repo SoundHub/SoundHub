@@ -220,13 +220,15 @@ var treeify = function(nodesArray) {
   }
   //recursively build and traverse tree
   function depthFirstFill(node) {
-    for (var i = 0; i < nodesArray.length; i++) {
-      if (parseInt(nodesArray[i].parent) === node.id) {
-        node.children.push(nodesArray[i]);
+    if(node) {
+      for (var i = 0; i < nodesArray.length; i++) {
+        if (parseInt(nodesArray[i].parent) === node.id) {
+          node.children.push(nodesArray[i]);
+        }
       }
-    }
-    for (var i = 0; i < node.children.length; i++) {
-      depthFirstFill(node.children[i]);
+      for (var i = 0; i < node.children.length; i++) {
+        depthFirstFill(node.children[i]);
+      }
     }
   }
   depthFirstFill(tree);

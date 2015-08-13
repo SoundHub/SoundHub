@@ -1,5 +1,4 @@
 'use strict';
-// // ES6
 import React from 'react';
 import treeUtils from './makeTree.js';
 

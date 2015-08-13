@@ -28,18 +28,19 @@ export default {
 
   // retrieve song tree
   getSongTree(song) {
-    Utils.get('/tree', song)
+    Utils.getTree('/tree', song)
     .then((response) => {
-      return response.json();
+      return response;
     })
     .then((json) => {
       Dispatcher.dispatch({
         type: ActionType.RECEIVE_SONG_TREE,
+        message: 'Song tree received',
         songTree: json
       })
     })
     .catch((err) => {
-      console.log('failed: ', err)
+      console.log('getSongTree failed: ', err)
     })
   },
 
@@ -121,6 +122,14 @@ export default {
     .catch((err) => {
       console.log('failed: ', err)
     })
+  },
+
+  createFromFork(forkSong){
+    Dispatcher.dispatch({
+      type:ActionType.CREATE_FROM_FORKS,
+      song:forkSong,
+      page:'create'
+    })
   }
-  
+
 }
