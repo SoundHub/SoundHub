@@ -10,9 +10,12 @@ let ActionType = Constants.ActionTypes;
 let CHANGE_EVENT = 'change';
 
 let _userSongs = {
-  allCreated: [],
-  voted: {}
-}; // keys: allCreated, newestCreated, forked, voted, favs
+  allCreated: {},
+  newestCreated: {},
+  voted: {},
+  forked: [],
+  favs: {}
+};
 
 let setNewestCreated = function(songData) {
   _userSongs.newestCreated = songData;
@@ -39,6 +42,10 @@ let setVote = function(voteInfo) {
       return;
     }
   } 
+}
+
+let setUserForks = function() {
+
 }
 
 let UserSongStore = assign({}, EventEmitter.prototype, {
@@ -75,6 +82,9 @@ UserSongStore.dispatchToken = Dispatcher.register(function(payload) {
       console.log('enter user song store', payload)
       setVote(payload.voteInfo);
       break;
+
+    case ActionType.GET_USER_FORKS:
+      setUserForks(payload)
 
     default:
       // do nothing

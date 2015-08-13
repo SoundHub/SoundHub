@@ -78,8 +78,8 @@ server.get('/myForks', function(req, res) {  //** MVP **//
 })
 
 server.post('/addFork', function(req, res) { //** MVP **//
-  var userID = req.body.userId;
-  var songID = req.body.songId;
+  var userId = req.body.userId;
+  var songId = req.body.songId;
   db.addFork(userId, songId, function(forkData) {
     console.log(forkData);
     res.send('fork added');
