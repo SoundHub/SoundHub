@@ -55,6 +55,7 @@ AllSongStore.dispatchToken = Dispatcher.register(function(payload) {
 
     case ActionType.VOTE:
       Dispatcher.waitFor([UserSongStore.dispatchToken]);
+      console.log(UserSongStore.dispatchToken)
       addVote(payload.voteInfo);
       AllSongStore.emitChange();
       break;

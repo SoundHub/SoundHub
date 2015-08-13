@@ -8,6 +8,7 @@ var babel = require('babelify');
 var sass = require('gulp-sass');
 var concat = require('gulp-concat');
 var nodemon = require('gulp-nodemon');
+var jest = require('gulp-jest');
 
 function compile(watch) {
   var bundler = watchify(browserify('./app/client.js', { debug: true }).transform(babel));
@@ -45,7 +46,10 @@ gulp.task('sass', function() {
     .pipe(gulp.dest('./app/build'));
 });
 
-gulp.task('build', function() { return compile(); });
+gulp.task('build', function() { 
+  return compile(); 
+});
+
 gulp.task('watch', function() {
   gulp.watch('./app/scss/**/*.scss', ['sass']);
   nodemon({
@@ -55,4 +59,28 @@ gulp.task('watch', function() {
   })
   return watch();
 });
+
+gulp.task('jest', function () {
+  return gulp.src('__tests__').pipe(jest({
+    unmockedModulePathPatterns: [
+      "node_modules/react"
+    ],
+    testDirectoryName: "spec",
+    testPathIgnorePatterns: [
+      "node_modules",
+      "spec/support"
+    ],
+    moduleFileExtensions: [
+      "js",
+      "json",
+      "react"
+    ]
+  }));
+});
+
 gulp.task('default', ['build','sass','watch']);
+gulp.task('test', ['jest']);
+
+
+
+

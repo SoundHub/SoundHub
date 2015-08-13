@@ -1,7 +1,7 @@
 /* ============== General =============== */
 
 button:focus {outline:0 !important;}
-
+input:focus {outline:0 !important;}
 
 
 
@@ -20,7 +20,7 @@ button:focus {outline:0 !important;}
     text-align: right;
     margin-top: 20px;
     margin-right: 10px;
-    width: 300px;
+    width: 220px;
     a {
       height: 50px;
       color: #000;
@@ -106,6 +106,63 @@ button:focus {outline:0 !important;}
 
 
 }
+
+/* ================ profile ================= */
+.boxed-group-profile{
+      margin-top: 50px;
+    margin-left: 20%;
+    width: 70%;
+}
+.pageTitle{
+    background-color: #4DC068;
+    color: white;
+    margin: 0;
+    border-radius: 3px 3px 0 0;
+    border: 1px solid #d8d8d8;
+    border-bottom: 0;
+    padding: 9px 10px 10px;
+    font-size: 14px;
+    line-height: 17px;
+    display: block;
+}
+.boxed-group-inner {
+  position: relative;
+    padding: 1px 30px;
+    background: #fff;
+    border: 1px solid #d8d8d8;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    color: #666;
+    font-size: 13px;
+    height: 300px;
+}
+.edit-profile-avatar{
+  margin: 15px 0;
+  height: 150px;
+}
+#avatar{
+    float: left;
+    height: 100px;
+    display: inline-block;
+    overflow: hidden;
+    line-height: 1;
+    vertical-align: middle;
+    border-radius: 3px;
+}
+.edit-profile{
+  margin: 15px 0;
+}
+.edit-profile-avatar{
+  margin: 15px 0;
+  height: 150px;
+}
+.profile-input{
+  width: 56%;
+  margin-top: 5px;
+  min-width: 180px;
+}
+
+
 /* ================ Home ================= */
 
 .userSongTitle{
@@ -116,12 +173,6 @@ button:focus {outline:0 !important;}
     color: #FFFFFF;
 }
 .HomePage{
-  height: 100%;
-  width: 100%;
-  position: fixed;
-  top: 80px;
-  left: 0;
-  background-color:rgba(249, 255, 224, 0.33);
   .playerBox {
     display: flex;
   }
@@ -133,16 +184,15 @@ button:focus {outline:0 !important;}
     padding: 5px;
     width: 100%;
     height: 100%;
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: 5%;
 }
 
 
 .songItem{
   float: left;
   width: 300px;
-  margin: 5px;
-  padding: 5px;
+  margin: 10px;
+  padding: 10px;
   background-color: rgba(140, 146, 149, 0.6);
   .title{
     font-size: 15px;
@@ -161,13 +211,30 @@ button:focus {outline:0 !important;}
   }
 }
 .songItem:hover{
-  transition: background-color .6s;
+  transition: background-color .3s;
   background-color: #879EAB;
 }
 
 .like-count{
   color: #FF598E;
   float: right;
+}
+
+.Carcouselbox
+{
+}
+
+.banner{
+  height: 400px !important;
+  width: 100%;
+}
+.bannerTitle{
+  font-weight: bold;
+  font-size: 40px;
+}
+
+.bannerText{
+  padding-bottom: 100px;
 }
 /* ================ MyMusic ================= */
 .profilePage{
@@ -198,20 +265,26 @@ button:focus {outline:0 !important;}
     border-left: 0px;
     border-top: 0px;
     margin: 10px;
+    display: block;
   }
   .profileButton:hover{
     color: #D21D6F;
     border-color: #D21D6F;
   }
   .profileButtonCollection{
-    margin-left: 30%;
-    min-width: 900px;
+    margin-top: 40px;
+    margin-left: 70px;
+    min-width: 100px;
+    display: inline;
+    float: left;
   }
 
 }
 .mylist{
-  width: 100%;
-  padding: 10px;
+    min-width: 500px;
+    width: 100%;
+    margin-top: 50px;
+    margin-left: 10%;
 }
 
 

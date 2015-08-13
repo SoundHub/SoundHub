@@ -10,18 +10,21 @@ var arr = [{
   url: "assets/badboy.mp3",
   author:"big bang",
   like:"223",
+  img:"assets/album/1.png",
   id: 1
 },{
   title:'bang bang bang',
   url: "assets/bang.mp3",
   author:"big bang",
   like:"53",
+  img:"assets/album/2.jpg",
   id: 2
 },{
   title:'tonight',
   url: "assets/giveyouup.mp3",
   author:"big bang",
   like:"103",
+  img:"assets/album/3.jpg",
   id: 3
 }];
 
@@ -32,8 +35,9 @@ class Home extends React.Component {
     SongActions.getAllSongs();
     //should this be this.setState instead?
 
-    this.state = {songs: {
-        allSongs: [],
+    this.state = {
+      songs: {
+        allSongs: []
       }
     }
     //bindings
@@ -57,7 +61,7 @@ class Home extends React.Component {
       <div className= "playerBox">
         <AudioPlayer song = {this.state.currentsong} mode = "home" />
       </div>
-        <SongList data = {this.state.songs.allSongs}  switchSong = {this.switchSong} />
+        <SongList data = {this.state.songs.allSongs} switchSong = {this.switchSong} />
       </div>
     );
   }
