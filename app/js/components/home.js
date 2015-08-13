@@ -33,14 +33,7 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
     SongActions.getAllSongs();
-    //should this be this.setState instead?
-
-    this.state = {
-      songs: {
-        allSongs: []
-      }
-    }
-    //bindings
+    this.state = {songs: {allSongs: []}}
     this.componentDidMount = this.componentDidMount.bind(this);
     this.switchSong = this.switchSong.bind(this);
     this.render = this.render.bind(this);
@@ -88,11 +81,11 @@ class SongList extends React.Component{
       <div className="playList" >
         {this.props.data.map(function(song, i) {
           return (
-            <div className = "songItem" key={i}>
+            <div className = "songItem effect8" key={i}>
               <div className="itemPlay" onClick={this.handleClick.bind(this, i)}>
                 <Glyphicon glyph='play' />
               </div>
-              <span className = "title"  > {song.title} </span>
+              <span className = "title"  > {i} {song.title} </span>
               <span className> by {song.author} </span>
               <span className="like-count" > <Glyphicon glyph='heart' /> {song.like} </span>
             </div>

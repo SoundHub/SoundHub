@@ -53,8 +53,11 @@ class MyMusic extends React.Component {
 
   render() {
     return (
-      <div className="mylist">
-        <SongList data = {arr}  switchSong = {this.switchSong} />
+      <div className="boxed-group-profile">
+          <div className="pageTitle">MyMusic</div>
+          <div className="mylist">
+            <SongList data = {arr}  switchSong = {this.switchSong} />
+          </div>
       </div>
     );
   }
@@ -74,7 +77,6 @@ class Edit extends React.Component {
     return (
       <div className="boxed-group-profile">
           <div className="pageTitle">Profile</div>
-          <div className="boxed-group-inner">
               <div className="edit-profile-avatar">
                 <div>Profile picture</div>
                 <img id="avatar" />
@@ -89,7 +91,6 @@ class Edit extends React.Component {
                 </div>
                 <button onClick={this.save} className="btn btn-success">SAVE</button>
               </div>
-          </div>
       </div>
     );
   }
