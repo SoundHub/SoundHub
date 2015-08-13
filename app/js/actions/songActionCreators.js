@@ -28,19 +28,18 @@ export default {
 
   // retrieve song tree
   getSongTree(song) {
-    Utils.getTree('/tree', song)
+    Utils.get('/tree', song)
     .then((response) => {
-      return response;
+      return response.json();
     })
     .then((json) => {
       Dispatcher.dispatch({
         type: ActionType.RECEIVE_SONG_TREE,
-        message: 'Song tree received',
         songTree: json
       })
     })
     .catch((err) => {
-      console.error('songtree failed: ', err)
+      console.error('failed: ', err)
     })
   },
 
@@ -124,8 +123,8 @@ export default {
       })
     })
     .catch((err) => {
-      console.error('failed: ', err)
+      console.error('songTree failed: ', err)
     })
   }
-
+  
 }
