@@ -1,6 +1,7 @@
 'use strict';
 import React from 'react';
 import Router from 'react-router';
+import Carcousel from './carcousel'
 
 class Login extends React.Component {
   constructor() {
@@ -74,9 +75,9 @@ class Auth extends React.Component {
     }
     return (
       <div className = "authPage">
-        <div className="authBanner">
-          <div className="authBannerTitle">SongHub</div>
-        </div>
+      <div className = "Carcouselbox">
+        <Carcousel bsSize="small"/>
+      </div>
         {authform}
       </div>
     );

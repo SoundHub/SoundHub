@@ -44,7 +44,7 @@ class Create extends React.Component {
   }
 
   componentDidMount() {
-    UserSongStore.addChangeListener(this._onChange); 
+    UserSongStore.addChangeListener(this._onChange);
   }
 
   uploadSong() {
