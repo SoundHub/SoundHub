@@ -71,14 +71,24 @@ class Edit extends React.Component {
 
   render() {
     return (
-      <div className="Profile">
-        <div className="pageTitle">Profile</div>
-        <div>Profile picture</div>
-        <div className="edit-profile">
-          <div>Name</div>
-          <input size="20" type="text" placeholder= {this.props.username} ref="username" ></input>
-        </div>
-        <button className="btn btn-success" onClick={this.save}>SAVE</button>
+      <div className="boxed-group-profile">
+          <div className="pageTitle">Profile</div>
+          <div className="boxed-group-inner">
+              <div className="edit-profile-avatar">
+                <div>Profile picture</div>
+                <img id="avatar" />
+                <div className="fileUpload btn btn-success">
+                      <span>Choose Pic</span>
+                      <input type="file" className="upload"></input>
+                </div>
+
+                <div className="edit-profile">
+                <div>Name</div>
+                  <input classNameName="profile-input" ref="username" type="text" placeholder={this.props.username}></input>
+                </div>
+                <button onClick={this.save} className="btn btn-success">SAVE</button>
+              </div>
+          </div>
       </div>
     );
   }
