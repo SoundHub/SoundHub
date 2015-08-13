@@ -1,7 +1,7 @@
 'use strict';
 import React from 'react';
 import Router from 'react-router';
-import Carcousel from './carcousel'
+import UserActions from '../actions/userActionCreators';
 
 class Login extends React.Component {
   constructor() {
@@ -41,6 +41,7 @@ class Signup extends React.Component {
     this.props.handleToggle('Login');
   }
 
+
   render() {
     return (
         <div className="AuthForm">
@@ -65,6 +66,19 @@ class Auth extends React.Component {
   toggle(data){
     this.setState({authType:data}, () => {});
   }
+  handleSignUp() {
+    UserActions.createUser();
+    
+  }
+  handleLogin() {
+    UserActions.loginUser();
+    
+  }  
+  handleLogout() {
+    UserActions.logoutUser();
+    
+  }
+
 
   render() {
     var authform = <Login handleToggle = {this.toggle}/>;
@@ -75,9 +89,9 @@ class Auth extends React.Component {
     }
     return (
       <div className = "authPage">
-      <div className = "Carcouselbox">
-        <Carcousel bsSize="small"/>
-      </div>
+        <div className="authBanner">
+          <div className="authBannerTitle">SongHub</div>
+        </div>
         {authform}
       </div>
     );
