@@ -7,7 +7,6 @@ import UserProfileStore from '../stores/userProfileStore'
 import ReactS3Uploader from 'react-s3-uploader';
 
 // Initialize the Amazon Cognito credentials provider
-// AWS.config.update({accessKeyId: 'AKIAJBIPG6KKCLNJN3NQ', secretAccessKey: '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'});
 AWS.config.region = 'us-east-1'; // Region
 AWS.config.credentials = new AWS.CognitoIdentityCredentials({
     IdentityPoolId: 'us-east-1:d23a3717-f2ef-47c3-ac35-3ee1238e6c8f',
