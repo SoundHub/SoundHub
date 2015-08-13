@@ -25,7 +25,7 @@ server.use('/s3', require('react-s3-uploader/s3router')({
 /** DB ROUTES **/
 var db = require('./db.js');
 
-server.get('/login', function(req, res) {
+server.post('/login', function(req, res) {
   db.login(req.body.username, req.body.password, function(response) {
     if (response.success) {
       req.session.user = response.user;
@@ -78,7 +78,7 @@ server.get('/myForks', function(req, res) {  //** MVP **//
   })
 })
 
-server.get('/myFavs', function(req, res) {
+server.post('/myFavs', function(req, res) {
   var userId = 1; //req.body.userId
   db.myFavs(userId, function(data) {
     res.send(data);
@@ -89,16 +89,31 @@ server.post('/addFork', function(req, res) { //** MVP **//
   var userId = req.body.userId;
   var songId = req.body.songId;
   db.addFork(userId, songId, function(forkData) {
-    console.log(forkData);
     res.send('fork added');
   })
 })
 
+server.get('/addFav', function(req, res) {
+  var userId = 1; //req.body.userId;
+  var songId = 1; //req.body.songId;
+  db.addFav(userId, songId, function(data) {
+    res.send(data);
+  })
+})
+
 server.get('/myVotes', function(req, res) {
-  console.log('routed');
   var userId = 1; //req.body.userId
   db.myVotes(userId, function(data) {
     console.log('derp');
+    res.send(data);
+  })
+})
+
+server.get('/addVote', function(req, res) {
+  var vote = -1; // req.body.vote
+  var userId = 4; //req.body.userId
+  var songId = 1; //req.body.songId
+  db.addVote(vote, userId, songId, function(data) {
     res.send(data);
   })
 })

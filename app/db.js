@@ -29,42 +29,21 @@ var User = orm.define('users', {
 
 // Define the join table which joins Users and 'forked' SongNodes
 var Fork = orm.define('forks', {
-});
-
-User.belongsToMany(SongNode, {
-  through: Fork
-});
-
-SongNode.belongsToMany(User, {
-  through: Fork,
-  as: 'userForks'
+  userId: { type: Sequelize.INTEGER, allowNull: false },
+  songNodeId: { type: Sequelize.INTEGER, allowNull: false}
 });
 
 // Define the join table which joins Users and 'favorited' SongNodes
-var Favorite = orm.define('favorite', {
-});
-
-// User.belongsToMany(SongNode, {
-//   through: Favorite
-// });
-
-SongNode.belongsToMany(User, {
-  through: Favorite,
-  as: 'userFavorites'
+var Favorite = orm.define('favorites', {
+  userId: { type: Sequelize.INTEGER, allowNull: false },
+  songNodeId: { type: Sequelize.INTEGER, allowNull: false}
 });
 
 //Define the join table which joins Users and 'upvoted/downvoted' SongNodes
 var Upvote = orm.define('upvotes', {
+  userId: { type: Sequelize.INTEGER, allowNull: false },
+  songNodeId: { type: Sequelize.INTEGER, allowNull: false},
   upvote: { type: Sequelize.INTEGER, allowNull: true }
-})
-
-// User.belongsToMany(SongNode, {
-//   through: Upvote
-// })
-
-SongNode.belongsToMany(User, {
-  through: Upvote,
-  as: 'userForks'
 })
 
 orm.sync();
@@ -76,7 +55,7 @@ var login = function(username, password, callback) {
   response.success = false;
   var hashedPw;
   var userObj;
-  sequelize.User.findAll({
+  User.findAll({
     where: {
       username: username
     }
@@ -204,13 +183,12 @@ var myForks = function(userId, callback) {
   })
 };
 
-var addFork = function(userId, songId, callback) {
-  orm.sync().then(function() {
-    return Fork.create({
-      userId: userId,
-      songNodeId: songId
-    })
-  }).then(function(forkData) {
+var addFork = function(userId, songNodeId, callback) {
+  Fork.create({
+    userId: userId,
+    songNodeId: songNodeId
+  })
+  .then(function(forkData) {
     callback(forkData);
   });
 };
@@ -225,17 +203,50 @@ var myFavs = function(userId, callback) {  //I AM NOT MVP
   })
 };
 
+var addFav = function(userId, songNodeId, callback) {
+  Favorite.create({
+    userId: userId,
+    songNodeId: songNodeId
+  })
+  .then(function(forkData) {
+    callback(forkData);
+  });
+};
+
 var myVotes = function(userId, callback) {
-  console.log('got here');
   orm.query(
     'select songNodes.id, upvotes.upvote from ' +
     'upvotes join users on upvotes.userId = '+userId+
     ' join songNodes on upvotes.songNodeId = songNodes.id;'
   ).then(function(data) {
-    console.log(typeof data);
     callback(data.slice(0, (data.length - 1))[0]);
   })
 };
+
+var addVote = function(voteVal, userId, songNodeId, callback) {
+  Upvote.findOne({
+    where: {
+      userId: userId,
+      songNodeId: songNodeId
+    }
+  })
+  .then(function(data) {
+    console.log('some data: ', data);
+    if (data) {
+      console.log(data.dataValues.upvote, voteVal);
+    } else {
+      console.log('found');
+    }
+    Upvote.create({
+      upvote: voteVal,
+      userId: userId,
+      songNodeId: songNodeId
+    })
+    .then(function(forkData) {
+      callback(forkData);
+    })
+  })
+}
 
 
 exports.addSong = addSong;
@@ -245,7 +256,9 @@ exports.mySongs = mySongs;
 exports.myForks = myForks;
 exports.addFork = addFork;
 exports.myFavs = myFavs;
+exports.addFav = addFav;
 exports.myVotes = myVotes;
+exports.addVote = addVote;
 
 
 
