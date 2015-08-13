@@ -66,26 +66,33 @@ class Create extends React.Component {
 
   render() {
     return (
-      <div className="CreateForm">
-      <h1>Create your sound here!</h1>
-      <h3>Upload file:</h3>
-      <ReactS3Uploader
-          signingUrl="/s3/sign"
-          accept="audio/*"
-          onProgress={this.onUploadProgress}
-          onError={this.onUploadError}
-          onFinish={this.onUploadFinish}/>
-        <input type="text" placeholder="Name" ref="songName"/>
-        <input type="text" placeholder="Genre" ref="songGenre" />
-        <input type="button" value="Create" onClick={this.uploadSong}/>
-        { this.state.showUpdate ? <div>{this.state.newestCreated.title} added!</div> : null }
+        <div className="boxed-group-profile CreateForm">
+          <div className="pageTitle">Create</div>
+          <div className="boxed-group-inner">
+              <div className="edit-profile-avatar">
+                <ReactS3Uploader
+                  signingUrl="/s3/sign"
+                  accept="audio/*"
+                  onProgress={this.onUploadProgress}
+                  onError={this.onUploadError}
+                  onFinish={this.onUploadFinish}/>
+                <input type="text" placeholder="Name" ref="songName"/>
+                <input type="text" placeholder="Genre" ref="songGenre" />
+                <input className="btn btn-success" type="button" value="Create" onClick={this.uploadSong}/>
+                { this.state.showUpdate ? <div>{this.state.newestCreated.title} added!</div> : null }
+              </div>
+          </div>
       </div>
     );
   }
 
+
+
+
+
   _onChange() {
     this.setState({
-      newestCreated: UserSongStore.getUserSongs().newestCreated, 
+      newestCreated: UserSongStore.getUserSongs().newestCreated,
       showUpdate: true
     })
   }
