@@ -3,6 +3,7 @@ import React from 'react';
 import SongActions from '../actions/songActionCreators';
 import AllSongStore from '../stores/allSongStore';
 import {Glyphicon} from 'react-bootstrap';
+
 var AudioPlayer = require("./player-components/AudioPlayer");
 
 var arr = [{
@@ -33,14 +34,7 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
     SongActions.getAllSongs();
-    //should this be this.setState instead?
-
-    this.state = {
-      songs: {
-        allSongs: []
-      }
-    }
-    //bindings
+    this.state = {songs: {allSongs: []}}
     this.componentDidMount = this.componentDidMount.bind(this);
     this.switchSong = this.switchSong.bind(this);
     this.render = this.render.bind(this);
@@ -77,10 +71,18 @@ class SongList extends React.Component{
   constructor() {
     super();
     this.handleClick = this.handleClick.bind(this);
+    this.forkclick = this.forkclick.bind(this);
    }
 
   handleClick(i){
     this.props.switchSong(this.props.data[i]);
+  }
+
+  forkclick(i){
+    let forkSong = this.props.data[i]
+    SongActions.createFromFork(forkSong);
+    //action pass data to create comp and pass state to user panel(pageType==='create')
+
   }
 
   render() {
@@ -88,13 +90,15 @@ class SongList extends React.Component{
       <div className="playList" >
         {this.props.data.map(function(song, i) {
           return (
-            <div className = "songItem" key={i}>
+            <div className = "songItem effect8" key={i}>
               <div className="itemPlay" onClick={this.handleClick.bind(this, i)}>
                 <Glyphicon glyph='play' />
               </div>
-              <span className = "title"  > {song.title} </span>
+              <span className = "title"  > {i} {song.title} </span>
               <span className> by {song.author} </span>
               <span className="like-count" > <Glyphicon glyph='heart' /> {song.like} </span>
+
+              { this.props.uploadmode ? <button onClick={this.forkclick.bind(this,i)}> + </button>: null }
             </div>
           );
         }, this)}

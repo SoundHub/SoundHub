@@ -108,8 +108,9 @@ var signup = function(username, password, callback) {
   });
 };
 
-module.exports.login = login;
-module.exports.signup = signup;
+
+exports.login = login;
+exports.signup = signup;
 
 
 /** INSERT/QUERY FUNCTIONS **/
@@ -260,9 +261,6 @@ exports.addFav = addFav;
 exports.myVotes = myVotes;
 exports.addVote = addVote;
 
-
-
-
 /* BUILD TREE FROM FLATTENED ARRAY, PROBS FOR FRONT END */
 
 //this should be optimized, currently O(n^2)
@@ -282,13 +280,15 @@ var treeify = function(nodesArray) {
   }
   //recursively build and traverse tree
   function depthFirstFill(node) {
-    for (var i = 0; i < nodesArray.length; i++) {
-      if (parseInt(nodesArray[i].parent) === node.id) {
-        node.children.push(nodesArray[i]);
+    if(node) {
+      for (var i = 0; i < nodesArray.length; i++) {
+        if (parseInt(nodesArray[i].parent) === node.id) {
+          node.children.push(nodesArray[i]);
+        }
       }
-    }
-    for (var i = 0; i < node.children.length; i++) {
-      depthFirstFill(node.children[i]);
+      for (var i = 0; i < node.children.length; i++) {
+        depthFirstFill(node.children[i]);
+      }
     }
   }
   depthFirstFill(tree);

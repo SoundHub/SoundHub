@@ -14,7 +14,7 @@ server.use(function(req, res, next) {
   next();
 });
 
-server.use(bodyParser.json()); 
+server.use(bodyParser.json());
 
 server.use('/s3', require('react-s3-uploader/s3router')({
     bucket: "soundhub",
@@ -56,17 +56,30 @@ server.get('/allSongs', function(req, res) {  //** MVP **//
   });
 })
 
+<<<<<<< HEAD
 server.get('/tree', function(req, res) {       //** MVP **//
   var rootId = '/1/';//req.body.rootId;
   db.findSongsbyRoot(rootId, function(data) {
     console.log(data);   
     res.send(db.treeify(data));                
+=======
+server.post('/tree', function(req, res) {       //** MVP **//
+  var rootId = req.body.rootId;
+  db.findSongsbyRoot(rootId, function(data) {
+    var responseObj = db.treeify(data);
+    res.json(responseObj);
+>>>>>>> c0ca697570343cc51957c705d4783acecf3734c1
   });
 })
 
 server.get('/mySongs', function(req, res) {   //** MVP **//
+<<<<<<< HEAD
   var userId = 1; //req.body.userId;             
   db.mySongs(userId, function(data) {            
+=======
+  var userId = req.body.userId
+  db.mySongs(userId, function(data) {
+>>>>>>> c0ca697570343cc51957c705d4783acecf3734c1
     res.send(data);
   })
 })
@@ -141,3 +154,5 @@ server.get('*', function(req, res) {
 var port = process.env.PORT || 3000;
 server.listen(port);
 console.log('listening on port', port);
+
+module.exports = server;

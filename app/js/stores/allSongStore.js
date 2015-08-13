@@ -49,7 +49,7 @@ AllSongStore.dispatchToken = Dispatcher.register(function(payload) {
     case ActionType.RECEIVE_ALL_SONGS:
       console.log('enter AllSongStore')
       let songs = payload.songs;
-      setAllSongs(songs);      
+      setAllSongs(songs);
       AllSongStore.emitChange();
       break;
 

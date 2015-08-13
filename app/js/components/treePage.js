@@ -65,10 +65,13 @@ var treeData = [{
 
 import React from 'react';
 import D3Tree from './tree.js';
+import SongActions from '../actions/songActionCreators';
+import SongTreeStore from '../stores/allSongStore';
 
 class Page extends React.Component {
   constructor() {
     super();
+    SongActions.getSongTree({rootId: '/1/'});  //'/1/'  '/1/2/'
     this.state = {
       treeData: treeData
     };
