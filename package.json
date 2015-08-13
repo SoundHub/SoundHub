@@ -4,7 +4,7 @@
   "description": "github for music",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -46,14 +46,24 @@
   "devDependencies": {
     "babelify": "^6.1.3",
     "browserify": "^11.0.1",
+    "chai": "^3.2.0",
     "gulp": "^3.9.0",
     "gulp-babel": "^5.2.0",
     "gulp-concat": "^2.6.0",
+    "gulp-jest": "^0.4.0",
     "gulp-nodemon": "^2.0.3",
     "gulp-sass": "^2.0.4",
     "gulp-sourcemaps": "^1.5.2",
+    "babel-jest": "*",
+    "jest-cli": "^0.4.18",
+    "mocha": "^2.2.5",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.3.1"
+  },
+  "jest": {
+    "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
+    "testFileExtensions": ["es6", "js"],
+    "moduleFileExtensions": ["js", "json", "es6"]
   }
 }
