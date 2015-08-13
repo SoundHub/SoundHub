@@ -35,8 +35,9 @@ class Home extends React.Component {
     SongActions.getAllSongs();
     //should this be this.setState instead?
 
-    this.state = {songs: {
-        allSongs: [],
+    this.state = {
+      songs: {
+        allSongs: []
       }
     }
     //bindings
@@ -60,7 +61,7 @@ class Home extends React.Component {
       <div className= "playerBox">
         <AudioPlayer song = {this.state.currentsong} mode = "home" />
       </div>
-        <SongList data = {this.state.songs.allSongs}  switchSong = {this.switchSong} />
+        <SongList data = {this.state.songs.allSongs} switchSong = {this.switchSong} />
       </div>
     );
   }
