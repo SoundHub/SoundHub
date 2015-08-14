@@ -38,12 +38,13 @@ var user = {
 class ForkList extends React.Component {
   constructor() {
     super();
-    SongActions.getAllForks(UserProfileStore.getLoggedInUser().userId);
-    this.state = {forkedSongs: UserSongStore.getForkedSongs()}
-    console.log('constructor',UserSongStore.getForkedSongs())
+    this.state = {forkedSongs: []};
+    this._onChange = this._onChange.bind(this);
+    UserSongStore.addChangeListener(this._onChange);
   }
   componentDidMount() {
-    UserSongStore.addChangeListener(this._onChange);
+    SongActions.getAllForks(UserProfileStore.getLoggedInUser().userId);
+    console.log('componentDidMount')
   }
   render() {
     return (
@@ -56,7 +57,8 @@ class ForkList extends React.Component {
     );
   }
   _onChange() {
-    this.setState({forkedSongs: UserSongStore.getForkedSongs()});
+    console.log('on change')
+    this.state = {forkedSongs: UserSongStore.getForkedSongs()};
     console.log('state: ', this.state)
   }
 }
