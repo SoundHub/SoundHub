@@ -6,22 +6,27 @@ import Create from './create';
 import Router from 'react-router';
 import AudioPlayer from './player-components/AudioPlayer';
 import UserSongStore from '../stores/userSongStore';
+import SongActions from '../actions/songActionCreators';
+import UserProfileStore from '../stores/userProfileStore';
 
 var arr = [{
   title:'badboy',
   url: "assets/badboy.mp3",
   author:"big bang",
-  like:"223"
+  like:"223",
+  id:'1'
 },{
   title:'bang bang bang',
   url: "assets/bang.mp3",
   author:"big bang",
-  like:"53"
+  like:"53",
+  id:'2'
 },{
   title:'tonight',
   url: "assets/giveyouup.mp3",
   author:"big bang",
-  like:"103"
+  like:"103",
+  id:'3'
 }];
 
 
@@ -33,16 +38,26 @@ var user = {
 class ForkList extends React.Component {
   constructor() {
     super();
+    SongActions.getAllForks(UserProfileStore.getLoggedInUser().userId);
+    this.state = {forkedSongs: UserSongStore.getForkedSongs()}
+    console.log('constructor',UserSongStore.getForkedSongs())
+  }
+  componentDidMount() {
+    UserSongStore.addChangeListener(this._onChange);
   }
   render() {
     return (
       <div className="boxed-group-profile">
           <div className="pageTitle">Branches</div>
           <div className="mylist">
-            <SongList data = {arr}  switchSong = {this.switchSong} uploadmode={true}/>
+            <SongList data = {this.state.forkedSongs}  switchSong = {this.switchSong} uploadmode={true}/>
           </div>
       </div>
     );
+  }
+  _onChange() {
+    this.setState({forkedSongs: UserSongStore.getForkedSongs()});
+    console.log('state: ', this.state)
   }
 }
 

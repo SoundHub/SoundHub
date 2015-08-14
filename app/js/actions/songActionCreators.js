@@ -71,33 +71,25 @@ export default {
     })
   },
 
-  // find all songs forked by user
-  getUserForkedSongs(user) {
-    Utils.post('/myForks', user)
-    .then((response) => {
-
-    })
-    .catch((err) => {
-      console.log('failed: ', err)
-    })
-  },
-
-  forkSong(userID, songID) {
-    Utils.post('/newFork', userID, songID)
+  // fork a song
+  forkSong(userId, songId) {
+    let forkInfo = {
+      userId: userId,
+      songId: songId
+    }
+    Utils.post('/addFork', forkInfo)
     .then((response) => {
       Dispatcher.dispatch({
-        type: ActionType.FORK,
-        message: 'Song successfully forked',
-        songData: songData
-      });
-      console.log('forking successful');
-
+        type: ActionType.FORK_SUCCESS,
+        forkInfo: forkInfo
+      })
     })
     .catch((err) => {
       console.log('forking failed: ', err)
     })
   },
 
+  // add upvote or downvote to song
   addSongVote(userId, songId, value) {
     let voteInfo = {
       userId: userId,
@@ -114,10 +106,13 @@ export default {
     })
   },
 
-  // get forked songs data
-  getAllForks() {
-    Utils.get('/myForks')
+  // find all songs forked by user
+  getAllForks(userId) {
+    console.log(userId)
+    var obj = {userId: userId};
+    Utils.post('/myForks', obj)
     .then((response) => {
+      console.log(response)
       return response.json();
     })
     .then((json) => {
@@ -129,14 +124,6 @@ export default {
     })
     .catch((err) => {
       console.log('failed: ', err)
-    })
-  },
-
-  createFromFork(forkSong){
-    Dispatcher.dispatch({
-      type:ActionType.CREATE_FROM_FORKS,
-      song:forkSong,
-      page:'create'
     })
   }
 
