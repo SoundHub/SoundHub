@@ -122,9 +122,8 @@ export default {
       })
     })
     .catch((err) => {
-      console.error('songTree failed: ', err)
-
-    })
+      console.error('songTree failed: ', err);
+    });
   },
 
   createFromFork(forkSong){

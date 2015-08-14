@@ -62,7 +62,9 @@ export default ({
     })
     .catch((err) => {
       console.error('logout failed: ', err);
-    }
+    });
+  },
+
 
   createUser (user) {
 
@@ -73,9 +75,8 @@ export default ({
         user: user
       });
       console.log('user created');
-
-    });
-
+    })
+    
     .catch((err) => {
       console.error('signup failed ', err);
     });
