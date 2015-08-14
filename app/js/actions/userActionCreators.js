@@ -10,11 +10,7 @@ let ActionType = Constants.ActionTypes;
 export default ({    
 
   createUser (user) {
-    // let userData = {
-    //   username: user.username,
-    //   password: user.password,
-    //   email: user.email
-    // };
+
 
     Utils.postJSON('/signup', user) 
     .then((response) => {
@@ -25,7 +21,8 @@ export default ({
       // .then ((resp) => {
         Dispatcher.dispatch({
           type: ActionType.SIGNUP,
-          response: response
+          response: response,
+          user: user
         });
         console.log('user created');
       // });
@@ -38,10 +35,7 @@ export default ({
 
   loginUser (user) {
     console.log('login');
-    // user = {
-    //   userName: user.username,
-    //   password: user.password
-    // };
+
 
     Utils.postJSON('/login', user)
     .then((response) => {
