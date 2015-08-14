@@ -115,7 +115,7 @@ export default {
       })
     })
     .catch((err) => {
-      console.error('songTree failed: ', err);
+      console.error('songForks failed: ', err);
     });
   },
 
