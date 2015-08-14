@@ -58,10 +58,34 @@ let setUserForks = function() {
 
 }
 
-let setNewFork = function(forkInfo) {
-  var song = AllSongStore.getSongById(forkInfo.songId);
-  _userSongs.forked.push(song);
+let setNewFork = function(id) {
+  AllSongStore.getSongById(id)
+  .then((song) => {
+    console.log('promise result ', song)
+    _userSongs.forked.push(song);   
+    console.log('forked songs: ', _userSongs.forked)
+  }, (err) => {
+    console.log(err);
+  })
 }
+
+// let setNewFork = function(id) {
+//   var promise = new Promise((resolve, reject) => {
+//     var song = AllSongStore.getSongById(id);
+//     if(song) {
+//       resolve(song);
+//     } else {
+//       reject(Error('get song failed'))
+//     }
+//   })
+//   promise.then((result) => {
+//     console.log('promise result: ', result)
+//     _userSongs.forked.push(result);   
+//     console.log('forked songs: ', _userSongs.forked)
+//   }, (err) => {
+//     console.log(err);
+//   })
+// }
 
 let UserSongStore = assign({}, EventEmitter.prototype, {
   emitChange() {
@@ -84,6 +108,9 @@ let UserSongStore = assign({}, EventEmitter.prototype, {
   },
   canVote(songId) {
     return _userSongs.voted[songId].userVoted;
+  },
+  getForkedSongs() {
+    return _userSongs.forked;
   }
 })
 
@@ -114,7 +141,8 @@ UserSongStore.dispatchToken = Dispatcher.register(function(payload) {
 
     case ActionType.FORK_SUCCESS:
       Dispatcher.waitFor([AllSongStore.dispatchToken]);
-      setNewFork(payload.forkInfo);
+      console.log(payload);
+      setNewFork(payload.forkInfo.songId);
       UserSongStore.emitChange();
       break;
 

@@ -33,16 +33,24 @@ var user = {
 class ForkList extends React.Component {
   constructor() {
     super();
+    this.state = {forkedSongs: UserSongStore.getForkedSongs()}
+    console.log('constructor',UserSongStore.getForkedSongs())
+  }
+  componentDidMount() {
+    UserSongStore.addChangeListener(this._onChange);
   }
   render() {
     return (
       <div className="boxed-group-profile">
           <div className="pageTitle">Branches</div>
           <div className="mylist">
-            <SongList data = {arr}  switchSong = {this.switchSong} uploadmode={true}/>
+            <SongList data = {this.state.forkedSongs}  switchSong = {this.switchSong} uploadmode={true}/>
           </div>
       </div>
     );
+  }
+  _onChange() {
+    this.setState({forkedSongs: UserSongStore.getForkedSongs()});
   }
 }
 
