@@ -35,6 +35,7 @@ export default {
     .then((json) => {
       Dispatcher.dispatch({
         type: ActionType.RECEIVE_SONG_TREE,
+        message: 'Song tree received',
         songTree: json
       })
     })
