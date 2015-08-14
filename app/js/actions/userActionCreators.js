@@ -2,9 +2,10 @@
 'use strict';
 import Dispatcher from '../dispatcher/dispatcher';
 import Constants from '../constants/constants';
-import Utils from '../utils/utils';
+import Utils from '../utils/appUtils';
 
 let ActionType = Constants.ActionTypes;
+
 
 export default ({
 
@@ -15,10 +16,11 @@ export default ({
       email: email
     };
 
+
     Utils.post('/signup', user)
     .then((response) => {
       Dispatcher.dispatch({
-        type: ActionType.NEW_USER,
+        type: ActionType.SIGNUP,
         user: user
       });
       console.log('user created');
@@ -28,12 +30,12 @@ export default ({
     });
   },
 
-  loginUser (userName, password) {
-    let user = {
-      userName: userName,
-      password: password
+  loginUser (user) {
+    // let user = {
+    //   userName: user.username,
+    //   password: user.password 
 
-    };
+    // };
     Utils.post('/login', user)
     .then((response) => {
       Dispatcher.dispatch({

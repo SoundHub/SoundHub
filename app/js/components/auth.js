@@ -3,16 +3,31 @@ import React from 'react';
 import Router from 'react-router';
 import UserActions from '../actions/userActionCreators';
 
+let userData = {
+  username: "",
+  password: "",
+  email: ""
+};
+
 class Login extends React.Component {
   constructor() {
     super();
     this.toggleAuth = this.toggleAuth.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
     this.login = this.login.bind(this);
    }
   toggleAuth() { this.props.handleToggle('Signup');}
   login() {
     this.transitionTo('home');
   }
+  handleLogin() {
+    userData.username = this.refs.username.getDOMNode().value;
+    userData.password = this.refs.password.getDOMNode().value;
+    UserActions.loginUser(userData);
+    console.log("handle login", 
+      userData.username, userData.password);  
+  } 
+
   render() {
     return (
         <div className="AuthForm">
@@ -21,7 +36,7 @@ class Login extends React.Component {
           <input type="password" placeholder="Password" ref="password" />
 
           <Router.Link to="home">
-            <input type="button" value="Login" />
+            <input type="button" value="Login" onClick={this.handleLogin}/>
           </Router.Link>
 
           <input type="button" value="Signup" onClick={this.toggleAuth}/>
@@ -36,11 +51,21 @@ class Signup extends React.Component {
   constructor() {
     super();
     this.toggleAuth = this.toggleAuth.bind(this);
+    this.handleSignup = this.handleSignup.bind(this);
    }
    toggleAuth() {
     this.props.handleToggle('Login');
   }
+  handleSignup() {
+    userData.username = this.refs.username.getDOMNode().value;
+    userData.password = this.refs.password.getDOMNode().value;
+    userData.email = this.refs.email.getDOMNode().value;
+    UserActions.createUser(userData);
 
+    console.log("handle Signup", 
+      userData.username, userData.password, userData.email);  
+
+  }
 
   render() {
     return (
@@ -50,7 +75,7 @@ class Signup extends React.Component {
           <input type="text" placeholder="Username" ref="username" />
           <input type="password" placeholder="Password" ref="password" />
           <input type="button" value="Login" onClick={this.toggleAuth}/>
-          <input type="button" value="Signup"/>
+          <input type="button" value="Signup" onClick={this.handleSignup}/>
         </div>
       );
   }
@@ -66,14 +91,16 @@ class Auth extends React.Component {
   toggle(data){
     this.setState({authType:data}, () => {});
   }
-  handleSignUp() {
-    UserActions.createUser();
+  // handleSignup() {
+  //   UserActions.createUser();
+
+  // }
+
+  
+  // handleLogin() {
+  //   UserActions.loginUser();
     
-  }
-  handleLogin() {
-    UserActions.loginUser();
-    
-  }  
+  // }  
   handleLogout() {
     UserActions.logoutUser();
     
