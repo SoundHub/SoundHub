@@ -43,6 +43,7 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
     case ActionType.LOGIN:
       console.log('store login');
       console.log("payload login user: ", payload.user);
+      console.log("response ", payload);
       _user.loggedIn = true;
 
       UserProfile.emitChange();
@@ -51,6 +52,7 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
     case ActionType.SIGNUP:
       console.log('store signup');
       console.log("payload signup user: ", payload.user);
+      console.log("response ", payload);
       _user.loggedIn = true;
 
       UserProfile.emitChange();

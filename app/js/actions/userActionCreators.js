@@ -16,17 +16,24 @@ export default ({
     //   email: user.email
     // };
 
-    Utils.post('/signup', user) 
+    Utils.postJSON('/signup', user) 
     .then((response) => {
-      Dispatcher.dispatch({
-        type: ActionType.SIGNUP,
-        user: user
+      console.log(response);
+      var resp = JSON.parse(response.body);
+      console.log(resp);
+      return resp
+      .then ((resp) => {
+        Dispatcher.dispatch({
+          type: ActionType.SIGNUP,
+          response: response
+        });
+        console.log('user created');
       });
-      console.log('user created');
     })
     .catch((err) => {
       console.error('signup failed ', err);
     });
+
   },
 
   loginUser (user) {
@@ -36,12 +43,12 @@ export default ({
     //   password: user.password
     // };
 
-    Utils.post('/login', user)
+    Utils.postJSON('/login', user)
     .then((response) => {
       Dispatcher.dispatch({
         type: ActionType.LOGIN,
         message: 'Login successful',
-        user: user
+        response: response
       });
       console.log('logged in successfuly');
     })
@@ -51,12 +58,12 @@ export default ({
   },
 
   logoutUser (userID) {
-    Utils.post('/logout', userID)
+    Utils.simplePost('/logout', userID)
     .then((response) => {
       Dispatcher.dispatch({
         type: ActionType.LOGOUT,
         message: 'Logout successful',
-        user: userID
+        response: response
       });
       console.log('logged out successfuly');
     })
