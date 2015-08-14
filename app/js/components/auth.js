@@ -2,6 +2,7 @@
 import React from 'react';
 import Router from 'react-router';
 import UserActions from '../actions/userActionCreators';
+import Carcousel from './carcousel'
 
 let userData = {
   username: "",
@@ -24,9 +25,9 @@ class Login extends React.Component {
     userData.username = this.refs.username.getDOMNode().value;
     userData.password = this.refs.password.getDOMNode().value;
     UserActions.loginUser(userData);
-    console.log("handle login", 
-      userData.username, userData.password);  
-  } 
+    console.log("handle login",
+      userData.username, userData.password);
+  }
 
   render() {
     return (
@@ -62,8 +63,8 @@ class Signup extends React.Component {
     userData.email = this.refs.email.getDOMNode().value;
     UserActions.createUser(userData);
 
-    console.log("handle Signup", 
-      userData.username, userData.password, userData.email);  
+    console.log("handle Signup",
+      userData.username, userData.password, userData.email);
 
   }
 
@@ -96,14 +97,14 @@ class Auth extends React.Component {
 
   // }
 
-  
+
   // handleLogin() {
   //   UserActions.loginUser();
-    
-  // }  
+
+  // }
   handleLogout() {
     UserActions.logoutUser();
-    
+
   }
 
 
@@ -116,9 +117,9 @@ class Auth extends React.Component {
     }
     return (
       <div className = "authPage">
-        <div className="authBanner">
-          <div className="authBannerTitle">SongHub</div>
-        </div>
+      <div className = "Carcouselbox">
+        <Carcousel bsSize="small"/>
+      </div>
         {authform}
       </div>
     );
