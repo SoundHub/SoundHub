@@ -11,10 +11,10 @@ const CHANGE_EVENT = 'change';
 
 // some fake data
 let _user = {
-  loggedIn: true,
+  loggedIn: false,
   userInfo: {
     username: 'algore7',
-    userId: 1,
+    userId: 123,
     firstName: 'Al',
     lastName: 'Gore'
   }
@@ -33,6 +33,39 @@ let UserProfile = assign({}, EventEmitter.prototype, {
   },
   getLoggedInUser() {
     return _user.userInfo;
+  }
+
+});
+
+UserProfile.dispatchToken = Dispatcher.register(function(payload) {
+
+  switch (payload.type) {
+    case ActionType.LOGIN:
+      console.log('store login');
+      console.log("payload login user: ", payload.user);
+      _user.loggedIn = true;
+
+      UserProfile.emitChange();
+      break;
+
+    case ActionType.SIGNUP:
+      console.log('store signup');
+      console.log("payload signup user: ", payload.user);
+      _user.loggedIn = true;
+
+      UserProfile.emitChange();
+      break; 
+
+    case ActionType.LOGOUT:
+      console.log("store logout");
+      _user.loggedIn = false;
+      
+      UserProfile.emitChange();
+      break;
+
+
+    default:
+      console.log("default"); 
   }
 
 });

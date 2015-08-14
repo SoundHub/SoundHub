@@ -30,6 +30,7 @@ export default ({
   },
 
   loginUser (user) {
+    console.log('login');
     // user = {
     //   userName: user.username,
     //   password: user.password

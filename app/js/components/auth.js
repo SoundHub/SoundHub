@@ -35,10 +35,10 @@ class Login extends React.Component {
           <h1>This is Login</h1>
           <input type="text" placeholder="Username" ref="username" />
           <input type="password" placeholder="Password" ref="password" />
-          <Router.Link to="home">
+
 
             <input type="button" value="Login" onClick={this.handleLogin}/>
-          </Router.Link>
+
 
           <input type="button" value="Signup" onClick={this.toggleAuth}/>
         </div>
