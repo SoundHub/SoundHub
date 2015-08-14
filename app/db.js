@@ -104,6 +104,7 @@ var signup = function(username, password, callback) {
             }).then(function() {
               response.success = true;
               callback(response);
+
             })
         })
       })
