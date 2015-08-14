@@ -70,7 +70,6 @@ export default {
     })
   },
 
-
   // fork a song
   forkSong(userId, songId) {
     let forkInfo = {
