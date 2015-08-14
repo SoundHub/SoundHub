@@ -176,7 +176,7 @@ var mySongs = function(userID, callback) {
 
 var myForks = function(userId, callback) {
   orm.query(
-    'select songNodes.title, songNodes.author from ' +
+    'select songNodes.title, songNodes.author, songNodes.uuid, songNodes.genre, songNodes.description, songNodes.like, songNodes.forks, songNodes.path, songNodes.url from ' +
     'forks join users on forks.userId = '+userId+
     ' join songNodes on forks.songNodeId = songNodes.id;'
   ).then(function(data) {
@@ -196,7 +196,7 @@ var addFork = function(userId, songNodeId, callback) {
 
 var myFavs = function(userId, callback) {  //I AM NOT MVP
   orm.query(
-    'select songNodes.title, songNodes.author from ' +
+    'select songNodes.title, songNodes.author, songNodes.uuid, songNodes.genre, songNodes.description, songNodes.like, songNodes.forks, songNodes.path, songNodes.url from ' +
     'favorites join users on favorites.userId = '+userId+
     ' join songNodes on favorites.songNodeId = songNodes.id;'
   ).then(function(data) {
@@ -218,7 +218,7 @@ var addFav = function(userId, songNodeId, callback) {
 
 var myVotes = function(userId, callback) {
   orm.query(
-    'select songNodes.id, upvotes.upvote from ' +
+    'select songNodes.title, songNodes.author, songNodes.uuid, songNodes.genre, songNodes.description, songNodes.like, songNodes.forks, songNodes.path, songNodes.url from ' +
     'upvotes join users on upvotes.userId = '+userId+
     ' join songNodes on upvotes.songNodeId = songNodes.id;'
   ).then(function(data) {
