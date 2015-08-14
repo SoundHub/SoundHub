@@ -248,7 +248,7 @@ var exports = {};
         node.select("circle.nodeCircle")
             .attr("r", nodeCircleRadius) // was 4.5
             .style("fill", function(d) {
-                return d._children ? "lightsteelblue" : "#fff";
+                return d._children ? "lightsteelblue" : "blue";
             });
 
         // Transition nodes to their new position.

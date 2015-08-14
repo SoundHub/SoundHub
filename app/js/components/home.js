@@ -1,5 +1,6 @@
 'use strict';
 import React from 'react';
+import Router from 'react-router';
 import SongActions from '../actions/songActionCreators';
 import AllSongStore from '../stores/allSongStore';
 import {Glyphicon} from 'react-bootstrap';
@@ -89,16 +90,21 @@ class SongList extends React.Component{
       <div className="playList" >
         {this.props.data.map(function(song, i) {
           return (
-            <div className = "songItem effect8" key={i}>
-              <div className="itemPlay" onClick={this.handleClick.bind(this, i)}>
-                <Glyphicon glyph='play' />
-              </div>
-              <span className = "title"  > {i} {song.title} </span>
-              <span className> by {song.author} </span>
-              <span className="like-count" > <Glyphicon glyph='heart' /> {song.like} </span>
 
-              { this.props.uploadmode ? <button onClick={this.forkclick.bind(this,i)}> + </button>: null }
-            </div>
+              <div className = "songItem effect8" key={i}>
+
+                <div className="itemPlay" onClick={this.handleClick.bind(this, i)}>
+                  <Glyphicon glyph='play' />
+                </div>
+                <Router.Link to="tree"  params={song}>
+                  <span className = "title"  > {i} {song.title} </span>
+                </Router.Link>
+                <span className> by {song.author} </span>
+                <span className="like-count" > <Glyphicon glyph='heart' /> {song.like} </span>
+
+                { this.props.uploadmode ? <button onClick={this.forkclick.bind(this,i)}> + </button>: null }
+              </div>
+
           );
         }, this)}
       </div>
