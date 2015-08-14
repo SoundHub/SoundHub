@@ -45,12 +45,13 @@ class ForkList extends React.Component {
     SongActions.getAllForks(user.userId);
   }
 
-  switchSong(song){
-    this.props.switchsong(song)
-  }
 
   componentDidMount() {
     ForkedSongStore.addChangeListener(this._onChange);
+  }
+
+  switchSong(song){
+    this.props.switchsong(song)
   }
 
   _onChange() {
@@ -63,7 +64,7 @@ class ForkList extends React.Component {
       <div className="boxed-group-profile">
           <div className="pageTitle">Branches</div>
           <div className="mylist">
-            <SongList data = {arr}  switchSong = {this.switchSong} uploadmode={true}/>
+            <SongList data = {this.state.forkedSongs}  switchSong = {this.switchSong} uploadmode={true}/>
           </div>
       </div>
     );

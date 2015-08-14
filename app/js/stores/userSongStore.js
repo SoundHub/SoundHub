@@ -98,6 +98,10 @@ let UserSongStore = assign({}, EventEmitter.prototype, {
     return _userSongs.voted[songId].userVoted;
   },
   getForkedSongs() {
+<<<<<<< HEAD
+=======
+    console.log('store getter: ', _userSongs.forked)
+>>>>>>> b76580836e4fc832145a1ad3e18ef13bdf1e2904
     return _userSongs.forked;
   }
 })

@@ -60,7 +60,6 @@ export default {
 
   simplePost(url, body) {
     var body = JSON.stringify(body);
-
     return new Promise(function(resolve, reject) {
       window.fetch(url, {
         method: 'post',

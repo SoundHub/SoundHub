@@ -123,7 +123,6 @@ exports.signup = signup;
 
 var addSong = function(title, genre, author, pathString, description, url, callback) {
   var guid = uuid.v4();
-
   orm.sync().then(function() {
     return SongNode.create({
       title: title,
@@ -133,6 +132,7 @@ var addSong = function(title, genre, author, pathString, description, url, callb
       description: description,
       url: url,
       uuid: guid
+
     });
   }).then(function(song) {
     callback(song);
