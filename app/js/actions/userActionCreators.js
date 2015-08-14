@@ -18,17 +18,17 @@ export default ({
 
     Utils.postJSON('/signup', user) 
     .then((response) => {
-      console.log(response);
-      var resp = JSON.parse(response.body);
-      console.log(resp);
-      return resp
-      .then ((resp) => {
+      // console.log(response);
+      // var resp = JSON.parse(response.body);
+      // console.log(resp);
+      // return resp
+      // .then ((resp) => {
         Dispatcher.dispatch({
           type: ActionType.SIGNUP,
           response: response
         });
         console.log('user created');
-      });
+      // });
     })
     .catch((err) => {
       console.error('signup failed ', err);
