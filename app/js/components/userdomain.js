@@ -9,6 +9,7 @@ import UserSongStore from '../stores/userSongStore';
 import SongActions from '../actions/songActionCreators';
 import UserProfileStore from '../stores/userProfileStore';
 import ForkedSongStore from '../stores/forkedSongStore';
+import ForkedCreateStore from '../stores/forkedCreateStore';
 
 var arr = [{
   title:'badboy',
@@ -64,7 +65,7 @@ class ForkList extends React.Component {
       <div className="boxed-group-profile">
           <div className="pageTitle">Branches</div>
           <div className="mylist">
-            <SongList data = {this.state.forkedSongs}  switchSong = {this.switchSong} uploadmode={true}/>
+            <SongList data = {arr}  switchSong = {this.switchSong} uploadmode={true}/>
           </div>
       </div>
     );
@@ -169,17 +170,17 @@ class User extends React.Component {
    }
 
    _onChange() {
-    // this.setState({
-    //   forkSong: UserSongStore.getForkCreate()
-    // },() => {
-    //   this.setState({
-    //     pageType:'create'
-    //   })
-    // });
+      this.setState({
+        forkSong: ForkedCreateStore.getForkCreate()
+      },() => {
+        this.setState({
+          pageType:'create'
+        })
+      });
   }
 
    componentDidMount(){
-    UserSongStore.addChangeListener(this._onChange);
+    ForkedCreateStore.addChangeListener(this._onChange);
     this.setState({profileImg:user.profileImg})
     this.setState({username:user.username})
    }

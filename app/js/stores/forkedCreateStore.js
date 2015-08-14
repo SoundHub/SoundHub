@@ -7,20 +7,12 @@ import assign from 'object-assign';
 
 const ActionType = Constants.ActionTypes;
 const CHANGE_EVENT = 'change';
-
-var _forkedSongs = {
-  all: []
+var _forkSongCreate = {};
+var setForkCreate = function(forkSong){
+  _forkSongCreate = forkSong;
 }
 
-var _forkSongCreate = {}
-
-var setUserForks = function(forks) {
-  _forkedSongs.all = forks;
-  console.log('user songs: ', _forkedSongs.all)
-}
-
-
-var ForkedSongStore = assign({}, EventEmitter.prototype, {
+var ForkedCreateStore = assign({}, EventEmitter.prototype, {
   emitChange() {
     this.emit(CHANGE_EVENT)
   },
@@ -30,19 +22,19 @@ var ForkedSongStore = assign({}, EventEmitter.prototype, {
   removeChangeListener(callback) {
     this.removeListener(CHANGE_EVENT, callback)
   },
-  getForkedSongs() {
-    console.log('store getter: ', _forkedSongs.all)
-    return _forkedSongs.all;
+  getForkCreate(){
+    return _forkSongCreate;
   }
 })
 
-ForkedSongStore.dispatchToken = Dispatcher.register(function(payload) {
-
+ForkedCreateStore.dispatchToken = Dispatcher.register(function(payload) {
   switch(payload.type) {
-    case ActionType.GET_USER_FORKS:
-      setUserForks(payload.songs);
-      ForkedSongStore.emitChange();
+    case ActionType.CREATE_FROM_FORKS:
+      console.log('enter user song store', payload)
+      setForkCreate(payload.song);
+      ForkedCreateStore.emitChange();
       break;
+
 
     default:
       // do nothing
@@ -50,4 +42,4 @@ ForkedSongStore.dispatchToken = Dispatcher.register(function(payload) {
 
 });
 
-export default ForkedSongStore;
+export default ForkedCreateStore;
