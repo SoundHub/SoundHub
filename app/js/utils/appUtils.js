@@ -1,5 +1,5 @@
 // central location for all communication with our api
-
+'use strict';
 import fetch from 'whatwg-fetch';
 
 let rootUrl = '';

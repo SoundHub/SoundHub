@@ -35,10 +35,10 @@ class Login extends React.Component {
           <h1>This is Login</h1>
           <input type="text" placeholder="Username" ref="username" />
           <input type="password" placeholder="Password" ref="password" />
-          <Router.Link to="home">
+
 
             <input type="button" value="Login" onClick={this.handleLogin}/>
-          </Router.Link>
+
 
           <input type="button" value="Signup" onClick={this.toggleAuth}/>
         </div>
@@ -54,7 +54,7 @@ class Signup extends React.Component {
     this.toggleAuth = this.toggleAuth.bind(this);
     this.handleSignup = this.handleSignup.bind(this);
    }
-   toggleAuth() {
+  toggleAuth() {
     this.props.handleToggle('Login');
   }
   handleSignup() {
@@ -86,22 +86,14 @@ class Auth extends React.Component {
   constructor(props) {
     super(props);
     this.toggle = this.toggle.bind(this);
-    this.state = {authType: props.authType}
+    this.state = {authType: props.authType};
    }
 
   toggle(data){
     this.setState({authType:data}, () => {});
   }
-  // handleSignup() {
-  //   UserActions.createUser();
-
-  // }
 
 
-  // handleLogin() {
-  //   UserActions.loginUser();
-
-  // }
   handleLogout() {
     UserActions.logoutUser();
 
@@ -126,7 +118,7 @@ class Auth extends React.Component {
   }
 }
 
-Auth.defaultProps = { authType : "login"}
+Auth.defaultProps = { authType : "login"};
 
 
 export default Auth;
