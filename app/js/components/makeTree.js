@@ -16,13 +16,13 @@ var exports = {};
     var panBoundary = 20; // Within 20px from edges will pan when dragging.
     // Misc. variables
     var i = 0;
-    var duration = 750;
+    var duration = 700;
     var root;
 
     var nodeCircleRadius = 15; // 4.5 was original size
 
     // size of the diagram
-    var viewerWidth = $(document).width() - 350;
+    var viewerWidth = $(document).width() - 250;
     var viewerHeight = $(document).height() - 200;
 
     var tree = d3.layout.tree()
@@ -199,10 +199,7 @@ var exports = {};
 
         nodeEnter.append("circle")
             .attr('class', 'nodeCircle')
-            .attr("r", 0)
-            .style("fill", function(d) {
-                return d._children ? "lightsteelblue" : "#fff";
-            });
+            .attr("r", 0);
 
         nodeEnter.append("text")
             .attr("x", function(d) {
@@ -248,7 +245,7 @@ var exports = {};
         node.select("circle.nodeCircle")
             .attr("r", nodeCircleRadius) // was 4.5
             .style("fill", function(d) {
-                return d._children ? "lightsteelblue" : "blue";
+                return d._children ? "lightsteelblue" : "#fff";
             });
 
         // Transition nodes to their new position.
