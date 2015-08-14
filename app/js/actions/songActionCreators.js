@@ -45,7 +45,7 @@ export default {
 
   // add song into database
   addSong(songData) {
-    Utils.post('/addSong', songData)
+    Utils.postJSON('/addSong', songData)
     .then((response) => {
       Dispatcher.dispatch({
         type: ActionType.SONG_ADD_SUCCESS,
@@ -61,7 +61,7 @@ export default {
 
   // find all songs uploaded by user
   getUserCreatedSongs(user) {
-    Utils.post('/mySongs', user)
+    Utils.postJSON('/mySongs', user)
     .then((response) => {
 
     })
@@ -111,7 +111,6 @@ export default {
     var obj = {userId: userId};
     Utils.postJSON('/myForks', obj)
     .then((response) => {
-      console.log(response)
       console.log("dispatch forked songs ", response);
       Dispatcher.dispatch({
         type: ActionType.GET_USER_FORKS,
