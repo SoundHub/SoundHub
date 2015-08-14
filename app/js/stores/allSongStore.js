@@ -27,6 +27,17 @@ let addVote = function(voteInfo) {
   }
 }
 
+let addForkNum = function(id) {
+  console.log(id)
+  _songs.allSongs.forEach((song) => {
+    if(song.id === id) {
+      console.log('fork num added: ', song);
+      song.forks++;
+      console.log('addForkNum: ', song)
+    }
+  })
+}
+
 let AllSongStore = assign({}, EventEmitter.prototype, {
   emitChange() {
     this.emit(CHANGE_EVENT)
@@ -39,8 +50,23 @@ let AllSongStore = assign({}, EventEmitter.prototype, {
   },
   getAllSongs() {
     return _songs;
+  },
+  getSongById(id) {
+    return new Promise((resolve, reject) => {
+      var song;
+      for(var i=0; i<_songs.allSongs.length; i++) {
+        if(_songs.allSongs[i].id === id) {
+          song = _songs.allSongs[i];
+          break; 
+        }
+      }
+      if(song) {
+        resolve(song)
+      } else {
+        reject(Error('no song found'))
+      }
+    })
   }
-
 })
 
 AllSongStore.dispatchToken = Dispatcher.register(function(payload) {
@@ -62,6 +88,11 @@ AllSongStore.dispatchToken = Dispatcher.register(function(payload) {
 
     case ActionType.SONG_ADD_SUCCESS:
       console.log('song add success');
+      break;
+
+    case ActionType.FORK_SUCCESS:
+      addForkNum(payload.forkInfo.songId)
+      AllSongStore.emitChange();
       break;
 
     default:

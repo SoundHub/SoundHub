@@ -14,7 +14,7 @@ let _user = {
   loggedIn: true,
   userInfo: {
     username: 'algore7',
-    userId: 123,
+    userId: 1,
     firstName: 'Al',
     lastName: 'Gore'
   }
