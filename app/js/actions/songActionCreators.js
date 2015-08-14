@@ -59,8 +59,14 @@ export default {
   // find all songs uploaded by user
   getUserCreatedSongs(user) {
     Utils.postJSON('/mySongs', user)
-    .then((response) => {
-
+    .then((userSongs) => {
+      Dispatcher.dispatch({
+        type: ActionType.GET_USER_SONGS,
+        message: 'all user songs dispatch',
+        userSongs: userSongs
+      });
+      console.log(userSongs)
+      console.log('dispatch!!!!')
     })
     .catch((err) => {
       console.error('failed: ', err)
@@ -104,7 +110,6 @@ export default {
 
   // find all songs forked by user
   getAllForks(userId) {
-    console.log(userId);
     var obj = {userId: userId};
     Utils.postJSON('/myForks', obj)
     .then((response) => {

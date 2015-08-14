@@ -62,8 +62,8 @@ server.post('/tree', function(req, res) {       //** MVP **//
 })
 
 server.post('/mySongs', function(req, res) {   //** MVP **//
-  var userId = 1; //req.body.userId;             
-  db.mySongs(userId, function(data) {            
+  var userId = req.body.userId;
+  db.mySongs(userId, function(data) {
     res.send(data);
   })
 })

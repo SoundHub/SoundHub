@@ -57,7 +57,7 @@ let AllSongStore = assign({}, EventEmitter.prototype, {
       for(var i=0; i<_songs.allSongs.length; i++) {
         if(_songs.allSongs[i].id === id) {
           song = _songs.allSongs[i];
-          break; 
+          break;
         }
       }
       if(song) {
