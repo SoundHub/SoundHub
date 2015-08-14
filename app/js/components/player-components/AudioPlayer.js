@@ -46,6 +46,11 @@ module.exports = React.createClass({
 		SongActions.addSongVote(userId, this.props.song.id, val);
 	},
 
+	forkSong: function() {
+		var userId = UserProfileStore.getLoggedInUser().userId;
+		SongActions.forkSong(userId, this.props.song.id);
+	},
+
 	render: function() {
 		var percent = 0;
 		var songName;
@@ -66,7 +71,7 @@ module.exports = React.createClass({
 			<Button bsSize="small" className="audio-rbtn"><Glyphicon glyph='heart' /></Button>,
 			<Button bsSize="small" className="audio-rbtn" onClick={this.voteSong.bind(this, 1)}><Glyphicon glyph='chevron-up' /></Button>,
 			<Button bsSize="small" className="audio-rbtn" onClick={this.voteSong.bind(this, -1)}><Glyphicon glyph='chevron-down' /></Button>,
-			<Button bsSize="small" className="audio-rbtn"><Glyphicon glyph='paperclip' /></Button>
+			<Button bsSize="small" className="audio-rbtn" onClick={this.forkSong}><Glyphicon glyph='paperclip' /></Button>
 		];
 		if(this.state.song){
 			songName = this.state.song.title;

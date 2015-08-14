@@ -26,12 +26,10 @@ server.use('/s3', require('react-s3-uploader/s3router')({
 var db = require('./db.js');
 
 server.post('/login', function(req, res) {
+
+  console.log('request received!!!!!!!!!')
   db.login(req.body.username, req.body.password, function(response) {
-    if (response.success) {
-      req.session.user = response.user;
-      req.session.save();
-    }
-    res.send(response.data);
+    res.send(response);
   })
 })
 
@@ -63,15 +61,15 @@ server.post('/tree', function(req, res) {       //** MVP **//
   });
 })
 
-server.get('/mySongs', function(req, res) {   //** MVP **//
-  var userId = 1; //req.body.userId;             
-  db.mySongs(userId, function(data) {            
+server.post('/mySongs', function(req, res) {   //** MVP **//
+  var userId = req.body.userId;
+  db.mySongs(userId, function(data) {
     res.send(data);
   })
 })
 
-server.get('/myForks', function(req, res) {  //** MVP **//
-  var userId = 1; //req.body.userId
+server.post('/myForks', function(req, res) {  //** MVP **//
+  var userId = req.body.userId;
   db.myForks(userId, function(data) {
     res.send(data);
   })
@@ -92,15 +90,15 @@ server.post('/addFork', function(req, res) { //** MVP **//
   })
 })
 
-server.get('/addFav', function(req, res) {
-  var userId = 1; //req.body.userId;
+server.post('/addFav', function(req, res) {
+  var userId = 2; //req.body.userId;
   var songId = 1; //req.body.songId;
   db.addFav(userId, songId, function(data) {
     res.send(data);
   })
 })
 
-server.get('/myVotes', function(req, res) {
+server.post('/myVotes', function(req, res) {
   var userId = 1; //req.body.userId
   db.myVotes(userId, function(data) {
     console.log('derp');
@@ -108,9 +106,9 @@ server.get('/myVotes', function(req, res) {
   })
 })
 
-server.get('/addVote', function(req, res) {
+server.post('/addVote', function(req, res) {
   var vote = -1; // req.body.vote
-  var userId = 4; //req.body.userId
+  var userId = 2; //req.body.userId
   var songId = 1; //req.body.songId
   db.addVote(vote, userId, songId, function(data) {
     res.send(data);

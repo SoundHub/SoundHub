@@ -26,7 +26,7 @@ import ReactS3Uploader from 'react-s3-uploader';
 
 
 let songData = {
-  author: 42,
+  author: 1,
   path: '1/2/3'
 };
 

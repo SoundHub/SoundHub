@@ -28,7 +28,7 @@ describe('API Integration:', function() {
     })
   });
 
-  describe('User table', function() {
+  describe('Song functions', function() {
 
     // after(function(done) {
     //   db.orm.sync({force: true})
@@ -37,7 +37,7 @@ describe('API Integration:', function() {
     //     })
     // })
 
-    it('create a song', function(done) {
+    it('should create a song', function(done) {
       var uri = 'http://localhost:3030/addSong';
       request({
         uri: uri, 
@@ -59,7 +59,39 @@ describe('API Integration:', function() {
           done();
         })
       })
-    }); 
+    });
+
+    it('should sign up a user', function(done) {
+      var uri = 'http://localhost:3030/signup';
+      request({
+        uri: uri,
+        json: true,
+        method: 'post',
+        body: {
+          username: 'suz',
+          password: 'bagfries'
+        }
+      }, function(err, res, body) {
+        console.log(err);
+        done()
+      })
+    })
+
+    it('should log a signed up user in', function(done) {
+      var uri = 'http://localhost:3030/login';
+      request({
+        uri: uri,
+        json: true,
+        method: 'post',
+        body: {
+          username: 'suz',
+          password: 'bagfries'
+        }
+      }, function(err, res, body) {
+        console.log('response: ', response)
+        done()
+      })
+    })
 
   })
 });

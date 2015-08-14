@@ -6,6 +6,9 @@ import Create from './create';
 import Router from 'react-router';
 import AudioPlayer from './player-components/AudioPlayer';
 import UserSongStore from '../stores/userSongStore';
+import SongActions from '../actions/songActionCreators';
+import UserProfileStore from '../stores/userProfileStore';
+import ForkedSongStore from '../stores/forkedSongStore';
 
 var arr = [{
   title:'badboy',
@@ -29,6 +32,7 @@ var arr = [{
 
 
 var user = {
+  userId:1,
   username:"Richie",
   profileImg:"../assets/profileImg.jpg"
 }
@@ -36,7 +40,24 @@ var user = {
 class ForkList extends React.Component {
   constructor() {
     super();
+    this.state = {forkedSongs: []};
+    this._onChange = this._onChange.bind(this);
+    SongActions.getAllForks(user.userId);
   }
+
+  switchSong(song){
+    this.props.switchsong(song)
+  }
+
+  componentDidMount() {
+    ForkedSongStore.addChangeListener(this._onChange);
+  }
+
+  _onChange() {
+    console.log('on change')
+    this.setState({forkedSongs: ForkedSongStore.getForkedSongs()});
+  }
+
   render() {
     return (
       <div className="boxed-group-profile">
@@ -47,17 +68,26 @@ class ForkList extends React.Component {
       </div>
     );
   }
+
 }
 
 
 class MyMusic extends React.Component {
   constructor() {
     super();
+    this.state = {userSongs: []};
     this.switchSong = this.switchSong.bind(this);
+    this._onChange = this._onChange.bind(this);
+    UserSongStore.addChangeListener(this._onChange);
+    SongActions.getUserCreatedSongs(user)
   }
 
   switchSong(song){
     this.props.switchsong(song)
+  }
+
+  _onChange() {
+    this.setState({userSongs: UserSongStore.getUserCreatedSongs().allCreated});
   }
 
   render() {
@@ -65,7 +95,7 @@ class MyMusic extends React.Component {
       <div className="boxed-group-profile">
           <div className="pageTitle">MyMusic</div>
           <div className="mylist">
-            <SongList data = {arr}  switchSong = {this.switchSong} />
+            <SongList data = {this.state.userSongs}  switchSong = {this.switchSong} />
           </div>
       </div>
     );
@@ -138,13 +168,13 @@ class User extends React.Component {
    }
 
    _onChange() {
-    this.setState({
-      forkSong: UserSongStore.getForkCreate()
-    },() => {
-      this.setState({
-        pageType:'create'
-      })
-    });
+    // this.setState({
+    //   forkSong: UserSongStore.getForkCreate()
+    // },() => {
+    //   this.setState({
+    //     pageType:'create'
+    //   })
+    // });
   }
 
    componentDidMount(){
@@ -165,7 +195,7 @@ class User extends React.Component {
     if(this.state.pageType==='music'){
       profilePage = <MyMusic switchsong = {this.setsong}/>
     }else if(this.state.pageType==='branch'){
-      profilePage = <ForkList />
+      profilePage = <ForkList switchsong = {this.setsong}/>
     }else if(this.state.pageType==='fav'){
       profilePage = <Favor />
     }else if(this.state.pageType==='profile'){

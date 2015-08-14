@@ -6,6 +6,12 @@ var orm = new Sequelize(process.env.DATABASE_URL || 'sqlite://SoundHub.sqlite');
 var bcrypt = require('bcrypt');
 var promise = require('bluebird');
 var compare = promise.promisify(bcrypt.compare);
+var uuid = require('node-uuid');
+
+console.log(typeof uuid.v4());
+for (var i = 0; i < 10; i++) {
+  console.log(uuid.v4());
+}
 
 /** SCHEMA **/
 
@@ -15,9 +21,10 @@ var SongNode = orm.define('songNodes', {
   genre: { type: Sequelize.STRING, allowNull: true },
   forks: { type: Sequelize.INTEGER, defaultValue: 0 },
   author: { type: Sequelize.INTEGER, allowNull: false },
-  path: { type: Sequelize.STRING, allowNull: false },
+  path: { type: Sequelize.STRING, defaultValue: '' },
   description: { type: Sequelize.STRING, defaultValue: '' },
-  url: { type: Sequelize.STRING, allowNull: true }  //when we have urls for songz
+  url: { type: Sequelize.STRING, allowNull: true },
+  uuid: { type: Sequelize.STRING, allowNull: false}
 });
 
 var User = orm.define('users', {
@@ -67,16 +74,15 @@ var login = function(username, password, callback) {
       .then(function(data) { //data = bool from compare
         if (data) {
           response.user = userObj;
-          response.success = true;
         }
-        response.data = data;
+        response.success = data;
         callback(response);
       })
   })
 };
 
 var signup = function(username, password, callback) {
-  var response;
+  var response = {};
   var exists;
   User.findOne({
     where: {
@@ -96,16 +102,16 @@ var signup = function(username, password, callback) {
               username: username,
               password: hash
             }).then(function() {
-              response = ('success');
+              response.success = true;
+              callback(response);
             })
         })
       })
     } else {
-      response = 'username already exists';
+      response.success = false;
+      callback(response);
     }
-  }).then(function() {
-    callback(response);
-  });
+  })
 };
 
 
@@ -116,27 +122,22 @@ exports.signup = signup;
 /** INSERT/QUERY FUNCTIONS **/
 
 var addSong = function(title, genre, author, pathString, description, url, callback) {
+  var guid = uuid.v4();
+
   orm.sync().then(function() {
     return SongNode.create({
       title: title,
       genre: genre,
       author: author,
-      path: pathString,
+      path: pathString + guid + '/',
       description: description,
-      url: url             //when we have uris for songz
+      url: url,
+      uuid: guid
     });
   }).then(function(song) {
     callback(song);
   });
 };
-
-var songCompiler = function(data) { //helper function to compile/clean queried songs
-  var songs = [];
-  for (var i = 0; i < data.length; i++) {
-    songs.push(data[i].get({plain: true}));
-  }
-  return songs;
-}
 
 var allSongs = function(callback) {
   SongNode.findAll({
@@ -148,9 +149,7 @@ var allSongs = function(callback) {
 };
 
 var findSongsbyRoot = function(rootNodeID, callback) {
-  console.log('fuck fuck: ', rootNodeID);
   rootNodeID = rootNodeID.split('/')[1];
-  console.log('fuck fuck fuck: ', rootNodeID);
   SongNode.findAll({
   where: {
       path: { like: '%/' + rootNodeID + '/%' }
@@ -205,9 +204,11 @@ var myFavs = function(userId, callback) {  //I AM NOT MVP
 };
 
 var addFav = function(userId, songNodeId, callback) {
-  Favorite.create({
-    userId: userId,
-    songNodeId: songNodeId
+  Favorite.findOrCreate({
+    where: {
+      userId: userId,
+      songNodeId: songNodeId
+    }
   })
   .then(function(forkData) {
     callback(forkData);
@@ -225,30 +226,58 @@ var myVotes = function(userId, callback) {
 };
 
 var addVote = function(voteVal, userId, songNodeId, callback) {
-  Upvote.findOne({
+  Upvote.findOrCreate({
     where: {
       userId: userId,
       songNodeId: songNodeId
     }
   })
   .then(function(data) {
-    console.log('some data: ', data);
-    if (data) {
-      console.log(data.dataValues.upvote, voteVal);
+    if (data[1]) {
+      console.log('created');
+      Upvote.update(
+        {
+          upvote: voteVal
+        },
+        {
+          where:
+          {
+           userId: userId,
+           songNodeId: songNodeId,
+          }
+        }
+      )
+      .then(function(data) {
+        updateVotes(songNodeId);
+        callback(data);
+      })
     } else {
-      console.log('found');
-    }
-    Upvote.create({
-      upvote: voteVal,
-      userId: userId,
-      songNodeId: songNodeId
-    })
-    .then(function(forkData) {
-      callback(forkData);
-    })
+        console.log('existed already');
+        if (data[0].dataValues.upvote !== voteVal) {
+          console.log('existed but needed updating');
+          Upvote.update(
+            {
+              upvote: voteVal
+            },
+            {
+              where:
+              {
+               userId: userId,
+               songNodeId: songNodeId,
+              }
+            }
+          )
+          .then(function(data) {
+            updateVotes(songNodeId);
+            callback(data);
+          })
+        }
+      }
   })
 }
 
+
+//*************************EXPORTS**************************//
 
 exports.addSong = addSong;
 exports.allSongs = allSongs;
@@ -261,7 +290,47 @@ exports.addFav = addFav;
 exports.myVotes = myVotes;
 exports.addVote = addVote;
 
-/* BUILD TREE FROM FLATTENED ARRAY, PROBS FOR FRONT END */
+
+
+//*********************HELPER FUNCTIONS**********************//
+
+
+/* UPDATE SONG WITH LIKES TOTAL AFTER LIKE */
+var updateVotes = function(songNodeId) {
+  Upvote.findAll({
+    where: {
+      songNodeId: songNodeId
+    }
+  })
+  .then(function(data){
+    var voteSum = 0;
+    for (var x in data) {
+      voteSum += data[x].dataValues.upvote
+    }
+    SongNode.update(
+      {
+        like: voteSum
+      },
+      {
+        where: {
+          id: songNodeId
+        }
+      }
+    )
+    console.log(voteSum);
+  })
+}
+
+/* COMPILE/CLEAN QUERIED SONGS */
+var songCompiler = function(data) {
+  var songs = [];
+  for (var i = 0; i < data.length; i++) {
+    songs.push(data[i].get({plain: true}));
+  }
+  return songs;
+}
+
+/* BUILD TREE FROM FLATTENED ARRAY */
 
 //this should be optimized, currently O(n^2)
 var treeify = function(nodesArray) {
