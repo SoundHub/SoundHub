@@ -25,7 +25,7 @@ server.use('/s3', require('react-s3-uploader/s3router')({
 /** DB ROUTES **/
 var db = require('./db.js');
 
-server.get('/login', function(req, res) {
+server.post('/login', function(req, res) {
   db.login(req.body.username, req.body.password, function(response) {
     if (response.success) {
       req.session.user = response.user;
@@ -59,31 +59,61 @@ server.get('/allSongs', function(req, res) {  //** MVP **//
 server.post('/tree', function(req, res) {       //** MVP **//
   var rootId = req.body.rootId;
   db.findSongsbyRoot(rootId, function(data) {
-    var responseObj = db.treeify(data);
-    res.json(responseObj);
+    res.json(db.treeify(data));
   });
 })
 
 server.get('/mySongs', function(req, res) {   //** MVP **//
-  var userId = req.body.userId
-  db.mySongs(userId, function(data) {
+  var userId = 1; //req.body.userId;             
+  db.mySongs(userId, function(data) {            
     res.send(data);
   })
 })
 
 server.get('/myForks', function(req, res) {  //** MVP **//
-  var userId = req.body.userId
-  db.myForks(userId, function(stuff) {
-    res.send(stuff);
+  var userId = 1; //req.body.userId
+  db.myForks(userId, function(data) {
+    res.send(data);
+  })
+})
+
+server.post('/myFavs', function(req, res) {
+  var userId = 1; //req.body.userId
+  db.myFavs(userId, function(data) {
+    res.send(data);
   })
 })
 
 server.post('/addFork', function(req, res) { //** MVP **//
-  var userID = req.body.userId;
-  var songID = req.body.songId;
+  var userId = req.body.userId;
+  var songId = req.body.songId;
   db.addFork(userId, songId, function(forkData) {
-    console.log(forkData);
     res.send('fork added');
+  })
+})
+
+server.get('/addFav', function(req, res) {
+  var userId = 1; //req.body.userId;
+  var songId = 1; //req.body.songId;
+  db.addFav(userId, songId, function(data) {
+    res.send(data);
+  })
+})
+
+server.get('/myVotes', function(req, res) {
+  var userId = 1; //req.body.userId
+  db.myVotes(userId, function(data) {
+    console.log('derp');
+    res.send(data);
+  })
+})
+
+server.get('/addVote', function(req, res) {
+  var vote = -1; // req.body.vote
+  var userId = 4; //req.body.userId
+  var songId = 1; //req.body.songId
+  db.addVote(vote, userId, songId, function(data) {
+    res.send(data);
   })
 })
 
