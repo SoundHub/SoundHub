@@ -59,7 +59,7 @@ class ForkList extends React.Component {
   }
   _onChange() {
     console.log('on change')
-    this.state = {forkedSongs: ForkedSongStore.getForkedSongs()};
+    this.setState({forkedSongs: ForkedSongStore.getForkedSongs()});
     console.log('state: ', this.state)
   }
 }
