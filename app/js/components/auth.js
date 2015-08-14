@@ -2,6 +2,7 @@
 import React from 'react';
 import Router from 'react-router';
 import UserActions from '../actions/userActionCreators';
+import Carcousel from './carcousel'
 
 let userData = {
   username: "",
@@ -24,9 +25,9 @@ class Login extends React.Component {
     userData.username = this.refs.username.getDOMNode().value;
     userData.password = this.refs.password.getDOMNode().value;
     UserActions.loginUser(userData);
-    console.log("handle login", 
-      userData.username, userData.password);  
-  } 
+    console.log("handle login",
+      userData.username, userData.password);
+  }
 
   render() {
     return (
@@ -34,10 +35,10 @@ class Login extends React.Component {
           <h1>This is Login</h1>
           <input type="text" placeholder="Username" ref="username" />
           <input type="password" placeholder="Password" ref="password" />
-          <Router.Link to="home">
+
 
             <input type="button" value="Login" onClick={this.handleLogin}/>
-          </Router.Link>
+
 
           <input type="button" value="Signup" onClick={this.toggleAuth}/>
         </div>
@@ -53,7 +54,7 @@ class Signup extends React.Component {
     this.toggleAuth = this.toggleAuth.bind(this);
     this.handleSignup = this.handleSignup.bind(this);
    }
-   toggleAuth() {
+  toggleAuth() {
     this.props.handleToggle('Login');
   }
   handleSignup() {
@@ -62,8 +63,8 @@ class Signup extends React.Component {
     userData.email = this.refs.email.getDOMNode().value;
     UserActions.createUser(userData);
 
-    console.log("handle Signup", 
-      userData.username, userData.password, userData.email);  
+    console.log("handle Signup",
+      userData.username, userData.password, userData.email);
 
   }
 
@@ -85,25 +86,17 @@ class Auth extends React.Component {
   constructor(props) {
     super(props);
     this.toggle = this.toggle.bind(this);
-    this.state = {authType: props.authType}
+    this.state = {authType: props.authType};
    }
 
   toggle(data){
     this.setState({authType:data}, () => {});
   }
-  // handleSignup() {
-  //   UserActions.createUser();
 
-  // }
 
-  
-  // handleLogin() {
-  //   UserActions.loginUser();
-    
-  // }  
   handleLogout() {
     UserActions.logoutUser();
-    
+
   }
 
 
@@ -116,16 +109,16 @@ class Auth extends React.Component {
     }
     return (
       <div className = "authPage">
-        <div className="authBanner">
-          <div className="authBannerTitle">SongHub</div>
-        </div>
+      <div className = "Carcouselbox">
+        <Carcousel bsSize="small"/>
+      </div>
         {authform}
       </div>
     );
   }
 }
 
-Auth.defaultProps = { authType : "login"}
+Auth.defaultProps = { authType : "login"};
 
 
 export default Auth;

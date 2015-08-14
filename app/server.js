@@ -27,13 +27,14 @@ var db = require('./db.js');
 
 server.post('/login', function(req, res) {
 
-  console.log('request received!!!!!!!!!')
+  console.log('login request received!!!!!!!!!', req.body);
   db.login(req.body.username, req.body.password, function(response) {
     res.send(response);
   })
 })
 
 server.post('/signup', function(req, res) {
+  console.log('signup request received!!!!!!!!!', req.body);
   var username = req.body.username
   var password = req.body.password
   db.signup(username, password, function(response) {
@@ -62,8 +63,8 @@ server.post('/tree', function(req, res) {       //** MVP **//
 })
 
 server.post('/mySongs', function(req, res) {   //** MVP **//
-  var userId = 1; //req.body.userId;             
-  db.mySongs(userId, function(data) {            
+  var userId = req.body.userId;
+  db.mySongs(userId, function(data) {
     res.send(data);
   })
 })

@@ -1,5 +1,5 @@
 // central location for all communication with our api
-
+'use strict';
 import fetch from 'whatwg-fetch';
 
 let rootUrl = '';
@@ -35,8 +35,8 @@ export default {
 
   postJSON(url, body) {
     var body = JSON.stringify(body);
-
     return new Promise(function(resolve, reject) {
+      console.log('send userID'+ body)
       window.fetch(url, {
         method: 'post',
         headers: {
@@ -57,10 +57,9 @@ export default {
       });
     });
   },
-  
+
   simplePost(url, body) {
     var body = JSON.stringify(body);
-    
     return new Promise(function(resolve, reject) {
       window.fetch(url, {
         method: 'post',

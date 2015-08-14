@@ -30,7 +30,7 @@ class D3Tree extends React.Component {
 
   onClick(element) {
     console.log('some element with onClick was clicked: ', element);
-    // this.setState({ currentsong: element.id });
+    this.setState({ currentsong: element });
   }
 
   // componentDidMount() {
@@ -56,7 +56,7 @@ class D3Tree extends React.Component {
     return (
       <div className="treeDiv">
         <div className= "playerBox">
-          <AudioPlayer song = {song} mode = "home" />
+          <AudioPlayer song = {this.state.currentSong} mode = "home" />
         </div>
         <div className = "treeBox">
           <svg ref="songTree"></svg>

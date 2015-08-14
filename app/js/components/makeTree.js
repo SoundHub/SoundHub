@@ -22,7 +22,9 @@ var exports = {};
     var nodeCircleRadius = 15; // 4.5 was original size
 
     // size of the diagram
-    var viewerWidth = $(document).width() - 250;
+    var widthOffset = $(document).width() - 900; // 900 is size of .treeBox element
+
+    var viewerWidth = $(document).width() - widthOffset;
     var viewerHeight = $(document).height() - 200;
 
     var tree = d3.layout.tree()

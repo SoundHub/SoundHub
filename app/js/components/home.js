@@ -49,6 +49,10 @@ class Home extends React.Component {
     this.setState({currentsong:song});
   }
 
+  _onChange() {
+    this.setState({songs: AllSongStore.getAllSongs()});
+  }
+
   render() {
     return (
       <div className= "HomePage">
@@ -58,12 +62,6 @@ class Home extends React.Component {
         <SongList data = {this.state.songs.allSongs} switchSong = {this.switchSong} />
       </div>
     );
-  }
-  // this.state.songs.allSongs
-
-  _onChange() {
-    this.setState({songs: AllSongStore.getAllSongs()});
-    console.log(this.state);
   }
 }
 
@@ -81,6 +79,7 @@ class SongList extends React.Component{
   forkclick(i){
     let forkSong = this.props.data[i]
     SongActions.createFromFork(forkSong);
+    console.log('fork song click!!!!')
     //action pass data to create comp and pass state to user panel(pageType==='create')
 
   }
