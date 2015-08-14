@@ -17,6 +17,6 @@ let constants = {
       FORK_SUCCESS: null,
       CREATE_FROM_FORKS:null
   })
-}
+};
 
 export default constants;
