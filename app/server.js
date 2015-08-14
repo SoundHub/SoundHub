@@ -117,8 +117,6 @@ server.post('/addVote', function(req, res) {
 })
 
 
-
-
 /** END DB ROUTES **/
 
 //** UPLOAD/DOWNLOAD/STREAM SONG METHDOS **//
