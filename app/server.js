@@ -109,8 +109,8 @@ server.get('/myVotes', function(req, res) {
 })
 
 server.get('/addVote', function(req, res) {
-  var vote = 1; // req.body.vote
-  var userId = 1; //req.body.userId
+  var vote = -1; // req.body.vote
+  var userId = 2; //req.body.userId
   var songId = 1; //req.body.songId
   db.addVote(vote, userId, songId, function(data) {
     res.send(data);
