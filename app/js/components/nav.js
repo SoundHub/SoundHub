@@ -26,7 +26,7 @@ class Nav extends React.Component {
 
         <nav>
           <Router.Link to="user">
-            <button className="authButton">Profile</button>
+            <button className="profileButton2">Profile</button>
           </Router.Link>
 
           <Router.Link to="auth">

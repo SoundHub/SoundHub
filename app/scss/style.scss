@@ -72,9 +72,24 @@ body{min-width: 700px;}
     text-decoration:none;
     text-shadow:0px 1px 0px #b23e35;
   }
-  .authButton:hover {
-    background-color:#eb675e;
+  .profileButton2{
+    -moz-box-shadow:inset 0px 39px 0px -24px #e67a73;
+    -webkit-box-shadow:inset 0px 39px 0px -24px #e67a73;
+    box-shadow: inset 0px 39px 0px -24px #569EAD;
+    background-color: #50919E;
+    -moz-border-radius:4px;
+    -webkit-border-radius:4px;
+    border-radius:4px;
+    border:none;
+    display:inline-block;
+    cursor:pointer;
+    color:#fff;
+    font-size:15px;
+    padding:6px 15px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #b23e35;
   }
+
   .authButton:active {
     position:relative;
     top:1px;
@@ -123,11 +138,18 @@ body{min-width: 700px;}
     max-width: 70%;
 }
 .pageTitle{
+    text-align: center;
     color: #1C3B73;
     margin-top: 15px;
     margin-bottom: 15px;
     font-size: 24px;
     display: block;
+}
+.profileItem{
+  position: absolute;
+  width: 180px;
+  top: 120px;
+  left: 15%;
 }
 
 .edit-profile-avatar{
@@ -155,6 +177,33 @@ body{min-width: 700px;}
   margin-top: 5px;
   min-width: 180px;
 }
+
+.fileupload {
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+}
+.fileupload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+
+/* ================ profile ================= */
+
+
+
+
+
+
+
+
 
 
 /* ================ Home ================= */
@@ -228,7 +277,7 @@ body{min-width: 700px;}
 .bannerText{
   padding-bottom: 100px;
 }
-/* ================ MyMusic ================= */
+/* ================ User Panel ================= */
 .profilePage{
   .randomBG{
     height: 100px;
@@ -238,7 +287,7 @@ body{min-width: 700px;}
 
   .profileImg{
         height: 100px;
-      position: absolute;
+      display: inline;
       top: 120px;
       left: 15%;
       border-radius: 100%;
@@ -273,8 +322,12 @@ body{min-width: 700px;}
   }
 
 }
-.mylist{
-
+.profileUsername{
+    font-size: 25px;
+    left: 24%;
+    display: inline;
+    float: right;
+    margin-top: 60px;
 }
 
 
@@ -469,10 +522,10 @@ $animate-sec: 1.5s;
 .treeBox{
   margin-right: auto;
   margin-left: auto;
-  width: 800px;
+  width: 900px;
 }
 .nodeCircle{
-  background-image: red;
+  fill:rgb(20, 197, 184) !important;
 }
   .node {
     cursor: pointer;
@@ -480,7 +533,7 @@ $animate-sec: 1.5s;
     .circle {
       fill: #fff;
       stroke: steelblue;
-      stroke-width: 1.5px;
+      stroke-width: 2.5px;
     }
 
     .text {
@@ -495,7 +548,7 @@ $animate-sec: 1.5s;
 
   .link {
     fill: none;
-    stroke: #ccc;
+    stroke: #F1D2AF;
     stroke-width: 3px;
   }
 
