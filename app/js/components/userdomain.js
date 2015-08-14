@@ -8,6 +8,7 @@ import AudioPlayer from './player-components/AudioPlayer';
 import UserSongStore from '../stores/userSongStore';
 import SongActions from '../actions/songActionCreators';
 import UserProfileStore from '../stores/userProfileStore';
+import ForkedSongStore from '../stores/forkedSongStore';
 
 var arr = [{
   title:'badboy',
@@ -40,10 +41,10 @@ class ForkList extends React.Component {
     super();
     this.state = {forkedSongs: []};
     this._onChange = this._onChange.bind(this);
-    UserSongStore.addChangeListener(this._onChange);
+    SongActions.getAllForks(UserProfileStore.getLoggedInUser().userId);
   }
   componentDidMount() {
-    SongActions.getAllForks(UserProfileStore.getLoggedInUser().userId);
+    ForkedSongStore.addChangeListener(this._onChange);
     console.log('componentDidMount')
   }
   render() {
@@ -58,7 +59,7 @@ class ForkList extends React.Component {
   }
   _onChange() {
     console.log('on change')
-    this.state = {forkedSongs: UserSongStore.getForkedSongs()};
+    this.state = {forkedSongs: ForkedSongStore.getForkedSongs()};
     console.log('state: ', this.state)
   }
 }
