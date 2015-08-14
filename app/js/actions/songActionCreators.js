@@ -113,13 +113,10 @@ export default {
     Utils.post('/myForks', obj)
     .then((response) => {
       console.log(response)
-      return response.json();
-    })
-    .then((json) => {
-      console.log("dispatch forked songs ", json);
+      console.log("dispatch forked songs ", response);
       Dispatcher.dispatch({
         type: ActionType.GET_USER_FORKS,
-        songs: json
+        songs: response
       })
     })
     .catch((err) => {

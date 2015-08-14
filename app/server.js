@@ -70,8 +70,8 @@ server.get('/mySongs', function(req, res) {   //** MVP **//
   })
 })
 
-server.post('/myForks', function(req, res) {  //** MVP **//
-  var userId = req.body.userId;
+server.get('/myForks', function(req, res) {  //** MVP **//
+  var userId = 1; //req.body.userId;
   db.myForks(userId, function(data) {
     res.send(data);
   })
