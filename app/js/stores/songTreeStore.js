@@ -8,11 +8,33 @@ import assign from 'object-assign';
 const ActionType = Constants.ActionTypes;
 const CHANGE_EVENT = 'change';
 
+var _tree = {stuff: 'stuff'};
+
+var setTree = function (tree) {
+  _tree = tree;
+};
+
+var SongTreeStore = assign({}, EventEmitter.prototype, {
+  emitChange() {
+    this.emit(CHANGE_EVENT)
+  },
+  addChangeListener(callback) {
+    this.on(CHANGE_EVENT, callback)
+  },
+  removeChangeListener(callback) {
+    this.removeListener(CHANGE_EVENT, callback)
+  },
+  getTree() {
+    return _tree;
+  }
+
+});
+
 SongTreeStore.dispatchToken = Dispatcher.register(function(payload) {
   switch(payload.type) {
     case ActionType.RECEIVE_SONG_TREE:
-      console.log('enter SongTreeStore');
       let songTree = payload.songTree;
+      setTree(songTree);
       SongTreeStore.emitChange();
       break;
 

@@ -28,10 +28,7 @@ export default {
 
   // retrieve song tree
   getSongTree(song) {
-    Utils.get('/tree', song)
-    .then((response) => {
-      return response.json();
-    })
+    Utils.getTree('/tree', song)
     .then((json) => {
       Dispatcher.dispatch({
         type: ActionType.RECEIVE_SONG_TREE,
@@ -129,5 +126,5 @@ export default {
       page:'create'
     })
   }
-  
+
 }
