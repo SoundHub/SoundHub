@@ -1,6 +1,7 @@
 'use strict';
 
-var treeData = [{
+/*
+var mockData = [{
   id: 1,
   title: 'Smells like teen spirit',
   like: 2,
@@ -62,27 +63,49 @@ var treeData = [{
     }
   ]
 }];
+*/
+
 
 import React from 'react';
 import D3Tree from './tree.js';
 import SongActions from '../actions/songActionCreators';
-import SongTreeStore from '../stores/allSongStore';
+import SongTreeStore from '../stores/songTreeStore';
 
 class Page extends React.Component {
   constructor() {
     super();
     SongActions.getSongTree({rootId: '/1/'});  //'/1/'  '/1/2/'
     this.state = {
-      treeData: treeData
-    };
+      treeData: {}
+    }
+
+    SongTreeStore.getTree();
+
+    this.componentWillMount = this.componentWillMount.bind(this);
+    // this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this);
+    this.render = this.render.bind(this);
+    this._onChange = this._onChange.bind(this);
   }
+
+  componentWillMount() {
+    SongTreeStore.addChangeListener(this._onChange);
+  }
+
+  // componentWillReceiveProps(nextProps) {
+  //   console.log('tree.js componentWillReceiveProps: ', nextProps.treeData);
+  //   this.setState({treeData: nextProps.treeData});
+  // }
 
   render() {
     return (
         <div className="treePage">
-          <D3Tree treeData={treeData} />
+          <D3Tree treeData={this.state.treeData} />
         </div>
       );
+  }
+
+  _onChange() {
+    this.setState({ treeData: SongTreeStore.getTree() });
   }
 }
 

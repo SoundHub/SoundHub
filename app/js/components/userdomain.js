@@ -38,12 +38,13 @@ var user = {
 class ForkList extends React.Component {
   constructor() {
     super();
-    SongActions.getAllForks(UserProfileStore.getLoggedInUser().userId);
-    this.state = {forkedSongs: UserSongStore.getForkedSongs()}
-    console.log('constructor',UserSongStore.getForkedSongs())
+    this.state = {forkedSongs: []};
+    this._onChange = this._onChange.bind(this);
+    UserSongStore.addChangeListener(this._onChange);
   }
   componentDidMount() {
-    UserSongStore.addChangeListener(this._onChange);
+    SongActions.getAllForks(UserProfileStore.getLoggedInUser().userId);
+    console.log('componentDidMount')
   }
   render() {
     return (
@@ -56,7 +57,8 @@ class ForkList extends React.Component {
     );
   }
   _onChange() {
-    this.setState({forkedSongs: UserSongStore.getForkedSongs()});
+    console.log('on change')
+    this.state = {forkedSongs: UserSongStore.getForkedSongs()};
     console.log('state: ', this.state)
   }
 }
@@ -101,10 +103,10 @@ class Edit extends React.Component {
               <div className="edit-profile-avatar">
                 <div>Profile picture</div>
                 <img id="avatar" />
-                <div className="fileUpload btn btn-success">
+                <button className="fileupload btn btn-success">
                       <span>Choose Pic</span>
                       <input type="file" className="upload"></input>
-                </div>
+                </button>
 
                 <div className="edit-profile">
                 <div>Name</div>
@@ -190,7 +192,10 @@ class User extends React.Component {
       <div className="profilePage">
       <AudioPlayer song = {this.state.currentsong} mode = "user" />
         <img className='randomBG' src="../assets/random-bg/13772829224_76f2c28068_h.jpg"></img>
-        <img className='profileImg' src = {this.state.profileImg}></img>
+        <div className='profileItem'>
+          <img className='profileImg' src = {this.state.profileImg}></img>
+          <div className='profileUsername'>{user.username}</div>
+        </div>
         <div className="profileButtonCollection">
           <button className="profileButton" onClick={this.gotoMusic}><Glyphicon glyph='music'  /> MyMusic</button>
           <button className="profileButton" onClick={this.gotoBranches}><Glyphicon glyph='paperclip' onClick={this.gotoBranches} /> Branches</button>

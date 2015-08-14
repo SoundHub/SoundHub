@@ -2,7 +2,7 @@
 
 import fetch from 'whatwg-fetch';
 
-let rootUrl = ''
+let rootUrl = '';
 export default {
   get(url) {
     return window.fetch(url);
@@ -33,9 +33,9 @@ export default {
     });
   },
 
-  post(url, body) {
+  postJSON(url, body) {
     var body = JSON.stringify(body);
-    
+
     return new Promise(function(resolve, reject) {
       window.fetch(url, {
         method: 'post',
@@ -56,5 +56,28 @@ export default {
         reject(err);
       });
     });
+  },
+  
+  simplePost(url, body) {
+    var body = JSON.stringify(body);
+    
+    return new Promise(function(resolve, reject) {
+      window.fetch(url, {
+        method: 'post',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: body
+      })
+      .then((response) => {
+          console.log('hi1')
+          resolve(response);
+      })
+      .catch((err) => {
+        console.log(err);
+        reject(err);
+      });
+    });
   }
-}
+};

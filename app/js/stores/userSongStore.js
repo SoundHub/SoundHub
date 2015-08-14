@@ -54,8 +54,10 @@ let setVote = function(voteInfo) {
   }
 }
 
-let setUserForks = function() {
-
+let setUserForks = function(forks) {
+  console.log('set user forks: ',forks)
+  _userSongs.forked = forks;
+  console.log('user songs: ', _userSongs.forked)
 }
 
 let setNewFork = function(id) {
@@ -91,6 +93,7 @@ let UserSongStore = assign({}, EventEmitter.prototype, {
     return _userSongs.voted[songId].userVoted;
   },
   getForkedSongs() {
+    console.log('store getter: ', _userSongs.forked)
     return _userSongs.forked;
   }
 })
@@ -117,7 +120,8 @@ UserSongStore.dispatchToken = Dispatcher.register(function(payload) {
       break;
 
     case ActionType.GET_USER_FORKS:
-      setUserForks(payload)
+      setUserForks(payload.songs);
+      UserSongStore.emitChange();
       break;
 
     case ActionType.FORK_SUCCESS:
