@@ -19,9 +19,9 @@ const NotFoundRoute = Router.NotFoundRoute;
 const routes = (
   <Route handler={Layout}>
     <DefaultRoute name="home" handler={Home}/>
-    <Route name="user" handler={User}/>
-    <Route name="tree" handler={Tree}/>
-    <Route name="auth" handler={Auth}/>
+    <Route name="user" path="/user" handler={User}/>
+    <Route name="auth" path="/auth" handler={Auth}/>
+    <Route name="tree" path="/tree/:id"  handler={Tree}/>
     <NotFoundRoute name="not-found" handler={NotFound}/>
   </Route>
 );
