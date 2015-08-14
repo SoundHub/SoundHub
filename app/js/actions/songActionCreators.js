@@ -35,7 +35,6 @@ export default {
     .then((json) => {
       Dispatcher.dispatch({
         type: ActionType.RECEIVE_SONG_TREE,
-        message: 'Song tree received',
         songTree: json
       })
     })
@@ -124,6 +123,15 @@ export default {
     })
     .catch((err) => {
       console.error('songTree failed: ', err)
+
+    })
+  },
+
+  createFromFork(forkSong){
+    Dispatcher.dispatch({
+      type:ActionType.CREATE_FROM_FORKS,
+      song:forkSong,
+      page:'create'
     })
   }
   
