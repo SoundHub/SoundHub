@@ -61,31 +61,12 @@ let setUserForks = function() {
 let setNewFork = function(id) {
   AllSongStore.getSongById(id)
   .then((song) => {
-    console.log('promise result ', song)
     _userSongs.forked.push(song);   
-    console.log('forked songs: ', _userSongs.forked)
+    console.log('forked song: ', _userSongs.forked)
   }, (err) => {
     console.log(err);
   })
 }
-
-// let setNewFork = function(id) {
-//   var promise = new Promise((resolve, reject) => {
-//     var song = AllSongStore.getSongById(id);
-//     if(song) {
-//       resolve(song);
-//     } else {
-//       reject(Error('get song failed'))
-//     }
-//   })
-//   promise.then((result) => {
-//     console.log('promise result: ', result)
-//     _userSongs.forked.push(result);   
-//     console.log('forked songs: ', _userSongs.forked)
-//   }, (err) => {
-//     console.log(err);
-//   })
-// }
 
 let UserSongStore = assign({}, EventEmitter.prototype, {
   emitChange() {

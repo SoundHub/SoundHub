@@ -108,8 +108,11 @@ export default {
 
   // find all songs forked by user
   getAllForks(userId) {
-    Utils.post('/myForks', userId)
+    console.log(userId)
+    var obj = {userId: userId};
+    Utils.post('/myForks', obj)
     .then((response) => {
+      console.log(response)
       return response.json();
     })
     .then((json) => {
@@ -121,14 +124,6 @@ export default {
     })
     .catch((err) => {
       console.log('failed: ', err)
-    })
-  },
-
-  createFromFork(forkSong){
-    Dispatcher.dispatch({
-      type:ActionType.CREATE_FROM_FORKS,
-      song:forkSong,
-      page:'create'
     })
   }
 

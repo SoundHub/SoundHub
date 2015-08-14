@@ -27,28 +27,6 @@ let addVote = function(voteInfo) {
   }
 }
 
-var someAsyncThing = function() {
-  return new Promise(function(resolve, reject) {
-    // this will throw, x does not exist
-    resolve(x + 2);
-  });
-};
-
-// let addForkNum = function(id) {
-//   return new Promise((resolve, reject) => {
-//     _songs.allSongs.forEach((song) => {
-//       if(song.id === id) {
-//         console.log('fork num added: ', song);
-//         song.forks++;
-//         console.log('addForkNum: ', song)
-//         resolve(song)
-//       } else {
-//         reject(Error('no song found'))
-//       }
-//     })
-//   })
-// }
-
 let addForkNum = function(id) {
   console.log(id)
   _songs.allSongs.forEach((song) => {
@@ -75,13 +53,11 @@ let AllSongStore = assign({}, EventEmitter.prototype, {
   },
   getSongById(id) {
     return new Promise((resolve, reject) => {
-      console.log('id ', id)
       var song;
       for(var i=0; i<_songs.allSongs.length; i++) {
         if(_songs.allSongs[i].id === id) {
-          console.log('entering if')
           song = _songs.allSongs[i];
-          break; //NOTE: you can't break out of a forEach :(
+          break; 
         }
       }
       if(song) {

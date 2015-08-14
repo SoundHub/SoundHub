@@ -6,6 +6,8 @@ import Create from './create';
 import Router from 'react-router';
 import AudioPlayer from './player-components/AudioPlayer';
 import UserSongStore from '../stores/userSongStore';
+import SongActions from '../actions/songActionCreators';
+import UserProfileStore from '../stores/userProfileStore';
 
 var arr = [{
   title:'badboy',
@@ -33,6 +35,7 @@ var user = {
 class ForkList extends React.Component {
   constructor() {
     super();
+    SongActions.getAllForks(UserProfileStore.getLoggedInUser().userId);
     this.state = {forkedSongs: UserSongStore.getForkedSongs()}
     console.log('constructor',UserSongStore.getForkedSongs())
   }
@@ -51,6 +54,7 @@ class ForkList extends React.Component {
   }
   _onChange() {
     this.setState({forkedSongs: UserSongStore.getForkedSongs()});
+    console.log('state: ', this.state)
   }
 }
 
