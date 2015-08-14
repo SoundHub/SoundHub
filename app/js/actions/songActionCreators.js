@@ -22,7 +22,7 @@ export default {
       })
     })
     .catch((err) => {
-      console.log('failed: ', err)
+      console.error('failed: ', err)
     })
   },
 
@@ -40,7 +40,7 @@ export default {
       })
     })
     .catch((err) => {
-      console.log('getSongTree failed: ', err)
+      console.error('songtree failed: ', err)
     })
   },
 
@@ -56,7 +56,7 @@ export default {
       console.log('dispatched')
     })
     .catch((err) => {
-      console.log('failed', err)
+      console.error('failed', err)
     })
   },
 
@@ -67,9 +67,10 @@ export default {
 
     })
     .catch((err) => {
-      console.log('failed: ', err)
+      console.error('failed: ', err)
     })
   },
+
 
   // fork a song
   forkSong(userId, songId) {
@@ -123,7 +124,7 @@ export default {
       })
     })
     .catch((err) => {
-      console.log('failed: ', err)
+      console.error('failed: ', err)
     })
   }
 
