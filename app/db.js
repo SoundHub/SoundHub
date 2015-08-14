@@ -82,7 +82,7 @@ var login = function(username, password, callback) {
 };
 
 var signup = function(username, password, callback) {
-  var response;
+  var response = {};
   var exists;
   User.findOne({
     where: {
@@ -102,18 +102,16 @@ var signup = function(username, password, callback) {
               username: username,
               password: hash
             }).then(function() {
-              response = ({
-                success: true;
-              });
+              response.success = true;
+              callback(response);
             })
         })
       })
     } else {
-      response = 'username already exists';
+      response.success = false;
+      callback(response);
     }
-  }).then(function() {
-    callback(response);
-  });
+  })
 };
 
 
