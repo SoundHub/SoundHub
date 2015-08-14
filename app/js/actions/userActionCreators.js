@@ -62,6 +62,7 @@ export default ({
     })
     .catch((err) => {
       console.error('logout failed: ', err);
+    }
 
   createUser (user) {
 
