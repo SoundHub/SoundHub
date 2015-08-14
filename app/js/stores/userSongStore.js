@@ -119,11 +119,6 @@ UserSongStore.dispatchToken = Dispatcher.register(function(payload) {
       UserSongStore.emitChange();
       break;
 
-    case ActionType.GET_USER_FORKS:
-      setUserForks(payload.songs);
-      UserSongStore.emitChange();
-      break;
-
     case ActionType.FORK_SUCCESS:
       Dispatcher.waitFor([AllSongStore.dispatchToken]);
       console.log(payload);

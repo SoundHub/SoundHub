@@ -41,7 +41,7 @@ server.post('/signup', function(req, res) {
   });
 })
 
-server.get('/addSong', function(req, res) {  //** MVP **//
+server.post('/addSong', function(req, res) {  //** MVP **//
   var songData = req.body;
   db.addSong(songData.title, songData.genre, songData.author, songData.path, songData.description, songData.url, function(response) {
     res.send(response);
