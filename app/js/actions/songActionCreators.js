@@ -76,7 +76,7 @@ export default {
       userId: userId,
       songId: songId
     }
-    Utils.post('/addFork', forkInfo)
+    Utils.simplePost('/addFork', forkInfo)
     .then((response) => {
       Dispatcher.dispatch({
         type: ActionType.FORK_SUCCESS,
@@ -109,16 +109,13 @@ export default {
   getAllForks(userId) {
     console.log(userId);
     var obj = {userId: userId};
-    Utils.post('/myForks', obj)
+    Utils.postJSON('/myForks', obj)
     .then((response) => {
-      console.log(response);
-      return response.json();
-    })
-    .then((json) => {
-      console.log("dispatch forked songs ", json);
+      console.log(response)
+      console.log("dispatch forked songs ", response);
       Dispatcher.dispatch({
         type: ActionType.GET_USER_FORKS,
-        songs: json
+        songs: response
       })
     })
     .catch((err) => {
