@@ -466,6 +466,14 @@ $animate-sec: 1.5s;
 
 /* ================ Tree ================= */
 
+.treeBox{
+  margin-right: auto;
+  margin-left: auto;
+  width: 800px;
+}
+.nodeCircle{
+  background-image: red;
+}
   .node {
     cursor: pointer;
 
@@ -482,7 +490,7 @@ $animate-sec: 1.5s;
   }
 
   .overlay{
-      background-color:#EEE;
+      background-color:#F7F7F7;
   }
 
   .link {
@@ -498,6 +506,8 @@ $animate-sec: 1.5s;
   }
 
   .treeDiv {
+    position: relative;
+    background-color: #F7F7F7;
     .sideBar {
       float: right;
       width: 25%;

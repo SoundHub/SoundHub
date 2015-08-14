@@ -22,11 +22,8 @@ var exports = {};
     var nodeCircleRadius = 15; // 4.5 was original size
 
     // size of the diagram
-    // var viewerWidth = $(document).width();
-    // var viewerHeight = $(document).height();
-
-    var viewerWidth = 960;
-    var viewerHeight = 500;
+    var viewerWidth = $(document).width() - 350;
+    var viewerHeight = $(document).height() - 200;
 
     var tree = d3.layout.tree()
         .size([viewerWidth, viewerHeight]);
@@ -251,7 +248,7 @@ var exports = {};
         node.select("circle.nodeCircle")
             .attr("r", nodeCircleRadius) // was 4.5
             .style("fill", function(d) {
-                return d._children ? "lightsteelblue" : "#fff";
+                return d._children ? "lightsteelblue" : "blue";
             });
 
         // Transition nodes to their new position.

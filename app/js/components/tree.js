@@ -1,6 +1,16 @@
 'use strict';
 import React from 'react';
 import treeUtils from './makeTree.js';
+import AudioPlayer from './player-components/AudioPlayer';
+
+var song = {
+  title:'badboy',
+  url: "assets/badboy.mp3",
+  author:"big bang",
+  like:"223",
+  img:"assets/album/1.png",
+  id: 1
+}
 
 class D3Tree extends React.Component {
   constructor() {
@@ -26,8 +36,12 @@ class D3Tree extends React.Component {
   render() {
     return (
       <div className="treeDiv">
-        <div className="sideBar">This is Side Bar</div>
-        <svg ref="songTree"></svg>
+        <div className= "playerBox">
+          <AudioPlayer song = {song} mode = "home" />
+        </div>
+        <div className = "treeBox">
+          <svg ref="songTree"></svg>
+        </div>
       </div>
     );
   }
