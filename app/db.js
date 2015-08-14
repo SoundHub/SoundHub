@@ -6,6 +6,12 @@ var orm = new Sequelize(process.env.DATABASE_URL || 'sqlite://SoundHub.sqlite');
 var bcrypt = require('bcrypt');
 var promise = require('bluebird');
 var compare = promise.promisify(bcrypt.compare);
+var uuid = require('node-uuid');
+
+console.log(typeof uuid.v4());
+for (var i = 0; i < 10; i++) {
+  console.log(uuid.v4());
+}
 
 /** SCHEMA **/
 
@@ -17,7 +23,8 @@ var SongNode = orm.define('songNodes', {
   author: { type: Sequelize.INTEGER, allowNull: false },
   path: { type: Sequelize.STRING, defaultValue: '' },
   description: { type: Sequelize.STRING, defaultValue: '' },
-  url: { type: Sequelize.STRING, allowNull: true }  //when we have urls for songz
+  url: { type: Sequelize.STRING, allowNull: true },
+  uuid: { type: Sequelize.STRING, allowNull: false}
 });
 
 var User = orm.define('users', {
@@ -95,7 +102,9 @@ var signup = function(username, password, callback) {
               username: username,
               password: hash
             }).then(function() {
-              response = ('success');
+              response = ({
+                success: true;
+              });
             })
         })
       })
@@ -115,27 +124,22 @@ exports.signup = signup;
 /** INSERT/QUERY FUNCTIONS **/
 
 var addSong = function(title, genre, author, pathString, description, url, callback) {
+  var guid = uuid.v4();
+  
   orm.sync().then(function() {
     return SongNode.create({
       title: title,
       genre: genre,
       author: author,
-      path: pathString,
+      path: pathString + guid + '/',
       description: description,
-      url: url             
+      url: url,
+      uuid: guid             
     });
   }).then(function(song) {
     callback(song);
   });
 };
-
-var songCompiler = function(data) { //helper function to compile/clean queried songs
-  var songs = [];
-  for (var i = 0; i < data.length; i++) {
-    songs.push(data[i].get({plain: true}));
-  }
-  return songs;
-}
 
 var allSongs = function(callback) {
   SongNode.findAll({
@@ -147,9 +151,7 @@ var allSongs = function(callback) {
 };
 
 var findSongsbyRoot = function(rootNodeID, callback) {
-  console.log('fuck fuck: ', rootNodeID);
   rootNodeID = rootNodeID.split('/')[1];
-  console.log('fuck fuck fuck: ', rootNodeID);
   SongNode.findAll({
   where: {
       path: { like: '%/' + rootNodeID + '/%' }
@@ -297,7 +299,6 @@ exports.addVote = addVote;
 
 /* UPDATE SONG WITH LIKES TOTAL AFTER LIKE */
 var updateVotes = function(songNodeId) {
-  console.log('potato');
   Upvote.findAll({
     where: {
       songNodeId: songNodeId
@@ -320,6 +321,15 @@ var updateVotes = function(songNodeId) {
     )
     console.log(voteSum);
   })
+}
+
+/* COMPILE/CLEAN QUERIED SONGS */
+var songCompiler = function(data) {
+  var songs = [];
+  for (var i = 0; i < data.length; i++) {
+    songs.push(data[i].get({plain: true}));
+  }
+  return songs;
 }
 
 /* BUILD TREE FROM FLATTENED ARRAY */
