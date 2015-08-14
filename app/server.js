@@ -26,6 +26,8 @@ server.use('/s3', require('react-s3-uploader/s3router')({
 var db = require('./db.js');
 
 server.post('/login', function(req, res) {
+
+  console.log('request received!!!!!!!!!')
   db.login(req.body.username, req.body.password, function(response) {
     if (response.success) {
       req.session.user = response.user;

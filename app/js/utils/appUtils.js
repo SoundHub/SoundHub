@@ -2,7 +2,7 @@
 
 import fetch from 'whatwg-fetch';
 
-let rootUrl = ''
+let rootUrl = '';
 export default {
   get(url) {
     return window.fetch(url);
@@ -80,4 +80,4 @@ export default {
       });
     });
   }
-}
+};
