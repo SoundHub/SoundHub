@@ -45,7 +45,7 @@ let UserProfile = assign({}, EventEmitter.prototype, {
 });
 
 var setCookie = function (id, username) {
-  console.log("cookie contents ", id, username);
+  //console.log("cookie contents ", id, username);
   document.cookie = "id" + "=" + id;
   document.cookie = "username" + "=" + username;
 };
@@ -59,9 +59,11 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
 
   switch (payload.type) {
     case ActionType.LOGIN:
-      console.log('store login');
-      console.log("response ", payload);
-      console.log("should say success", payload.response.success);
+
+      // console.log('store login');
+      // console.log("payload login user: ", payload.user);
+      // console.log("response ", payload);
+      // console.log("should say success", payload.response.success);
       if (payload.response.success) {
         setCookie(payload.response.user[0].id, payload.response.user[0].username);
       }
@@ -70,17 +72,18 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
         console.log("login failed, user does not exist");
       }
 
+
       UserProfile.emitChange();
       break;
 
     case ActionType.SIGNUP:
-      console.log('store signup');
-      console.log(payload);
-      console.log("payload signup user: ", payload.user);
-      console.log("response ", payload);
-      console.log("user", payload.user);
-      console.log("should say success", payload.response.success);
-
+      // console.log('store signup');
+      // console.log(payload);
+      // console.log("payload signup user: ", payload.user);
+      // console.log("response ", payload);
+      // console.log("user", payload.user);
+      // console.log("should say success", payload.response.success);
+      // console.log("cookie", UserProfile.getCookieID());
       if (payload.response.success) {
 
         _user.loggedIn = true;
