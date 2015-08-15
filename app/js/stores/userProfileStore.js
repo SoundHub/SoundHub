@@ -51,12 +51,12 @@ var setCookie = function (id, username) {
   // var expires = "expires="+d.toUTCString();
   document.cookie = "id" + "=" + id;
   document.cookie = "username" + "=" + username;
-}
+};
 
 var deleteCookie = function() {
   document.cookie = "id=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
   document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-}
+};
 
 UserProfile.dispatchToken = Dispatcher.register(function(payload) {
 
@@ -77,6 +77,9 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
 
       console.log(_user);
 
+      // console.log("cookie:", getCookieID('id));
+      // console.log("cookie:", getCookieName('username'));
+
 
 >>>>>>> refactor(userStore): clean up
       UserProfile.emitChange();
@@ -91,7 +94,10 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
       console.log("should say success", payload.response.success);
 
       if (payload.response.success) {
-        console.log('success');
+
+        _user.loggedIn = true;
+        _user.userInfo.username = payload.user.username;
+        console.log(_user);
       }
 
       else {
