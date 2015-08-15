@@ -74,7 +74,9 @@ import SongTreeStore from '../stores/songTreeStore';
 class Page extends React.Component {
   constructor() {
     super();
-    SongActions.getSongTree({rootId: '/1/'});  //'/1/'  '/1/2/'
+    let uuid = window.location.pathname.split('/')[2];
+    console.log('constructor uuid: ', uuid);
+    SongActions.getSongTree({rootId: uuid});  //'/1/'  '/1/2/'
     this.state = {
       treeData: {}
     }

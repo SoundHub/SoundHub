@@ -54,6 +54,7 @@ class Create extends React.Component {
   }
 
   uploadSong() {
+    let songData = {};
     // pull user info from userProfile Store for author
     // title, genre, author, path
     songData.title = this.refs.songName.getDOMNode().value;
@@ -61,6 +62,7 @@ class Create extends React.Component {
     songData.songPath = this.refs.songPath.getDOMNode().value;
     songData.url = this.state.file;
     songData.author = UserProfileStore.getLoggedInUser().userId;
+    songData.path = '/';
     SongActions.addSong(songData);
     // clear input fields after submit
     this.refs.songName.getDOMNode().value = '';
