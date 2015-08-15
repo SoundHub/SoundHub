@@ -15,6 +15,7 @@ let _user = {
   userInfo: {
     username: "default_username",
     userId: 200
+    userimg:''
   }
 };
 
@@ -89,7 +90,6 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
       console.log(_user);
       // console.log("cookie:", getCookieID('id'));
       // console.log("cookie" , getCookieName('username'));
-
 
       UserProfile.emitChange();
       break;

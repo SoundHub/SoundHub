@@ -163,25 +163,32 @@ class User extends React.Component {
     this.gotoCreate = this.gotoCreate.bind(this);
     this.setsong = this.setsong.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
+    this.componentWillMount = this.componentWillMount.bind(this);
     this._onChange = this._onChange.bind(this);
     this.state = {
       profileImg:props.profileImg,
-      user:{
-        username:'',
-        profileimg:'',
-      },
+      username:'',
+      userimg:'',
+      userId:-1,
       pageType: props.pageType,
       currentsong: {},
       forkSong:{}
     }
    }
 
+  componentWillMount(){
+
+   }
+
   componentDidMount(){
     ForkedCreateStore.addChangeListener(this._onChange);
-    //get ID fire to db to get userinfo
-    let userId = UserProfileStore.getLoggedInUser().userId;
-    this.setState({profileImg:user.profileImg})
-    this.setState({username:user.username})
+    this.setState({
+      userId:UserProfileStore.getLoggedInUser().userId},
+        ()=>{SongActions.getUserCreatedSongs(this.state.userId)
+      })
+
+    this.setState({username:UserProfileStore.getLoggedInUser().username;)
+    this.setState({userimg:UserProfileStore.getLoggedInUser().userimg;)
    }
 
    _onChange() {
