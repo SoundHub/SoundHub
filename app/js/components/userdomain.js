@@ -43,7 +43,7 @@ class ForkList extends React.Component {
     super();
     this.state = {forkedSongs: []};
     this._onChange = this._onChange.bind(this);
-    SongActions.getAllForks(user.userId);
+    SongActions.getAllForks(UserProfileStore.getCookieID());
   }
 
 
@@ -81,7 +81,7 @@ class MyMusic extends React.Component {
     this.switchSong = this.switchSong.bind(this);
     this._onChange = this._onChange.bind(this);
     UserSongStore.addChangeListener(this._onChange);
-    SongActions.getUserCreatedSongs(user)
+    SongActions.getUserCreatedSongs(UserProfileStore.getCookieID())
   }
 
   switchSong(song){
@@ -182,7 +182,7 @@ class User extends React.Component {
    componentDidMount(){
     ForkedCreateStore.addChangeListener(this._onChange);
     this.setState({profileImg:user.profileImg})
-    this.setState({username:user.username})
+    this.setState({username: UserProfileStore.getCookieName()})
    }
 
    gotoMusic(){this.setState({pageType:'music',currentsong:{}});}
@@ -212,7 +212,7 @@ class User extends React.Component {
         <img className='randomBG' src="../assets/random-bg/13772829224_76f2c28068_h.jpg"></img>
         <div className='profileItem'>
           <img className='profileImg' src = {this.state.profileImg}></img>
-          <div className='profileUsername'>{user.username}</div>
+          <div className='profileUsername'>{UserProfileStore.getCookieName()}</div>
         </div>
         <div className="profileButtonCollection">
           <button className="profileButton" onClick={this.gotoMusic}><Glyphicon glyph='music'  /> MyMusic</button>

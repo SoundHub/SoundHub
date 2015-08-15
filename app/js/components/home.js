@@ -44,7 +44,6 @@ class Home extends React.Component {
 
   componentDidMount () {
     AllSongStore.addChangeListener(this._onChange);
-    console.log(UserProfileStore.getCookieID())
   }
 
   switchSong(song){
