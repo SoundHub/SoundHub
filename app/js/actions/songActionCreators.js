@@ -102,7 +102,7 @@ export default {
       type: ActionType.VOTE,
       voteInfo: voteInfo
     })
-    Utils.post('/addVote', voteInfo)
+    Utils.simplePost('/addVote', voteInfo)
     .catch((err) => {
       console.log('voting failed: ', err)
     })
