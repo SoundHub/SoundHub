@@ -37,19 +37,19 @@ var User = orm.define('users', {
 // Define the join table which joins Users and 'forked' SongNodes
 var Fork = orm.define('forks', {
   userId: { type: Sequelize.INTEGER, allowNull: false },
-  songNodeId: { type: Sequelize.INTEGER, allowNull: false}
+  songNodeId: { type: Sequelize.STRING, allowNull: false}
 });
 
 // Define the join table which joins Users and 'favorited' SongNodes
 var Favorite = orm.define('favorites', {
   userId: { type: Sequelize.INTEGER, allowNull: false },
-  songNodeId: { type: Sequelize.INTEGER, allowNull: false}
+  songNodeId: { type: Sequelize.STRING, allowNull: false}
 });
 
 //Define the join table which joins Users and 'upvoted/downvoted' SongNodes
 var Upvote = orm.define('upvotes', {
   userId: { type: Sequelize.INTEGER, allowNull: false },
-  songNodeId: { type: Sequelize.INTEGER, allowNull: false},
+  songNodeId: { type: Sequelize.STRING, allowNull: false},
   upvote: { type: Sequelize.INTEGER, allowNull: true }
 })
 
@@ -176,10 +176,11 @@ var mySongs = function(userID, callback) {
 
 var myForks = function(userId, callback) {
   orm.query(
-    'select songNodes.title, songNodes.author, songNodes.uuid, songNodes.genre, songNodes.description, songNodes.like, songNodes.forks, songNodes.path, songNodes.url from ' +
-    'forks join users on forks.userId = '+userId+
-    ' join songNodes on forks.songNodeId = songNodes.id;'
+    'select distinct songNodes.title, songNodes.author, songNodes.uuid, songNodes.genre, songNodes.description, songNodes.like, songNodes.forks, songNodes.path, songNodes.url from ' +
+    'forks inner join users on forks.userId = '+userId+
+    ' inner join songNodes on forks.songNodeId = songNodes.uuid;'
   ).then(function(data) {
+    console.log(data);
     callback(data.slice(0, (data.length - 1))[0]);
   })
 };

@@ -42,13 +42,14 @@ module.exports = React.createClass({
 	},
 
 	voteSong: function(val) {
-		var userId = UserProfileStore.getLoggedInUser().userId;
-		SongActions.addSongVote(userId, this.props.song.id, val);
+		var userId = UserProfileStore.getCookieID();
+		SongActions.addSongVote(userId, this.props.song.uuid, val);
 	},
 
 	forkSong: function() {
-		var userId = UserProfileStore.getLoggedInUser().userId;
-		SongActions.forkSong(userId, this.props.song.id);
+		var userId = UserProfileStore.getCookieID();
+		console.log('enter fork', userId, this.props.song.uuid)
+		SongActions.forkSong(userId, this.props.song.uuid);
 	},
 
 	render: function() {
