@@ -2,6 +2,7 @@
 import _ from 'lodash';
 import React from 'react';
 import Router from 'react-router';
+import UserProfileStore from '../stores/userProfileStore';
 
 class NavLink extends React.Component {
   render() {
@@ -15,6 +16,19 @@ class NavLink extends React.Component {
 }
 
 class Nav extends React.Component {
+  constructor() {
+    super();
+    this._onChange = this._onChange.bind(this);
+  }
+
+  componentDidMount() {
+    UserProfileStore.addChangeListener(this._onChange);
+  }
+
+  _onChange() {
+    this.setState({forkedSongs: ForkedSongStore.getForkedSongs()});
+  }
+
   render() {
     return (
       <div className="topBar">

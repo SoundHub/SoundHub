@@ -182,7 +182,7 @@ class User extends React.Component {
     ForkedCreateStore.addChangeListener(this._onChange);
 
     this.setState({username:UserProfileStore.getCookieName()})
-    this.setState({userimg:UserProfileStore.getLoggedInUser().userimg})
+    // this.setState({userimg:UserProfileStore.getLoggedInUser().userimg})
    }
 
    _onChange() {
