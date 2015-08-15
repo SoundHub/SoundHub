@@ -34,6 +34,13 @@ let UserProfile = assign({}, EventEmitter.prototype, {
   }
 
 });
+var setCookie = function (id, username) {
+  console.log("cookie contents ", id, username);
+  // var expires = "expires="+d.toUTCString();
+  document.cookie = "id" + "=" + id;
+  document.cookie = "username" + "=" + username;
+
+}
 
 UserProfile.dispatchToken = Dispatcher.register(function(payload) {
 
@@ -47,6 +54,7 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
         _user.loggedIn = true;
         _user.userInfo.userId =  payload.response.user[0].id;
         _user.userInfo.username = payload.response.user[0].username;
+        setCookie(_user.userInfo.userId, _user.userInfo.username);
       }
       else {
         _user.loggedIn = false;
@@ -73,7 +81,9 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
         _user.userInfo.username = payload.user.username;
         console.log(_user);
 
-      } 
+
+      }
+
       else {
         console.log("signup failed, user already exists");
         // todo: display this on page
@@ -81,18 +91,18 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
 
 
       UserProfile.emitChange();
-      break; 
+      break;
 
     case ActionType.LOGOUT:
       console.log("store logout");
       _user.loggedIn = false;
-      
+
       UserProfile.emitChange();
       break;
 
 
     default:
-      console.log("default"); 
+      //dont do anying
   }
 
 });
