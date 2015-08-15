@@ -88,7 +88,6 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
       console.log('store signup');
       console.log(payload);
       console.log("payload signup user: ", payload.user);
-      console.log
       console.log("response ", payload);
       console.log("user", payload.user);
       console.log("should say success", payload.response.success);
