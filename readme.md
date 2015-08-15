@@ -11,13 +11,8 @@ _Let's make it something more._
 In your command line, type:
 
 ```javascript
-npm install
+$ npm install
+$ gulp
 ```
 
-then:
-
-```javascript
-gulp
-```
-
-Point your browser to localhost:3000 to see the app!
+then point your browser to localhost:3000 to see the app!
