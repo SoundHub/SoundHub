@@ -81,11 +81,10 @@ class MyMusic extends React.Component {
     this.switchSong = this.switchSong.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
     this._onChange = this._onChange.bind(this);
-
   }
 
   componentDidMount() {
-    // SongActions.getUserCreatedSongs(user)
+    SongActions.getUserCreatedSongs(this.props)
     UserSongStore.addChangeListener(this._onChange);
   }
 
@@ -177,16 +176,11 @@ class User extends React.Component {
    }
 
   componentWillMount(){
-
+    this.setState({userId:UserProfileStore.getCookieID()})
    }
 
   componentDidMount(){
     ForkedCreateStore.addChangeListener(this._onChange);
-    this.setState({
-      userId:UserProfileStore.getCookieID()
-    },() => {
-      SongActions.getUserCreatedSongs(this.state)
-    })
 
     this.setState({username:UserProfileStore.getCookieName()})
     this.setState({userimg:UserProfileStore.getLoggedInUser().userimg})
