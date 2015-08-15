@@ -43,12 +43,12 @@ class ForkList extends React.Component {
     super();
     this.state = {forkedSongs: []};
     this._onChange = this._onChange.bind(this);
-    SongActions.getAllForks(user.userId);
   }
 
 
   componentDidMount() {
     ForkedSongStore.addChangeListener(this._onChange);
+    SongActions.getAllForks(user.userId);
   }
 
   switchSong(song){
@@ -81,10 +81,11 @@ class MyMusic extends React.Component {
     this.switchSong = this.switchSong.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
     this._onChange = this._onChange.bind(this);
-    SongActions.getUserCreatedSongs(user)
+
   }
 
   componentDidMount() {
+    // SongActions.getUserCreatedSongs(user)
     UserSongStore.addChangeListener(this._onChange);
   }
 
@@ -152,7 +153,6 @@ class Favor extends React.Component {
   }
 }
 
-
 class User extends React.Component {
   constructor(props) {
     super(props);
@@ -166,7 +166,7 @@ class User extends React.Component {
     this.componentWillMount = this.componentWillMount.bind(this);
     this._onChange = this._onChange.bind(this);
     this.state = {
-      profileImg:props.profileImg,
+      login:false,
       username:'',
       userimg:'',
       userId:-1,
@@ -183,11 +183,12 @@ class User extends React.Component {
   componentDidMount(){
     ForkedCreateStore.addChangeListener(this._onChange);
     this.setState({
-      userId:UserProfileStore.getLoggedInUser().userId},
-        ()=>{SongActions.getUserCreatedSongs(this.state.userId)
-      })
+      userId:UserProfileStore.getCookieID()
+    },() => {
+      SongActions.getUserCreatedSongs(this.state)
+    })
 
-    this.setState({username:UserProfileStore.getLoggedInUser().username})
+    this.setState({username:UserProfileStore.getCookieName()})
     this.setState({userimg:UserProfileStore.getLoggedInUser().userimg})
    }
 
@@ -202,7 +203,6 @@ class User extends React.Component {
   }
 
 
-
    gotoMusic(){this.setState({pageType:'music',currentsong:{}});}
    gotoBranches(){this.setState({pageType:'branch',currentsong:{}});}
    gotoFavourites(){ this.setState({pageType:'fav',currentsong:{}}); }
@@ -213,7 +213,7 @@ class User extends React.Component {
   render() {
     var profilePage;
     if(this.state.pageType==='music'){
-      profilePage = <MyMusic switchsong = {this.setsong}/>
+      profilePage = <MyMusic switchsong = {this.setsong} userId={this.state.userId}/>
     }else if(this.state.pageType==='branch'){
       profilePage = <ForkList switchsong = {this.setsong}/>
     }else if(this.state.pageType==='fav'){
@@ -229,8 +229,8 @@ class User extends React.Component {
       <AudioPlayer song = {this.state.currentsong} mode = "user" />
         <img className='randomBG' src="../assets/random-bg/13772829224_76f2c28068_h.jpg"></img>
         <div className='profileItem'>
-          <img className='profileImg' src = {this.state.profileImg}></img>
-          <div className='profileUsername'>{user.username}</div>
+          <img className='profileImg' src = {user.profileImg}></img>
+          <div className='profileUsername'>{this.state.username}</div>
         </div>
         <div className="profileButtonCollection">
           <button className="profileButton" onClick={this.gotoMusic}><Glyphicon glyph='music'  /> MyMusic</button>

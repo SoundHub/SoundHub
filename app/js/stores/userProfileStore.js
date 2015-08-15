@@ -31,9 +31,7 @@ let UserProfile = assign({}, EventEmitter.prototype, {
     this.removeListener(CHANGE_EVENT, callback)
   },
   getLoggedInUser() {
-    if(_user.loggedIn){
-      return _user.userInfo;
-    }
+    return _user.userInfo;
   },
   getCookieID() {
     var name = 'id=';

@@ -57,8 +57,8 @@ export default {
   },
 
   // find all songs uploaded by user
-  getUserCreatedSongs(user) {
-    Utils.postJSON('/mySongs', user)
+  getUserCreatedSongs(userId) {
+    Utils.postJSON('/mySongs', userId)
     .then((userSongs) => {
       Dispatcher.dispatch({
         type: ActionType.GET_USER_SONGS,
