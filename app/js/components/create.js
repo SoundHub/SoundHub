@@ -1,6 +1,5 @@
 'use strict';
 import React from 'react';
-import Dropzone from 'react-dropzone';
 import SongActions from '../actions/songActionCreators';
 import UserSongStore from '../stores/userSongStore';
 import UserProfileStore from '../stores/userProfileStore'

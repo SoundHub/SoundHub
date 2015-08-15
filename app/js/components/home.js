@@ -5,6 +5,7 @@ import SongActions from '../actions/songActionCreators';
 import AllSongStore from '../stores/allSongStore';
 import {Glyphicon} from 'react-bootstrap';
 import AudioPlayer from './player-components/AudioPlayer';
+import UserProfileStore from '../stores/userProfileStore';
 
 var arr = [{
   title:'badboy',
@@ -43,6 +44,7 @@ class Home extends React.Component {
 
   componentDidMount () {
     AllSongStore.addChangeListener(this._onChange);
+    console.log(UserProfileStore.getCookieID())
   }
 
   switchSong(song){
