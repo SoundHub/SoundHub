@@ -241,15 +241,28 @@ body{min-width: 700px;}
     text-transform: capitalize;
   }
   .itemPlay{
-    margin: 0;
     width: 30px;
-    padding: 7px 0px 0px 9px;
+    padding: 6px 0px 0px 9px;
     background-color: #FFFFFF;
     text-align: center;
     height: 30px;
     border-radius: 100%;
     display: -webkit-inline-box;
   }
+  .itemOther{
+    color: #31748D;
+    float: right;
+    margin-right: 5px;
+    width: 30px;
+    padding: 6px 0px 0px 9px;
+    background-color: #E4E4E4;
+    text-align: center;
+    height: 30px;
+    border-radius: 10%;
+    display: -webkit-inline-box;
+  }
+
+
 }
 .songItem:hover{
   transition: background-color .3s;

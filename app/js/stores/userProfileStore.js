@@ -9,7 +9,6 @@ import assign from 'object-assign';
 const ActionType = Constants.ActionTypes;
 const CHANGE_EVENT = 'change';
 
-// some fake data
 
 
 let UserProfile = assign({}, EventEmitter.prototype, {
@@ -90,7 +89,6 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
         console.log("signup failed, user already exists");
         // todo: display this on page
       }
-
 
       UserProfile.emitChange();
       break;
