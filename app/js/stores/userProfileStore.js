@@ -10,13 +10,7 @@ const ActionType = Constants.ActionTypes;
 const CHANGE_EVENT = 'change';
 
 // some fake data
-let _user = {
-  loggedIn: false,
-  userInfo: {
-    username: "suz",
-    userId: 1
-  }
-};
+var _user = {};
 
 
 let UserProfile = assign({}, EventEmitter.prototype, {
@@ -28,9 +22,6 @@ let UserProfile = assign({}, EventEmitter.prototype, {
   },
   removeChangeListener(callback) {
     this.removeListener(CHANGE_EVENT, callback)
-  },
-  getLoggedInUser() {
-    return _user.userInfo;
   },
   getCookieID() {
     var name = 'id=';
@@ -89,7 +80,6 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
       console.log(_user);
       // console.log("cookie:", getCookieID('id'));
       // console.log("cookie" , getCookieName('username'));
-
 
       UserProfile.emitChange();
       break;
