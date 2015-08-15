@@ -46,6 +46,10 @@ class Home extends React.Component {
     AllSongStore.addChangeListener(this._onChange);
   }
 
+  componentWillUnmount() {
+    AllSongStore.removeChangeListener(this._onChange);
+  }
+
   switchSong(song){
     this.setState({currentsong:song});
   }

@@ -41,6 +41,10 @@ class Create extends React.Component {
     UserSongStore.addChangeListener(this._onChange);
   }
 
+  componentWillUnmount() {
+    UserSongStore.removeChangeListener(this._onChange);
+  }
+
   _onChange() {
     this.setState({
       newestCreated: UserSongStore.getUserCreatedSongs().newestCreated,

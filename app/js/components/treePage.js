@@ -93,6 +93,10 @@ class Page extends React.Component {
     SongTreeStore.addChangeListener(this._onChange);
   }
 
+  componentWillUnmount() {
+    SongTreeStore.removeChangeListener(this._onChange);
+  }
+
   // componentWillReceiveProps(nextProps) {
   //   console.log('tree.js componentWillReceiveProps: ', nextProps.treeData);
   //   this.setState({treeData: nextProps.treeData});
