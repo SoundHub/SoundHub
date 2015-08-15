@@ -73,7 +73,7 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
         _user.userInfo.username = payload.user.username;
         console.log(_user);
 
-      } 
+      }
       else {
         console.log("signup failed, user already exists");
         // todo: display this on page
@@ -81,18 +81,18 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
 
 
       UserProfile.emitChange();
-      break; 
+      break;
 
     case ActionType.LOGOUT:
       console.log("store logout");
       _user.loggedIn = false;
-      
+
       UserProfile.emitChange();
       break;
 
 
     default:
-      console.log("default"); 
+      //dont do anying
   }
 
 });
