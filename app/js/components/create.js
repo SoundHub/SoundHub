@@ -24,10 +24,10 @@ import ReactS3Uploader from 'react-s3-uploader';
 // });
 
 
-let songData = {
-  author: 1,
-  path: '1/2/3'
-};
+// let songData = {
+//   author: 42,
+//   path: '/'
+// };
 
 class Create extends React.Component {
   constructor() {
@@ -54,12 +54,14 @@ class Create extends React.Component {
   }
 
   uploadSong() {
+    let songData = {};
     // pull user info from userProfile Store for author
     // title, genre, author, path
     songData.title = this.refs.songName.getDOMNode().value;
     songData.genre = this.refs.songGenre.getDOMNode().value;
     songData.url = this.state.file;
     songData.author = UserProfileStore.getLoggedInUser().userId;
+    songData.path = '/';
     SongActions.addSong(songData);
     // clear input fields after submit
     this.refs.songName.getDOMNode().value = '';
