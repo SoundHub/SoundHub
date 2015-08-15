@@ -76,7 +76,6 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
 =======
 
       console.log(_user);
-
       // console.log("cookie:", getCookieID('id));
       // console.log("cookie:", getCookieName('username'));
 
@@ -89,6 +88,7 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
       console.log('store signup');
       console.log(payload);
       console.log("payload signup user: ", payload.user);
+      console.log
       console.log("response ", payload);
       console.log("user", payload.user);
       console.log("should say success", payload.response.success);
@@ -98,6 +98,7 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
         _user.loggedIn = true;
         _user.userInfo.username = payload.user.username;
         console.log(_user);
+
       }
 
       else {
