@@ -29,9 +29,20 @@ class LoginButton extends React.Component {
 
 
 class LogoutButton extends React.Component {
+  constructor() {
+    super();
+    this.logout = this.logout.bind(this);
+  }
+
+  logout(){
+    console.log('logout click!')
+    document.cookie = "id=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+    document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+  }
+
   render() {
     return (
-      <button>Logout</button>
+      <button onClick ={this.logout} >Logout</button>
     );
   }
 };
@@ -40,12 +51,12 @@ class LogoutButton extends React.Component {
 class Nav extends React.Component {
   constructor() {
     super();
+    this.componentDidMount = this.componentDidMount.bind(this);
+    this.componentWillUnmount = this.componentWillUnmount.bind(this);
+    this._onChange = this._onChange.bind(this);
     this.state = {
       loggedin: false
     }
-    this.componentWillMount = this.componentWillMount.bind(this);
-    this.componentWillUnmount = this.componentWillUnmount.bind(this);
-    this._onChange = this._onChange.bind(this);
   }
 
   _onChange() {
@@ -54,14 +65,13 @@ class Nav extends React.Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     UserProfileStore.addChangeListener(this._onChange);
-    if (UserProfileStore.getCookieID()) {
+    if (UserProfileStore.getCookieID()){
       this.setState({loggedin: true});
     }else {
       this.setState({loggedin: false});
     }
-    console.log("LOGIN STATE: ", this.state.loggedin);
   }
 
   componentWillUnmount() {
@@ -70,7 +80,7 @@ class Nav extends React.Component {
 
   render() {
     var authButton;
-    if(this.state.loggedin === true){
+    if(this.state.loggedin){
       authButton = <LogoutButton />
     }else{
       authButton = <LoginButton />
