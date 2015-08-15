@@ -31,11 +31,12 @@ var arr = [{
   id:'3'
 }];
 
-// var user = {
-//   userId:1,
-//   username:"Richie",
-//   profileImg:"../assets/profileImg.jpg"
-// }
+
+var user = {
+  userId:1,
+  username:"Richie",
+  profileImg:"../assets/profileImg.jpg"
+}
 
 class ForkList extends React.Component {
   constructor() {
@@ -78,9 +79,13 @@ class MyMusic extends React.Component {
     super();
     this.state = {userSongs: []};
     this.switchSong = this.switchSong.bind(this);
+    this.componentDidMount = this.componentDidMount.bind(this);
     this._onChange = this._onChange.bind(this);
-    UserSongStore.addChangeListener(this._onChange);
     SongActions.getUserCreatedSongs(user)
+  }
+
+  componentDidMount() {
+    UserSongStore.addChangeListener(this._onChange);
   }
 
   switchSong(song){
@@ -161,11 +166,22 @@ class User extends React.Component {
     this._onChange = this._onChange.bind(this);
     this.state = {
       profileImg:props.profileImg,
-      username:"",
-      pageType:props.pageType,
+      user:{
+        username:'',
+        profileimg:'',
+      },
+      pageType: props.pageType,
       currentsong: {},
       forkSong:{}
     }
+   }
+
+  componentDidMount(){
+    ForkedCreateStore.addChangeListener(this._onChange);
+    //get ID fire to db to get userinfo
+    let userId = UserProfileStore.getLoggedInUser().userId;
+    this.setState({profileImg:user.profileImg})
+    this.setState({username:user.username})
    }
 
    _onChange() {
@@ -178,11 +194,7 @@ class User extends React.Component {
       });
   }
 
-   componentDidMount(){
-    ForkedCreateStore.addChangeListener(this._onChange);
-    this.setState({profileImg:user.profileImg})
-    this.setState({username:UserProfileStore.getLoggedInUser().username})
-   }
+
 
    gotoMusic(){this.setState({pageType:'music',currentsong:{}});}
    gotoBranches(){this.setState({pageType:'branch',currentsong:{}});}
@@ -211,7 +223,7 @@ class User extends React.Component {
         <img className='randomBG' src="../assets/random-bg/13772829224_76f2c28068_h.jpg"></img>
         <div className='profileItem'>
           <img className='profileImg' src = {this.state.profileImg}></img>
-          <div className='profileUsername'>{this.state.username}</div>
+          <div className='profileUsername'>{user.username}</div>
         </div>
         <div className="profileButtonCollection">
           <button className="profileButton" onClick={this.gotoMusic}><Glyphicon glyph='music'  /> MyMusic</button>
