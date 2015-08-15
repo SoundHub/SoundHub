@@ -37,19 +37,19 @@ var User = orm.define('users', {
 // Define the join table which joins Users and 'forked' SongNodes
 var Fork = orm.define('forks', {
   userId: { type: Sequelize.INTEGER, allowNull: false },
-  songNodeId: { type: Sequelize.INTEGER, allowNull: false}
+  songNodeId: { type: Sequelize.STRING, allowNull: false}
 });
 
 // Define the join table which joins Users and 'favorited' SongNodes
 var Favorite = orm.define('favorites', {
   userId: { type: Sequelize.INTEGER, allowNull: false },
-  songNodeId: { type: Sequelize.INTEGER, allowNull: false}
+  songNodeId: { type: Sequelize.STRING, allowNull: false}
 });
 
 //Define the join table which joins Users and 'upvoted/downvoted' SongNodes
 var Upvote = orm.define('upvotes', {
   userId: { type: Sequelize.INTEGER, allowNull: false },
-  songNodeId: { type: Sequelize.INTEGER, allowNull: false},
+  songNodeId: { type: Sequelize.STRING, allowNull: false},
   upvote: { type: Sequelize.INTEGER, allowNull: true }
 })
 
