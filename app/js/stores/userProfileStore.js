@@ -9,11 +9,9 @@ import assign from 'object-assign';
 const ActionType = Constants.ActionTypes;
 const CHANGE_EVENT = 'change';
 
-<<<<<<< HEAD
 
+var _user = {};
 
-=======
->>>>>>> refactor(userStore): clean up
 let UserProfile = assign({}, EventEmitter.prototype, {
   emitChange() {
     this.emit(CHANGE_EVENT)
@@ -48,7 +46,6 @@ let UserProfile = assign({}, EventEmitter.prototype, {
 
 var setCookie = function (id, username) {
   console.log("cookie contents ", id, username);
-  // var expires = "expires="+d.toUTCString();
   document.cookie = "id" + "=" + id;
   document.cookie = "username" + "=" + username;
 };
@@ -72,15 +69,7 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
         //todo need do diplay on component
         console.log("login failed, user does not exist");
       }
-<<<<<<< HEAD
-=======
 
-      console.log(_user);
-      // console.log("cookie:", getCookieID('id));
-      // console.log("cookie:", getCookieName('username'));
-
-
->>>>>>> refactor(userStore): clean up
       UserProfile.emitChange();
       break;
 
