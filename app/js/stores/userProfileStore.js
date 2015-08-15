@@ -30,25 +30,10 @@ let UserProfile = assign({}, EventEmitter.prototype, {
     this.removeListener(CHANGE_EVENT, callback)
   },
   getLoggedInUser() {
-    return _user.userInfo;
-<<<<<<< HEAD
+    return _user.userInfo;    
   },
   getCookieID() {
     var name = 'id=';
-=======
-  }
-
-});
-var setCookie = function (id, username) {
-  console.log("cookie contents ", id, username);
-  // var expires = "expires="+d.toUTCString();
-  document.cookie = "id" + "=" + id;
-  document.cookie = "username" + "=" + username;
-
-};
-
-var getCookieID = function(id) {
-    var name = id + "=";
     var ca = document.cookie.split(';');
     for(var i=0; i<ca.length; i++) {
         var c = ca[i];
