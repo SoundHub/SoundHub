@@ -26,15 +26,12 @@ server.use('/s3', require('react-s3-uploader/s3router')({
 var db = require('./db.js');
 
 server.post('/login', function(req, res) {
-
-  console.log('login request received!!!!!!!!!', req.body);
   db.login(req.body.username, req.body.password, function(response) {
     res.send(response);
   })
 })
 
 server.post('/signup', function(req, res) {
-  console.log('signup request received!!!!!!!!!', req.body);
   var username = req.body.username
   var password = req.body.password
   db.signup(username, password, function(response) {
