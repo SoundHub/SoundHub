@@ -10,13 +10,6 @@ const ActionType = Constants.ActionTypes;
 const CHANGE_EVENT = 'change';
 
 // some fake data
-let _user = {
-  loggedIn: false,
-  userInfo: {
-    username: "suz",
-    userId: 1
-  }
-};
 
 
 let UserProfile = assign({}, EventEmitter.prototype, {
@@ -29,10 +22,6 @@ let UserProfile = assign({}, EventEmitter.prototype, {
   removeChangeListener(callback) {
     this.removeListener(CHANGE_EVENT, callback)
   },
-  // for testing only:
-  // getLoggedInUser() {
-  //   return _user.userInfo;
-  // },
   getCookieID() {
     var name = 'id=';
     var ca = document.cookie.split(';');
@@ -77,20 +66,14 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
       console.log("response ", payload);
       console.log("should say success", payload.response.success);
       if (payload.response.success) {
-        _user.loggedIn = true;
-        _user.userInfo.userId =  payload.response.user[0].id;
-        _user.userInfo.username = payload.response.user[0].username;
-        setCookie(_user.userInfo.userId, _user.userInfo.username);
+        setCookie(payload.response.user[0].id, payload.response.user[0].username);
       }
       else {
-        _user.loggedIn = false;
         //todo need do diplay on component
         console.log("login failed, user does not exist");
       }
-      console.log(_user);
       // console.log("cookie:", getCookieID('id'));
       // console.log("cookie" , getCookieName('username'));
-
 
       UserProfile.emitChange();
       break;
@@ -105,11 +88,7 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
       console.log("should say success", payload.response.success);
 
       if (payload.response.success) {
-        _user.loggedIn = true;
-        _user.userInfo.username = payload.user.username;
-        console.log(_user);
-
-
+        console.log('success');
       }
 
       else {
@@ -123,7 +102,6 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
 
     case ActionType.LOGOUT:
       console.log("store logout");
-      _user.loggedIn = false;
       deleteCookie();
 
       UserProfile.emitChange();
