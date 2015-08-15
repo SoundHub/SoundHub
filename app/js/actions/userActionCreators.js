@@ -7,10 +7,10 @@ import Utils from '../utils/appUtils';
 let ActionType = Constants.ActionTypes;
 
 
-export default ({    
+export default ({
 
   createUser (user) {
-    Utils.postJSON('/signup', user) 
+    Utils.postJSON('/signup', user)
     .then((response) => {
       // console.log(response);
       // var resp = JSON.parse(response.body);
@@ -28,13 +28,10 @@ export default ({
     .catch((err) => {
       console.error('signup failed ', err);
     });
-
   },
 
   loginUser (user) {
     console.log('login');
-
-
     Utils.postJSON('/login', user)
     .then((response) => {
       Dispatcher.dispatch({
@@ -62,7 +59,21 @@ export default ({
     .catch((err) => {
       console.error('logout failed: ', err);
     });
+  },
+
+  getUser(userID){
+    Utils.postJSON('/getuser',userID)
+    .then((response) => {
+      Dispatcher.dispatch({
+        type: ActionType.GET_USER,
+        message: 'Get user info',
+        response: response
+      });
+      console.log('get userinfo successfuly');
+    }).catch((err) => {
+      console.error('get userinfo failed: ', err);
+    });
   }
 
-  
+
 });

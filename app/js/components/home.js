@@ -5,6 +5,7 @@ import SongActions from '../actions/songActionCreators';
 import AllSongStore from '../stores/allSongStore';
 import {Glyphicon} from 'react-bootstrap';
 import AudioPlayer from './player-components/AudioPlayer';
+import UserProfileStore from '../stores/userProfileStore';
 
 var arr = [{
   title:'badboy',
@@ -43,6 +44,7 @@ class Home extends React.Component {
 
   componentDidMount () {
     AllSongStore.addChangeListener(this._onChange);
+    console.log(UserProfileStore.getCookieID())
   }
 
   switchSong(song){
@@ -77,11 +79,8 @@ class SongList extends React.Component{
   }
 
   forkclick(i){
-    console.log('fork song click!!!!')
     let forkSong = this.props.data[i]
     SongActions.createFromFork(forkSong);
-    //action pass data to create comp and pass state to user panel(pageType==='create')
-
   }
 
   render() {
@@ -100,8 +99,8 @@ class SongList extends React.Component{
                 </Router.Link>
                 <span className> by {song.author} </span>
                 <span className="like-count" > <Glyphicon glyph='heart' /> {song.like} </span>
-
-                { this.props.uploadmode ? <button onClick={this.forkclick.bind(this,i)}> + </button>: null }
+                { this.props.uploadmode ? <button onClick={this.forkclick.bind(this,i)}> <Glyphicon glyph='tags' /> </button>: null }
+                { this.props.uploadmode ? <a href={song.url} download> <Glyphicon glyph='download' /></a>  : null }
               </div>
 
           );

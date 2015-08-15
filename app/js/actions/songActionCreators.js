@@ -57,8 +57,8 @@ export default {
   },
 
   // find all songs uploaded by user
-  getUserCreatedSongs(user) {
-    Utils.postJSON('/mySongs', user)
+  getUserCreatedSongs(userId) {
+    Utils.postJSON('/mySongs', userId)
     .then((userSongs) => {
       Dispatcher.dispatch({
         type: ActionType.GET_USER_SONGS,
@@ -96,7 +96,7 @@ export default {
     let voteInfo = {
       userId: userId,
       songId: songId,
-      value: value
+      vote: value
     }
     Dispatcher.dispatch({
       type: ActionType.VOTE,
@@ -131,5 +131,4 @@ export default {
       page:'create'
     })
   }
-
 }
