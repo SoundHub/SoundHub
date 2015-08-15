@@ -19,14 +19,23 @@ class Nav extends React.Component {
   constructor() {
     super();
     this._onChange = this._onChange.bind(this);
+    this.state = {
+      showprofilebutton:false
+    }
   }
 
   componentDidMount() {
     UserProfileStore.addChangeListener(this._onChange);
   }
 
+  componentWillUnmount() {
+    UserProfileStore.removeChangeListener(this._onChange);
+  }
+
   _onChange() {
-    this.setState({forkedSongs: ForkedSongStore.getForkedSongs()});
+    if(UserProfileStore.getCookieID()){
+      console.log('profile store change!!!!')
+    }
   }
 
   render() {

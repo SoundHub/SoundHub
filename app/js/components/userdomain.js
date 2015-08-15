@@ -50,6 +50,10 @@ class ForkList extends React.Component {
     SongActions.getAllForks(this.props.userId);
   }
 
+  componentWillUnmount() {
+    ForkedSongStore.removeChangeListener(this._onChange);
+  }
+
   switchSong(song){
     this.props.switchsong(song)
   }
@@ -85,6 +89,10 @@ class MyMusic extends React.Component {
   componentDidMount() {
     SongActions.getUserCreatedSongs(this.props.userId);
     UserSongStore.addChangeListener(this._onChange);
+  }
+
+  componentWillUnmount() {
+    UserSongStore.removeChangeListener(this._onChange);
   }
 
   switchSong(song){
@@ -162,6 +170,7 @@ class User extends React.Component {
     this.setsong = this.setsong.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
     this.componentWillMount = this.componentWillMount.bind(this);
+    this.componentWillUnmount = this.componentWillUnmount.bind(this);
     this._onChange = this._onChange.bind(this);
     this.state = {
       login:false,
@@ -180,10 +189,13 @@ class User extends React.Component {
 
   componentDidMount(){
     ForkedCreateStore.addChangeListener(this._onChange);
-
     this.setState({username:UserProfileStore.getCookieName()})
     // this.setState({userimg:UserProfileStore.getLoggedInUser().userimg})
    }
+
+  componentWillUnmount() {
+    ForkedCreateStore.removeChangeListener(this._onChange);
+  }
 
    _onChange() {
       this.setState({

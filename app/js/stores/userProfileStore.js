@@ -62,7 +62,6 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
   switch (payload.type) {
     case ActionType.LOGIN:
       console.log('store login');
-      console.log("payload login user: ", payload.user);
       console.log("response ", payload);
       console.log("should say success", payload.response.success);
       if (payload.response.success) {
@@ -72,9 +71,6 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
         //todo need do diplay on component
         console.log("login failed, user does not exist");
       }
-      // console.log("cookie:", getCookieID('id'));
-      // console.log("cookie" , getCookieName('username'));
-
       UserProfile.emitChange();
       break;
 
@@ -82,7 +78,6 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
       console.log('store signup');
       console.log(payload);
       console.log("payload signup user: ", payload.user);
-      console.log
       console.log("response ", payload);
       console.log("user", payload.user);
       console.log("should say success", payload.response.success);
