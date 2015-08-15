@@ -58,16 +58,6 @@ let setUserForks = function(forks) {
   console.log('user songs: ', _userSongs.forked)
 }
 
-let setNewFork = function(id) {
-  AllSongStore.getSongById(id)
-  .then((song) => {
-    _userSongs.forked.push(song);
-    console.log('forked song: ', _userSongs.forked)
-  }, (err) => {
-    console.log(err);
-  })
-}
-
 let UserSongStore = assign({}, EventEmitter.prototype, {
   emitChange() {
     this.emit(CHANGE_EVENT)
@@ -111,13 +101,6 @@ UserSongStore.dispatchToken = Dispatcher.register(function(payload) {
     case ActionType.VOTE:
       console.log('enter user song store', payload)
       setVote(payload.voteInfo);
-      UserSongStore.emitChange();
-      break;
-
-    case ActionType.FORK_SUCCESS:
-      Dispatcher.waitFor([AllSongStore.dispatchToken]);
-      console.log(payload);
-      setNewFork(payload.forkInfo.songId);
       UserSongStore.emitChange();
       break;
 

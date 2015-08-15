@@ -176,10 +176,11 @@ var mySongs = function(userID, callback) {
 
 var myForks = function(userId, callback) {
   orm.query(
-    'select songNodes.title, songNodes.author, songNodes.uuid, songNodes.genre, songNodes.description, songNodes.like, songNodes.forks, songNodes.path, songNodes.url from ' +
-    'forks join users on forks.userId = '+userId+
-    ' join songNodes on forks.songNodeId = songNodes.id;'
+    'select distinct songNodes.title, songNodes.author, songNodes.uuid, songNodes.genre, songNodes.description, songNodes.like, songNodes.forks, songNodes.path, songNodes.url from ' +
+    'forks inner join users on forks.userId = '+userId+
+    ' inner join songNodes on forks.songNodeId = songNodes.uuid;'
   ).then(function(data) {
+    console.log(data);
     callback(data.slice(0, (data.length - 1))[0]);
   })
 };

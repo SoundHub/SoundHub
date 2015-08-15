@@ -29,9 +29,10 @@ let UserProfile = assign({}, EventEmitter.prototype, {
   removeChangeListener(callback) {
     this.removeListener(CHANGE_EVENT, callback)
   },
-  getLoggedInUser() {
-    return _user.userInfo;
-  },
+  // for testing only:
+  // getLoggedInUser() {
+  //   return _user.userInfo;
+  // },
   getCookieID() {
     var name = 'id=';
     var ca = document.cookie.split(';');
