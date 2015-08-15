@@ -16,46 +16,66 @@ class NavLink extends React.Component {
   }
 };
 
+
+
+class LoginButton extends React.Component {
+  render() {
+    return (
+      <button>Login</button>
+    );
+  }
+};
+
+
+
+class LogoutButton extends React.Component {
+  render() {
+    return (
+      <button>Logout</button>
+    );
+  }
+};
+
+
 class Nav extends React.Component {
   constructor() {
     super();
-
     this.state = {
-      loggedin: 'login'
+      loggedin: false
     }
-    this.toggleLogin = this.toggleLogin.bind(this);
     this.componentWillMount = this.componentWillMount.bind(this);
-    this.componentDidMount = this.componentDidMount.bind(this);
+    this.componentWillUnmount = this.componentWillUnmount.bind(this);
     this._onChange = this._onChange.bind(this);
-
-  }
-  componentWillUnmount() {
-    UserProfileStore.removeChangeListener(this._onChange);
   }
 
   _onChange() {
     if(UserProfileStore.getCookieID()){
       console.log('profile store change!!!!')
     }
-
-  componentDidMount() {
-    if (UserProfileStore.getCookieID()) {
-      this.setState({loggedin: 'logout'});
-    }
-    else {
-      this.setState({loggedin: 'login'});
-    }
-    console.log("LOGIN STATE: ", this.state.loggedin);
-    UserProfileStore.addChangeListener(this._onChange);
   }
 
-  toggleLogin() {
+  componentWillMount() {
+    UserProfileStore.addChangeListener(this._onChange);
+    if (UserProfileStore.getCookieID()) {
+      this.setState({loggedin: true});
+    }else {
+      this.setState({loggedin: false});
+    }
+    console.log("LOGIN STATE: ", this.state.loggedin);
+  }
 
-
+  componentWillUnmount() {
+    UserProfileStore.removeChangeListener(this._onChange);
   }
 
   render() {
-    // let loginButton = this.state.loggedin ? "Logout" : "Login";
+    var authButton;
+    if(this.state.loggedin === true){
+      authButton = <LogoutButton />
+    }else{
+      authButton = <LoginButton />
+    }
+
     return (
       <div className="topBar">
         <span className = "topBarLeft">
@@ -70,7 +90,7 @@ class Nav extends React.Component {
           </Router.Link>
 
           <Router.Link to="auth">
-            <button className="authButton">{this.state.loggedin}</button>
+            {authButton}
           </Router.Link>
 
         </nav>
