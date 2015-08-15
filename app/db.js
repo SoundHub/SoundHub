@@ -133,7 +133,6 @@ var addSong = function(title, genre, author, pathString, description, url, callb
       description: description,
       url: url,
       uuid: guid
-
     });
   }).then(function(song) {
     callback(song);
@@ -150,9 +149,10 @@ var allSongs = function(callback) {
 };
 
 var findSongsbyRoot = function(rootNodeID, callback) {
-  rootNodeID = rootNodeID.split('/')[1];
+  // rootNodeID = rootNodeID.split('/')[1];
   SongNode.findAll({
   where: {
+      // path: { like: rootNodeID }
       path: { like: '%/' + rootNodeID + '/%' }
     }
   })
