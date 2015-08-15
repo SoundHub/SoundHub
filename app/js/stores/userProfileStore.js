@@ -9,8 +9,11 @@ import assign from 'object-assign';
 const ActionType = Constants.ActionTypes;
 const CHANGE_EVENT = 'change';
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> refactor(userStore): clean up
 let UserProfile = assign({}, EventEmitter.prototype, {
   emitChange() {
     this.emit(CHANGE_EVENT)
@@ -50,7 +53,6 @@ var setCookie = function (id, username) {
   document.cookie = "username" + "=" + username;
 }
 
-
 var deleteCookie = function() {
   document.cookie = "id=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
   document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
@@ -70,6 +72,13 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
         //todo need do diplay on component
         console.log("login failed, user does not exist");
       }
+<<<<<<< HEAD
+=======
+
+      console.log(_user);
+
+
+>>>>>>> refactor(userStore): clean up
       UserProfile.emitChange();
       break;
 
