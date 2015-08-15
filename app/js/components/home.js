@@ -93,19 +93,31 @@ class SongList extends React.Component{
           return (
 
               <div className = "songItem effect8" key={i}>
-
                 <div className="itemPlay" onClick={this.handleClick.bind(this, i)}>
                   <Glyphicon glyph='play' />
                 </div>
+
                 <Router.Link to="tree"  params={song}>
                   <span className = "title"  > {i} {song.title} </span>
                 </Router.Link>
                 <span className> by {song.author} </span>
                 <span className="like-count" > <Glyphicon glyph='heart' /> {song.like} </span>
-                { this.props.uploadmode ? <button onClick={this.forkclick.bind(this,i)}> <Glyphicon glyph='tags' /> </button>: null }
-                { this.props.uploadmode ? <a href={song.url} download> <Glyphicon glyph='download' /></a>  : null }
-              </div>
 
+                {
+                  this.props.uploadmode ?
+                  <div className="itemOther" onClick={this.forkclick.bind(this,i)}>
+                    <Glyphicon glyph='tags' />
+                  </div>: null
+                }
+
+                { this.props.uploadmode ?
+                  <a href={song.url} download>
+                    <div className="itemOther" >
+                      <Glyphicon glyph='download' />
+                    </div>
+                  </a> : null
+                }
+              </div>
           );
         }, this)}
       </div>
