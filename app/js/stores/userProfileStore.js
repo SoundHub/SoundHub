@@ -10,14 +10,7 @@ const ActionType = Constants.ActionTypes;
 const CHANGE_EVENT = 'change';
 
 // some fake data
-var _user = {
-  loggedIn: false,
-  userInfo: {
-    username: "default",
-    userId: 0,
-    userimg:''
-  }
-};
+var _user = {};
 
 
 let UserProfile = assign({}, EventEmitter.prototype, {
@@ -29,9 +22,6 @@ let UserProfile = assign({}, EventEmitter.prototype, {
   },
   removeChangeListener(callback) {
     this.removeListener(CHANGE_EVENT, callback)
-  },
-  getLoggedInUser() {
-    return _user.userInfo;
   },
   getCookieID() {
     var name = 'id=';
