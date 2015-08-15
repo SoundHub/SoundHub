@@ -30,7 +30,7 @@ let UserProfile = assign({}, EventEmitter.prototype, {
     this.removeListener(CHANGE_EVENT, callback)
   },
   getLoggedInUser() {
-    return _user.userInfo;
+    return _user.userInfo;    
   },
   getCookieID() {
     var name = 'id=';
@@ -54,13 +54,13 @@ let UserProfile = assign({}, EventEmitter.prototype, {
   }
 });
 
+
 var setCookie = function (id, username) {
   console.log("cookie contents ", id, username);
   // var expires = "expires="+d.toUTCString();
   document.cookie = "id" + "=" + id;
   document.cookie = "username" + "=" + username;
 };
-
 
 var deleteCookie = function() {
   document.cookie = "id=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
@@ -122,7 +122,6 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
 
       UserProfile.emitChange();
       break;
-
 
     default:
       //dont do anying
