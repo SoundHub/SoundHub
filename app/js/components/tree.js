@@ -29,8 +29,7 @@ class D3Tree extends React.Component {
   }
 
   onClick(element) {
-    console.log('some element with onClick was clicked: ', element);
-    this.setState({ currentsong: element });
+    this.setState({ currentSong: element });
   }
 
   // componentDidMount() {
