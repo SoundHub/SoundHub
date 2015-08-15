@@ -31,44 +31,40 @@ let UserProfile = assign({}, EventEmitter.prototype, {
   },
   getLoggedInUser() {
     return _user.userInfo;
+  },
+  getCookieID() {
+    var name = 'id=';
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+    }
+    return "";
+  },
+  getCookieName() {
+    var name = 'username=';
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+    }
+    return "";
   }
-
 });
+
 var setCookie = function (id, username) {
   console.log("cookie contents ", id, username);
   // var expires = "expires="+d.toUTCString();
   document.cookie = "id" + "=" + id;
   document.cookie = "username" + "=" + username;
-
-}
-
-var getCookieID = function(id) {
-    var name = id + "=";
-    var ca = document.cookie.split(';');
-    for(var i=0; i<ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0)==' ') c = c.substring(1);
-        if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
-    }
-    return "";
-};
-
-var getCookieName = function(username) {
-    var name = username + "=";
-    var ca = document.cookie.split(';');
-    for(var i=0; i<ca.length; i++) {
-        var c = ca[i];
-        while (c.charAt(0)==' ') c = c.substring(1);
-        if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
-    }
-    return "";
 }
 
 
 var deleteCookie = function() {
   document.cookie = "id=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
   document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-
 }
 
 UserProfile.dispatchToken = Dispatcher.register(function(payload) {
