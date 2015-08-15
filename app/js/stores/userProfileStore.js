@@ -13,8 +13,8 @@ const CHANGE_EVENT = 'change';
 let _user = {
   loggedIn: false,
   userInfo: {
-    username: "",
-    userId: 0
+    username: "suz",
+    userId: 1
   }
 };
 
