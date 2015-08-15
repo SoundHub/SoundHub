@@ -41,8 +41,9 @@ server.post('/signup', function(req, res) {
   });
 })
 
-server.get('/addSong', function(req, res) {  //** MVP **//
+server.post('/addSong', function(req, res) {  //** MVP **//
   var songData = req.body;
+  console.log('server /addSong: ', songData.path);
   db.addSong(songData.title, songData.genre, songData.author, songData.path, songData.description, songData.url, function(response) {
     res.send(response);
   });
@@ -62,8 +63,8 @@ server.post('/tree', function(req, res) {       //** MVP **//
 })
 
 server.post('/mySongs', function(req, res) {   //** MVP **//
-  var userId = 1; //req.body.userId;             
-  db.mySongs(userId, function(data) {            
+  var userId = 1; //req.body.userId;
+  db.mySongs(userId, function(data) {
     res.send(data);
   })
 })
