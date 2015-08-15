@@ -193,7 +193,7 @@ var addFork = function(userId, songNodeId, callback) {
   .then(function(forkData) {
     SongNode.update(
       {
-        forks: sequelize.literal(forks +1)
+        forks: Sequelize.literal('forks +1')
       },
       {
         where: {
@@ -347,10 +347,10 @@ var songCompiler = function(data) {
 //this should be optimized, currently O(n^2)
 var treeify = function(nodesArray) {
   var tree;
-  console.log(nodesArray);
   //determine root node
   for (var i = 0, j = nodesArray.length; i < j; i++) {
     var pathArr = nodesArray[i].path.split('/');
+    console.log('pathArr: ', pathArr);
     nodesArray[i].parent = pathArr[pathArr.length - 3];
     nodesArray[i].children = [];
     if (!tree) {
@@ -363,7 +363,7 @@ var treeify = function(nodesArray) {
   function depthFirstFill(node) {
     if(node) {
       for (var i = 0; i < nodesArray.length; i++) {
-        if (parseInt(nodesArray[i].parent) === node.id) {
+        if (nodesArray[i].parent === node.uuid) {
           node.children.push(nodesArray[i]);
         }
       }
