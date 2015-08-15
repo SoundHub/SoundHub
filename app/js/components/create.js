@@ -25,10 +25,6 @@ import ReactS3Uploader from 'react-s3-uploader';
 // });
 
 
-let songData = {
-  author: 1,
-};
-
 class Create extends React.Component {
   constructor() {
     super();
@@ -59,10 +55,9 @@ class Create extends React.Component {
     // title, genre, author, path
     songData.title = this.refs.songName.getDOMNode().value;
     songData.genre = this.refs.songGenre.getDOMNode().value;
-    songData.songPath = this.refs.songPath.getDOMNode().value;
+    songData.path = this.refs.songPath.getDOMNode().value;
     songData.url = this.state.file;
     songData.author = UserProfileStore.getLoggedInUser().userId;
-    songData.path = '/';
     SongActions.addSong(songData);
     // clear input fields after submit
     this.refs.songName.getDOMNode().value = '';
