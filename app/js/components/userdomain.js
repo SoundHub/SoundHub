@@ -45,10 +45,9 @@ class ForkList extends React.Component {
     this._onChange = this._onChange.bind(this);
   }
 
-
   componentDidMount() {
     ForkedSongStore.addChangeListener(this._onChange);
-    SongActions.getAllForks(user.userId);
+    SongActions.getAllForks(this.props.userId);
   }
 
   switchSong(song){
@@ -84,7 +83,7 @@ class MyMusic extends React.Component {
   }
 
   componentDidMount() {
-    SongActions.getUserCreatedSongs(this.props)
+    SongActions.getUserCreatedSongs(this.props.userId);
     UserSongStore.addChangeListener(this._onChange);
   }
 
@@ -196,7 +195,6 @@ class User extends React.Component {
       });
   }
 
-
    gotoMusic(){this.setState({pageType:'music',currentsong:{}});}
    gotoBranches(){this.setState({pageType:'branch',currentsong:{}});}
    gotoFavourites(){ this.setState({pageType:'fav',currentsong:{}}); }
@@ -209,7 +207,7 @@ class User extends React.Component {
     if(this.state.pageType==='music'){
       profilePage = <MyMusic switchsong = {this.setsong} userId={this.state.userId}/>
     }else if(this.state.pageType==='branch'){
-      profilePage = <ForkList switchsong = {this.setsong}/>
+      profilePage = <ForkList switchsong = {this.setsong} userId={this.state.userId}/>
     }else if(this.state.pageType==='fav'){
       profilePage = <Favor />
     }else if(this.state.pageType==='profile'){
@@ -224,7 +222,7 @@ class User extends React.Component {
         <img className='randomBG' src="../assets/random-bg/13772829224_76f2c28068_h.jpg"></img>
         <div className='profileItem'>
           <img className='profileImg' src = {user.profileImg}></img>
-          <div className='profileUsername'>{this.state.username}</div>
+          <div className='profileUsername'>{UserProfileStore.getCookieName()}</div>
         </div>
         <div className="profileButtonCollection">
           <button className="profileButton" onClick={this.gotoMusic}><Glyphicon glyph='music'  /> MyMusic</button>
