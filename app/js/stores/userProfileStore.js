@@ -59,9 +59,7 @@ var setCookie = function (id, username) {
   // var expires = "expires="+d.toUTCString();
   document.cookie = "id" + "=" + id;
   document.cookie = "username" + "=" + username;
-
 };
-
 
 var deleteCookie = function() {
   document.cookie = "id=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
@@ -124,7 +122,6 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
 
       UserProfile.emitChange();
       break;
-
 
     default:
       //dont do anying
