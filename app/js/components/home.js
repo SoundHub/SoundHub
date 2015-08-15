@@ -81,10 +81,6 @@ class SongList extends React.Component{
     SongActions.createFromFork(forkSong);
   }
 
-  download(i){
-
-  }
-
   render() {
     return (
       <div className="playList" >
@@ -101,9 +97,8 @@ class SongList extends React.Component{
                 </Router.Link>
                 <span className> by {song.author} </span>
                 <span className="like-count" > <Glyphicon glyph='heart' /> {song.like} </span>
-
                 { this.props.uploadmode ? <button onClick={this.forkclick.bind(this,i)}> <Glyphicon glyph='tags' /> </button>: null }
-                { this.props.uploadmode ? <button onClick={this.download.bind(this,i)}> <Glyphicon glyph='download' /> </button>: null }
+                { this.props.uploadmode ? <a href={song.url} download> <Glyphicon glyph='download' /></a>  : null }
               </div>
 
           );
