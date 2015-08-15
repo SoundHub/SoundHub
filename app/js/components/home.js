@@ -77,9 +77,9 @@ class SongList extends React.Component{
   }
 
   forkclick(i){
+    console.log('fork song click!!!!')
     let forkSong = this.props.data[i]
     SongActions.createFromFork(forkSong);
-    console.log('fork song click!!!!')
     //action pass data to create comp and pass state to user panel(pageType==='create')
 
   }

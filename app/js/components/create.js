@@ -47,6 +47,13 @@ class Create extends React.Component {
     UserSongStore.addChangeListener(this._onChange);
   }
 
+  _onChange() {
+    this.setState({
+      newestCreated: UserSongStore.getUserCreatedSongs().newestCreated,
+      showUpdate: true
+    })
+  }
+
   uploadSong() {
     // pull user info from userProfile Store for author
     // title, genre, author, path
@@ -86,15 +93,6 @@ class Create extends React.Component {
   }
 
 
-
-
-
-  _onChange() {
-    this.setState({
-      newestCreated: UserSongStore.getUserSongs().newestCreated,
-      showUpdate: true
-    })
-  }
 }
 
 export default Create;

@@ -20,13 +20,6 @@ let _userSongs = {
 
 // keys: allCreated, newestCreated, forked, voted, favs
 
-let _forksong = {}
-
-let setForkCreate = function(forkSong){
-  _forksong = forkSong;
-  console.log(_forksong);
-}
-
 let setNewestCreated = function(songData) {
   _userSongs.newestCreated = songData;
   console.log(_userSongs);
@@ -88,9 +81,6 @@ let UserSongStore = assign({}, EventEmitter.prototype, {
   getUserCreatedSongs() {
     return _userSongs;
   },
-  getForkCreate(){
-    return _forksong;
-  },
   getSongVote(songId) {
     return _userSongs.voted.songId;
   },
@@ -121,12 +111,6 @@ UserSongStore.dispatchToken = Dispatcher.register(function(payload) {
     case ActionType.VOTE:
       console.log('enter user song store', payload)
       setVote(payload.voteInfo);
-      UserSongStore.emitChange();
-      break;
-
-    case ActionType.CREATE_FROM_FORKS:
-      console.log('enter user song store', payload)
-      setForkCreate(payload.song);
       UserSongStore.emitChange();
       break;
 
