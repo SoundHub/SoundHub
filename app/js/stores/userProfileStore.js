@@ -24,7 +24,7 @@ let UserProfile = assign({}, EventEmitter.prototype, {
   },
 
   getLoggedInUser() {
-    return _user.userInfo;    
+    return _user.userInfo;
   },
 
   getCookieID() {
@@ -35,7 +35,7 @@ let UserProfile = assign({}, EventEmitter.prototype, {
         while (c.charAt(0)==' ') c = c.substring(1);
         if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
     }
-    return "";
+    return 0;
   },
   getCookieName() {
     var name = 'username=';
@@ -82,34 +82,19 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
       break;
 
     case ActionType.SIGNUP:
-      // console.log('store signup');
-      // console.log(payload);
-      // console.log("payload signup user: ", payload.user);
-      // console.log("response ", payload);
-      // console.log("user", payload.user);
-      // console.log("should say success", payload.response.success);
-      // console.log("cookie", UserProfile.getCookieID());
-
       if (payload.response.success) {
-
         _user.loggedIn = true;
         _user.userInfo.username = payload.user.username;
         console.log(_user);
-
-      }
-
-      else {
+      }else {
         console.log("signup failed, user already exists");
-        // todo: display this on page
       }
-
       UserProfile.emitChange();
       break;
 
     case ActionType.LOGOUT:
       console.log("store logout");
       deleteCookie();
-
       UserProfile.emitChange();
       break;
 
