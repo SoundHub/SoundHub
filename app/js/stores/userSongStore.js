@@ -35,14 +35,14 @@ let setVote = function(voteInfo) {
   let songVoteInfo = _userSongs.voted[songId];
   if(!songVoteInfo) {
     _userSongs.voted[songId] = {}
-    _userSongs.voted[songId].val = voteInfo.value;
+    _userSongs.voted[songId].val = voteInfo.vote;
     _userSongs.voted[songId].userVoted = true;
     console.log('voted', _userSongs.voted[songId])
     return;
   } else {
-    let newVote = songVoteInfo.val + voteInfo.value;
+    let newVote = songVoteInfo.val + voteInfo.vote;
     if(Math.abs(newVote) === 1 || newVote === 0) {
-      _userSongs.voted[songId].val += voteInfo.value;
+      _userSongs.voted[songId].val += voteInfo.vote;
       _userSongs.voted[songId].userVoted = true;
       console.log('voted', _userSongs.voted[songId])
     } else {
