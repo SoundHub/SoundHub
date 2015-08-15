@@ -187,8 +187,8 @@ class User extends React.Component {
         ()=>{SongActions.getUserCreatedSongs(this.state.userId)
       })
 
-    this.setState({username:UserProfileStore.getLoggedInUser().username;)
-    this.setState({userimg:UserProfileStore.getLoggedInUser().userimg;)
+    this.setState({username:UserProfileStore.getLoggedInUser().username})
+    this.setState({userimg:UserProfileStore.getLoggedInUser().userimg})
    }
 
    _onChange() {

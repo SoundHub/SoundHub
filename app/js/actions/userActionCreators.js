@@ -59,7 +59,7 @@ export default ({
     .catch((err) => {
       console.error('logout failed: ', err);
     });
-  }
+  },
 
   getUser(userID){
     Utils.postJSON('/getuser',userID)
