@@ -235,15 +235,13 @@ var addVote = function(voteVal, userId, songNodeId, callback) {
     }
   })
   .then(function(data) {
+    console.log('data',data);
     if (data[1]) {
       console.log('created');
-      Upvote.update(
-        {
+      Upvote.update({
           upvote: voteVal
-        },
-        {
-          where:
-          {
+        }, {
+          where: {
            userId: userId,
            songNodeId: songNodeId,
           }
@@ -251,19 +249,16 @@ var addVote = function(voteVal, userId, songNodeId, callback) {
       )
       .then(function(data) {
         updateVotes(songNodeId);
-        callback(data);
+        callback(data); // chained from upvote.update
       })
     } else {
         console.log('existed already');
         if (data[0].dataValues.upvote !== voteVal) {
           console.log('existed but needed updating');
-          Upvote.update(
-            {
+          Upvote.update({
               upvote: voteVal
-            },
-            {
-              where:
-              {
+            }, {
+              where: {
                userId: userId,
                songNodeId: songNodeId,
               }
@@ -271,8 +266,10 @@ var addVote = function(voteVal, userId, songNodeId, callback) {
           )
           .then(function(data) {
             updateVotes(songNodeId);
-            callback(data);
+            callback(data); // chained from upvote.update
           })
+        } else {
+          callback(data)
         }
       }
   })
@@ -309,11 +306,9 @@ var updateVotes = function(songNodeId) {
     for (var x in data) {
       voteSum += data[x].dataValues.upvote
     }
-    SongNode.update(
-      {
+    SongNode.update({
         like: voteSum
-      },
-      {
+      }, {
         where: {
           id: songNodeId
         }

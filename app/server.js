@@ -26,7 +26,6 @@ server.use('/s3', require('react-s3-uploader/s3router')({
 var db = require('./db.js');
 
 server.post('/login', function(req, res) {
-
   console.log('login request received!!!!!!!!!', req.body);
   db.login(req.body.username, req.body.password, function(response) {
     res.send(response);
@@ -101,7 +100,7 @@ server.post('/addFav', function(req, res) {
 })
 
 server.post('/myVotes', function(req, res) {
-  var userId = 1; //req.body.userId
+  var userId = req.body.userId
   db.myVotes(userId, function(data) {
     console.log('derp');
     res.send(data);
@@ -113,6 +112,7 @@ server.post('/addVote', function(req, res) {
   var userId = req.body.userId;
   var songId = req.body.songId;
   db.addVote(vote, userId, songId, function(data) {
+    console.log('data in server',data);
     res.send(data);
   })
 })
