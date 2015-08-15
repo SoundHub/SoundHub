@@ -96,7 +96,7 @@ export default {
     let voteInfo = {
       userId: userId,
       songId: songId,
-      value: value
+      vote: value
     }
     Dispatcher.dispatch({
       type: ActionType.VOTE,
@@ -131,5 +131,4 @@ export default {
       page:'create'
     })
   }
-
 }
