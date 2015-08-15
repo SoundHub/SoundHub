@@ -10,6 +10,7 @@ const ActionType = Constants.ActionTypes;
 const CHANGE_EVENT = 'change';
 
 
+var _user = {};
 
 let UserProfile = assign({}, EventEmitter.prototype, {
   emitChange() {
@@ -21,6 +22,11 @@ let UserProfile = assign({}, EventEmitter.prototype, {
   removeChangeListener(callback) {
     this.removeListener(CHANGE_EVENT, callback)
   },
+
+  getLoggedInUser() {
+    return _user.userInfo;    
+  },
+
   getCookieID() {
     var name = 'id=';
     var ca = document.cookie.split(';');
@@ -43,26 +49,27 @@ let UserProfile = assign({}, EventEmitter.prototype, {
   }
 });
 
+
 var setCookie = function (id, username) {
-  console.log("cookie contents ", id, username);
-  // var expires = "expires="+d.toUTCString();
+  //console.log("cookie contents ", id, username);
   document.cookie = "id" + "=" + id;
   document.cookie = "username" + "=" + username;
-}
-
+};
 
 var deleteCookie = function() {
   document.cookie = "id=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
   document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-}
+};
 
 UserProfile.dispatchToken = Dispatcher.register(function(payload) {
 
   switch (payload.type) {
     case ActionType.LOGIN:
-      console.log('store login');
-      console.log("response ", payload);
-      console.log("should say success", payload.response.success);
+
+      // console.log('store login');
+      // console.log("payload login user: ", payload.user);
+      // console.log("response ", payload);
+      // console.log("should say success", payload.response.success);
       if (payload.response.success) {
         setCookie(payload.response.user[0].id, payload.response.user[0].username);
       }
@@ -70,19 +77,25 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
         //todo need do diplay on component
         console.log("login failed, user does not exist");
       }
+
       UserProfile.emitChange();
       break;
 
     case ActionType.SIGNUP:
-      console.log('store signup');
-      console.log(payload);
-      console.log("payload signup user: ", payload.user);
-      console.log("response ", payload);
-      console.log("user", payload.user);
-      console.log("should say success", payload.response.success);
+      // console.log('store signup');
+      // console.log(payload);
+      // console.log("payload signup user: ", payload.user);
+      // console.log("response ", payload);
+      // console.log("user", payload.user);
+      // console.log("should say success", payload.response.success);
+      // console.log("cookie", UserProfile.getCookieID());
 
       if (payload.response.success) {
-        console.log('success');
+
+        _user.loggedIn = true;
+        _user.userInfo.username = payload.user.username;
+        console.log(_user);
+
       }
 
       else {
@@ -99,7 +112,6 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
 
       UserProfile.emitChange();
       break;
-
 
     default:
       //dont do anying
