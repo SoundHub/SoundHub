@@ -65,7 +65,7 @@ class ForkList extends React.Component {
       <div className="boxed-group-profile">
           <div className="pageTitle">Branches</div>
           <div className="mylist">
-            <SongList data = {arr}  switchSong = {this.switchSong} uploadmode={true}/>
+            <SongList data = {this.state.forkedSongs}  switchSong = {this.switchSong} uploadmode={true}/>
           </div>
       </div>
     );

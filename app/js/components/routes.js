@@ -21,7 +21,7 @@ const routes = (
     <DefaultRoute name="home" handler={Home}/>
     <Route name="user" path="/user" handler={User}/>
     <Route name="auth" path="/auth" handler={Auth}/>
-    <Route name="tree" path="/tree/:id"  handler={Tree}/>
+    <Route name="tree" path="/tree/:uuid"  handler={Tree}/>
     <NotFoundRoute name="not-found" handler={NotFound}/>
   </Route>
 );
