@@ -40,7 +40,7 @@ var setCookie = function (id, username) {
   document.cookie = "id" + "=" + id;
   document.cookie = "username" + "=" + username;
 
-}
+};
 
 var getCookieID = function(id) {
     var name = id + "=";
@@ -62,14 +62,14 @@ var getCookieName = function(username) {
         if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
     }
     return "";
-}
+};
 
 
 var deleteCookie = function() {
   document.cookie = "id=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
   document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
 
-}
+};
 
 UserProfile.dispatchToken = Dispatcher.register(function(payload) {
 
@@ -91,9 +91,6 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
         console.log("login failed, user does not exist");
       }
       console.log(_user);
-      // console.log("cookie:", getCookieID('id'));
-      // console.log("cookie" , getCookieName('username'));
-
 
       UserProfile.emitChange();
       break;
@@ -102,7 +99,6 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
       console.log('store signup');
       console.log(payload);
       console.log("payload signup user: ", payload.user);
-      console.log
       console.log("response ", payload);
       console.log("user", payload.user);
       console.log("should say success", payload.response.success);
@@ -111,7 +107,6 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
         _user.loggedIn = true;
         _user.userInfo.username = payload.user.username;
         console.log(_user);
-
 
       }
 
