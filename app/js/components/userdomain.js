@@ -170,6 +170,7 @@ class User extends React.Component {
     this.setsong = this.setsong.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
     this.componentWillMount = this.componentWillMount.bind(this);
+    this.componentWillUnmount = this.componentWillUnmount.bind(this);
     this._onChange = this._onChange.bind(this);
     this.state = {
       login:false,
@@ -190,7 +191,7 @@ class User extends React.Component {
     ForkedCreateStore.addChangeListener(this._onChange);
     this.setState({username:UserProfileStore.getCookieName()})
     // this.setState({userimg:UserProfileStore.getLoggedInUser().userimg})
-  }
+   }
 
   componentWillUnmount() {
     ForkedCreateStore.removeChangeListener(this._onChange);

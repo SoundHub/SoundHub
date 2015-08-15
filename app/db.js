@@ -191,15 +191,25 @@ var addFork = function(userId, songNodeId, callback) {
     songNodeId: songNodeId
   })
   .then(function(forkData) {
+    SongNode.update(
+      {
+        forks: Sequelize.literal('forks +1')
+      },
+      {
+        where: {
+          uuid: songNodeId
+        }
+      }
+    )
     callback(forkData);
   });
 };
 
 var myFavs = function(userId, callback) {  //I AM NOT MVP
   orm.query(
-    'select songNodes.title, songNodes.author, songNodes.uuid, songNodes.genre, songNodes.description, songNodes.like, songNodes.forks, songNodes.path, songNodes.url from ' +
+    'select distinct songNodes.title, songNodes.author, songNodes.uuid, songNodes.genre, songNodes.description, songNodes.like, songNodes.forks, songNodes.path, songNodes.url from ' +
     'favorites join users on favorites.userId = '+userId+
-    ' join songNodes on favorites.songNodeId = songNodes.id;'
+    ' join songNodes on favorites.songNodeId = songNodes.uuid;'
   ).then(function(data) {
     callback(data.slice(0, (data.length - 1))[0]);
   })
@@ -219,9 +229,9 @@ var addFav = function(userId, songNodeId, callback) {
 
 var myVotes = function(userId, callback) {
   orm.query(
-    'select songNodes.title, songNodes.author, songNodes.uuid, songNodes.genre, songNodes.description, songNodes.like, songNodes.forks, songNodes.path, songNodes.url from ' +
+    'select distinct songNodes.title, songNodes.author, songNodes.uuid, songNodes.genre, songNodes.description, songNodes.like, songNodes.forks, songNodes.path, songNodes.url from ' +
     'upvotes join users on upvotes.userId = '+userId+
-    ' join songNodes on upvotes.songNodeId = songNodes.id;'
+    ' join songNodes on upvotes.songNodeId = songNodes.uuid;'
   ).then(function(data) {
     callback(data.slice(0, (data.length - 1))[0]);
   })
@@ -332,10 +342,10 @@ var songCompiler = function(data) {
 //this should be optimized, currently O(n^2)
 var treeify = function(nodesArray) {
   var tree;
-  console.log(nodesArray);
   //determine root node
   for (var i = 0, j = nodesArray.length; i < j; i++) {
     var pathArr = nodesArray[i].path.split('/');
+    console.log('pathArr: ', pathArr);
     nodesArray[i].parent = pathArr[pathArr.length - 3];
     nodesArray[i].children = [];
     if (!tree) {
@@ -348,7 +358,7 @@ var treeify = function(nodesArray) {
   function depthFirstFill(node) {
     if(node) {
       for (var i = 0; i < nodesArray.length; i++) {
-        if (parseInt(nodesArray[i].parent) === node.id) {
+        if (nodesArray[i].parent === node.uuid) {
           node.children.push(nodesArray[i]);
         }
       }
