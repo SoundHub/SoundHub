@@ -77,10 +77,11 @@ class SongList extends React.Component{
   }
 
   forkclick(i){
-    console.log('fork song click!!!!')
     let forkSong = this.props.data[i]
     SongActions.createFromFork(forkSong);
-    //action pass data to create comp and pass state to user panel(pageType==='create')
+  }
+
+  download(i){
 
   }
 
@@ -101,7 +102,8 @@ class SongList extends React.Component{
                 <span className> by {song.author} </span>
                 <span className="like-count" > <Glyphicon glyph='heart' /> {song.like} </span>
 
-                { this.props.uploadmode ? <button onClick={this.forkclick.bind(this,i)}> + </button>: null }
+                { this.props.uploadmode ? <button onClick={this.forkclick.bind(this,i)}> <Glyphicon glyph='tags' /> </button>: null }
+                { this.props.uploadmode ? <button onClick={this.download.bind(this,i)}> <Glyphicon glyph='download' /> </button>: null }
               </div>
 
           );
