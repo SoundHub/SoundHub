@@ -190,6 +190,16 @@ var addFork = function(userId, songNodeId, callback) {
     songNodeId: songNodeId
   })
   .then(function(forkData) {
+    SongNode.update(
+      {
+        forks: sequelize.literal(forks +1)
+      }
+      {
+        where: {
+          uuid: songNodeId
+        }
+      }
+    )
     callback(forkData);
   });
 };
