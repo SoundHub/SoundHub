@@ -13,8 +13,8 @@ const CHANGE_EVENT = 'change';
 let _user = {
   loggedIn: false,
   userInfo: {
-    username: "",
-    userId: 0
+    username: "suz",
+    userId: 1
   }
 };
 
@@ -42,6 +42,35 @@ var setCookie = function (id, username) {
 
 }
 
+var getCookieID = function(id) {
+    var name = id + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+    }
+    return "";
+};
+
+var getCookieName = function(username) {
+    var name = username + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+    }
+    return "";
+}
+
+
+var deleteCookie = function() {
+  document.cookie = "id=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+  document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+
+}
+
 UserProfile.dispatchToken = Dispatcher.register(function(payload) {
 
   switch (payload.type) {
@@ -62,6 +91,8 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
         console.log("login failed, user does not exist");
       }
       console.log(_user);
+      // console.log("cookie:", getCookieID('id'));
+      // console.log("cookie" , getCookieName('username'));
 
 
       UserProfile.emitChange();
@@ -96,6 +127,7 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
     case ActionType.LOGOUT:
       console.log("store logout");
       _user.loggedIn = false;
+      deleteCookie();
 
       UserProfile.emitChange();
       break;

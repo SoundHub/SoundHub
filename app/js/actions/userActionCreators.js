@@ -10,8 +10,6 @@ let ActionType = Constants.ActionTypes;
 export default ({    
 
   createUser (user) {
-
-
     Utils.postJSON('/signup', user) 
     .then((response) => {
       // console.log(response);
@@ -65,5 +63,6 @@ export default ({
       console.error('logout failed: ', err);
     });
   }
+
   
 });
