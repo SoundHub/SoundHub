@@ -22,6 +22,11 @@ let UserProfile = assign({}, EventEmitter.prototype, {
   removeChangeListener(callback) {
     this.removeListener(CHANGE_EVENT, callback)
   },
+
+  getLoggedInUser() {
+    return _user.userInfo;    
+  },
+
   getCookieID() {
     var name = 'id=';
     var ca = document.cookie.split(';');
@@ -43,6 +48,7 @@ let UserProfile = assign({}, EventEmitter.prototype, {
     return "";
   }
 });
+
 
 var setCookie = function (id, username) {
   //console.log("cookie contents ", id, username);
@@ -72,7 +78,6 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
         console.log("login failed, user does not exist");
       }
 
-
       UserProfile.emitChange();
       break;
 
@@ -84,6 +89,7 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
       // console.log("user", payload.user);
       // console.log("should say success", payload.response.success);
       // console.log("cookie", UserProfile.getCookieID());
+
       if (payload.response.success) {
 
         _user.loggedIn = true;
@@ -106,7 +112,6 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
 
       UserProfile.emitChange();
       break;
-
 
     default:
       //dont do anying
