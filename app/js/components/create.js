@@ -24,11 +24,6 @@ import ReactS3Uploader from 'react-s3-uploader';
 // });
 
 
-// let songData = {
-//   author: 42,
-//   path: '/'
-// };
-
 class Create extends React.Component {
   constructor() {
     super();
@@ -59,9 +54,9 @@ class Create extends React.Component {
     // title, genre, author, path
     songData.title = this.refs.songName.getDOMNode().value;
     songData.genre = this.refs.songGenre.getDOMNode().value;
+    songData.path = this.refs.songPath.getDOMNode().value;
     songData.url = this.state.file;
     songData.author = UserProfileStore.getLoggedInUser().userId;
-    songData.path = '/';
     SongActions.addSong(songData);
     // clear input fields after submit
     this.refs.songName.getDOMNode().value = '';
@@ -85,6 +80,7 @@ class Create extends React.Component {
                   onFinish={this.onUploadFinish}/>
                 <input type="text" placeholder="Name" ref="songName"/>
                 <input type="text" placeholder="Genre" ref="songGenre" />
+                <input type="text" value={this.props.forksong.path} ref="songPath" />
                 <div>{this.props.forksong.title}</div>
                 <input className="btn btn-success" type="button" value="Create" onClick={this.uploadSong}/>
                 { this.state.showUpdate ? <div>{this.state.newestCreated.title} added!</div> : null }
