@@ -108,9 +108,9 @@ server.post('/myVotes', function(req, res) {
 })
 
 server.post('/addVote', function(req, res) {
-  var vote = -1; // req.body.vote
-  var userId = 2; //req.body.userId
-  var songId = 1; //req.body.songId
+  var vote = req.body.vote;
+  var userId = req.body.userId;
+  var songId = req.body.songId;
   db.addVote(vote, userId, songId, function(data) {
     res.send(data);
   })
@@ -119,13 +119,6 @@ server.post('/addVote', function(req, res) {
 
 /** END DB ROUTES **/
 
-//** UPLOAD/DOWNLOAD/STREAM SONG METHDOS **//
-
-server.get('/testSong', function(req, res) {
-  res.sendFile(__dirname + '/songs/giveyouup.mp3')
-})
-
-//** END UP/DOWN/STREAM **//
 
 server.use('/', express.static(path.join(__dirname, '/build')));
 server.use('/assets', express.static(path.join(__dirname, '/assets')));
