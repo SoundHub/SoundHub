@@ -31,7 +31,6 @@ export default ({
   },
 
   loginUser (user) {
-    console.log('login');
     Utils.postJSON('/login', user)
     .then((response) => {
       Dispatcher.dispatch({
@@ -82,7 +81,43 @@ export default ({
       message: 'Change Img url',
       imgURL:url
     });
-  }
+  },
+
+  updateUsername(userId,newname){
+    let obj={
+      userId:userId,
+      newname:newname
+    }
+    Utils.postJSON('/updateUsername',obj)
+    .then((response) => {
+      Dispatcher.dispatch({
+        type: ActionType.GET_USER,
+        message: 'Get user info',
+        response: response
+      });
+      console.log('get userinfo successfuly');
+    }).catch((err) => {
+      console.error('get userinfo failed: ', err);
+    });
+  },
+
+  updateImg(userId,imgUrl){
+    let obj={
+      userId:userId,
+      imgUrl:imgUrl
+    }
+    Utils.postJSON('/updateImg',obj)
+    .then((response) => {
+      Dispatcher.dispatch({
+        type: ActionType.GET_USER,
+        message: 'Get user info',
+        response: response
+      });
+      console.log('get userinfo successfuly');
+    }).catch((err) => {
+      console.error('get userinfo failed: ', err);
+    });
+  },
 
 
 });

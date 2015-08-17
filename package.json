@@ -4,7 +4,8 @@
   "description": "github for music",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "start": "node ./app/server.js"
   },
   "repository": {
     "type": "git",
