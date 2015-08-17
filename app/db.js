@@ -116,9 +116,37 @@ var signup = function(username, password, callback) {
   })
 };
 
+var updateUsername = function(userId, newname, callback) {
+  User.update({
+    username: newname
+  }, {
+    where: {
+      id: userId
+    }
+  })
+  .then(function(data) {
+    callback(data);
+  })
+}
+
+var updateImg = function(userId, imgUrl, callback) {
+  User.update({
+    profilePic: imgUrl
+  }, {
+    where: {
+      id: userId
+    }
+  })
+  .then(function(data) {
+    callback(data);
+  })
+}
+
 
 exports.login = login;
 exports.signup = signup;
+exports.updateUsername = updateUsername;
+exports.updateImg = updateImg;
 
 
 /** INSERT/QUERY FUNCTIONS **/
