@@ -40,6 +40,7 @@ export default ({
         response: response
       });
       console.log('logged in successfuly');
+      console.log(response);
     })
     .catch((err) => {
       console.error('login failed: ', err);
@@ -52,7 +53,6 @@ export default ({
       Dispatcher.dispatch({
         type: ActionType.LOGOUT,
         message: 'Logout successful',
-        response: response
       });
       console.log('logged out successfuly');
     })

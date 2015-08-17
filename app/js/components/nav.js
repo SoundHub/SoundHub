@@ -3,6 +3,8 @@ import _ from 'lodash';
 import React from 'react';
 import Router from 'react-router';
 import UserProfileStore from '../stores/userProfileStore';
+import UserActions from '../actions/userActionCreators';
+
 
 
 class NavLink extends React.Component {
@@ -21,12 +23,10 @@ class NavLink extends React.Component {
 class LoginButton extends React.Component {
   render() {
     return (
-      <button>Login</button>
+      <button className="authButton">Login</button>
     );
   }
 };
-
-
 
 class LogoutButton extends React.Component {
   constructor() {
@@ -35,16 +35,12 @@ class LogoutButton extends React.Component {
   }
 
   logout(){
-    console.log('logout click!')
-    document.cookie = "id=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-    document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-    this.transitionTo('auth');
-
+    UserActions.logoutUser();
   }
 
   render() {
     return (
-      <button onClick ={this.logout} >Logout</button>
+      <button className="authButton" onClick ={this.logout} >Logout</button>
     );
   }
 };
@@ -97,7 +93,7 @@ class Nav extends React.Component {
             <button className="profileButton2">Profile</button>
           </Router.Link> : null }
 
-          <Router.Link to="auth">
+          <Router.Link to="auth" ref="authbutton">
             {this.state.loggedin? <LogoutButton /> : <LoginButton />}
           </Router.Link>
 
