@@ -22,11 +22,6 @@ let UserProfile = assign({}, EventEmitter.prototype, {
   removeChangeListener(callback) {
     this.removeListener(CHANGE_EVENT, callback)
   },
-
-  getLoggedInUser() {
-    return _user.userInfo;
-  },
-
   getCookieID() {
     var name = 'id=';
     var ca = document.cookie.split(';');
@@ -91,13 +86,10 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
 
     case ActionType.SIGNUP:
       if (payload.response.success) {
-        _user.loggedIn = true;
-        _user.userInfo.username = payload.user.username;
-        console.log(_user);
-      }else {
+        console.log('signup success');
+      } else {
         console.log("signup failed, user already exists");
       }
-      UserProfile.emitChange();
       break;
 
     case ActionType.LOGOUT:
