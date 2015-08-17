@@ -51,7 +51,7 @@ server.post('/updateImg', function(req, res) {
   var userId = req.body.userId;
   var imgUrl = req.body.imgUrl;
   db.updateImg(userId, imgUrl, function(data) {
-    res.send(data);-
+    res.send(data);
   })
 })
 
