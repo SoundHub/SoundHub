@@ -7,6 +7,7 @@ import UserActions from '../actions/userActionCreators';
 
 
 
+
 class NavLink extends React.Component {
   render() {
     let other = _.omit(this.props, 'to', 'other');
@@ -29,6 +30,8 @@ class LoginButton extends React.Component {
 };
 
 class LogoutButton extends React.Component {
+  mixins: [Router.Navigation],
+
   constructor() {
     super();
     this.logout = this.logout.bind(this);
