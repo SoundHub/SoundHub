@@ -6,10 +6,13 @@ import Create from './create';
 import Router from 'react-router';
 import AudioPlayer from './player-components/AudioPlayer';
 import UserSongStore from '../stores/userSongStore';
+import UserImgStore from '../stores/userImgStore';
 import SongActions from '../actions/songActionCreators';
+import UserActions from '../actions/userActionCreators';
 import UserProfileStore from '../stores/userProfileStore';
 import ForkedSongStore from '../stores/forkedSongStore';
 import ForkedCreateStore from '../stores/forkedCreateStore';
+import ReactS3Uploader from 'react-s3-uploader';
 
 var arr = [{
   title:'badboy',
@@ -119,10 +122,17 @@ class Edit extends React.Component {
   constructor() {
     super();
     this.save = this.save.bind(this);
+    this.onUploadFinish = this.onUploadFinish.bind(this);
   }
 
   save(){
     console.log(this.refs.username.getDOMNode().value)
+  }
+
+  onUploadFinish(result) {
+    var url = 'https://s3-us-west-2.amazonaws.com/soundhub/' + result.filename
+    UserActions.changeProfile(url);
+    console.log('fire action!');
   }
 
   render() {
@@ -130,11 +140,15 @@ class Edit extends React.Component {
       <div className="boxed-group-profile">
           <div className="pageTitle">Profile</div>
               <div className="edit-profile-avatar">
-                <div>Profile picture</div>
-                <img id="avatar" />
                 <button className="fileupload btn btn-success">
-                      <span>Choose Pic</span>
-                      <input type="file" className="upload"></input>
+                  <span>Choose Pic</span>
+                  <ReactS3Uploader
+                      className="upload"
+                      signingUrl="/s3/sign"
+                      accept="image/*"
+                      onProgress={this.onUploadProgress}
+                      onError={this.onUploadError}
+                      onFinish={this.onUploadFinish} />
                 </button>
 
                 <div className="edit-profile">
@@ -168,6 +182,7 @@ class User extends React.Component {
     this.gotoProfile = this.gotoProfile.bind(this);
     this.gotoCreate = this.gotoCreate.bind(this);
     this.setsong = this.setsong.bind(this);
+    this._changeImgUrl = this._changeImgUrl.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
     this.componentWillMount = this.componentWillMount.bind(this);
     this.componentWillUnmount = this.componentWillUnmount.bind(this);
@@ -175,7 +190,7 @@ class User extends React.Component {
     this.state = {
       login:false,
       username:'',
-      userimg:'',
+      userimg:"../assets/profileImg.jpg",
       userId:-1,
       pageType: props.pageType,
       currentsong: {},
@@ -189,12 +204,21 @@ class User extends React.Component {
 
   componentDidMount(){
     ForkedCreateStore.addChangeListener(this._onChange);
+    UserImgStore.addChangeListener(this._changeImgUrl);
+
     this.setState({username:UserProfileStore.getCookieName()})
     // this.setState({userimg:UserProfileStore.getLoggedInUser().userimg})
    }
 
   componentWillUnmount() {
     ForkedCreateStore.removeChangeListener(this._onChange);
+  }
+
+  _changeImgUrl(){
+    this.setState({userimg:UserImgStore.getImgUrl()},()=>{
+      console.log(this.state.userimg)
+    });
+
   }
 
    _onChange() {
@@ -223,7 +247,7 @@ class User extends React.Component {
     }else if(this.state.pageType==='fav'){
       profilePage = <Favor />
     }else if(this.state.pageType==='profile'){
-      profilePage = <Edit username = {this.state.username}/>
+      profilePage = <Edit username = {this.state.username} profileImg= {user.profileImg}/>
     }else if(this.state.pageType==='create'){
       profilePage = <Create forksong = {this.state.forkSong}/>
     }
@@ -233,7 +257,7 @@ class User extends React.Component {
       <AudioPlayer song = {this.state.currentsong} mode = "user" />
         <img className='randomBG' src="../assets/random-bg/13772829224_76f2c28068_h.jpg"></img>
         <div className='profileItem'>
-          <img className='profileImg' src = {user.profileImg}></img>
+          <img className='profileImg' src = {this.state.userimg}></img>
           <div className='profileUsername'>{UserProfileStore.getCookieName()}</div>
         </div>
         <div className="profileButtonCollection">

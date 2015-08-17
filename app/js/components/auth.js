@@ -18,6 +18,7 @@ class Login extends React.Component {
     this.login = this.login.bind(this);
    }
   toggleAuth() { this.props.handleToggle('Signup');}
+
   login() {
     this.transitionTo('home');
   }
@@ -25,8 +26,6 @@ class Login extends React.Component {
     userData.username = this.refs.username.getDOMNode().value;
     userData.password = this.refs.password.getDOMNode().value;
     UserActions.loginUser(userData);
-    console.log("handle login", userData.username, userData.password);
-    this.transitionTo('home');
   }
 
   render() {
