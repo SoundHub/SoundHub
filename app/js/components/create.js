@@ -86,6 +86,9 @@ class Create extends React.Component {
                   onProgress={this.onUploadProgress}
                   onError={this.onUploadError}
                   onFinish={this.onUploadFinish}/>
+
+
+
                 <input type="text" placeholder="Name" ref="songName"/>
                 <input type="text" placeholder="Genre" ref="songGenre" />
                 <input type="text" value={this.props.forksong.rootId} ref="rootId" />

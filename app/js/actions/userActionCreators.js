@@ -73,6 +73,15 @@ export default ({
     }).catch((err) => {
       console.error('get userinfo failed: ', err);
     });
+  },
+
+
+  changeProfile(url){
+    Dispatcher.dispatch({
+      type: ActionType.CHANGE_IMG_URL,
+      message: 'Change Img url',
+      imgURL:url
+    });
   }
 
 
