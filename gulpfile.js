@@ -47,16 +47,16 @@ gulp.task('sass', function() {
     .pipe(gulp.dest('./app/build'));
 });
 
-gulp.task('build', function() { 
-  return compile(); 
+gulp.task('build', function() {
+  return compile();
 });
 
 gulp.task('watch', function() {
   gulp.watch('./app/scss/**/*.scss', ['sass']);
   nodemon({
-    script: 'app/server.js'
-  , ext: 'js html'
-  , env: { 'NODE_ENV': 'development' }
+    script: 'app/server.js',
+    ext: 'js html',
+    env: { 'NODE_ENV': 'development' }
   })
   return watch();
 });
