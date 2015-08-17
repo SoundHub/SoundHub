@@ -17,7 +17,8 @@ let constants = {
       GET_USER_SONGS: null,
       FORK_SUCCESS: null,
       CREATE_FROM_FORKS: null,
-      GET_USER_VOTES: null
+      GET_USER_VOTES: null,
+      CHANGE_IMG_URL:null
   })
 };
 

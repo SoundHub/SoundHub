@@ -63,10 +63,16 @@ class Home extends React.Component {
   render() {
     return (
       <div className= "HomePage">
-      <div className= "playerBox">
-        <AudioPlayer song = {this.state.currentsong} mode = "home" userId={UserProfileStore.getCookieID()} />
-      </div>
-        <SongList data = {this.state.songs.allSongs} switchSong = {this.switchSong} />
+        <select>
+          <option value="volvo">Volvo</option>
+          <option value="saab">Saab</option>
+          <option value="mercedes">Mercedes</option>
+          <option value="audi">Audi</option>
+        </select>
+        <div className= "playerBox">
+          <AudioPlayer song = {this.state.currentsong} mode = "home" />
+        </div>
+          <SongList data = {this.state.songs.allSongs} switchSong = {this.switchSong} />
       </div>
     );
   }

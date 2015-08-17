@@ -5,8 +5,9 @@ import Router from 'react-router';
 import Layout from './layout';
 import Home from './home';
 import NotFound from './notfound';
-import Auth from './auth';
 import User from './userdomain';
+import Auth from './auth';
+
 import Tree from './treePage';
 import Create from './create';
 
@@ -21,7 +22,7 @@ const routes = (
     <DefaultRoute name="home" handler={Home}/>
     <Route name="user" path="/user" handler={User}/>
     <Route name="auth" path="/auth" handler={Auth}/>
-    <Route name="tree" path="/tree/:uuid"  handler={Tree}/>
+    <Route name="tree" path="/tree/:rootId"  handler={Tree}/>
     <NotFoundRoute name="not-found" handler={NotFound}/>
   </Route>
 );

@@ -2,14 +2,18 @@
 import React from 'react';
 import {Glyphicon} from 'react-bootstrap';
 import {SongList} from './home';
+import Edit from './editprofile';
 import Create from './create';
 import Router from 'react-router';
 import AudioPlayer from './player-components/AudioPlayer';
 import UserSongStore from '../stores/userSongStore';
+import UserImgStore from '../stores/userImgStore';
 import SongActions from '../actions/songActionCreators';
+import UserActions from '../actions/userActionCreators';
 import UserProfileStore from '../stores/userProfileStore';
 import ForkedSongStore from '../stores/forkedSongStore';
 import ForkedCreateStore from '../stores/forkedCreateStore';
+
 
 var arr = [{
   title:'badboy',
@@ -115,38 +119,7 @@ class MyMusic extends React.Component {
   }
 }
 
-class Edit extends React.Component {
-  constructor() {
-    super();
-    this.save = this.save.bind(this);
-  }
 
-  save(){
-    console.log(this.refs.username.getDOMNode().value)
-  }
-
-  render() {
-    return (
-      <div className="boxed-group-profile">
-          <div className="pageTitle">Profile</div>
-              <div className="edit-profile-avatar">
-                <div>Profile picture</div>
-                <img id="avatar" />
-                <button className="fileupload btn btn-success">
-                      <span>Choose Pic</span>
-                      <input type="file" className="upload"></input>
-                </button>
-
-                <div className="edit-profile">
-                <div>Name</div>
-                  <input classNameName="profile-input" ref="username" type="text" placeholder={this.props.username}></input>
-                </div>
-                <button onClick={this.save} className="btn btn-success">SAVE</button>
-              </div>
-      </div>
-    );
-  }
-}
 
 class Favor extends React.Component {
   constructor() {
@@ -168,6 +141,7 @@ class User extends React.Component {
     this.gotoProfile = this.gotoProfile.bind(this);
     this.gotoCreate = this.gotoCreate.bind(this);
     this.setsong = this.setsong.bind(this);
+    this._changeImgUrl = this._changeImgUrl.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
     this.componentWillMount = this.componentWillMount.bind(this);
     this.componentWillUnmount = this.componentWillUnmount.bind(this);
@@ -175,7 +149,7 @@ class User extends React.Component {
     this.state = {
       login:false,
       username:'',
-      userimg:'',
+      userimg:"",
       userId:-1,
       pageType: props.pageType,
       currentsong: {},
@@ -185,16 +159,27 @@ class User extends React.Component {
 
   componentWillMount(){
     this.setState({userId:UserProfileStore.getCookieID()})
+    this.setState({username:UserProfileStore.getCookieName()})
+    this.setState({userimg:UserProfileStore.getCookieImg()})
    }
 
   componentDidMount(){
     ForkedCreateStore.addChangeListener(this._onChange);
+    UserImgStore.addChangeListener(this._changeImgUrl);
+
     this.setState({username:UserProfileStore.getCookieName()})
     // this.setState({userimg:UserProfileStore.getLoggedInUser().userimg})
    }
 
   componentWillUnmount() {
     ForkedCreateStore.removeChangeListener(this._onChange);
+  }
+
+  _changeImgUrl(){
+    this.setState({userimg:UserImgStore.getImgUrl()},()=>{
+      console.log(this.state.userimg)
+    });
+
   }
 
    _onChange() {
@@ -223,7 +208,7 @@ class User extends React.Component {
     }else if(this.state.pageType==='fav'){
       profilePage = <Favor />
     }else if(this.state.pageType==='profile'){
-      profilePage = <Edit username = {this.state.username}/>
+      profilePage = <Edit username = {this.state.username} profileImg= {user.profileImg}/>
     }else if(this.state.pageType==='create'){
       profilePage = <Create forksong = {this.state.forkSong}/>
     }
@@ -233,8 +218,8 @@ class User extends React.Component {
       <AudioPlayer song = {this.state.currentsong} mode = "user" />
         <img className='randomBG' src="../assets/random-bg/13772829224_76f2c28068_h.jpg"></img>
         <div className='profileItem'>
-          <img className='profileImg' src = {user.profileImg}></img>
-          <div className='profileUsername'>{UserProfileStore.getCookieName()}</div>
+          <img className='profileImg' src = {this.state.userimg}></img>
+          <div className='profileUsername'>{this.state.username}</div>
         </div>
         <div className="profileButtonCollection">
           <button className="profileButton" onClick={this.gotoMusic}><Glyphicon glyph='music'  /> MyMusic</button>

@@ -19,8 +19,7 @@ let setAllSongs = function (songs) {
 
 var addVote = function(voteInfo) {
   return new Promise((resolve, reject) => {
-    _.forEach(_songs.allSongs, (song, i) => {
-      console.log('testing forEach loop: ', song, ' index ', i)
+    _.forEach(_songs.allSongs, (song) => {
       if(song.uuid === voteInfo.songId) {
         song.like = voteInfo.vote;
         console.log('setting song vote from ', song.like, 'to ', voteInfo.vote)

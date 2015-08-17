@@ -31,7 +31,6 @@ export default ({
   },
 
   loginUser (user) {
-    console.log('login');
     Utils.postJSON('/login', user)
     .then((response) => {
       Dispatcher.dispatch({
@@ -40,6 +39,7 @@ export default ({
         response: response
       });
       console.log('logged in successfuly');
+      console.log(response);
     })
     .catch((err) => {
       console.error('login failed: ', err);
@@ -52,7 +52,6 @@ export default ({
       Dispatcher.dispatch({
         type: ActionType.LOGOUT,
         message: 'Logout successful',
-        response: response
       });
       console.log('logged out successfuly');
     })
@@ -73,7 +72,52 @@ export default ({
     }).catch((err) => {
       console.error('get userinfo failed: ', err);
     });
-  }
+  },
+
+
+  changeProfile(url){
+    Dispatcher.dispatch({
+      type: ActionType.CHANGE_IMG_URL,
+      message: 'Change Img url',
+      imgURL:url
+    });
+  },
+
+  updateUsername(userId,newname){
+    let obj={
+      userId:userId,
+      newname:newname
+    }
+    Utils.postJSON('/updateUsername',obj)
+    .then((response) => {
+      Dispatcher.dispatch({
+        type: ActionType.GET_USER,
+        message: 'Get user info',
+        response: response
+      });
+      console.log('get userinfo successfuly');
+    }).catch((err) => {
+      console.error('get userinfo failed: ', err);
+    });
+  },
+
+  updateImg(userId,imgUrl){
+    let obj={
+      userId:userId,
+      imgUrl:imgUrl
+    }
+    Utils.postJSON('/updateImg',obj)
+    .then((response) => {
+      Dispatcher.dispatch({
+        type: ActionType.GET_USER,
+        message: 'Get user info',
+        response: response
+      });
+      console.log('get userinfo successfuly');
+    }).catch((err) => {
+      console.error('get userinfo failed: ', err);
+    });
+  },
 
 
 });
