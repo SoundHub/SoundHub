@@ -46,35 +46,43 @@ let UserProfile = assign({}, EventEmitter.prototype, {
         if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
     }
     return "";
+  },
+  getCookieImg() {
+    var name = 'img=';
+    var ca = document.cookie.split(';');
+    for(var i=0; i<ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1);
+        if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
+    }
+    return "";
   }
 });
 
 
-var setCookie = function (id, username) {
-  //console.log("cookie contents ", id, username);
+var setCookie = function (id, username,img) {
   document.cookie = "id" + "=" + id;
   document.cookie = "username" + "=" + username;
+  document.cookie = "img" + "=" + img;
 };
 
 var deleteCookie = function() {
   document.cookie = "id=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
   document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+  document.cookie = "img=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
 };
 
 UserProfile.dispatchToken = Dispatcher.register(function(payload) {
 
   switch (payload.type) {
     case ActionType.LOGIN:
-
-      // console.log('store login');
-      // console.log("payload login user: ", payload.user);
-      // console.log("response ", payload);
-      // console.log("should say success", payload.response.success);
       if (payload.response.success) {
-        setCookie(payload.response.user[0].id, payload.response.user[0].username);
+        let id = payload.response.user[0].id;
+        let username = payload.response.user[0].username;
+        let img = payload.response.user[0].profilePic;
+        setCookie(id,username,img);
       }
       else {
-        //todo need do diplay on component
         console.log("login failed, user does not exist");
       }
 

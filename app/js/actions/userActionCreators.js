@@ -40,6 +40,7 @@ export default ({
         response: response
       });
       console.log('logged in successfuly');
+      console.log(response);
     })
     .catch((err) => {
       console.error('login failed: ', err);
