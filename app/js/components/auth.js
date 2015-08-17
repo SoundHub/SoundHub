@@ -62,6 +62,7 @@ class Signup extends React.Component {
     userData.email = this.refs.email.getDOMNode().value;
     UserActions.createUser(userData);
     console.log("handle Signup",userData.username, userData.password, userData.email);
+
   }
 
   render() {
