@@ -30,8 +30,6 @@ class LoginButton extends React.Component {
 };
 
 class LogoutButton extends React.Component {
-  mixins: [Router.Navigation],
-
   constructor() {
     super();
     this.logout = this.logout.bind(this);
