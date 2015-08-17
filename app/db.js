@@ -179,7 +179,7 @@ var mySongs = function(userID, callback) {
 
 var myForks = function(userId, callback) {
   orm.query(
-    'select distinct songNodes.title, songNodes.author, songNodes.uuid, songNodes.genre, songNodes.description, songNodes.like, songNodes.forks, songNodes.parentId, songNode.rootId songNodes.url from ' +
+    'select distinct songNodes.title, songNodes.author, songNodes.uuid, songNodes.genre, songNodes.description, songNodes.like, songNodes.forks, songNodes.parentId, songNodes.rootId, songNodes.url from ' +
     'forks inner join users on forks.userId = '+userId+
     ' inner join songNodes on forks.songNodeId = songNodes.uuid;'
   ).then(function(data) {
