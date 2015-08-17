@@ -323,7 +323,7 @@ var updateVotes = function(songNodeId) {
         like: voteSum
       }, {
         where: {
-          id: songNodeId
+          uuid: songNodeId
         }
       }
     )
