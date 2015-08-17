@@ -38,6 +38,8 @@ class LogoutButton extends React.Component {
     console.log('logout click!')
     document.cookie = "id=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
     document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+    this.transitionTo('auth');
+
   }
 
   render() {
@@ -60,8 +62,10 @@ class Nav extends React.Component {
   }
 
   _onChange() {
-    if(UserProfileStore.getCookieID()){
-      console.log('profile store change!!!!')
+    if (UserProfileStore.getCookieID()){
+      this.setState({loggedin: true});
+    }else {
+      this.setState({loggedin: false});
     }
   }
 
