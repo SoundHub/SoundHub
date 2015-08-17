@@ -52,7 +52,6 @@ export default ({
       Dispatcher.dispatch({
         type: ActionType.LOGOUT,
         message: 'Logout successful',
-        response: response
       });
       console.log('logged out successfuly');
     })
