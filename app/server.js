@@ -39,6 +39,22 @@ server.post('/signup', function(req, res) {
   });
 })
 
+server.post('/updateUsername', function(req, res) {
+  var userId = req.body.userId;
+  var newname = req.body.newname;
+  db.updateUsername(userId, newname, function(data) {
+    res.send(data);
+  })
+})
+
+server.post('/updateImg', function(req, res) {
+  var userId = req.body.userId;
+  var imgUrl = req.body.imgUrl;
+  db.updateImg(userId, imgUrl, function(data) {
+    res.send(data);
+  })
+})
+
 server.post('/addSong', function(req, res) {  //** MVP **//
   var songData = req.body;
   db.addSong(songData.title, songData.genre, songData.author, songData.description, songData.url, songData.rootId, songData.parentId, function(response) {
