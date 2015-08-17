@@ -152,7 +152,7 @@ var allSongs = function(callback) {
   })
 };
 
-var findSongsbyRoot = function(rootNodeID, callback) {
+var findSongsbyRoot = function(rootNodeId, callback) {
   // rootNodeID = rootNodeID.split('/')[1];
   SongNode.findAll({
   where: {
