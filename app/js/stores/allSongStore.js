@@ -5,6 +5,7 @@ import Dispatcher from '../dispatcher/dispatcher.js';
 import Constants from '../constants/constants';
 import EventEmitter from 'events';
 import assign from 'object-assign';
+import UserSongStore from './userSongStore';
 
 const ActionType = Constants.ActionTypes;
 const CHANGE_EVENT = 'change';
@@ -14,6 +15,17 @@ let _songs = {};
 let setAllSongs = function (songs) {
   _songs.allSongs = songs;
 };
+
+let addVote = function(voteInfo) {
+  if(UserSongStore.canVote(voteInfo.songId)) {
+    _songs.allSongs.forEach(function(song) {
+      if(song.id === voteInfo.songId) {
+        song.like += voteInfo.value;
+        console.log('after vote: ', song)
+      }
+    })
+  }
+}
 
 let AllSongStore = assign({}, EventEmitter.prototype, {
   emitChange() {
@@ -27,8 +39,23 @@ let AllSongStore = assign({}, EventEmitter.prototype, {
   },
   getAllSongs() {
     return _songs;
+  },
+  getSongById(uuid) {
+    return new Promise((resolve, reject) => {
+      var song;
+      for(var i=0; i<_songs.allSongs.length; i++) {
+        if(_songs.allSongs[i].uuid === uuid) {
+          song = _songs.allSongs[i];
+          break;
+        }
+      }
+      if(song) {
+        resolve(song)
+      } else {
+        reject(Error('no song found'))
+      }
+    })
   }
-
 })
 
 AllSongStore.dispatchToken = Dispatcher.register(function(payload) {
@@ -37,12 +64,23 @@ AllSongStore.dispatchToken = Dispatcher.register(function(payload) {
     case ActionType.RECEIVE_ALL_SONGS:
       console.log('enter AllSongStore')
       let songs = payload.songs;
-      setAllSongs(songs);      
+      setAllSongs(songs);
       AllSongStore.emitChange();
       break;
-    
+
+    case ActionType.VOTE:
+      Dispatcher.waitFor([UserSongStore.dispatchToken]);
+      console.log(UserSongStore.dispatchToken)
+      addVote(payload.voteInfo);
+      AllSongStore.emitChange();
+      break;
+
     case ActionType.SONG_ADD_SUCCESS:
       console.log('song add success');
+      break;
+
+    case ActionType.FORK_SUCCESS:
+      console.log('fork success')
       break;
 
     default:

@@ -8,6 +8,8 @@ var babel = require('babelify');
 var sass = require('gulp-sass');
 var concat = require('gulp-concat');
 var nodemon = require('gulp-nodemon');
+var jest = require('gulp-jest');
+var mocha = require('gulp-mocha');
 
 function compile(watch) {
   var bundler = watchify(browserify('./app/client.js', { debug: true }).transform(babel));
@@ -48,14 +50,46 @@ gulp.task("heroku:production", function(){
     console.log('hello'); 
 });
 
-gulp.task('build', function() { return compile(); });
+gulp.task('build', function() {
+  return compile();
+});
+
 gulp.task('watch', function() {
   gulp.watch('./app/scss/**/*.scss', ['sass']);
   nodemon({
-    script: 'app/server.js'
-  , ext: 'js html'
-  , env: { 'NODE_ENV': 'development' }
+    script: 'app/server.js',
+    ext: 'js html',
+    env: { 'NODE_ENV': 'development' }
   })
   return watch();
 });
+
+gulp.task('mocha', function () {
+    return gulp.src('specs/server-tests.js', {read: false})
+        .pipe(mocha({reporter: 'nyan'}));
+});
+
+gulp.task('jest', function () {
+  return gulp.src('__tests__').pipe(jest({
+    unmockedModulePathPatterns: [
+      "node_modules/react"
+    ],
+    testDirectoryName: "spec",
+    testPathIgnorePatterns: [
+      "node_modules",
+      "spec/support"
+    ],
+    moduleFileExtensions: [
+      "js",
+      "json",
+      "react"
+    ]
+  }));
+});
+
 gulp.task('default', ['build','sass','watch']);
+gulp.task('test', ['mocha']);
+
+
+
+

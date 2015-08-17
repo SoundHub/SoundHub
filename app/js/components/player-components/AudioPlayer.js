@@ -1,13 +1,12 @@
-var React = require('react/addons');
-var ButtonPanel = require("./ButtonPanel");
-var ProgressBar = require("./ProgressBar");
-var VolumeBar = require("./VolumeBar");
-var TimeLabel = require("./TimeLabel");
-var NameLabel = require("./NameLabel");
-
-
-
+import React from 'react';
+import ButtonPanel from './ButtonPanel';
+import ProgressBar from './ProgressBar';
+import VolumeBar from './VolumeBar';
+import TimeLabel from './TimeLabel';
+import NameLabel from './NameLabel';
 import {Button,Glyphicon} from 'react-bootstrap';
+import SongActions from '../../actions/songActionCreators';
+import UserProfileStore from '../../stores/userProfileStore';
 
 var Howl = require('./howler').Howl;
 
@@ -24,14 +23,14 @@ module.exports = React.createClass({
 	},
 
 	componentWillUnmount:function(){
-		console.log('END!!!!!')
 		this.clearSoundObject();
 		this.playEnd();
 	},
 
 	componentWillReceiveProps: function(nextProps,nextState){
-		this.clearSoundObject();
-		if(nextProps.song){
+
+		if(nextProps.song!==this.props.song){
+			this.clearSoundObject();
 			this.setState({song:nextProps.song}, () => {
 				this.playEnd();
 				this.clearSoundObject();
@@ -40,7 +39,17 @@ module.exports = React.createClass({
 				}
 			})
 		}
-		console.log(nextProps.song);
+	},
+
+	voteSong: function(val) {
+		var userId = UserProfileStore.getCookieID();
+		SongActions.addSongVote(userId, this.props.song.uuid, val);
+	},
+
+	forkSong: function() {
+		var userId = UserProfileStore.getCookieID();
+		console.log('enter fork', userId, this.props.song.uuid)
+		SongActions.forkSong(userId, this.props.song.uuid);
 	},
 
 	render: function() {
@@ -61,9 +70,9 @@ module.exports = React.createClass({
 			<ProgressBar percent={percent} seekTo={this.seekTo} />,
 			<VolumeBar volume={this.state.volume} adjustVolumeTo={this.adjustVolumeTo} />,
 			<Button bsSize="small" className="audio-rbtn"><Glyphicon glyph='heart' /></Button>,
-			<Button bsSize="small" className="audio-rbtn"><Glyphicon glyph='chevron-up' /></Button>,
-			<Button bsSize="small" className="audio-rbtn"><Glyphicon glyph='chevron-down' /></Button>,
-			<Button bsSize="small" className="audio-rbtn"><Glyphicon glyph='paperclip' /></Button>
+			<Button bsSize="small" className="audio-rbtn" onClick={this.voteSong.bind(this, 1)}><Glyphicon glyph='chevron-up' /></Button>,
+			<Button bsSize="small" className="audio-rbtn" onClick={this.voteSong.bind(this, -1)}><Glyphicon glyph='chevron-down' /></Button>,
+			<Button bsSize="small" className="audio-rbtn" onClick={this.forkSong}><Glyphicon glyph='paperclip' /></Button>
 		];
 		if(this.state.song){
 			songName = this.state.song.title;
@@ -104,7 +113,6 @@ module.exports = React.createClass({
 
 
 	onPlayBtnClick: function() {
-
 		if (this.state.isPlaying && !this.state.isPause) {
 			return;
 		};

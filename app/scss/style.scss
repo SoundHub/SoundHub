@@ -1,8 +1,8 @@
 /* ============== General =============== */
 
 button:focus {outline:0 !important;}
-
-
+input:focus {outline:0 !important;}
+body{min-width: 700px;}
 
 
 /* ============== TOP BAR =============== */
@@ -20,7 +20,7 @@ button:focus {outline:0 !important;}
     text-align: right;
     margin-top: 20px;
     margin-right: 10px;
-    width: 300px;
+    width: 220px;
     a {
       height: 50px;
       color: #000;
@@ -72,9 +72,24 @@ button:focus {outline:0 !important;}
     text-decoration:none;
     text-shadow:0px 1px 0px #b23e35;
   }
-  .authButton:hover {
-    background-color:#eb675e;
+  .profileButton2{
+    -moz-box-shadow:inset 0px 39px 0px -24px #e67a73;
+    -webkit-box-shadow:inset 0px 39px 0px -24px #e67a73;
+    box-shadow: inset 0px 39px 0px -24px #569EAD;
+    background-color: #50919E;
+    -moz-border-radius:4px;
+    -webkit-border-radius:4px;
+    border-radius:4px;
+    border:none;
+    display:inline-block;
+    cursor:pointer;
+    color:#fff;
+    font-size:15px;
+    padding:6px 15px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #b23e35;
   }
+
   .authButton:active {
     position:relative;
     top:1px;
@@ -106,6 +121,91 @@ button:focus {outline:0 !important;}
 
 
 }
+
+/* ================ profile ================= */
+.boxed-group-profile{
+    margin-top: 30px;
+    margin-left: 3%;
+    padding-left: 3%;
+    min-width: 500px;
+    min-height: 400px;
+    z-index: 10;
+    border: 0px;
+    float: left;
+    border-left: 1px;
+    border-color: rgba(13, 92, 109, 0.24);
+    border-style: solid;
+    max-width: 70%;
+}
+.pageTitle{
+    text-align: center;
+    color: #1C3B73;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-size: 24px;
+    display: block;
+}
+.profileItem{
+  position: absolute;
+  width: 180px;
+  top: 120px;
+  left: 15%;
+}
+
+.edit-profile-avatar{
+  margin: 15px 0;
+  height: 150px;
+}
+#avatar{
+    float: left;
+    height: 100px;
+    display: inline-block;
+    overflow: hidden;
+    line-height: 1;
+    vertical-align: middle;
+    border-radius: 3px;
+}
+.edit-profile{
+  margin: 15px 0;
+}
+.edit-profile-avatar{
+  margin: 15px 0;
+  height: 150px;
+}
+.profile-input{
+  width: 56%;
+  margin-top: 5px;
+  min-width: 180px;
+}
+
+.fileupload {
+    position: relative;
+    overflow: hidden;
+    margin: 10px;
+}
+.fileupload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+
+/* ================ profile ================= */
+
+
+
+
+
+
+
+
+
+
 /* ================ Home ================= */
 
 .userSongTitle{
@@ -115,34 +215,25 @@ button:focus {outline:0 !important;}
     margin-top: 35px;
     color: #FFFFFF;
 }
-.HomePage{
-  height: 100%;
-  width: 100%;
-  position: fixed;
-  top: 80px;
-  left: 0;
-  background-color:rgba(249, 255, 224, 0.33);
   .playerBox {
-    display: flex;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
   }
-}
 
 .playList{
     background: #FFFFFF;
     vertical-align: middle;
-    padding: 5px;
-    width: 100%;
     height: 100%;
-    margin-left: auto;
-    margin-right: auto;
 }
 
 
 .songItem{
   float: left;
-  width: 300px;
-  margin: 5px;
-  padding: 5px;
+  width: 400px;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 10px;
   background-color: rgba(140, 146, 149, 0.6);
   .title{
     font-size: 15px;
@@ -150,18 +241,31 @@ button:focus {outline:0 !important;}
     text-transform: capitalize;
   }
   .itemPlay{
-    margin: 0;
     width: 30px;
-    padding: 7px 0px 0px 9px;
+    padding: 6px 0px 0px 9px;
     background-color: #FFFFFF;
     text-align: center;
     height: 30px;
     border-radius: 100%;
     display: -webkit-inline-box;
   }
+  .itemOther{
+    color: #31748D;
+    float: right;
+    margin-right: 5px;
+    width: 30px;
+    padding: 6px 0px 0px 9px;
+    background-color: #E4E4E4;
+    text-align: center;
+    height: 30px;
+    border-radius: 10%;
+    display: -webkit-inline-box;
+  }
+
+
 }
 .songItem:hover{
-  transition: background-color .6s;
+  transition: background-color .3s;
   background-color: #879EAB;
 }
 
@@ -169,7 +273,24 @@ button:focus {outline:0 !important;}
   color: #FF598E;
   float: right;
 }
-/* ================ MyMusic ================= */
+
+.Carcouselbox
+{
+}
+
+.banner{
+  height: 400px !important;
+  width: 100%;
+}
+.bannerTitle{
+  font-weight: bold;
+  font-size: 40px;
+}
+
+.bannerText{
+  padding-bottom: 100px;
+}
+/* ================ User Panel ================= */
 .profilePage{
   .randomBG{
     height: 100px;
@@ -178,14 +299,16 @@ button:focus {outline:0 !important;}
   }
 
   .profileImg{
+      float: left;
         height: 100px;
-      position: absolute;
+      display: inline;
       top: 120px;
       left: 15%;
       border-radius: 100%;
       border-width: 5px;
       border-color: white;
       border-style: solid;
+          z-index: 11;
   }
   .profileButton{
     background-color: #FFFFFF;
@@ -198,20 +321,27 @@ button:focus {outline:0 !important;}
     border-left: 0px;
     border-top: 0px;
     margin: 10px;
+    display: block;
   }
   .profileButton:hover{
     color: #D21D6F;
     border-color: #D21D6F;
   }
   .profileButtonCollection{
-    margin-left: 30%;
-    min-width: 900px;
+    margin-top: 40px;
+    margin-left: 7%;
+    min-width: 100px;
+    display: inline;
+    float: left;
   }
 
 }
-.mylist{
-  width: 100%;
-  padding: 10px;
+.profileUsername{
+    float: left;
+    font-size: 25px;
+    left: 24%;
+    display: inline;
+    margin-top: 60px;
 }
 
 
@@ -256,7 +386,7 @@ $animate-sec: 1.5s;
 }
 
 .audio-progress {
-  background: rgba(255, 236, 141, 0.95);
+  background: rgba(80, 83, 120, 0.73);
   width: 100%;
   height: 100%;
 }
@@ -403,13 +533,21 @@ $animate-sec: 1.5s;
 
 /* ================ Tree ================= */
 
+.treeBox{
+  margin-right: auto;
+  margin-left: auto;
+  width: 900px;
+}
+.nodeCircle{
+  fill:rgb(20, 197, 184) !important;
+}
   .node {
     cursor: pointer;
 
     .circle {
       fill: #fff;
       stroke: steelblue;
-      stroke-width: 1.5px;
+      stroke-width: 2.5px;
     }
 
     .text {
@@ -419,12 +557,12 @@ $animate-sec: 1.5s;
   }
 
   .overlay{
-      background-color:#EEE;
+      background-color:#F7F7F7;
   }
 
   .link {
     fill: none;
-    stroke: #ccc;
+    stroke: #F1D2AF;
     stroke-width: 3px;
   }
 
@@ -435,6 +573,8 @@ $animate-sec: 1.5s;
   }
 
   .treeDiv {
+    position: relative;
+    background-color: #F7F7F7;
     .sideBar {
       float: right;
       width: 25%;
@@ -442,3 +582,17 @@ $animate-sec: 1.5s;
       padding: 5px;
     }
   }
+
+
+
+/* ================ shadow effect ================= */
+
+
+.effect8
+{
+    position:relative;
+    -webkit-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+       -moz-box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+            box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+}
+

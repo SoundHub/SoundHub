@@ -4,7 +4,7 @@ var exports = {};
 
   // D3 code that actually makes the tree
   exports.makeTree = function(data, svgDomNode, clickCallBack) {
-    var treeData = data[0];
+    var treeData = data;
     // Calculate total nodes, max label length
     var totalNodes = 0;
     var maxLabelLength = 0;
@@ -16,17 +16,16 @@ var exports = {};
     var panBoundary = 20; // Within 20px from edges will pan when dragging.
     // Misc. variables
     var i = 0;
-    var duration = 750;
+    var duration = 700;
     var root;
 
     var nodeCircleRadius = 15; // 4.5 was original size
 
     // size of the diagram
-    // var viewerWidth = $(document).width();
-    // var viewerHeight = $(document).height();
+    var widthOffset = $(document).width() - 900; // 900 is size of .treeBox element
 
-    var viewerWidth = 960;
-    var viewerHeight = 500;
+    var viewerWidth = $(document).width() - widthOffset;
+    var viewerHeight = $(document).height() - 200;
 
     var tree = d3.layout.tree()
         .size([viewerWidth, viewerHeight]);
@@ -202,10 +201,7 @@ var exports = {};
 
         nodeEnter.append("circle")
             .attr('class', 'nodeCircle')
-            .attr("r", 0)
-            .style("fill", function(d) {
-                return d._children ? "lightsteelblue" : "#fff";
-            });
+            .attr("r", 0);
 
         nodeEnter.append("text")
             .attr("x", function(d) {

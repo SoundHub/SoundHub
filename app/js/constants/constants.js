@@ -12,8 +12,13 @@ let constants = {
       RECEIVE_SONG_TREE: null,
       CREATE_SONG: null,
       SONG_ADD_SUCCESS: null,
-      GET_USER_FORKS: null
+      VOTE: null,
+      GET_USER_FORKS: null,
+      GET_USER_SONGS:null,
+      FORK_SUCCESS: null,
+      CREATE_FROM_FORKS:null,
+      CHANGE_IMG_URL:null
   })
-}
+};
 
 export default constants;

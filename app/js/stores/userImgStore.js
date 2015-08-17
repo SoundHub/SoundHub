@@ -1,3 +1,4 @@
+// store for songs voted by specific user
 'use strict';
 
 import Dispatcher from '../dispatcher/dispatcher.js';
@@ -8,19 +9,12 @@ import assign from 'object-assign';
 const ActionType = Constants.ActionTypes;
 const CHANGE_EVENT = 'change';
 
-var _forkedSongs = {
-  all: []
+var _imgUrl;
+let setImgUrl = function(imgURL) {
+  _imgUrl = imgURL;
 }
 
-var _forkSongCreate = {}
-
-var setUserForks = function(forks) {
-  _forkedSongs.all = forks;
-  console.log('user songs: ', _forkedSongs.all)
-}
-
-
-var ForkedSongStore = assign({}, EventEmitter.prototype, {
+var userImgStore = assign({}, EventEmitter.prototype, {
   emitChange() {
     this.emit(CHANGE_EVENT)
   },
@@ -30,18 +24,18 @@ var ForkedSongStore = assign({}, EventEmitter.prototype, {
   removeChangeListener(callback) {
     this.removeListener(CHANGE_EVENT, callback)
   },
-  getForkedSongs() {
-    console.log('store getter: ', _forkedSongs.all)
-    return _forkedSongs.all;
+  getImgUrl() {
+    return _imgUrl;
   }
 })
 
-ForkedSongStore.dispatchToken = Dispatcher.register(function(payload) {
+userImgStore.dispatchToken = Dispatcher.register(function(payload) {
 
   switch(payload.type) {
-    case ActionType.GET_USER_FORKS:
-      setUserForks(payload.songs);
-      ForkedSongStore.emitChange();
+    case ActionType.CHANGE_IMG_URL:
+      console.log('enter user img store', payload)
+      setImgUrl(payload.imgURL);
+      userImgStore.emitChange();
       break;
 
     default:
@@ -50,4 +44,4 @@ ForkedSongStore.dispatchToken = Dispatcher.register(function(payload) {
 
 });
 
-export default ForkedSongStore;
+export default userImgStore;
