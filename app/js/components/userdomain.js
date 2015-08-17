@@ -14,34 +14,6 @@ import UserProfileStore from '../stores/userProfileStore';
 import ForkedSongStore from '../stores/forkedSongStore';
 import ForkedCreateStore from '../stores/forkedCreateStore';
 
-
-var arr = [{
-  title:'badboy',
-  url: "assets/badboy.mp3",
-  author:"big bang",
-  like:"223",
-  id:'1'
-},{
-  title:'bang bang bang',
-  url: "assets/bang.mp3",
-  author:"big bang",
-  like:"53",
-  id:'2'
-},{
-  title:'tonight',
-  url: "assets/giveyouup.mp3",
-  author:"big bang",
-  like:"103",
-  id:'3'
-}];
-
-
-var user = {
-  userId:1,
-  username:"Richie",
-  profileImg:"../assets/profileImg.jpg"
-}
-
 class ForkList extends React.Component {
   constructor() {
     super();
@@ -79,7 +51,6 @@ class ForkList extends React.Component {
   }
 
 }
-
 
 class MyMusic extends React.Component {
   constructor() {
@@ -208,7 +179,7 @@ class User extends React.Component {
     }else if(this.state.pageType==='fav'){
       profilePage = <Favor />
     }else if(this.state.pageType==='profile'){
-      profilePage = <Edit username = {this.state.username} profileImg= {user.profileImg}/>
+      profilePage = <Edit username = {this.state.username} profileImg= {this.state.userimg} userId={this.state.userId}/>
     }else if(this.state.pageType==='create'){
       profilePage = <Create forksong = {this.state.forkSong}/>
     }
