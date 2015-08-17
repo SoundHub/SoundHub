@@ -149,7 +149,7 @@ class User extends React.Component {
     this.state = {
       login:false,
       username:'',
-      userimg:"../assets/profileImg.jpg",
+      userimg:"",
       userId:-1,
       pageType: props.pageType,
       currentsong: {},
@@ -159,6 +159,8 @@ class User extends React.Component {
 
   componentWillMount(){
     this.setState({userId:UserProfileStore.getCookieID()})
+    this.setState({username:UserProfileStore.getCookieName()})
+    this.setState({userimg:UserProfileStore.getCookieImg()})
    }
 
   componentDidMount(){
@@ -217,7 +219,7 @@ class User extends React.Component {
         <img className='randomBG' src="../assets/random-bg/13772829224_76f2c28068_h.jpg"></img>
         <div className='profileItem'>
           <img className='profileImg' src = {this.state.userimg}></img>
-          <div className='profileUsername'>{UserProfileStore.getCookieName()}</div>
+          <div className='profileUsername'>{this.state.username}</div>
         </div>
         <div className="profileButtonCollection">
           <button className="profileButton" onClick={this.gotoMusic}><Glyphicon glyph='music'  /> MyMusic</button>
