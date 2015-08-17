@@ -5,6 +5,8 @@ import UserActions from '../actions/userActionCreators';
 import Carcousel from './carcousel'
 
 class Login extends React.Component {
+  mixins: [Router.Navigation],
+
   constructor() {
     super();
     this.toggleAuth = this.toggleAuth.bind(this);
@@ -20,7 +22,10 @@ class Login extends React.Component {
     userData.username = this.refs.username.getDOMNode().value;
     userData.password = this.refs.password.getDOMNode().value;
     UserActions.loginUser(userData);
+
   }
+
+
 
   render() {
     return (
@@ -74,6 +79,15 @@ class Signup extends React.Component {
 }
 
 class Auth extends React.Component {
+  mixins: [Navigation],
+    // static willTransitionTo(transition) {
+    //   // This method is called before transitioning to this component. 
+    //   // If the user is not logged in, we’ll send him or her to the Login page.
+    //   if (!UserProfile.getCookieID()) {
+    //     transition.redirect(‘/home);
+    //   }
+    // }
+
   constructor(props) {
     super(props);
     this.toggle = this.toggle.bind(this);
