@@ -25,8 +25,7 @@ class Login extends React.Component {
     userData.username = this.refs.username.getDOMNode().value;
     userData.password = this.refs.password.getDOMNode().value;
     UserActions.loginUser(userData);
-    console.log("handle login",
-      userData.username, userData.password);
+    console.log("handle login", userData.username, userData.password);
   }
 
   render() {
