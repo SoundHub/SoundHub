@@ -129,6 +129,9 @@ export default {
     })
     console.log('dispatched')
     Utils.simplePost('/addVote', voteInfo)
+    .then(() => {
+      this.getUserVotes(voteInfo.userId);
+    })
     .catch((err) => {
       console.log('voting failed: ', err)
     })
