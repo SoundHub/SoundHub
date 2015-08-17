@@ -102,7 +102,8 @@ var signup = function(username, password, callback) {
           User.create({
               username: username,
               password: hash
-            }).then(function() {
+            }).then(function(userData) {
+              response.userData = userData;
               response.success = true;
               callback(response);
 
