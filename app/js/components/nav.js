@@ -21,12 +21,10 @@ class NavLink extends React.Component {
 class LoginButton extends React.Component {
   render() {
     return (
-      <button>Login</button>
+      <button className="authButton">Login</button>
     );
   }
 };
-
-
 
 class LogoutButton extends React.Component {
   constructor() {
@@ -35,16 +33,13 @@ class LogoutButton extends React.Component {
   }
 
   logout(){
-    console.log('logout click!')
     document.cookie = "id=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
     document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
-    this.transitionTo('auth');
-
   }
 
   render() {
     return (
-      <button onClick ={this.logout} >Logout</button>
+      <button className="authButton" onClick ={this.logout} >Logout</button>
     );
   }
 };

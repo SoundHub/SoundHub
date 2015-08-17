@@ -2,6 +2,7 @@
 import React from 'react';
 import {Glyphicon} from 'react-bootstrap';
 import {SongList} from './home';
+import Edit from './editprofile';
 import Create from './create';
 import Router from 'react-router';
 import AudioPlayer from './player-components/AudioPlayer';
@@ -12,7 +13,7 @@ import UserActions from '../actions/userActionCreators';
 import UserProfileStore from '../stores/userProfileStore';
 import ForkedSongStore from '../stores/forkedSongStore';
 import ForkedCreateStore from '../stores/forkedCreateStore';
-import ReactS3Uploader from 'react-s3-uploader';
+
 
 var arr = [{
   title:'badboy',
@@ -118,49 +119,7 @@ class MyMusic extends React.Component {
   }
 }
 
-class Edit extends React.Component {
-  constructor() {
-    super();
-    this.save = this.save.bind(this);
-    this.onUploadFinish = this.onUploadFinish.bind(this);
-  }
 
-  save(){
-    console.log(this.refs.username.getDOMNode().value)
-  }
-
-  onUploadFinish(result) {
-    var url = 'https://s3-us-west-2.amazonaws.com/soundhub/' + result.filename
-    UserActions.changeProfile(url);
-    console.log('fire action!');
-  }
-
-  render() {
-    return (
-      <div className="boxed-group-profile">
-          <div className="pageTitle">Profile</div>
-              <div className="edit-profile-avatar">
-                <button className="fileupload btn btn-success">
-                  <span>Choose Pic</span>
-                  <ReactS3Uploader
-                      className="upload"
-                      signingUrl="/s3/sign"
-                      accept="image/*"
-                      onProgress={this.onUploadProgress}
-                      onError={this.onUploadError}
-                      onFinish={this.onUploadFinish} />
-                </button>
-
-                <div className="edit-profile">
-                <div>Name</div>
-                  <input classNameName="profile-input" ref="username" type="text" placeholder={this.props.username}></input>
-                </div>
-                <button onClick={this.save} className="btn btn-success">SAVE</button>
-              </div>
-      </div>
-    );
-  }
-}
 
 class Favor extends React.Component {
   constructor() {
