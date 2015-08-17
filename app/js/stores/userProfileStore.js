@@ -28,20 +28,20 @@ let UserProfile = assign({}, EventEmitter.prototype, {
   },
 
   getCookieID() {
-    var name = 'id=';
-    var ca = document.cookie.split(';');
-    for(var i=0; i<ca.length; i++) {
-        var c = ca[i];
+    let name = 'id=';
+    let ca = document.cookie.split(';');
+    for(let i=0; i<ca.length; i++) {
+        let c = ca[i];
         while (c.charAt(0)==' ') c = c.substring(1);
         if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
     }
     return 0;
   },
   getCookieName() {
-    var name = 'username=';
-    var ca = document.cookie.split(';');
-    for(var i=0; i<ca.length; i++) {
-        var c = ca[i];
+    let name = 'username=';
+    let ca = document.cookie.split(';');
+    for(let i=0; i<ca.length; i++) {
+        let c = ca[i];
         while (c.charAt(0)==' ') c = c.substring(1);
         if (c.indexOf(name) == 0) return c.substring(name.length,c.length);
     }
@@ -66,10 +66,6 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
   switch (payload.type) {
     case ActionType.LOGIN:
 
-      // console.log('store login');
-      // console.log("payload login user: ", payload.user);
-      // console.log("response ", payload);
-      // console.log("should say success", payload.response.success);
       if (payload.response.success) {
         setCookie(payload.response.user[0].id, payload.response.user[0].username);
       }
