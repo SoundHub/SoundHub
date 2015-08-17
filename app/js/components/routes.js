@@ -5,8 +5,9 @@ import Router from 'react-router';
 import Layout from './layout';
 import Home from './home';
 import NotFound from './notfound';
-import Auth from './auth';
 import User from './userdomain';
+import Auth from './auth';
+
 import Tree from './treePage';
 import Create from './create';
 

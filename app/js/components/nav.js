@@ -38,6 +38,8 @@ class LogoutButton extends React.Component {
     console.log('logout click!')
     document.cookie = "id=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
     document.cookie = "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+    this.transitionTo('auth');
+
   }
 
   render() {
@@ -60,8 +62,10 @@ class Nav extends React.Component {
   }
 
   _onChange() {
-    if(UserProfileStore.getCookieID()){
-      console.log('profile store change!!!!')
+    if (UserProfileStore.getCookieID()){
+      this.setState({loggedin: true});
+    }else {
+      this.setState({loggedin: false});
     }
   }
 
@@ -79,13 +83,6 @@ class Nav extends React.Component {
   }
 
   render() {
-    var authButton;
-    if(this.state.loggedin){
-      authButton = <LogoutButton />
-    }else{
-      authButton = <LoginButton />
-    }
-
     return (
       <div className="topBar">
         <span className = "topBarLeft">
@@ -93,14 +90,15 @@ class Nav extends React.Component {
              <img src='../assets/logo2.png'></img>
           </NavLink>
         </span>
-
         <nav>
+
+        { this.state.loggedin ?
           <Router.Link to="user">
             <button className="profileButton2">Profile</button>
-          </Router.Link>
+          </Router.Link> : null }
 
           <Router.Link to="auth">
-            {authButton}
+            {this.state.loggedin? <LogoutButton /> : <LoginButton />}
           </Router.Link>
 
         </nav>

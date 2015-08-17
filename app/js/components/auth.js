@@ -25,8 +25,8 @@ class Login extends React.Component {
     userData.username = this.refs.username.getDOMNode().value;
     userData.password = this.refs.password.getDOMNode().value;
     UserActions.loginUser(userData);
-    console.log("handle login",
-      userData.username, userData.password);
+    console.log("handle login", userData.username, userData.password);
+    this.transitionTo('home');
   }
 
   render() {
@@ -35,11 +35,7 @@ class Login extends React.Component {
           <h1>This is Login</h1>
           <input type="text" placeholder="Username" ref="username" />
           <input type="password" placeholder="Password" ref="password" />
-
-
-            <input type="button" value="Login" onClick={this.handleLogin}/>
-
-
+          <input type="button" value="Login" onClick={this.handleLogin}/>
           <input type="button" value="Signup" onClick={this.toggleAuth}/>
         </div>
       );
@@ -62,9 +58,8 @@ class Signup extends React.Component {
     userData.password = this.refs.password.getDOMNode().value;
     userData.email = this.refs.email.getDOMNode().value;
     UserActions.createUser(userData);
-
-    console.log("handle Signup",
-      userData.username, userData.password, userData.email);
+    console.log("handle Signup",userData.username, userData.password, userData.email);
+    this.transitionTo('home');
 
   }
 
