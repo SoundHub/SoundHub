@@ -19,9 +19,13 @@ class Edit extends React.Component {
     let newName = this.refs.username.getDOMNode().value
     if(newName){
       console.log(newName);
+      console.log('id:'+ this.props.userId)
+      UserActions.updateUsername(this.props.userId,newName)
       //call backend to update username
     }
     if(this.state.updateimg){
+      console.log('id:'+ this.props.userId)
+      UserActions.updateImg(this.props.userId,this.state.imageUrl)
       console.log('update image' + this.state.imageUrl);
       //call backend to update profileImg
     }
