@@ -4,12 +4,6 @@ import Router from 'react-router';
 import UserActions from '../actions/userActionCreators';
 import Carcousel from './carcousel'
 
-let userData = {
-  username: "",
-  password: "",
-  email: ""
-};
-
 class Login extends React.Component {
   constructor() {
     super();
@@ -22,6 +16,7 @@ class Login extends React.Component {
   login() {
   }
   handleLogin() {
+    let userData = {};
     userData.username = this.refs.username.getDOMNode().value;
     userData.password = this.refs.password.getDOMNode().value;
     UserActions.loginUser(userData);
@@ -48,15 +43,20 @@ class Signup extends React.Component {
     this.toggleAuth = this.toggleAuth.bind(this);
     this.handleSignup = this.handleSignup.bind(this);
    }
+   
   toggleAuth() {
     this.props.handleToggle('Login');
   }
+
   handleSignup() {
+    let userData = {};
+    console.log('refs', this.refs)
     userData.username = this.refs.username.getDOMNode().value;
     userData.password = this.refs.password.getDOMNode().value;
     userData.email = this.refs.email.getDOMNode().value;
     UserActions.createUser(userData);
     console.log("handle Signup",userData.username, userData.password, userData.email);
+
   }
 
   render() {

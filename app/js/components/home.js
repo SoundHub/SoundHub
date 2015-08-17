@@ -6,6 +6,7 @@ import AllSongStore from '../stores/allSongStore';
 import {Glyphicon} from 'react-bootstrap';
 import AudioPlayer from './player-components/AudioPlayer';
 import UserProfileStore from '../stores/userProfileStore';
+import VotedSongStore from '../stores/votedSongStore'
 
 var arr = [{
   title:'badboy',
@@ -35,6 +36,7 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
     SongActions.getAllSongs();
+    SongActions.getUserVotes(UserProfileStore.getCookieID())
     this.state = {songs: {allSongs: []}}
     this.componentDidMount = this.componentDidMount.bind(this);
     this.switchSong = this.switchSong.bind(this);

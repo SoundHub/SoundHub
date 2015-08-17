@@ -7,6 +7,8 @@ import NameLabel from './NameLabel';
 import {Button,Glyphicon} from 'react-bootstrap';
 import SongActions from '../../actions/songActionCreators';
 import UserProfileStore from '../../stores/userProfileStore';
+import VotedSongStore from '../../stores/votedSongStore';
+
 
 var Howl = require('./howler').Howl;
 
@@ -28,7 +30,6 @@ module.exports = React.createClass({
 	},
 
 	componentWillReceiveProps: function(nextProps,nextState){
-
 		if(nextProps.song!==this.props.song){
 			this.clearSoundObject();
 			this.setState({song:nextProps.song}, () => {
@@ -41,9 +42,47 @@ module.exports = React.createClass({
 		}
 	},
 
+	//TODO reset upvoteClicked and downvoteClicked to false when new song plays
+
+	handleUpvote: function () {
+		VotedSongStore.getSongVoteStatus(this.props.song.uuid)
+		.then((currVal) => {
+			if(currVal === 1) {
+				console.log('neutral vote')
+				SongActions.addSongVote(UserProfileStore.getCookieID(), this.props.song.uuid, 0);
+			} else { 
+				console.log('add vote')
+				SongActions.addSongVote(UserProfileStore.getCookieID(), this.props.song.uuid, 1);
+			}
+		})
+		.catch((err) => {
+			console.log('error: ', err)
+		})
+	},
+
+	handleDownvote: function() {
+		VotedSongStore.getSongVoteStatus(this.props.song.uuid)
+		.then((currVal) => {
+			if(currVal === -1) {
+				console.log('neutral vote', this.props.userId)
+				SongActions.addSongVote(UserProfileStore.getCookieID(), this.props.song.uuid, 0);
+			} else { // 0 or -1
+				console.log('downvote')
+				SongActions.addSongVote(UserProfileStore.getCookieID(), this.props.song.uuid, -1);
+			}
+		})
+		.catch((err) => {
+			console.log('error: ', err)
+		})
+	},
+
 	voteSong: function(val) {
 		var userId = UserProfileStore.getCookieID();
-		SongActions.addSongVote(userId, this.props.song.uuid, val);
+		// can I allow them to vote, and if so, what do I send to server?
+		VotedSongStore.getSongVoteStatus(this.props.song.uuid, val)
+		.then((val) => {
+			SongActions.addSongVote(userId, this.props.song.uuid, val);
+		})
 	},
 
 	forkSong: function() {
@@ -70,8 +109,8 @@ module.exports = React.createClass({
 			<ProgressBar percent={percent} seekTo={this.seekTo} />,
 			<VolumeBar volume={this.state.volume} adjustVolumeTo={this.adjustVolumeTo} />,
 			<Button bsSize="small" className="audio-rbtn"><Glyphicon glyph='heart' /></Button>,
-			<Button bsSize="small" className="audio-rbtn" onClick={this.voteSong.bind(this, 1)}><Glyphicon glyph='chevron-up' /></Button>,
-			<Button bsSize="small" className="audio-rbtn" onClick={this.voteSong.bind(this, -1)}><Glyphicon glyph='chevron-down' /></Button>,
+			<Button bsSize="small" className="audio-rbtn" onClick={this.handleUpvote}><Glyphicon glyph='chevron-up' /></Button>,
+			<Button bsSize="small" className="audio-rbtn" onClick={this.handleDownvote}><Glyphicon glyph='chevron-down' /></Button>,
 			<Button bsSize="small" className="audio-rbtn" onClick={this.forkSong}><Glyphicon glyph='paperclip' /></Button>
 		];
 		if(this.state.song){
