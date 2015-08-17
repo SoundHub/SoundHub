@@ -92,9 +92,33 @@ export default {
     })
   },
 
-  // add upvote or downvote to song
+  // // add upvote or downvote to song
+  // addSongVote(userId, songId, value, prev) {
+  //   var voteInfo = {
+  //     userId: userId,
+  //     songId: songId,
+  //     vote: value,
+  //     prev: prev
+  //   }
+  //   Utils.simplePost('/addVote', voteInfo)
+  //   .then(() => {
+  //     Utils.postJSON('/myVotes', {userId: voteInfo.userId})
+  //     .then((response) => {
+  //       Dispatcher.dispatch({
+  //         type: ActionType.VOTE,
+  //         voteInfo: voteInfo,
+  //         songs: response
+  //       })
+  //     })
+  //   })
+  //   .catch((err) => {
+  //     console.log('voting failed: ', err)
+  //   })
+  // },
+
+    // add upvote or downvote to song
   addSongVote(userId, songId, value) {
-    let voteInfo = {
+    var voteInfo = {
       userId: userId,
       songId: songId,
       vote: value
@@ -103,7 +127,11 @@ export default {
       type: ActionType.VOTE,
       voteInfo: voteInfo
     })
+    console.log('dispatched')
     Utils.simplePost('/addVote', voteInfo)
+    .then(() => {
+      this.getUserVotes(voteInfo.userId);
+    })
     .catch((err) => {
       console.log('voting failed: ', err)
     })
@@ -127,9 +155,24 @@ export default {
 
   createFromFork(forkSong){
     Dispatcher.dispatch({
-      type:ActionType.CREATE_FROM_FORKS,
-      song:forkSong,
-      page:'create'
+      type: ActionType.CREATE_FROM_FORKS,
+      song: forkSong,
+      page: 'create'
+    })
+  },
+
+  getUserVotes(userId) {
+    var data = {userId: userId};
+    Utils.postJSON('/myVotes', data) 
+    .then((response) => {
+      console.log('got user votes ', response)
+      Dispatcher.dispatch({
+        type: ActionType.GET_USER_VOTES,
+        songs: response
+      })
+    })
+    .catch((err) => {
+      console.error('getting user votes failed: ', err)
     })
   }
 }

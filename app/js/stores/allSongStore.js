@@ -6,6 +6,7 @@ import Constants from '../constants/constants';
 import EventEmitter from 'events';
 import assign from 'object-assign';
 import UserSongStore from './userSongStore';
+import _ from 'lodash';
 
 const ActionType = Constants.ActionTypes;
 const CHANGE_EVENT = 'change';
@@ -16,15 +17,18 @@ let setAllSongs = function (songs) {
   _songs.allSongs = songs;
 };
 
-let addVote = function(voteInfo) {
-  if(UserSongStore.canVote(voteInfo.songId)) {
-    _songs.allSongs.forEach(function(song) {
-      if(song.id === voteInfo.songId) {
-        song.like += voteInfo.value;
-        console.log('after vote: ', song)
+var addVote = function(voteInfo) {
+  return new Promise((resolve, reject) => {
+    _.forEach(_songs.allSongs, (song) => {
+      if(song.uuid === voteInfo.songId) {
+        song.like = voteInfo.vote;
+        console.log('setting song vote from ', song.like, 'to ', voteInfo.vote)
+        resolve(song.like)
+        return false;
       }
     })
-  }
+    reject(Error('nothing found'))
+  })
 }
 
 let AllSongStore = assign({}, EventEmitter.prototype, {
@@ -69,10 +73,11 @@ AllSongStore.dispatchToken = Dispatcher.register(function(payload) {
       break;
 
     case ActionType.VOTE:
-      Dispatcher.waitFor([UserSongStore.dispatchToken]);
-      console.log(UserSongStore.dispatchToken)
-      addVote(payload.voteInfo);
-      AllSongStore.emitChange();
+      addVote(payload.voteInfo)
+      .then((like) => {
+        console.log('allSongStore to emit change, set like to ', like)
+        AllSongStore.emitChange();
+      })
       break;
 
     case ActionType.SONG_ADD_SUCCESS:
