@@ -5,6 +5,7 @@ import UserActions from '../actions/userActionCreators';
 import Carcousel from './carcousel'
 
 class Login extends React.Component {
+
   constructor() {
     super();
     this.toggleAuth = this.toggleAuth.bind(this);
@@ -20,7 +21,10 @@ class Login extends React.Component {
     userData.username = this.refs.username.getDOMNode().value;
     userData.password = this.refs.password.getDOMNode().value;
     UserActions.loginUser(userData);
+
   }
+
+
 
   render() {
     return (
