@@ -17,29 +17,17 @@ let setAllSongs = function (songs) {
   _songs.allSongs = songs;
 };
 
-// let addVote = function(voteInfo) {
-//   if(UserSongStore.canVote(voteInfo.songId)) {
-//     _songs.allSongs.forEach(function(song) {
-//       if(song.id === voteInfo.songId) {
-//         song.like += voteInfo.value;
-//         console.log('after vote: ', song)
-//       }
-//     })
-//   }
-// }
-
 var addVote = function(voteInfo) {
   return new Promise((resolve, reject) => {
-    var diff = voteInfo.vote - voteInfo.prev;
-    _.forEach(_songs.allSongs, (song) => {
+    _.forEach(_songs.allSongs, (song, i) => {
+      console.log('testing forEach loop: ', song, ' index ', i)
       if(song.uuid === voteInfo.songId) {
-        song.like += diff;
-        console.log('song changing: ', song)
+        song.like = voteInfo.vote;
+        console.log('setting song vote from ', song.like, 'to ', voteInfo.vote)
         resolve(song.like)
         return false;
       }
     })
-    console.log('out of foreach loop')
     reject(Error('nothing found'))
   })
 }
@@ -86,10 +74,9 @@ AllSongStore.dispatchToken = Dispatcher.register(function(payload) {
       break;
 
     case ActionType.VOTE:
-      console.log(UserSongStore.dispatchToken)
       addVote(payload.voteInfo)
       .then((like) => {
-        console.log('like: ', like)
+        console.log('allSongStore to emit change, set like to ', like)
         AllSongStore.emitChange();
       })
       break;

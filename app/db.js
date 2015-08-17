@@ -50,7 +50,7 @@ var Favorite = orm.define('favorites', {
 var Upvote = orm.define('upvotes', {
   userId: { type: Sequelize.INTEGER, allowNull: false },
   songNodeId: { type: Sequelize.STRING, allowNull: false},
-  upvote: { type: Sequelize.INTEGER, defaultValue: 0 }
+  upvote: { type: Sequelize.INTEGER, allowNull: true }
 })
 
 orm.sync();
@@ -264,6 +264,8 @@ var addVote = function(voteVal, userId, songNodeId, callback) {
       })
     } else {
         console.log('existed already');
+        console.log('data from existing: ', data[0].dataValues.upvote);
+        console.log('value to be assigned: ', voteVal);
         if (data[0].dataValues.upvote !== voteVal) {
           console.log('existed but needed updating');
           Upvote.update({
@@ -321,7 +323,7 @@ var updateVotes = function(songNodeId) {
         like: voteSum
       }, {
         where: {
-          id: songNodeId
+          uuid: songNodeId
         }
       }
     )

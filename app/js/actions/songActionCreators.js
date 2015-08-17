@@ -92,22 +92,43 @@ export default {
     })
   },
 
-  // add upvote or downvote to song
-  addSongVote(userId, songId, value, prev) {
+  // // add upvote or downvote to song
+  // addSongVote(userId, songId, value, prev) {
+  //   var voteInfo = {
+  //     userId: userId,
+  //     songId: songId,
+  //     vote: value,
+  //     prev: prev
+  //   }
+  //   Utils.simplePost('/addVote', voteInfo)
+  //   .then(() => {
+  //     Utils.postJSON('/myVotes', {userId: voteInfo.userId})
+  //     .then((response) => {
+  //       Dispatcher.dispatch({
+  //         type: ActionType.VOTE,
+  //         voteInfo: voteInfo,
+  //         songs: response
+  //       })
+  //     })
+  //   })
+  //   .catch((err) => {
+  //     console.log('voting failed: ', err)
+  //   })
+  // },
+
+    // add upvote or downvote to song
+  addSongVote(userId, songId, value) {
     var voteInfo = {
       userId: userId,
       songId: songId,
-      vote: value,
-      prev: prev
+      vote: value
     }
-    Utils.simplePost('/addVote', voteInfo)
-    .then(() => {
-      this.getUserVotes(userId);
-      Dispatcher.dispatch({
-        type: ActionType.VOTE,
-        voteInfo: voteInfo
-      })
+    Dispatcher.dispatch({
+      type: ActionType.VOTE,
+      voteInfo: voteInfo
     })
+    console.log('dispatched')
+    Utils.simplePost('/addVote', voteInfo)
     .catch((err) => {
       console.log('voting failed: ', err)
     })

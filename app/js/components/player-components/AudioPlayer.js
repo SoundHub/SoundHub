@@ -45,16 +45,14 @@ module.exports = React.createClass({
 	//TODO reset upvoteClicked and downvoteClicked to false when new song plays
 
 	handleUpvote: function () {
-		console.log('handleUpvote')
 		VotedSongStore.getSongVoteStatus(this.props.song.uuid)
 		.then((currVal) => {
-			console.log('retrieved from promise: ', currVal, currVal.like)
 			if(currVal === 1) {
 				console.log('neutral vote')
-				SongActions.addSongVote(this.props.userId, this.props.song.uuid, 0, currVal);
-			} else { // 0 or -1
+				SongActions.addSongVote(this.props.userId, this.props.song.uuid, 0);
+			} else { 
 				console.log('add vote')
-				SongActions.addSongVote(this.props.userId, this.props.song.uuid, 1, currVal);
+				SongActions.addSongVote(this.props.userId, this.props.song.uuid, 1);
 			}
 		})
 		.catch((err) => {
@@ -63,17 +61,19 @@ module.exports = React.createClass({
 	},
 
 	handleDownvote: function() {
-		if(!this.state.downvoteClicked) { //if clicking downvote for first time
-			// tell SongActions to downvote
-			console.log('subtract vote')
-			SongActions.addSongVote(this.props.userId, this.props.song.uuid, -1);
-			this.setState({downvoteClicked: true})
-		} else {
-			console.log('neutral vote')
-			console.log('state',this.state,'user id', this.props.userId)
-			SongActions.addSongVote(this.props.userId, this.props.song.uuid, 0);
-			this.setState({downvoteClicked: false})
-		}
+		VotedSongStore.getSongVoteStatus(this.props.song.uuid)
+		.then((currVal) => {
+			if(currVal === -1) {
+				console.log('neutral vote')
+				SongActions.addSongVote(this.props.userId, this.props.song.uuid, 0);
+			} else { // 0 or -1
+				console.log('downvote')
+				SongActions.addSongVote(this.props.userId, this.props.song.uuid, -1);
+			}
+		})
+		.catch((err) => {
+			console.log('error: ', err)
+		})
 	},
 
 	voteSong: function(val) {

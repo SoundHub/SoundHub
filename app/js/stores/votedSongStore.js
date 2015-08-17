@@ -18,29 +18,14 @@ var setUserVotedSongs = function(songs) {
 }
 
 var addVote = function(voteInfo) {
-  return new Promise((resolve, reject) => {
-    var diff = voteInfo.vote - voteInfo.prev;
-    _.forEach(_votedSongs, (song) => {
-      if(song.uuid === voteInfo.songId) {
-        song.like += diff;
-        console.log('song changing: ', song)
-        resolve(song.like)
-        return false;
-      }
-    })
-    console.log('out of foreach loop')
-    reject(Error('nothing found'))
+  _.forEach(_votedSongs, (song, i) => {
+    if(song.uuid === voteInfo.songId) {
+      console.log('setting song vote from ', song.like, 'to ', voteInfo.vote)
+      song.like = voteInfo.vote;
+      return false;
+    }
   })
 }
-
-// // changes vote when 
-// var changeVote = function(songId, voteVal) {
-//   _.forEach(_votedSongs, function(val) {
-//     if(val.uuid === songId) {
-//       // check if 
-//     }
-//   })
-// }
 
 var VotedSongStore = assign({}, EventEmitter.prototype, {
   emitChange() {
@@ -58,20 +43,22 @@ var VotedSongStore = assign({}, EventEmitter.prototype, {
   getSongVoteStatus(songId) {
     return new Promise((resolve, reject) => {
       if(_votedSongs.length === 0) {
+        console.log('user has not voted on anything')
         resolve(0);
       } else {
+        var notFound = true;
         _.forEach(_votedSongs, (song) => {
           if(song.uuid === songId) {
-            console.log('song liked', song.genre, song)
-            resolve(song);
-            return false;
-            console.log('did not break out of loop')
-          } else {
-            console.log('???')
-            resolve(0);
+            notFound = false;
+            console.log('found a match', song.like)
+            resolve(song.like);
             return false;
           }
         })
+        if(notFound) {
+          console.log('user has not voted on this specific song')
+          resolve(0);
+        }
         reject(Error('nothing found'))
       }
     })
@@ -89,12 +76,7 @@ VotedSongStore.dispatchToken = Dispatcher.register(function(payload) {
       break;
 
     case ActionType.VOTE:
-      addVote(payload.voteInfo)
-      .then(() => {
-        console.log('votedsongstore about to change:', _votedSongs)
-        VotedSongStore.emitChange();
-      })
-
+      addVote(payload.voteInfo);
     default:
       // do nothing
   }
