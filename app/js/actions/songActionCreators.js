@@ -93,17 +93,21 @@ export default {
   },
 
   // add upvote or downvote to song
-  addSongVote(userId, songId, value) {
-    let voteInfo = {
+  addSongVote(userId, songId, value, prev) {
+    var voteInfo = {
       userId: userId,
       songId: songId,
-      vote: value
+      vote: value,
+      prev: prev
     }
-    Dispatcher.dispatch({
-      type: ActionType.VOTE,
-      voteInfo: voteInfo
-    })
     Utils.simplePost('/addVote', voteInfo)
+    .then(() => {
+      this.getUserVotes(userId);
+      Dispatcher.dispatch({
+        type: ActionType.VOTE,
+        voteInfo: voteInfo
+      })
+    })
     .catch((err) => {
       console.log('voting failed: ', err)
     })
@@ -127,9 +131,24 @@ export default {
 
   createFromFork(forkSong){
     Dispatcher.dispatch({
-      type:ActionType.CREATE_FROM_FORKS,
-      song:forkSong,
-      page:'create'
+      type: ActionType.CREATE_FROM_FORKS,
+      song: forkSong,
+      page: 'create'
+    })
+  },
+
+  getUserVotes(userId) {
+    var data = {userId: userId};
+    Utils.postJSON('/myVotes', data) 
+    .then((response) => {
+      console.log('got user votes ', response)
+      Dispatcher.dispatch({
+        type: ActionType.GET_USER_VOTES,
+        songs: response
+      })
+    })
+    .catch((err) => {
+      console.error('getting user votes failed: ', err)
     })
   }
 }

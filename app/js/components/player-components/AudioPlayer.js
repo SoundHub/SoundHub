@@ -7,6 +7,8 @@ import NameLabel from './NameLabel';
 import {Button,Glyphicon} from 'react-bootstrap';
 import SongActions from '../../actions/songActionCreators';
 import UserProfileStore from '../../stores/userProfileStore';
+import VotedSongStore from '../../stores/votedSongStore';
+
 
 var Howl = require('./howler').Howl;
 
@@ -28,7 +30,6 @@ module.exports = React.createClass({
 	},
 
 	componentWillReceiveProps: function(nextProps,nextState){
-
 		if(nextProps.song!==this.props.song){
 			this.clearSoundObject();
 			this.setState({song:nextProps.song}, () => {
@@ -41,9 +42,47 @@ module.exports = React.createClass({
 		}
 	},
 
+	//TODO reset upvoteClicked and downvoteClicked to false when new song plays
+
+	handleUpvote: function () {
+		console.log('handleUpvote')
+		VotedSongStore.getSongVoteStatus(this.props.song.uuid)
+		.then((currVal) => {
+			console.log('retrieved from promise: ', currVal, currVal.like)
+			if(currVal === 1) {
+				console.log('neutral vote')
+				SongActions.addSongVote(this.props.userId, this.props.song.uuid, 0, currVal);
+			} else { // 0 or -1
+				console.log('add vote')
+				SongActions.addSongVote(this.props.userId, this.props.song.uuid, 1, currVal);
+			}
+		})
+		.catch((err) => {
+			console.log('error: ', err)
+		})
+	},
+
+	handleDownvote: function() {
+		if(!this.state.downvoteClicked) { //if clicking downvote for first time
+			// tell SongActions to downvote
+			console.log('subtract vote')
+			SongActions.addSongVote(this.props.userId, this.props.song.uuid, -1);
+			this.setState({downvoteClicked: true})
+		} else {
+			console.log('neutral vote')
+			console.log('state',this.state,'user id', this.props.userId)
+			SongActions.addSongVote(this.props.userId, this.props.song.uuid, 0);
+			this.setState({downvoteClicked: false})
+		}
+	},
+
 	voteSong: function(val) {
 		var userId = UserProfileStore.getCookieID();
-		SongActions.addSongVote(userId, this.props.song.uuid, val);
+		// can I allow them to vote, and if so, what do I send to server?
+		VotedSongStore.getSongVoteStatus(this.props.song.uuid, val)
+		.then((val) => {
+			SongActions.addSongVote(userId, this.props.song.uuid, val);
+		})
 	},
 
 	forkSong: function() {
@@ -70,8 +109,8 @@ module.exports = React.createClass({
 			<ProgressBar percent={percent} seekTo={this.seekTo} />,
 			<VolumeBar volume={this.state.volume} adjustVolumeTo={this.adjustVolumeTo} />,
 			<Button bsSize="small" className="audio-rbtn"><Glyphicon glyph='heart' /></Button>,
-			<Button bsSize="small" className="audio-rbtn" onClick={this.voteSong.bind(this, 1)}><Glyphicon glyph='chevron-up' /></Button>,
-			<Button bsSize="small" className="audio-rbtn" onClick={this.voteSong.bind(this, -1)}><Glyphicon glyph='chevron-down' /></Button>,
+			<Button bsSize="small" className="audio-rbtn" onClick={this.handleUpvote}><Glyphicon glyph='chevron-up' /></Button>,
+			<Button bsSize="small" className="audio-rbtn" onClick={this.handleDownvote}><Glyphicon glyph='chevron-down' /></Button>,
 			<Button bsSize="small" className="audio-rbtn" onClick={this.forkSong}><Glyphicon glyph='paperclip' /></Button>
 		];
 		if(this.state.song){

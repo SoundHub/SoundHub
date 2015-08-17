@@ -50,7 +50,7 @@ var Favorite = orm.define('favorites', {
 var Upvote = orm.define('upvotes', {
   userId: { type: Sequelize.INTEGER, allowNull: false },
   songNodeId: { type: Sequelize.STRING, allowNull: false},
-  upvote: { type: Sequelize.INTEGER, allowNull: true }
+  upvote: { type: Sequelize.INTEGER, defaultValue: 0 }
 })
 
 orm.sync();
@@ -233,6 +233,7 @@ var myVotes = function(userId, callback) {
     'upvotes join users on upvotes.userId = '+userId+
     ' join songNodes on upvotes.songNodeId = songNodes.uuid;'
   ).then(function(data) {
+    console.log('data:', data)
     callback(data.slice(0, (data.length - 1))[0]);
   })
 };
