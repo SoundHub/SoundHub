@@ -46,8 +46,10 @@ module.exports = React.createClass({
 		VotedSongStore.getSongVoteStatus(this.props.song.uuid)
 		.then((currVal) => {
 			if(currVal === 1) {
+				console.log('neutral')
 				SongActions.addSongVote(UserProfileStore.getCookieID(), this.props.song.uuid, 0);
 			} else { 
+				console.log('add')
 				SongActions.addSongVote(UserProfileStore.getCookieID(), this.props.song.uuid, 1);
 			}
 		})
@@ -60,8 +62,10 @@ module.exports = React.createClass({
 		VotedSongStore.getSongVoteStatus(this.props.song.uuid)
 		.then((currVal) => {
 			if(currVal === -1) {
+				console.log('neutral')
 				SongActions.addSongVote(UserProfileStore.getCookieID(), this.props.song.uuid, 0);
 			} else { // 0 or -1
+				console.log('subtract')
 				SongActions.addSongVote(UserProfileStore.getCookieID(), this.props.song.uuid, -1);
 			}
 		})

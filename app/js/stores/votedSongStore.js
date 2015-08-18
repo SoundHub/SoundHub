@@ -64,9 +64,7 @@ VotedSongStore.dispatchToken = Dispatcher.register(function(payload) {
 
   switch(payload.type) {
     case ActionType.GET_USER_VOTES:
-      console.log('enter voted song store', payload)
       setUserVotedSongs(payload.songs);
-      console.log('vote store',payload.songs)
       VotedSongStore.emitChange();
       break;
 

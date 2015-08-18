@@ -15,7 +15,6 @@ export default {
       return response.json();
     })
     .then((json) => {
-      console.log("dispatch songs ", json);
       Dispatcher.dispatch({
         type: ActionType.RECEIVE_ALL_SONGS,
         songs: json
@@ -142,7 +141,6 @@ export default {
     var data = {userId: userId};
     Utils.postJSON('/myVotes', data) 
     .then((response) => {
-      console.log('got user votes ', response)
       Dispatcher.dispatch({
         type: ActionType.GET_USER_VOTES,
         songs: response

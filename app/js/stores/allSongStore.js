@@ -65,7 +65,6 @@ AllSongStore.dispatchToken = Dispatcher.register(function(payload) {
 
   switch(payload.type) {
     case ActionType.RECEIVE_ALL_SONGS:
-      console.log('enter AllSongStore')
       let songs = payload.songs;
       setAllSongs(songs);
       AllSongStore.emitChange();
@@ -73,8 +72,7 @@ AllSongStore.dispatchToken = Dispatcher.register(function(payload) {
 
     case ActionType.VOTE:
       addVote(payload.voteInfo)
-      .then((like) => {
-        console.log('allSongStore to emit change, set like to ', like)
+      .then(() => {
         AllSongStore.emitChange();
       })
       break;
