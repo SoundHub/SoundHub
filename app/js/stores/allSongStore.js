@@ -19,9 +19,11 @@ let setAllSongs = function (songs) {
 
 var addVote = function(voteInfo) {
   return new Promise((resolve, reject) => {
+    var diff = voteInfo.vote - voteInfo.prev;
     _.forEach(_songs.allSongs, (song) => {
       if(song.uuid === voteInfo.songId) {
-        song.like = voteInfo.vote;
+        console.log(voteInfo, ' going to change from ', song.like, ' by ', diff )
+        song.like += diff;
         resolve(song.like)
         return false;
       }
@@ -74,6 +76,7 @@ AllSongStore.dispatchToken = Dispatcher.register(function(payload) {
       addVote(payload.voteInfo)
       .then(() => {
         AllSongStore.emitChange();
+        console.log('all song store emitted change')
       })
       break;
 
