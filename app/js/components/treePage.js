@@ -70,15 +70,18 @@ import React from 'react';
 import D3Tree from './tree.js';
 import SongActions from '../actions/songActionCreators';
 import SongTreeStore from '../stores/songTreeStore';
+import Router from 'react-router';
 
 class Page extends React.Component {
   constructor() {
     super();
-    let uuid = window.location.pathname.split('/')[2];
-    console.log('constructor uuid: ', uuid);
-    SongActions.getSongTree({rootId: uuid});  //'/1/'  '/1/2/'
+    var query = window.location.pathname.split('/')[2];
+    var rootId = query.split('&')[0];
+    var uuid = query.split('&')[1];
+    SongActions.getSongTree({rootId: rootId});  //'/1/'  '/1/2/'
     this.state = {
-      treeData: {}
+      treeData: {},
+      uuid: uuid
     }
 
     SongTreeStore.getTree();
@@ -105,7 +108,7 @@ class Page extends React.Component {
   render() {
     return (
         <div className="treePage">
-          <D3Tree treeData={this.state.treeData} />
+          <D3Tree treeData={this.state.treeData} uuid={this.state.uuid} />
         </div>
       );
   }

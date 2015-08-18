@@ -3,14 +3,14 @@ import React from 'react';
 import treeUtils from './makeTree.js';
 import AudioPlayer from './player-components/AudioPlayer';
 
-var song = {
-  title:'badboy',
-  url: "assets/badboy.mp3",
-  author:"big bang",
+var song = [{
+  title:'give you up',
+  url: "assets/giveyouup.mp3",
+  author:"Rick Astley",
   like:"223",
   img:"assets/album/1.png",
   id: 1
-}
+}];
 
 import SongTreeStore from '../stores/songTreeStore.js';
 
@@ -29,7 +29,8 @@ class D3Tree extends React.Component {
   }
 
   onClick(element) {
-    this.setState({ currentSong: element });
+    // console.log('tree.js onClick element-clicked: ', element);  // for testing so we don't hit up S3 everytime
+    this.setState({ currentSong: element });  // for actual use
   }
 
   // componentDidMount() {
@@ -48,7 +49,7 @@ class D3Tree extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     var mountNode = React.findDOMNode(this.refs.songTree);
-    treeUtils.makeTree(nextProps.treeData, mountNode, this.onClick);
+    treeUtils.makeTree(nextProps.treeData, mountNode, this.onClick, nextProps.uuid);
   }
 
   render() {
@@ -58,7 +59,7 @@ class D3Tree extends React.Component {
           <AudioPlayer song = {this.state.currentSong} mode = "home" />
         </div>
         <div className = "treeBox">
-          <svg ref="songTree"></svg>
+          <div ref="songTree"></div>
         </div>
       </div>
     );
