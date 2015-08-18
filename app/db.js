@@ -21,7 +21,8 @@ var SongNode = orm.define('songNodes', {
   genre: { type: Sequelize.STRING, allowNull: true },
   forks: { type: Sequelize.INTEGER, defaultValue: 0 },
   author: { type: Sequelize.INTEGER, allowNull: false },
-  authorName: { type: Sequelize.STRING, allNull: true},
+  authorName: { type: Sequelize.STRING, allowNull: true},
+  authorPic: { type: Sequelize.STRING, allowNull: true},
   description: { type: Sequelize.STRING, defaultValue: '' },
   url: { type: Sequelize.STRING, allowNull: true },
   uuid: { type: Sequelize.STRING, allowNull: false},
@@ -154,7 +155,7 @@ exports.updateImg = updateImg;
 /** INSERT/QUERY FUNCTIONS **/
 
 
-var addSong = function(title, genre, author, authorName, description, url, rootId, parentId, callback) {
+var addSong = function(title, genre, author, authorName, authorPic, description, url, rootId, parentId, callback) {
   var guid = uuid.v4();
   rootId = rootId || guid;
   parentId = parentId || null;
@@ -164,6 +165,7 @@ var addSong = function(title, genre, author, authorName, description, url, rootI
       genre: genre,
       author: author,
       authorName: authorName,
+      authorPic: authorPic,
       description: description,
       url: url,
       uuid: guid,
