@@ -82,12 +82,11 @@ class Auth extends React.Component {
     super(props);
     this.toggle = this.toggle.bind(this);
     this.state = {authType: props.authType};
-   }
+  }
 
   toggle(data){
     this.setState({authType:data}, () => {});
   }
-
 
   handleLogout() {
     UserActions.logoutUser();

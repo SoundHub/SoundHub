@@ -270,7 +270,6 @@ var myVotes = function(userId, callback) {
     'upvotes join users on upvotes.userId = '+userId+
     ' join songNodes on upvotes.songNodeId = songNodes.uuid;'
   ).then(function(data) {
-    console.log('data:', data)
     callback(data.slice(0, (data.length - 1))[0]);
   })
 };
@@ -283,9 +282,7 @@ var addVote = function(voteVal, userId, songNodeId, callback) {
     }
   })
   .then(function(data) {
-    console.log('data',data);
     if (data[1]) {
-      console.log('created');
       Upvote.update({
           upvote: voteVal
         }, {
@@ -300,11 +297,7 @@ var addVote = function(voteVal, userId, songNodeId, callback) {
         callback(data); // chained from upvote.update
       })
     } else {
-        console.log('existed already');
-        console.log('data from existing: ', data[0].dataValues.upvote);
-        console.log('value to be assigned: ', voteVal);
         if (data[0].dataValues.upvote !== voteVal) {
-          console.log('existed but needed updating');
           Upvote.update({
               upvote: voteVal
             }, {

@@ -15,7 +15,6 @@ export default {
       return response.json();
     })
     .then((json) => {
-      console.log("dispatch songs ", json);
       Dispatcher.dispatch({
         type: ActionType.RECEIVE_ALL_SONGS,
         songs: json
@@ -92,50 +91,6 @@ export default {
     })
   },
 
-  // // add upvote or downvote to song
-  // addSongVote(userId, songId, value, prev) {
-  //   var voteInfo = {
-  //     userId: userId,
-  //     songId: songId,
-  //     vote: value,
-  //     prev: prev
-  //   }
-  //   Utils.simplePost('/addVote', voteInfo)
-  //   .then(() => {
-  //     Utils.postJSON('/myVotes', {userId: voteInfo.userId})
-  //     .then((response) => {
-  //       Dispatcher.dispatch({
-  //         type: ActionType.VOTE,
-  //         voteInfo: voteInfo,
-  //         songs: response
-  //       })
-  //     })
-  //   })
-  //   .catch((err) => {
-  //     console.log('voting failed: ', err)
-  //   })
-  // },
-
-    // add upvote or downvote to song
-  addSongVote(userId, songId, value) {
-    var voteInfo = {
-      userId: userId,
-      songId: songId,
-      vote: value
-    }
-    Dispatcher.dispatch({
-      type: ActionType.VOTE,
-      voteInfo: voteInfo
-    })
-    console.log('dispatched')
-    Utils.simplePost('/addVote', voteInfo)
-    .then(() => {
-      this.getUserVotes(voteInfo.userId);
-    })
-    .catch((err) => {
-      console.log('voting failed: ', err)
-    })
-  },
 
   // find all songs forked by user
   getAllForks(userId) {
@@ -153,6 +108,7 @@ export default {
     });
   },
 
+  // upload a song related to another node
   createFromFork(forkSong){
     Dispatcher.dispatch({
       type: ActionType.CREATE_FROM_FORKS,
@@ -161,15 +117,47 @@ export default {
     })
   },
 
+  // set newly voted song in votedSongStore
+  addNewVotedSong(songData) {
+    Dispatcher.dispatch({
+      type: ActionType.NEW_SONG_VOTED,
+      songData: songData
+    })
+    return true;
+  },
+
+  // add upvote or downvote to song
+  addSongVote(userId, songId, value, prev) {
+    var voteInfo = {
+      userId: userId,
+      songId: songId,
+      vote: value,
+      prev: prev
+    }
+    Dispatcher.dispatch({
+      type: ActionType.VOTE,
+      voteInfo: voteInfo
+    })
+    Utils.simplePost('/addVote', voteInfo)
+    .then(() => {
+      console.log('voted posted with vote ', voteInfo.vote)
+      // this.getUserVotes(voteInfo.userId);
+    })
+    .catch((err) => {
+      console.log('voting failed: ', err)
+    })
+  },
+
+  // get songs that user has voted on
   getUserVotes(userId) {
     var data = {userId: userId};
     Utils.postJSON('/myVotes', data) 
     .then((response) => {
-      console.log('got user votes ', response)
       Dispatcher.dispatch({
         type: ActionType.GET_USER_VOTES,
         songs: response
       })
+      console.log('dispatched: getUserVotes')
     })
     .catch((err) => {
       console.error('getting user votes failed: ', err)

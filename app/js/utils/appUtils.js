@@ -36,7 +36,6 @@ export default {
   postJSON(url, body) {
     var body = JSON.stringify(body);
     return new Promise(function(resolve, reject) {
-      console.log('send userID'+ body)
       window.fetch(url, {
         method: 'post',
         headers: {
@@ -70,7 +69,6 @@ export default {
         body: body
       })
       .then((response) => {
-          console.log('hi1')
           resolve(response);
       })
       .catch((err) => {

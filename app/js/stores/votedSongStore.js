@@ -5,7 +5,8 @@ import Dispatcher from '../dispatcher/dispatcher.js';
 import Constants from '../constants/constants';
 import EventEmitter from 'events';
 import assign from 'object-assign';
-import _ from 'lodash'
+import _ from 'lodash';
+import AllSongStore from './allSongStore';
 
 const ActionType = Constants.ActionTypes;
 const CHANGE_EVENT = 'change';
@@ -14,13 +15,20 @@ var _votedSongs = [];
 
 var setUserVotedSongs = function(songs) {
   _votedSongs = songs;
-  console.log('setUserVotedSongs as: ',_votedSongs);
+  console.log('user voted songs: ', _votedSongs)
+}
+
+var addNewSong = function(songData) {
+
 }
 
 var addVote = function(voteInfo) {
+  var songExists = false;
   _.forEach(_votedSongs, (song) => {
     if(song.uuid === voteInfo.songId) {
+      console.log('setting user vote from ', song.like, ' to ', voteInfo.vote)
       song.like = voteInfo.vote;
+      songExists = true;
       return false;
     }
   })
@@ -42,23 +50,38 @@ var VotedSongStore = assign({}, EventEmitter.prototype, {
   getSongVoteStatus(songId) {
     return new Promise((resolve, reject) => {
       if(_votedSongs.length === 0) {
-        console.log('user has not voted on anything')
-        resolve(0);
+        AllSongStore.getSongById(songId)
+        .then((song) => {
+          var toVote = _.cloneDeep(song);
+          console.log('get song: ', toVote)
+          _votedSongs.push(toVote);
+          resolve(0);
+        })
       } else {
         var notFound = true;
         _.forEach(_votedSongs, (song) => {
           if(song.uuid === songId) {
+            console.log('found song, previous user vote: ', song.like)
             notFound = false;
-            console.log('found a match', song.like)
             resolve(song.like);
             return false;
           }
         })
         if(notFound) {
-          console.log('user has not voted on this specific song')
-          resolve(0);
+          console.log('user has not upvoted this song')
+          AllSongStore.getSongById(songId)
+          .then((song) => {
+            var toVote = _.cloneDeep(song);
+            toVote.like = 0;
+            console.log('get song: ', toVote)
+            _votedSongs.push(toVote);
+            resolve(0);
+            return;
+          })
+          .then(() => {
+            reject(Error('nothing found'))
+          })
         }
-        reject(Error('nothing found'))
       }
     })
   }
@@ -68,14 +91,18 @@ VotedSongStore.dispatchToken = Dispatcher.register(function(payload) {
 
   switch(payload.type) {
     case ActionType.GET_USER_VOTES:
-      console.log('enter voted song store', payload)
       setUserVotedSongs(payload.songs);
-      console.log('vote store',payload.songs)
       VotedSongStore.emitChange();
       break;
 
     case ActionType.VOTE:
       addVote(payload.voteInfo);
+      break;
+    
+    case ActionType.NEW_SONG_VOTED:
+      addNewSong(payload.songData)
+      break;
+
     default:
       // do nothing
   }
