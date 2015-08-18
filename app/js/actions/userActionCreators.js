@@ -47,16 +47,9 @@ export default ({
   },
 
   logoutUser (userID) {
-    Utils.simplePost('/logout', userID)
-    .then((response) => {
-      Dispatcher.dispatch({
-        type: ActionType.LOGOUT,
-        message: 'Logout successful',
-      });
-      console.log('logged out successfuly');
-    })
-    .catch((err) => {
-      console.error('logout failed: ', err);
+    Dispatcher.dispatch({
+      type: ActionType.LOGOUT,
+      message: 'Logout successful',
     });
   },
 
