@@ -81,7 +81,7 @@ class MyMusic extends React.Component {
   }
 
   switchSong(song){
-    this.props.switchsong(song)
+    this.props.switchsong(song);
   }
 
   _onChange() {
@@ -136,8 +136,7 @@ class Favor extends React.Component {
   render() {
     return (
       <div className="boxed-group-profile">
-          <div className="pageTitle">MyMusic</div>
-
+          <div className="pageTitle">Favourites</div>
           {
             this.state.favSongs.length ?
             <div className="mylist">
@@ -187,7 +186,6 @@ class User extends React.Component {
   componentDidMount(){
     ForkedCreateStore.addChangeListener(this._onChange);
     UserImgStore.addChangeListener(this._changeImgUrl);
-
     this.setState({username:UserProfileStore.getCookieName()})
     // this.setState({userimg:UserProfileStore.getLoggedInUser().userimg})
    }
