@@ -153,6 +153,7 @@ exports.updateImg = updateImg;
 
 /** INSERT/QUERY FUNCTIONS **/
 
+
 var addSong = function(title, genre, author, authorName, description, url, rootId, parentId, callback) {
   var guid = uuid.v4();
   rootId = rootId || guid;
