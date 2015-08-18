@@ -44,6 +44,15 @@ class Home extends React.Component {
 
   _onChange() {
     this.setState({songs: AllSongStore.getAllSongs()});
+    console.log("songs", this.state.songs);
+  }
+
+  handleNewestClick() {
+    console.log('newest click');
+  }
+
+  handleUpvotedClick() {
+    console.log('upvoted click');
   }
 
   openModal() {

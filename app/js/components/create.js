@@ -34,7 +34,7 @@ class Create extends React.Component {
   }
 
   uploadSong() {
-    let letters = /^[A-Za-z]+$/;
+    let letters = /^[A-Za-z\s]+$/;
     let songData = {};
 
     songData.title = this.refs.songName.getDOMNode().value;
