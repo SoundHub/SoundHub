@@ -127,7 +127,7 @@ export default {
   },
 
   // add upvote or downvote to song
-  addSongVote(userId, songId, value, prev, songData) {
+  addSongVote(userId, songId, value, prev) {
     var voteInfo = {
       userId: userId,
       songId: songId,
