@@ -213,7 +213,7 @@ var mySongs = function(userID, callback) {
 
 var myForks = function(userId, callback) {
   orm.query(
-    'select distinct songNodes.title, songNodes.author, songNodes.uuid, songNodes.genre, songNodes.description, songNodes.like, songNodes.forks, songNodes.parentId, songNodes.rootId, songNodes.url from ' +
+    'select distinct songNodes.title, songNodes.author, songNodes.authorName, songNodes.authorPic, songNodes.uuid, songNodes.genre, songNodes.description, songNodes.like, songNodes.forks, songNodes.parentId, songNodes.rootId, songNodes.url from ' +
     'forks inner join users on forks.userId = '+userId+
     ' inner join songNodes on forks.songNodeId = songNodes.uuid;'
   ).then(function(data) {
@@ -244,7 +244,7 @@ var addFork = function(userId, songNodeId, callback) {
 
 var myFavs = function(userId, callback) {  //I AM NOT MVP
   orm.query(
-    'select distinct songNodes.title, songNodes.author, songNodes.uuid, songNodes.genre, songNodes.description, songNodes.like, songNodes.forks, songNodes.parentId, songNodes.rootId, songNodes.url from ' +
+    'select distinct songNodes.title, songNodes.author, songNodes.authorName, songNodes.authorPic, songNodes.uuid, songNodes.genre, songNodes.description, songNodes.like, songNodes.forks, songNodes.parentId, songNodes.rootId, songNodes.url from ' +
     'favorites join users on favorites.userId = '+userId+
     ' join songNodes on favorites.songNodeId = songNodes.uuid;'
   ).then(function(data) {
@@ -359,7 +359,7 @@ var updateVotes = function(songNodeId) {
     SongNode.update({
         like: voteSum
       }, {
-        where: {
+        where: { 
           uuid: songNodeId
         }
       }
