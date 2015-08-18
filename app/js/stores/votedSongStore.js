@@ -26,8 +26,8 @@ var addVote = function(voteInfo) {
   var songExists = false;
   _.forEach(_votedSongs, (song) => {
     if(song.uuid === voteInfo.songId) {
-      console.log('setting user vote from ', song.like, ' to ', voteInfo.vote)
-      song.like = voteInfo.vote;
+      console.log('setting user vote from ', song.upvote, ' to ', voteInfo.vote)
+      song.upvote = voteInfo.vote;
       songExists = true;
       return false;
     }
@@ -53,6 +53,7 @@ var VotedSongStore = assign({}, EventEmitter.prototype, {
         AllSongStore.getSongById(songId)
         .then((song) => {
           var toVote = _.cloneDeep(song);
+          toVote.upvote = 0;
           console.log('get song: ', toVote)
           _votedSongs.push(toVote);
           resolve(0);
@@ -61,9 +62,9 @@ var VotedSongStore = assign({}, EventEmitter.prototype, {
         var notFound = true;
         _.forEach(_votedSongs, (song) => {
           if(song.uuid === songId) {
-            console.log('found song, previous user vote: ', song.like)
+            console.log('found song, previous user vote: ', song.upvote)
             notFound = false;
-            resolve(song.like);
+            resolve(song.upvote);
             return false;
           }
         })
@@ -72,7 +73,7 @@ var VotedSongStore = assign({}, EventEmitter.prototype, {
           AllSongStore.getSongById(songId)
           .then((song) => {
             var toVote = _.cloneDeep(song);
-            toVote.like = 0;
+            toVote.upvote = 0;
             console.log('get song: ', toVote)
             _votedSongs.push(toVote);
             resolve(0);
