@@ -19,7 +19,9 @@ let constants = {
       CREATE_FROM_FORKS: null,
       GET_USER_VOTES: null,
       NEW_SONG_VOTED: null,
-      CHANGE_IMG_URL:null
+      CHANGE_IMG_URL:null,
+      RECEIVE_ALL_FAV_SONGS:null,
+      ADD_FAV_SUCCESS:null
   })
 };
 
