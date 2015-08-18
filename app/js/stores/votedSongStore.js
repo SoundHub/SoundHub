@@ -69,7 +69,12 @@ var VotedSongStore = assign({}, EventEmitter.prototype, {
         })
         if(notFound) {
           console.log('user has not upvoted this song')
-          resolve(0);
+          AllSongStore.getSongById(songId)
+          .then((song) => {
+            console.log('get song: ', song)
+            _votedSongs.push(song);
+            resolve(0);
+          })
         }
         reject(Error('nothing found'))
       }
