@@ -57,7 +57,7 @@ server.post('/updateImg', function(req, res) {
 
 server.post('/addSong', function(req, res) {  //** MVP **//
   var songData = req.body;
-  db.addSong(songData.title, songData.genre, songData.author, songData.description, songData.url, songData.rootId, songData.parentId, function(response) {
+  db.addSong(songData.title, songData.genre, songData.author, songData.authorName, songData.description, songData.url, songData.rootId, songData.parentId, function(response) {
     res.send(response);
   });
 })
