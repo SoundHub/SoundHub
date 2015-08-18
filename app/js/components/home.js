@@ -108,7 +108,7 @@ class SongList extends React.Component{
                 <Router.Link to="tree"  params={song}>
                   <span className = "title"  > {i} {song.title} </span>
                 </Router.Link>
-                <span className> by {song.author} </span>
+                <span className> by {song.authorName} </span>
                 <span className="like-count" > <Glyphicon glyph='heart' /> {song.like} </span>
 
                 {

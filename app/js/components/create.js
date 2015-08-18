@@ -65,6 +65,7 @@ class Create extends React.Component {
 
     songData.url = this.state.file;
     songData.author = UserProfileStore.getCookieID();
+    songData.authorName = UserProfileStore.getCookieName();
     SongActions.addSong(songData);
     // clear input fields after submit
     this.refs.songName.getDOMNode().value = '';
