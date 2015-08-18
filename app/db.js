@@ -151,7 +151,7 @@ exports.updateImg = updateImg;
 
 /** INSERT/QUERY FUNCTIONS **/
 
-var addSong = function(title, genre, author, description, url, rootId, parentId, callback) {
+var addSong = function(title, genre, author,authorName, description, url, rootId, parentId, callback) {
   var guid = uuid.v4();
   rootId = rootId || guid;
   parentId = parentId || null;
@@ -159,6 +159,7 @@ var addSong = function(title, genre, author, description, url, rootId, parentId,
     return SongNode.create({
       title: title,
       genre: genre,
+      authorName:authorName,
       author: author,
       description: description,
       url: url,
