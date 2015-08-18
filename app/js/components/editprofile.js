@@ -48,7 +48,7 @@ class Edit extends React.Component {
                   <span>Choose Pic</span>
                   <ReactS3Uploader
                       className="upload"
-                      signingUrwl="/s3/sign"
+                      signingUrl="/s3/sign"
                       accept="image/*"
                       onProgress={this.onUploadProgress}
                       onError={this.onUploadError}
