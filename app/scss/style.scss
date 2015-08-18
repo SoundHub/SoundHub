@@ -230,6 +230,7 @@ body{min-width: 700px;}
     position: fixed;
     bottom: 0;
     width: 100%;
+    z-index: 10;
   }
 
 .playList{
@@ -237,44 +238,48 @@ body{min-width: 700px;}
     vertical-align: middle;
     height: 100%;
 }
+.songPanel {
+    padding: 10px;
+    z-index: 2;
+    height: 76px;
+    width: 350px;
+    background-color: #A6D1E0;
+    border-radius: 5px;
+}
 
+.songBox {
+    margin: 15px;
+    display: inline-block;
+}
 
 .songItem{
-  float: left;
-  width: 400px;
-  margin: 10px;
-  padding: 10px;
-  border-radius: 10px;
-  background-color: rgba(140, 146, 149, 0.6);
+    z-index: 3;
+    float: left;
+    width: 350px;
+    padding: 8px;
+    border-radius: 10px;
+    background-color: #bed4de;
   .title{
     font-size: 15px;
     color: white;
     text-transform: capitalize;
   }
-  .itemPlay{
-    width: 30px;
-    padding: 6px 0px 0px 9px;
-    background-color: #FFFFFF;
-    text-align: center;
-    height: 30px;
-    border-radius: 100%;
-    display: -webkit-inline-box;
-  }
-  .itemOther{
-    color: #31748D;
-    float: right;
-    margin-right: 5px;
-    width: 30px;
-    padding: 6px 0px 0px 9px;
-    background-color: #E4E4E4;
-    text-align: center;
-    height: 30px;
-    border-radius: 10%;
-    display: -webkit-inline-box;
-  }
-
-
 }
+  .itemOther{
+    font-size: 14px;
+    margin-top: 3px;
+    color: #6A8E9B;
+    float: left;
+    margin-right: 5px;
+    width: 26px;
+    padding: 3px 0px 0px 7px;
+    background-color: white;
+    text-align: center;
+    height: 26px;
+    border-radius: 18%;
+    display: -webkit-inline-box;
+  }
+
 .songItem:hover{
   transition: background-color .3s;
   background-color: #879EAB;
@@ -284,10 +289,6 @@ body{min-width: 700px;}
   font-size: 20px;
   color: #FF598E;
   float: right;
-}
-
-.Carcouselbox
-{
 }
 
 .banner{
