@@ -266,7 +266,7 @@ var addFav = function(userId, songNodeId, callback) {
 
 var myVotes = function(userId, callback) {
   orm.query(
-    'select distinct songNodes.title, songNodes.author, songNodes.uuid, songNodes.genre, songNodes.description, songNodes.like, songNodes.forks, songNodes.parentId, songNodes.rootId, songNodes.url from ' +
+    'select distinct songNodes.title, songNodes.author, songNodes.uuid, songNodes.genre, songNodes.description, upvotes.upvote, songNodes.forks, songNodes.parentId, songNodes.rootId, songNodes.url from ' +
     'upvotes join users on upvotes.userId = '+userId+
     ' join songNodes on upvotes.songNodeId = songNodes.uuid;'
   ).then(function(data) {
@@ -309,7 +309,7 @@ var addVote = function(voteVal, userId, songNodeId, callback) {
           )
           .then(function(data) {
             updateVotes(songNodeId);
-            callback(data); // chained from upvote.update
+            callback(data); // chained from upvote.updat
           })
         } else {
           callback(data)
@@ -357,7 +357,7 @@ var updateVotes = function(songNodeId) {
         }
       }
     )
-    console.log(voteSum);
+    console.log('new votesum', voteSum);
   })
 }
 
