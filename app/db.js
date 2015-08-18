@@ -159,7 +159,7 @@ var addSong = function(title, genre, author,authorName, description, url, rootId
     return SongNode.create({
       title: title,
       genre: genre,
-      author:authorName,
+      authorName:authorName,
       author: author,
       description: description,
       url: url,
