@@ -40,13 +40,19 @@ class Home extends React.Component {
 
   render() {
     return (
+
       <div className= "HomePage">
+        <div className = "select">
+          <button className="sortButton">View Newest</button>
+          <button className="sortButton">View Most Upvoted</button>
+        </div>
         <select>
           <option value="volvo">Volvo</option>
           <option value="saab">Saab</option>
           <option value="mercedes">Mercedes</option>
           <option value="audi">Audi</option>
         </select>
+        <hr></hr>
         <div className= "playerBox">
           <AudioPlayer song = {this.state.currentsong} mode = "home" />
         </div>
