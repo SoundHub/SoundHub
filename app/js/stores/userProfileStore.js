@@ -9,7 +9,6 @@ import assign from 'object-assign';
 const ActionType = Constants.ActionTypes;
 const CHANGE_EVENT = 'change';
 
-
 var _user = {};
 
 let UserProfile = assign({}, EventEmitter.prototype, {
@@ -21,6 +20,10 @@ let UserProfile = assign({}, EventEmitter.prototype, {
   },
   removeChangeListener(callback) {
     this.removeListener(CHANGE_EVENT, callback)
+  },
+  isLoggedIn() {
+    console.log('is logged in returns: ',!!this.getCookieID())
+    return !!this.getCookieID();
   },
   getCookieID() {
     let name = 'id=';

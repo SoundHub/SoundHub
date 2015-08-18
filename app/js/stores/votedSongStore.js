@@ -18,10 +18,6 @@ var setUserVotedSongs = function(songs) {
   console.log('user voted songs: ', _votedSongs)
 }
 
-var addNewSong = function(songData) {
-
-}
-
 var addVote = function(voteInfo) {
   var songExists = false;
   _.forEach(_votedSongs, (song) => {
