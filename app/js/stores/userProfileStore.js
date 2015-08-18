@@ -92,10 +92,12 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
         let username = payload.response.userData.username;
         let img = payload.response.userData.profilePic;
         setCookie(id, username, img);
+        UserProfile.emitChange();
 
       } else {
         console.log("signup failed, user already exists");
       }
+
       break;
 
     case ActionType.LOGOUT:
