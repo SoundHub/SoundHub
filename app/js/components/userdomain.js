@@ -190,7 +190,7 @@ class User extends React.Component {
         <img className='randomBG' src="../assets/random-bg/13772829224_76f2c28068_h.jpg"></img>
         <div className='profileItem'>
           <img className='profileImg' src = {this.state.userimg}></img>
-          <div className='profileUsername'>{this.state.username}</div>
+          <div className='profileUsername'>Hello {this.state.username}</div>
         </div>
         <div className="profileButtonCollection">
           <button className="profileButton" onClick={this.gotoMusic}><Glyphicon glyph='music'  /> MyMusic</button>
