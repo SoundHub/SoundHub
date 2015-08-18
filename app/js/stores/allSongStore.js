@@ -5,7 +5,6 @@ import Dispatcher from '../dispatcher/dispatcher.js';
 import Constants from '../constants/constants';
 import EventEmitter from 'events';
 import assign from 'object-assign';
-import UserSongStore from './userSongStore';
 import _ from 'lodash';
 
 const ActionType = Constants.ActionTypes;
@@ -19,10 +18,11 @@ let setAllSongs = function (songs) {
 
 var addVote = function(voteInfo) {
   return new Promise((resolve, reject) => {
+    var diff = voteInfo.vote - voteInfo.prev;
     _.forEach(_songs.allSongs, (song) => {
       if(song.uuid === voteInfo.songId) {
-        song.like = voteInfo.vote;
-        console.log('setting song vote from ', song.like, 'to ', voteInfo.vote)
+        console.log(voteInfo, ' going to change from ', song.like, ' by ', diff )
+        song.like += diff;
         resolve(song.like)
         return false;
       }
@@ -66,7 +66,6 @@ AllSongStore.dispatchToken = Dispatcher.register(function(payload) {
 
   switch(payload.type) {
     case ActionType.RECEIVE_ALL_SONGS:
-      console.log('enter AllSongStore')
       let songs = payload.songs;
       setAllSongs(songs);
       AllSongStore.emitChange();
@@ -74,9 +73,9 @@ AllSongStore.dispatchToken = Dispatcher.register(function(payload) {
 
     case ActionType.VOTE:
       addVote(payload.voteInfo)
-      .then((like) => {
-        console.log('allSongStore to emit change, set like to ', like)
+      .then(() => {
         AllSongStore.emitChange();
+        console.log('all song store emitted change')
       })
       break;
 

@@ -4,6 +4,20 @@ button:focus {outline:0 !important;}
 input:focus {outline:0 !important;}
 body{min-width: 700px;}
 
+/* =============== Font ================ */
+
+@font-face {
+    font-family: nexaBold;
+    src: url(../assets/font/NexaBold.otf);
+}
+
+@font-face {
+    font-family: nexaLight;
+    src: url(../assets/font/NexaLight.otf);
+}
+
+
+
 
 /* ============== TOP BAR =============== */
 .topBar{
@@ -195,9 +209,6 @@ body{min-width: 700px;}
     filter: alpha(opacity=0);
 }
 
-/* ================ profile ================= */
-
-
 
 
 
@@ -270,6 +281,7 @@ body{min-width: 700px;}
 }
 
 .like-count{
+  font-size: 20px;
   color: #FF598E;
   float: right;
 }
@@ -312,6 +324,7 @@ body{min-width: 700px;}
           z-index: 11;
   }
   .profileButton{
+    font-family: nexaLight;
     background-color: #FFFFFF;
     outline: 0;
     color: #C7ABAB;
@@ -338,6 +351,8 @@ body{min-width: 700px;}
 
 }
 .profileUsername{
+    font-family: nexaLight;
+    text-transform: capitalize;
     float: left;
     font-size: 25px;
     left: 24%;

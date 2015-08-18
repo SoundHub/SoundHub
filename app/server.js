@@ -94,6 +94,7 @@ server.post('/myForks', function(req, res) {  //** MVP **//
 server.post('/myFavs', function(req, res) {
   var userId = req.body.userId;
   db.myFavs(userId, function(data) {
+    console.log(data)
     res.send(data);
   })
 })
@@ -117,7 +118,7 @@ server.post('/addFav', function(req, res) {
 server.post('/myVotes', function(req, res) {
   var userId = req.body.userId
   db.myVotes(userId, function(data) {
-    console.log('derp');
+    console.log('these are the songs the user voted on', data)
     res.send(data);
   })
 })
@@ -127,7 +128,6 @@ server.post('/addVote', function(req, res) {
   var userId = req.body.userId;
   var songId = req.body.songId;
   db.addVote(vote, userId, songId, function(data) {
-    console.log('data in server',data);
     res.send(data);
   })
 })

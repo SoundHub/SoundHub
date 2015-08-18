@@ -1,15 +1,18 @@
 'use strict';
 import React from 'react';
 import {Glyphicon} from 'react-bootstrap';
-import {SongList} from './home';
+import SongList from './songlist';
 import Edit from './editprofile';
 import Create from './create';
 import Router from 'react-router';
 import AudioPlayer from './player-components/AudioPlayer';
-import UserSongStore from '../stores/userSongStore';
-import UserImgStore from '../stores/userImgStore';
+
 import SongActions from '../actions/songActionCreators';
 import UserActions from '../actions/userActionCreators';
+
+import FavSongStore from '../stores/favSongStore';
+import UserSongStore from '../stores/userSongStore';
+import UserImgStore from '../stores/userImgStore';
 import UserProfileStore from '../stores/userProfileStore';
 import ForkedSongStore from '../stores/forkedSongStore';
 import ForkedCreateStore from '../stores/forkedCreateStore';
@@ -43,9 +46,16 @@ class ForkList extends React.Component {
     return (
       <div className="boxed-group-profile">
           <div className="pageTitle">Branches</div>
-          <div className="mylist">
-            <SongList data = {this.state.forkedSongs}  switchSong = {this.switchSong} uploadmode={true}/>
-          </div>
+          {
+            this.state.forkedSongs.length ?
+            <div className="mylist">
+              <SongList data = {this.state.forkedSongs}  switchSong = {this.switchSong} uploadmode={true}/>
+            </div>:
+            <div>
+              You have not forked any songs!
+            </div>
+          }
+
       </div>
     );
   }
@@ -82,9 +92,17 @@ class MyMusic extends React.Component {
     return (
       <div className="boxed-group-profile">
           <div className="pageTitle">MyMusic</div>
-          <div className="mylist">
-            <SongList data = {this.state.userSongs}  switchSong = {this.switchSong} />
-          </div>
+
+          {
+            this.state.userSongs.length ?
+            <div className="mylist">
+              <SongList data = {this.state.userSongs}  switchSong = {this.switchSong} />
+            </div>:
+            <div>
+              You have not uploaded any songs!
+            </div>
+          }
+
       </div>
     );
   }
@@ -95,10 +113,42 @@ class MyMusic extends React.Component {
 class Favor extends React.Component {
   constructor() {
     super();
+    this.state = {favSongs: []};
+    this.switchSong = this.switchSong.bind(this);
+    this.componentDidMount = this.componentDidMount.bind(this);
+    this._onChange = this._onChange.bind(this);
+  }
+  componentDidMount() {
+    SongActions.getAllFavs(this.props.userId);
+    FavSongStore.addChangeListener(this._onChange);
+  }
+  componentWillUnmount() {
+    FavSongStore.removeChangeListener(this._onChange);
+  }
+
+  switchSong(song){
+    this.props.switchsong(song)
+  }
+
+  _onChange() {
+    this.setState({favSongs: FavSongStore.getAllSongs()});
   }
   render() {
     return (
-      <div>Favorite</div>
+      <div className="boxed-group-profile">
+          <div className="pageTitle">MyMusic</div>
+
+          {
+            this.state.favSongs.length ?
+            <div className="mylist">
+              <SongList data = {this.state.favSongs}  switchSong = {this.switchSong} />
+            </div>:
+            <div>
+              You have not like any songs!
+            </div>
+          }
+
+      </div>
     );
   }
 }
@@ -177,7 +227,7 @@ class User extends React.Component {
     }else if(this.state.pageType==='branch'){
       profilePage = <ForkList switchsong = {this.setsong} userId={this.state.userId}/>
     }else if(this.state.pageType==='fav'){
-      profilePage = <Favor />
+      profilePage = <Favor switchsong = {this.setsong} userId={this.state.userId}/>
     }else if(this.state.pageType==='profile'){
       profilePage = <Edit username = {this.state.username} profileImg= {this.state.userimg} userId={this.state.userId}/>
     }else if(this.state.pageType==='create'){
@@ -190,7 +240,7 @@ class User extends React.Component {
         <img className='randomBG' src="../assets/random-bg/13772829224_76f2c28068_h.jpg"></img>
         <div className='profileItem'>
           <img className='profileImg' src = {this.state.userimg}></img>
-          <div className='profileUsername'>{this.state.username}</div>
+          <div className='profileUsername'>Hello {this.state.username}</div>
         </div>
         <div className="profileButtonCollection">
           <button className="profileButton" onClick={this.gotoMusic}><Glyphicon glyph='music'  /> MyMusic</button>

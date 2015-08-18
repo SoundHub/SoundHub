@@ -8,6 +8,7 @@ import {Button,Glyphicon} from 'react-bootstrap';
 import SongActions from '../../actions/songActionCreators';
 import UserProfileStore from '../../stores/userProfileStore';
 import VotedSongStore from '../../stores/votedSongStore';
+import AllSongStore from '../../stores/allSongStore';
 
 
 var Howl = require('./howler').Howl;
@@ -42,17 +43,15 @@ module.exports = React.createClass({
 		}
 	},
 
-	//TODO reset upvoteClicked and downvoteClicked to false when new song plays
-
 	handleUpvote: function () {
 		VotedSongStore.getSongVoteStatus(this.props.song.uuid)
 		.then((currVal) => {
 			if(currVal === 1) {
-				console.log('neutral vote')
-				SongActions.addSongVote(UserProfileStore.getCookieID(), this.props.song.uuid, 0);
-			} else { 
-				console.log('add vote')
-				SongActions.addSongVote(UserProfileStore.getCookieID(), this.props.song.uuid, 1);
+				console.log('neutral')
+				SongActions.addSongVote(UserProfileStore.getCookieID(), this.props.song.uuid, 0, currVal);
+			} else {
+				console.log('add')
+				SongActions.addSongVote(UserProfileStore.getCookieID(), this.props.song.uuid, 1, currVal);
 			}
 		})
 		.catch((err) => {
@@ -64,11 +63,11 @@ module.exports = React.createClass({
 		VotedSongStore.getSongVoteStatus(this.props.song.uuid)
 		.then((currVal) => {
 			if(currVal === -1) {
-				console.log('neutral vote', this.props.userId)
-				SongActions.addSongVote(UserProfileStore.getCookieID(), this.props.song.uuid, 0);
+				console.log('neutral')
+				SongActions.addSongVote(UserProfileStore.getCookieID(), this.props.song.uuid, 0, currVal);
 			} else { // 0 or -1
-				console.log('downvote')
-				SongActions.addSongVote(UserProfileStore.getCookieID(), this.props.song.uuid, -1);
+				console.log('subtract')
+				SongActions.addSongVote(UserProfileStore.getCookieID(), this.props.song.uuid, -1, currVal);
 			}
 		})
 		.catch((err) => {
@@ -76,19 +75,14 @@ module.exports = React.createClass({
 		})
 	},
 
-	voteSong: function(val) {
-		var userId = UserProfileStore.getCookieID();
-		// can I allow them to vote, and if so, what do I send to server?
-		VotedSongStore.getSongVoteStatus(this.props.song.uuid, val)
-		.then((val) => {
-			SongActions.addSongVote(userId, this.props.song.uuid, val);
-		})
-	},
-
 	forkSong: function() {
 		var userId = UserProfileStore.getCookieID();
-		console.log('enter fork', userId, this.props.song.uuid)
 		SongActions.forkSong(userId, this.props.song.uuid);
+	},
+
+	fav:function(){
+		var userId = UserProfileStore.getCookieID();
+		SongActions.addFav(userId, this.props.song.uuid);
 	},
 
 	render: function() {
@@ -97,8 +91,6 @@ module.exports = React.createClass({
 		if (this.state.seek && this.state.duration) {
 			percent = this.state.seek / this.state.duration;
 		}
-
-
 		var topComponents = [
 			<ButtonPanel
 			 isPlaying={this.state.isPlaying}
@@ -108,7 +100,7 @@ module.exports = React.createClass({
 			 onPauseBtnClick={this.onPauseBtnClick}/>,
 			<ProgressBar percent={percent} seekTo={this.seekTo} />,
 			<VolumeBar volume={this.state.volume} adjustVolumeTo={this.adjustVolumeTo} />,
-			<Button bsSize="small" className="audio-rbtn"><Glyphicon glyph='heart' /></Button>,
+			<Button bsSize="small" className="audio-rbtn" onClick={this.fav}><Glyphicon glyph='heart' /></Button>,
 			<Button bsSize="small" className="audio-rbtn" onClick={this.handleUpvote}><Glyphicon glyph='chevron-up' /></Button>,
 			<Button bsSize="small" className="audio-rbtn" onClick={this.handleDownvote}><Glyphicon glyph='chevron-down' /></Button>,
 			<Button bsSize="small" className="audio-rbtn" onClick={this.forkSong}><Glyphicon glyph='paperclip' /></Button>

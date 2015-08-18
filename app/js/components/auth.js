@@ -47,27 +47,33 @@ class Signup extends React.Component {
     this.toggleAuth = this.toggleAuth.bind(this);
     this.handleSignup = this.handleSignup.bind(this);
    }
-   
+
   toggleAuth() {
     this.props.handleToggle('Login');
   }
 
   handleSignup() {
+    let letters = /^[A-Za-z]+$/;
     let userData = {};
     console.log('refs', this.refs)
     userData.username = this.refs.username.getDOMNode().value;
     userData.password = this.refs.password.getDOMNode().value;
     userData.email = this.refs.email.getDOMNode().value;
-    UserActions.createUser(userData);
-    console.log("handle Signup",userData.username, userData.password, userData.email);
-
+    if(!userData.username.match(letters)){
+      alert('Username must have alphabet characters only');
+    }else if(userData.username.length < 4){
+      alert('Username must have at least 4 characters');
+    }else{
+      UserActions.createUser(userData);
+      this.toggleAuth();
+    }
   }
 
   render() {
     return (
         <div className="AuthForm">
           <h1>This is Signup</h1>
-          <input type="text" placeholder="Email" ref="email" />
+          <input type="email" placeholder="Email" ref="email" />
           <input type="text" placeholder="Username" ref="username" />
           <input type="password" placeholder="Password" ref="password" />
           <input type="button" value="Login" onClick={this.toggleAuth}/>
@@ -82,12 +88,11 @@ class Auth extends React.Component {
     super(props);
     this.toggle = this.toggle.bind(this);
     this.state = {authType: props.authType};
-   }
+  }
 
   toggle(data){
     this.setState({authType:data}, () => {});
   }
-
 
   handleLogout() {
     UserActions.logoutUser();
