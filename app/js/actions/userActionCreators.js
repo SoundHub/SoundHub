@@ -12,18 +12,12 @@ export default ({
   createUser (user) {
     Utils.postJSON('/signup', user)
     .then((response) => {
-      // console.log(response);
-      // var resp = JSON.parse(response.body);
-      // console.log(resp);
-      // return resp
-      // .then ((resp) => {
-        Dispatcher.dispatch({
-          type: ActionType.SIGNUP,
-          response: response,
-          user: user
-        });
-        console.log('user created');
-      // });
+      Dispatcher.dispatch({
+        type: ActionType.SIGNUP,
+        response: response,
+        user: user
+      });
+      console.log('user created');
     })
     .catch((err) => {
       console.error('signup failed ', err);

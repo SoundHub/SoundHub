@@ -22,7 +22,6 @@ var addVote = function(voteInfo) {
     _.forEach(_songs.allSongs, (song) => {
       if(song.uuid === voteInfo.songId) {
         song.like = voteInfo.vote;
-        console.log('setting song vote from ', song.like, 'to ', voteInfo.vote)
         resolve(song.like)
         return false;
       }

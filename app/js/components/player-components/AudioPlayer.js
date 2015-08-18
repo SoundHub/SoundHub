@@ -42,16 +42,12 @@ module.exports = React.createClass({
 		}
 	},
 
-	//TODO reset upvoteClicked and downvoteClicked to false when new song plays
-
 	handleUpvote: function () {
 		VotedSongStore.getSongVoteStatus(this.props.song.uuid)
 		.then((currVal) => {
 			if(currVal === 1) {
-				console.log('neutral vote')
 				SongActions.addSongVote(UserProfileStore.getCookieID(), this.props.song.uuid, 0);
 			} else { 
-				console.log('add vote')
 				SongActions.addSongVote(UserProfileStore.getCookieID(), this.props.song.uuid, 1);
 			}
 		})
@@ -64,24 +60,13 @@ module.exports = React.createClass({
 		VotedSongStore.getSongVoteStatus(this.props.song.uuid)
 		.then((currVal) => {
 			if(currVal === -1) {
-				console.log('neutral vote', this.props.userId)
 				SongActions.addSongVote(UserProfileStore.getCookieID(), this.props.song.uuid, 0);
 			} else { // 0 or -1
-				console.log('downvote')
 				SongActions.addSongVote(UserProfileStore.getCookieID(), this.props.song.uuid, -1);
 			}
 		})
 		.catch((err) => {
 			console.log('error: ', err)
-		})
-	},
-
-	voteSong: function(val) {
-		var userId = UserProfileStore.getCookieID();
-		// can I allow them to vote, and if so, what do I send to server?
-		VotedSongStore.getSongVoteStatus(this.props.song.uuid, val)
-		.then((val) => {
-			SongActions.addSongVote(userId, this.props.song.uuid, val);
 		})
 	},
 

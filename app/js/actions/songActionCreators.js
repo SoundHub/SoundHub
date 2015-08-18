@@ -92,31 +92,7 @@ export default {
     })
   },
 
-  // // add upvote or downvote to song
-  // addSongVote(userId, songId, value, prev) {
-  //   var voteInfo = {
-  //     userId: userId,
-  //     songId: songId,
-  //     vote: value,
-  //     prev: prev
-  //   }
-  //   Utils.simplePost('/addVote', voteInfo)
-  //   .then(() => {
-  //     Utils.postJSON('/myVotes', {userId: voteInfo.userId})
-  //     .then((response) => {
-  //       Dispatcher.dispatch({
-  //         type: ActionType.VOTE,
-  //         voteInfo: voteInfo,
-  //         songs: response
-  //       })
-  //     })
-  //   })
-  //   .catch((err) => {
-  //     console.log('voting failed: ', err)
-  //   })
-  // },
-
-    // add upvote or downvote to song
+  // add upvote or downvote to song
   addSongVote(userId, songId, value) {
     var voteInfo = {
       userId: userId,
@@ -127,7 +103,6 @@ export default {
       type: ActionType.VOTE,
       voteInfo: voteInfo
     })
-    console.log('dispatched')
     Utils.simplePost('/addVote', voteInfo)
     .then(() => {
       this.getUserVotes(voteInfo.userId);
@@ -153,6 +128,7 @@ export default {
     });
   },
 
+  // upload a song related to another node
   createFromFork(forkSong){
     Dispatcher.dispatch({
       type: ActionType.CREATE_FROM_FORKS,
@@ -161,6 +137,7 @@ export default {
     })
   },
 
+  // get songs that user has voted on
   getUserVotes(userId) {
     var data = {userId: userId};
     Utils.postJSON('/myVotes', data) 

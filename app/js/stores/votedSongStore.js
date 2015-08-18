@@ -14,7 +14,6 @@ var _votedSongs = [];
 
 var setUserVotedSongs = function(songs) {
   _votedSongs = songs;
-  console.log('setUserVotedSongs as: ',_votedSongs);
 }
 
 var addVote = function(voteInfo) {
@@ -42,20 +41,17 @@ var VotedSongStore = assign({}, EventEmitter.prototype, {
   getSongVoteStatus(songId) {
     return new Promise((resolve, reject) => {
       if(_votedSongs.length === 0) {
-        console.log('user has not voted on anything')
         resolve(0);
       } else {
         var notFound = true;
         _.forEach(_votedSongs, (song) => {
           if(song.uuid === songId) {
             notFound = false;
-            console.log('found a match', song.like)
             resolve(song.like);
             return false;
           }
         })
         if(notFound) {
-          console.log('user has not voted on this specific song')
           resolve(0);
         }
         reject(Error('nothing found'))
