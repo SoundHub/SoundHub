@@ -39,9 +39,27 @@ server.post('/signup', function(req, res) {
   });
 })
 
+server.post('/updateUsername', function(req, res) {
+  var userId = req.body.userId;
+  var newname = req.body.newname;
+  db.updateUsername(userId, newname, function(data) {
+    res.send(data);
+  })
+})
+
+server.post('/updateImg', function(req, res) {
+  var userId = req.body.userId;
+  var imgUrl = req.body.imgUrl;
+  db.updateImg(userId, imgUrl, function(data) {
+    res.send(data);
+  })
+})
+
 server.post('/addSong', function(req, res) {  //** MVP **//
   var songData = req.body;
-  db.addSong(songData.title, songData.genre, songData.author, songData.description, songData.url, songData.rootId, songData.parentId, function(response) {
+  db.addSong(songData.title, songData.genre, songData.author,
+    songData.authorName, songData.authorPic, songData.description,
+    songData.url, songData.rootId, songData.parentId, function(response) {
     res.send(response);
   });
 })
@@ -99,7 +117,7 @@ server.post('/addFav', function(req, res) {
 server.post('/myVotes', function(req, res) {
   var userId = req.body.userId
   db.myVotes(userId, function(data) {
-    console.log('derp');
+    console.log('these are the songs the user voted on', data)
     res.send(data);
   })
 })
@@ -109,7 +127,6 @@ server.post('/addVote', function(req, res) {
   var userId = req.body.userId;
   var songId = req.body.songId;
   db.addVote(vote, userId, songId, function(data) {
-    console.log('data in server',data);
     res.send(data);
   })
 })

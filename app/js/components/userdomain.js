@@ -1,7 +1,7 @@
 'use strict';
 import React from 'react';
 import {Glyphicon} from 'react-bootstrap';
-import {SongList} from './home';
+import SongList from './songlist';
 import Edit from './editprofile';
 import Create from './create';
 import Router from 'react-router';
@@ -13,34 +13,6 @@ import UserActions from '../actions/userActionCreators';
 import UserProfileStore from '../stores/userProfileStore';
 import ForkedSongStore from '../stores/forkedSongStore';
 import ForkedCreateStore from '../stores/forkedCreateStore';
-
-
-var arr = [{
-  title:'badboy',
-  url: "assets/badboy.mp3",
-  author:"big bang",
-  like:"223",
-  id:'1'
-},{
-  title:'bang bang bang',
-  url: "assets/bang.mp3",
-  author:"big bang",
-  like:"53",
-  id:'2'
-},{
-  title:'tonight',
-  url: "assets/giveyouup.mp3",
-  author:"big bang",
-  like:"103",
-  id:'3'
-}];
-
-
-var user = {
-  userId:1,
-  username:"Richie",
-  profileImg:"../assets/profileImg.jpg"
-}
 
 class ForkList extends React.Component {
   constructor() {
@@ -71,15 +43,21 @@ class ForkList extends React.Component {
     return (
       <div className="boxed-group-profile">
           <div className="pageTitle">Branches</div>
-          <div className="mylist">
-            <SongList data = {this.state.forkedSongs}  switchSong = {this.switchSong} uploadmode={true}/>
-          </div>
+          {
+            this.state.forkedSongs.length ?
+            <div className="mylist">
+              <SongList data = {this.state.forkedSongs}  switchSong = {this.switchSong} uploadmode={true}/>
+            </div>:
+            <div>
+              You have not forked any songs!
+            </div>
+          }
+
       </div>
     );
   }
 
 }
-
 
 class MyMusic extends React.Component {
   constructor() {
@@ -111,9 +89,17 @@ class MyMusic extends React.Component {
     return (
       <div className="boxed-group-profile">
           <div className="pageTitle">MyMusic</div>
-          <div className="mylist">
-            <SongList data = {this.state.userSongs}  switchSong = {this.switchSong} />
-          </div>
+
+          {
+            this.state.userSongs.length ?
+            <div className="mylist">
+              <SongList data = {this.state.userSongs}  switchSong = {this.switchSong} />
+            </div>:
+            <div>
+              You have not uploaded any songs!
+            </div>
+          }
+
       </div>
     );
   }
@@ -149,7 +135,7 @@ class User extends React.Component {
     this.state = {
       login:false,
       username:'',
-      userimg:"../assets/profileImg.jpg",
+      userimg:"",
       userId:-1,
       pageType: props.pageType,
       currentsong: {},
@@ -159,6 +145,8 @@ class User extends React.Component {
 
   componentWillMount(){
     this.setState({userId:UserProfileStore.getCookieID()})
+    this.setState({username:UserProfileStore.getCookieName()})
+    this.setState({userimg:UserProfileStore.getCookieImg()})
    }
 
   componentDidMount(){
@@ -206,7 +194,7 @@ class User extends React.Component {
     }else if(this.state.pageType==='fav'){
       profilePage = <Favor />
     }else if(this.state.pageType==='profile'){
-      profilePage = <Edit username = {this.state.username} profileImg= {user.profileImg}/>
+      profilePage = <Edit username = {this.state.username} profileImg= {this.state.userimg} userId={this.state.userId}/>
     }else if(this.state.pageType==='create'){
       profilePage = <Create forksong = {this.state.forkSong}/>
     }
@@ -217,7 +205,7 @@ class User extends React.Component {
         <img className='randomBG' src="../assets/random-bg/13772829224_76f2c28068_h.jpg"></img>
         <div className='profileItem'>
           <img className='profileImg' src = {this.state.userimg}></img>
-          <div className='profileUsername'>{UserProfileStore.getCookieName()}</div>
+          <div className='profileUsername'>Hello {this.state.username}</div>
         </div>
         <div className="profileButtonCollection">
           <button className="profileButton" onClick={this.gotoMusic}><Glyphicon glyph='music'  /> MyMusic</button>

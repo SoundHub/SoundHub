@@ -58,13 +58,13 @@ class Create extends React.Component {
     // title, genre, author, path
     songData.title = this.refs.songName.getDOMNode().value;
     songData.genre = this.refs.songGenre.getDOMNode().value;
-    // songData.path = this.refs.songPath.getDOMNode().value;
-
     songData.rootId = this.props.forksong.rootId;
     songData.parentId = this.props.forksong.uuid;
 
     songData.url = this.state.file;
     songData.author = UserProfileStore.getCookieID();
+    songData.authorName = UserProfileStore.getCookieName();
+    songData.authorPic = UserProfileStore.getCookieImg();
     SongActions.addSong(songData);
     // clear input fields after submit
     this.refs.songName.getDOMNode().value = '';
@@ -86,12 +86,8 @@ class Create extends React.Component {
                   onProgress={this.onUploadProgress}
                   onError={this.onUploadError}
                   onFinish={this.onUploadFinish}/>
-
-
-
                 <input type="text" placeholder="Name" ref="songName"/>
                 <input type="text" placeholder="Genre" ref="songGenre" />
-                <input type="text" value={this.props.forksong.rootId} ref="rootId" />
                 <div>{this.props.forksong.title}</div>
                 <input className="btn btn-success" type="button" value="Create" onClick={this.uploadSong}/>
                 { this.state.showUpdate ? <div>{this.state.newestCreated.title} added!</div> : null }

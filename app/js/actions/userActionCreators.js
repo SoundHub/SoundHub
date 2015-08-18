@@ -12,18 +12,12 @@ export default ({
   createUser (user) {
     Utils.postJSON('/signup', user)
     .then((response) => {
-      // console.log(response);
-      // var resp = JSON.parse(response.body);
-      // console.log(resp);
-      // return resp
-      // .then ((resp) => {
-        Dispatcher.dispatch({
-          type: ActionType.SIGNUP,
-          response: response,
-          user: user
-        });
-        console.log('user created');
-      // });
+      Dispatcher.dispatch({
+        type: ActionType.SIGNUP,
+        response: response,
+        user: user
+      });
+      console.log('user created');
     })
     .catch((err) => {
       console.error('signup failed ', err);
@@ -31,7 +25,6 @@ export default ({
   },
 
   loginUser (user) {
-    console.log('login');
     Utils.postJSON('/login', user)
     .then((response) => {
       Dispatcher.dispatch({
@@ -40,6 +33,7 @@ export default ({
         response: response
       });
       console.log('logged in successfuly');
+      console.log(response);
     })
     .catch((err) => {
       console.error('login failed: ', err);
@@ -47,16 +41,9 @@ export default ({
   },
 
   logoutUser (userID) {
-    Utils.simplePost('/logout', userID)
-    .then((response) => {
-      Dispatcher.dispatch({
-        type: ActionType.LOGOUT,
-        message: 'Logout successful',
-      });
-      console.log('logged out successfuly');
-    })
-    .catch((err) => {
-      console.error('logout failed: ', err);
+    Dispatcher.dispatch({
+      type: ActionType.LOGOUT,
+      message: 'Logout successful',
     });
   },
 
@@ -81,7 +68,43 @@ export default ({
       message: 'Change Img url',
       imgURL:url
     });
-  }
+  },
+
+  updateUsername(userId,newname){
+    let obj={
+      userId:userId,
+      newname:newname
+    }
+    Utils.postJSON('/updateUsername',obj)
+    .then((response) => {
+      Dispatcher.dispatch({
+        type: ActionType.GET_USER,
+        message: 'Get user info',
+        response: response
+      });
+      console.log('get userinfo successfuly');
+    }).catch((err) => {
+      console.error('get userinfo failed: ', err);
+    });
+  },
+
+  updateImg(userId,imgUrl){
+    let obj={
+      userId:userId,
+      imgUrl:imgUrl
+    }
+    Utils.postJSON('/updateImg',obj)
+    .then((response) => {
+      Dispatcher.dispatch({
+        type: ActionType.GET_USER,
+        message: 'Get user info',
+        response: response
+      });
+      console.log('get userinfo successfuly');
+    }).catch((err) => {
+      console.error('get userinfo failed: ', err);
+    });
+  },
 
 
 });

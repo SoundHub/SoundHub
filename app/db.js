@@ -21,6 +21,8 @@ var SongNode = orm.define('songNodes', {
   genre: { type: Sequelize.STRING, allowNull: true },
   forks: { type: Sequelize.INTEGER, defaultValue: 0 },
   author: { type: Sequelize.INTEGER, allowNull: false },
+  authorName: { type: Sequelize.STRING, allowNull: true},
+  authorPic: { type: Sequelize.STRING, allowNull: true},
   description: { type: Sequelize.STRING, defaultValue: '' },
   url: { type: Sequelize.STRING, allowNull: true },
   uuid: { type: Sequelize.STRING, allowNull: false},
@@ -32,7 +34,7 @@ var User = orm.define('users', {
   username: { type: Sequelize.STRING, allowNull: false },
   password: { type: Sequelize.STRING, allowNull: false },
   email: { type: Sequelize.STRING, allowNull: true },
-  profilePic: { type: Sequelize.STRING, allowNull: true }
+  profilePic: { type: Sequelize.STRING, defaultValue: 'https://s3-us-west-2.amazonaws.com/soundhub/defaultImg.jpg' }
 });
 
 // Define the join table which joins Users and 'forked' SongNodes
@@ -102,10 +104,11 @@ var signup = function(username, password, callback) {
           User.create({
               username: username,
               password: hash
-            }).then(function() {
+            }).then(function(userData) {
+              console.log(userData);
+              response.userData = userData;
               response.success = true;
               callback(response);
-
             })
         })
       })
@@ -116,14 +119,43 @@ var signup = function(username, password, callback) {
   })
 };
 
+var updateUsername = function(userId, newname, callback) {
+  User.update({
+    username: newname
+  }, {
+    where: {
+      id: userId
+    }
+  })
+  .then(function(data) {
+    callback(data);
+  })
+}
+
+var updateImg = function(userId, imgUrl, callback) {
+  User.update({
+    profilePic: imgUrl
+  }, {
+    where: {
+      id: userId
+    }
+  })
+  .then(function(data) {
+    callback(data);
+  })
+}
+
 
 exports.login = login;
 exports.signup = signup;
+exports.updateUsername = updateUsername;
+exports.updateImg = updateImg;
 
 
 /** INSERT/QUERY FUNCTIONS **/
 
-var addSong = function(title, genre, author, description, url, rootId, parentId, callback) {
+
+var addSong = function(title, genre, author, authorName, authorPic, description, url, rootId, parentId, callback) {
   var guid = uuid.v4();
   rootId = rootId || guid;
   parentId = parentId || null;
@@ -132,6 +164,8 @@ var addSong = function(title, genre, author, description, url, rootId, parentId,
       title: title,
       genre: genre,
       author: author,
+      authorName: authorName,
+      authorPic: authorPic,
       description: description,
       url: url,
       uuid: guid,
@@ -232,7 +266,7 @@ var addFav = function(userId, songNodeId, callback) {
 
 var myVotes = function(userId, callback) {
   orm.query(
-    'select distinct songNodes.title, songNodes.author, songNodes.uuid, songNodes.genre, songNodes.description, songNodes.like, songNodes.forks, songNodes.parentId, songNodes.rootId, songNodes.url from ' +
+    'select distinct songNodes.title, songNodes.author, songNodes.uuid, songNodes.genre, songNodes.description, upvotes.upvote, songNodes.forks, songNodes.parentId, songNodes.rootId, songNodes.url from ' +
     'upvotes join users on upvotes.userId = '+userId+
     ' join songNodes on upvotes.songNodeId = songNodes.uuid;'
   ).then(function(data) {
@@ -248,9 +282,7 @@ var addVote = function(voteVal, userId, songNodeId, callback) {
     }
   })
   .then(function(data) {
-    console.log('data',data);
     if (data[1]) {
-      console.log('created');
       Upvote.update({
           upvote: voteVal
         }, {
@@ -265,9 +297,7 @@ var addVote = function(voteVal, userId, songNodeId, callback) {
         callback(data); // chained from upvote.update
       })
     } else {
-        console.log('existed already');
         if (data[0].dataValues.upvote !== voteVal) {
-          console.log('existed but needed updating');
           Upvote.update({
               upvote: voteVal
             }, {
@@ -279,7 +309,7 @@ var addVote = function(voteVal, userId, songNodeId, callback) {
           )
           .then(function(data) {
             updateVotes(songNodeId);
-            callback(data); // chained from upvote.update
+            callback(data); // chained from upvote.updat
           })
         } else {
           callback(data)
@@ -323,11 +353,11 @@ var updateVotes = function(songNodeId) {
         like: voteSum
       }, {
         where: {
-          id: songNodeId
+          uuid: songNodeId
         }
       }
     )
-    console.log(voteSum);
+    console.log('new votesum', voteSum);
   })
 }
 

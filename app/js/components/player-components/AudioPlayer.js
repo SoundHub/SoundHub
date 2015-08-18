@@ -7,6 +7,9 @@ import NameLabel from './NameLabel';
 import {Button,Glyphicon} from 'react-bootstrap';
 import SongActions from '../../actions/songActionCreators';
 import UserProfileStore from '../../stores/userProfileStore';
+import VotedSongStore from '../../stores/votedSongStore';
+import AllSongStore from '../../stores/allSongStore';
+
 
 var Howl = require('./howler').Howl;
 
@@ -28,7 +31,6 @@ module.exports = React.createClass({
 	},
 
 	componentWillReceiveProps: function(nextProps,nextState){
-
 		if(nextProps.song!==this.props.song){
 			this.clearSoundObject();
 			this.setState({song:nextProps.song}, () => {
@@ -41,9 +43,36 @@ module.exports = React.createClass({
 		}
 	},
 
-	voteSong: function(val) {
-		var userId = UserProfileStore.getCookieID();
-		SongActions.addSongVote(userId, this.props.song.uuid, val);
+	handleUpvote: function () {
+		VotedSongStore.getSongVoteStatus(this.props.song.uuid)
+		.then((currVal) => {
+			if(currVal === 1) {
+				console.log('neutral')
+				SongActions.addSongVote(UserProfileStore.getCookieID(), this.props.song.uuid, 0, currVal);
+			} else { 
+				console.log('add')
+				SongActions.addSongVote(UserProfileStore.getCookieID(), this.props.song.uuid, 1, currVal);
+			}
+		})
+		.catch((err) => {
+			console.log('error: ', err)
+		})
+	},
+
+	handleDownvote: function() {
+		VotedSongStore.getSongVoteStatus(this.props.song.uuid)
+		.then((currVal) => {
+			if(currVal === -1) {
+				console.log('neutral')
+				SongActions.addSongVote(UserProfileStore.getCookieID(), this.props.song.uuid, 0, currVal);
+			} else { // 0 or -1
+				console.log('subtract')
+				SongActions.addSongVote(UserProfileStore.getCookieID(), this.props.song.uuid, -1, currVal);
+			}
+		})
+		.catch((err) => {
+			console.log('error: ', err)
+		})
 	},
 
 	forkSong: function() {
@@ -70,8 +99,8 @@ module.exports = React.createClass({
 			<ProgressBar percent={percent} seekTo={this.seekTo} />,
 			<VolumeBar volume={this.state.volume} adjustVolumeTo={this.adjustVolumeTo} />,
 			<Button bsSize="small" className="audio-rbtn"><Glyphicon glyph='heart' /></Button>,
-			<Button bsSize="small" className="audio-rbtn" onClick={this.voteSong.bind(this, 1)}><Glyphicon glyph='chevron-up' /></Button>,
-			<Button bsSize="small" className="audio-rbtn" onClick={this.voteSong.bind(this, -1)}><Glyphicon glyph='chevron-down' /></Button>,
+			<Button bsSize="small" className="audio-rbtn" onClick={this.handleUpvote}><Glyphicon glyph='chevron-up' /></Button>,
+			<Button bsSize="small" className="audio-rbtn" onClick={this.handleDownvote}><Glyphicon glyph='chevron-down' /></Button>,
 			<Button bsSize="small" className="audio-rbtn" onClick={this.forkSong}><Glyphicon glyph='paperclip' /></Button>
 		];
 		if(this.state.song){
