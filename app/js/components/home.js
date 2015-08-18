@@ -61,6 +61,13 @@ class Home extends React.Component {
   handleUpvotedClick() {    
     this.setState({order: 'createdAt'});
     //console.log('upvoted click nonsync', this.state.order);
+
+  handleNewestClick() {
+    console.log('newest click');
+  }
+
+  handleUpvotedClick() {
+    console.log('upvoted click');
   }
 
   openModal() {
