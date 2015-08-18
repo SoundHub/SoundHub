@@ -6,10 +6,13 @@ import Edit from './editprofile';
 import Create from './create';
 import Router from 'react-router';
 import AudioPlayer from './player-components/AudioPlayer';
-import UserSongStore from '../stores/userSongStore';
-import UserImgStore from '../stores/userImgStore';
+
 import SongActions from '../actions/songActionCreators';
 import UserActions from '../actions/userActionCreators';
+
+import FavSongStore from '../stores/favSongStore';
+import UserSongStore from '../stores/userSongStore';
+import UserImgStore from '../stores/userImgStore';
 import UserProfileStore from '../stores/userProfileStore';
 import ForkedSongStore from '../stores/forkedSongStore';
 import ForkedCreateStore from '../stores/forkedCreateStore';
@@ -110,10 +113,42 @@ class MyMusic extends React.Component {
 class Favor extends React.Component {
   constructor() {
     super();
+    this.state = {favSongs: []};
+    this.switchSong = this.switchSong.bind(this);
+    this.componentDidMount = this.componentDidMount.bind(this);
+    this._onChange = this._onChange.bind(this);
+  }
+  componentDidMount() {
+    SongActions.getAllFavs(this.props.userId);
+    FavSongStore.addChangeListener(this._onChange);
+  }
+  componentWillUnmount() {
+    FavSongStore.removeChangeListener(this._onChange);
+  }
+
+  switchSong(song){
+    this.props.switchsong(song)
+  }
+
+  _onChange() {
+    this.setState({favSongs: FavSongStore.getAllSongs()});
   }
   render() {
     return (
-      <div>Favorite</div>
+      <div className="boxed-group-profile">
+          <div className="pageTitle">MyMusic</div>
+
+          {
+            this.state.favSongs.length ?
+            <div className="mylist">
+              <SongList data = {this.state.favSongs}  switchSong = {this.switchSong} />
+            </div>:
+            <div>
+              You have not like any songs!
+            </div>
+          }
+
+      </div>
     );
   }
 }
@@ -192,7 +227,7 @@ class User extends React.Component {
     }else if(this.state.pageType==='branch'){
       profilePage = <ForkList switchsong = {this.setsong} userId={this.state.userId}/>
     }else if(this.state.pageType==='fav'){
-      profilePage = <Favor />
+      profilePage = <Favor switchsong = {this.setsong} userId={this.state.userId}/>
     }else if(this.state.pageType==='profile'){
       profilePage = <Edit username = {this.state.username} profileImg= {this.state.userimg} userId={this.state.userId}/>
     }else if(this.state.pageType==='create'){

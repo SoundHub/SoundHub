@@ -53,22 +53,29 @@ class Create extends React.Component {
   }
 
   uploadSong() {
+    let letters = /^[A-Za-z]+$/;
     let songData = {};
-    // pull user info from userProfile Store for author
-    // title, genre, author, path
+
     songData.title = this.refs.songName.getDOMNode().value;
     songData.genre = this.refs.songGenre.getDOMNode().value;
     songData.rootId = this.props.forksong.rootId;
     songData.parentId = this.props.forksong.uuid;
-
     songData.url = this.state.file;
+
     songData.author = UserProfileStore.getCookieID();
     songData.authorName = UserProfileStore.getCookieName();
     songData.authorPic = UserProfileStore.getCookieImg();
-    SongActions.addSong(songData);
-    // clear input fields after submit
-    this.refs.songName.getDOMNode().value = '';
-    this.refs.songGenre.getDOMNode().value = '';
+
+
+    if(!songData.title.match(letters)){
+      alert('Song title must have alphabet characters only');
+    }else if(songData.title.length < 4 || songData.title.length > 20){
+      alert('Song title can only has 4 to 20 characters');
+    }else{
+      SongActions.addSong(songData);
+      this.refs.songName.getDOMNode().value = '';
+      this.refs.songGenre.getDOMNode().value = '';
+    }
   }
 
   onUploadFinish(result) {
