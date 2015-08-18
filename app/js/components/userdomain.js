@@ -1,7 +1,7 @@
 'use strict';
 import React from 'react';
 import {Glyphicon} from 'react-bootstrap';
-import {SongList} from './home';
+import SongList from './songlist';
 import Edit from './editprofile';
 import Create from './create';
 import Router from 'react-router';
@@ -43,9 +43,16 @@ class ForkList extends React.Component {
     return (
       <div className="boxed-group-profile">
           <div className="pageTitle">Branches</div>
-          <div className="mylist">
-            <SongList data = {this.state.forkedSongs}  switchSong = {this.switchSong} uploadmode={true}/>
-          </div>
+          {
+            this.state.forkedSongs.length ?
+            <div className="mylist">
+              <SongList data = {this.state.forkedSongs}  switchSong = {this.switchSong} uploadmode={true}/>
+            </div>:
+            <div>
+              You have not forked any songs!
+            </div>
+          }
+
       </div>
     );
   }
@@ -82,9 +89,17 @@ class MyMusic extends React.Component {
     return (
       <div className="boxed-group-profile">
           <div className="pageTitle">MyMusic</div>
-          <div className="mylist">
-            <SongList data = {this.state.userSongs}  switchSong = {this.switchSong} />
-          </div>
+
+          {
+            this.state.userSongs.length ?
+            <div className="mylist">
+              <SongList data = {this.state.userSongs}  switchSong = {this.switchSong} />
+            </div>:
+            <div>
+              You have not uploaded any songs!
+            </div>
+          }
+
       </div>
     );
   }

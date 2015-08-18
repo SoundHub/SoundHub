@@ -1,36 +1,14 @@
 'use strict';
 import React from 'react';
 import Router from 'react-router';
+import SongList from './songlist';
+
 import SongActions from '../actions/songActionCreators';
-import AllSongStore from '../stores/allSongStore';
-import {Glyphicon} from 'react-bootstrap';
 import AudioPlayer from './player-components/AudioPlayer';
+
+import AllSongStore from '../stores/allSongStore';
 import UserProfileStore from '../stores/userProfileStore';
 import VotedSongStore from '../stores/votedSongStore'
-
-var arr = [{
-  title:'badboy',
-  url: "assets/badboy.mp3",
-  author:"big bang",
-  like:"223",
-  img:"assets/album/1.png",
-  id: 1
-},{
-  title:'bang bang bang',
-  url: "assets/bang.mp3",
-  author:"big bang",
-  like:"53",
-  img:"assets/album/2.jpg",
-  id: 2
-},{
-  title:'tonight',
-  url: "assets/giveyouup.mp3",
-  author:"big bang",
-  like:"103",
-  img:"assets/album/3.jpg",
-  id: 3
-}];
-
 
 class Home extends React.Component {
   constructor(props) {
@@ -78,62 +56,6 @@ class Home extends React.Component {
   }
 }
 
-class SongList extends React.Component{
-  constructor() {
-    super();
-    this.handleClick = this.handleClick.bind(this);
-    this.forkclick = this.forkclick.bind(this);
-   }
 
-  handleClick(i){
-    this.props.switchSong(this.props.data[i]);
-  }
-
-  forkclick(i){
-    let forkSong = this.props.data[i]
-    SongActions.createFromFork(forkSong);
-  }
-
-  render() {
-    return (
-      <div className="playList" >
-        {this.props.data.map(function(song, i) {
-          return (
-
-              <div className = "songItem effect8" key={i}>
-                <div className="itemPlay" onClick={this.handleClick.bind(this, i)}>
-                  <Glyphicon glyph='play' />
-                </div>
-
-                <Router.Link to="tree"  params={song}>
-                  <span className = "title"  > {i} {song.title} </span>
-                </Router.Link>
-                <span className> by {song.authorName} </span>
-                <span className="like-count" > <Glyphicon glyph='heart' /> {song.like} </span>
-
-                {
-                  this.props.uploadmode ?
-                  <div className="itemOther" onClick={this.forkclick.bind(this,i)}>
-                    <Glyphicon glyph='tags' />
-                  </div>: null
-                }
-
-                { this.props.uploadmode ?
-                  <a href={song.url} download>
-                    <div className="itemOther" >
-                      <Glyphicon glyph='download' />
-                    </div>
-                  </a> : null
-                }
-              </div>
-          );
-        }, this)}
-      </div>
-    );
-  }
-}
-
-
-export { SongList, Home };
 export default Home;
 
