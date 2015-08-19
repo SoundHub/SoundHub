@@ -93,7 +93,6 @@ class MyMusic extends React.Component {
     return (
       <div className="boxed-group-profile">
           <div className="pageTitle">MyMusic</div>
-
           {
             this.state.userSongs.length ?
             <div className="mylist">
