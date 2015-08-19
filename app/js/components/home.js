@@ -27,10 +27,6 @@ class Home extends React.Component {
     this.render = this.render.bind(this);
     this._onChange = this._onChange.bind(this);
     this._userNotAuthed = this._userNotAuthed.bind(this);
-    this.addVote = this.addVote.bind(this);
-    this.handleUpvote = this.handleUpvote.bind(this);
-    this.handleDownvote = this.handleDownvote.bind(this);
-    this.fav = this.fav.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.openModal = this.openModal.bind(this);
     this.handleNewestClick = this.handleNewestClick.bind(this);
@@ -76,46 +72,6 @@ class Home extends React.Component {
 
   closeModal(){
     this.setState({ showModal: false });
-  }
-
-  addVote(newVote, oldVote) {
-    SongActions.addSongVote(UserProfileStore.getCookieID(), this.state.currentsong.uuid, newVote, oldVote);
-  }
-
-  handleUpvote() {
-    if(UserProfileStore.isLoggedIn()) {
-      VotedSongStore.getSongVoteStatus(this.state.currentsong.uuid)
-      .then((currVal) => {
-        if(currVal === 1) {
-          this.addVote(0, currVal);
-        } else {
-          this.addVote(1, currVal);
-        }
-      })
-      .catch((err) => {
-        console.log('error: ', err)
-      })
-    } else {
-      SongActions.openAuthModal();
-    }
-  }
-
-  handleDownvote() {
-    if(UserProfileStore.isLoggedIn()) {
-      VotedSongStore.getSongVoteStatus(this.state.currentsong.uuid)
-      .then((currVal) => {
-        if(currVal === -1) {
-          this.addVote(0, currVal);
-        } else { 
-          this.addVote(-1, currVal);
-        }
-      })
-      .catch((err) => {
-        console.log('error: ', err)
-      })
-    } else {
-      this.openModal();
-    }
   }
 
   fav(){
