@@ -118,7 +118,8 @@ body{min-width: 700px;}
   .authBanner{
 
     height: 300px;
-    background-image: url("../assets/authbanner.jpg");
+    background: url("../assets/authbanner.jpg");
+    background-size: 100% 100%;
 
   }
 
@@ -390,7 +391,8 @@ $animate-sec: 1.5s;
 
 .audio-player {
   min-width: 780px;
-    background: url(../assets/random-bg/down.jpg);
+    background: url(../assets/random-bg/up.jpg);
+    background-size: 100% 100%;
     vertical-align: middle;
     padding: 10px 0px 0px 0px;
     width: 100%;
