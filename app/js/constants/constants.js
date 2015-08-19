@@ -5,6 +5,7 @@ let constants = {
       SIGNUP: null,
       LOGIN: null,
       LOGOUT: null,
+      UPDATE: null,
       RECEIVE_ALL_SONGS: null,
       FORK: null,
       DOWNLOAD: null,

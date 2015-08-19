@@ -166,6 +166,7 @@ export default AuthenticatedComponent(class User extends React.Component {
     this.componentWillMount = this.componentWillMount.bind(this);
     this.componentWillUnmount = this.componentWillUnmount.bind(this);
     this._onChange = this._onChange.bind(this);
+    this._changedUserData = this._changedUserData.bind(this);
     this.state = {
       login:false,
       username:'',
@@ -186,12 +187,19 @@ export default AuthenticatedComponent(class User extends React.Component {
   componentDidMount(){
     ForkedCreateStore.addChangeListener(this._onChange);
     UserImgStore.addChangeListener(this._changeImgUrl);
+    UserProfileStore.addChangeListener(this._changedUserData);
     this.setState({username:UserProfileStore.getCookieName()})
     // this.setState({userimg:UserProfileStore.getLoggedInUser().userimg})
    }
 
   componentWillUnmount() {
     ForkedCreateStore.removeChangeListener(this._onChange);
+    UserImgStore.removeChangeListener(this._changeImgUrl);
+    UserProfileStore.removeChangeListener(this._changedUserData);
+  }
+
+  _changedUserData() {
+    this.setState({userimg:UserProfileStore.getCookieImg(), username: UserProfileStore.getCookieName()})
   }
 
   _changeImgUrl(){

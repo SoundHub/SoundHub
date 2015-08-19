@@ -120,6 +120,15 @@ var signup = function(username, password, callback) {
   })
 };
 
+var getuser = function(userId, callback) {
+  User.findOne(
+    {where: {id: userId}}
+  )
+  .then(function(data) {
+    callback(data);
+  })
+}
+
 var updateUsername = function(userId, newname, callback) {
   User.update({
     username: newname
@@ -129,10 +138,9 @@ var updateUsername = function(userId, newname, callback) {
     }
   })
   .then(function() {
-      console.log("I SHOULD BE UPDATING OR FAILING");
     SongNode.update(
     {authorName: newname}, 
-    {where: {id: userId}}
+    {where: {author: userId}}
     )
     .then(function(data) {
       callback(data);
@@ -151,7 +159,7 @@ var updateImg = function(userId, imgUrl, callback) {
   .then(function() {
     SongNode.update(
       {authorPic: imgUrl},
-      {where: {id: userId}}
+      {where: {author: userId}}
     )
     .then(function(data) {
       callback(data);

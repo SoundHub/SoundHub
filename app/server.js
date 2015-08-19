@@ -39,6 +39,13 @@ server.post('/signup', function(req, res) {
   });
 })
 
+server.post('/getuser', function(req, res) {
+  var id = req.body.id;
+  db.getuser(id, function(response) {
+    res.send(response);
+  })
+})
+
 server.post('/updateUsername', function(req, res) {
   var userId = req.body.userId;
   var newname = req.body.newname;
