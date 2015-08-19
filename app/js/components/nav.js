@@ -54,24 +54,24 @@ class Nav extends React.Component {
     this.componentWillUnmount = this.componentWillUnmount.bind(this);
     this._onChange = this._onChange.bind(this);
     this.state = {
-      loggedin: false
+      loggedIn: false
     }
   }
 
   _onChange() {
     if (UserProfileStore.getCookieID()){
-      this.setState({loggedin: true});
+      this.setState({loggedIn: true});
     }else {
-      this.setState({loggedin: false});
+      this.setState({loggedIn: false});
     }
   }
 
   componentDidMount() {
     UserProfileStore.addChangeListener(this._onChange);
     if (UserProfileStore.getCookieID()){
-      this.setState({loggedin: true});
+      this.setState({loggedIn: true});
     }else {
-      this.setState({loggedin: false});
+      this.setState({loggedIn: false});
     }
   }
 
@@ -89,13 +89,13 @@ class Nav extends React.Component {
         </span>
         <nav>
 
-        { this.state.loggedin ?
+        { this.state.loggedIn ?
           <Router.Link to="user">
             <button className="profileButton2">Profile</button>
           </Router.Link> : null }
 
           <Router.Link to="auth" ref="authbutton">
-            {this.state.loggedin? <LogoutButton /> : <LoginButton />}
+            {this.state.loggedIn? <LogoutButton /> : <LoginButton />}
           </Router.Link>
 
         </nav>

@@ -118,7 +118,6 @@ server.post('/addFav', function(req, res) {
 server.post('/myVotes', function(req, res) {
   var userId = req.body.userId
   db.myVotes(userId, function(data) {
-    console.log('these are the songs the user voted on', data)
     res.send(data);
   })
 })
