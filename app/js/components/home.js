@@ -42,7 +42,6 @@ class Home extends React.Component {
   }
 
   playsong(){
-    console.log('play song setState')
     this.setState({currentsong:PlaySongStore.getSong()});
   }
 
@@ -52,13 +51,11 @@ class Home extends React.Component {
   }
 
   handleNewestClick() {
-    this.setState({order: 'like'});
-    //console.log('newest click nonsync', this.state.order);
+    this.setState({order: 'createdAt'});
   }
 
   handleUpvotedClick() {
-    this.setState({order: 'createdAt'});
-    //console.log('upvoted click nonsync', this.state.order);
+    this.setState({order: 'like'});
   }
 
   openModal() {
@@ -76,8 +73,8 @@ class Home extends React.Component {
     return (
       <div className= "HomePage">
         <div className = "sortBox">
-          <button className="sortButton" onClick={this.handleNewestClick} >View Newest</button>
-          <button className="sortButton" onClick={this.handleUpvotedClick} >View Most Upvoted</button>
+          <button className="sortButton" onClick={this.handleNewestClick} >Newest</button>
+          <button className="sortButton" onClick={this.handleUpvotedClick} >Hotest</button>
         </div>
         <Modal show={this.state.showModal} onHide={this.closeModal}> You must be logged in!</Modal>
         <div className= "playerBox">
