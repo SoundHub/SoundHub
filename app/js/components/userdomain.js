@@ -34,12 +34,8 @@ class ForkList extends React.Component {
     ForkedSongStore.removeChangeListener(this._onChange);
   }
 
-  switchSong(song){
-    this.props.switchsong(song)
-  }
 
   _onChange() {
-    console.log('on change')
     this.setState({forkedSongs: ForkedSongStore.getForkedSongs()});
   }
 
@@ -50,7 +46,7 @@ class ForkList extends React.Component {
           {
             this.state.forkedSongs.length ?
             <div className="mylist">
-              <SongList data = {this.state.forkedSongs}  switchSong = {this.switchSong} uploadmode={true}/>
+              <SongList data = {this.state.forkedSongs} page='fork'/>
             </div>:
             <div>
               You have not forked any songs!
@@ -67,7 +63,6 @@ class MyMusic extends React.Component {
   constructor() {
     super();
     this.state = {userSongs: []};
-    this.switchSong = this.switchSong.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
     this._onChange = this._onChange.bind(this);
   }
@@ -81,10 +76,6 @@ class MyMusic extends React.Component {
     UserSongStore.removeChangeListener(this._onChange);
   }
 
-  switchSong(song){
-    this.props.switchsong(song);
-  }
-
   _onChange() {
     this.setState({userSongs: UserSongStore.getUserCreatedSongs().allCreated});
   }
@@ -96,7 +87,7 @@ class MyMusic extends React.Component {
           {
             this.state.userSongs.length ?
             <div className="mylist">
-              <SongList data = {this.state.userSongs}  switchSong = {this.switchSong} />
+              <SongList data = {this.state.userSongs} />
             </div>:
             <div>
               You have not uploaded any songs!
@@ -114,7 +105,6 @@ class Favor extends React.Component {
   constructor() {
     super();
     this.state = {favSongs: []};
-    this.switchSong = this.switchSong.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
     this._onChange = this._onChange.bind(this);
   }
@@ -124,10 +114,6 @@ class Favor extends React.Component {
   }
   componentWillUnmount() {
     FavSongStore.removeChangeListener(this._onChange);
-  }
-
-  switchSong(song){
-    this.props.switchsong(song)
   }
 
   _onChange() {
@@ -140,7 +126,7 @@ class Favor extends React.Component {
           {
             this.state.favSongs.length ?
             <div className="mylist">
-              <SongList data = {this.state.favSongs}  switchSong = {this.switchSong} />
+              <SongList data = {this.state.favSongs}  page='fav'/>
             </div>:
             <div>
               You have not like any songs!
@@ -251,7 +237,7 @@ export default AuthenticatedComponent(class User extends React.Component {
       </div>
     )
   }
-    
+
   // User.defaultProps = { profileImg: "../assets/placeholder.jpg" , pageType: "music"};
 })
 
