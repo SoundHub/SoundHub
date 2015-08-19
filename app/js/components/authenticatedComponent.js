@@ -13,7 +13,7 @@ export default (Component) => {
       if(!UserProfileStore.isLoggedIn()) {
         let transitionPath = transition.path;
         RouterActions.storeRouterTransitionPath(transitionPath);
-        transition.redirect('/login');
+        transition.redirect('/auth');
       }
     }
 

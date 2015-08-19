@@ -79,11 +79,9 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
         let username = payload.response.user[0].username;
         let img = payload.response.user[0].profilePic;
         setCookie(id,username,img);
-      }
-      else {
+      } else {
         console.log("login failed, user does not exist");
       }
-
       UserProfile.emitChange();
       break;
 

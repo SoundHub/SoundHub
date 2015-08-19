@@ -1,8 +1,11 @@
-import { dispatch } from '../dispatchers/AppDispatcher';
-import ActionTypes from '../constants/ActionTypes';
+import Dispatcher from '../dispatcher/dispatcher.js';
+import ActionType from '../constants/constants';
 
 export default {
   storeRouterTransitionPath: (path) => {
-    dispatch(ActionTypes.ROUTER_NEXT_TRANSITION_PATH, {path});
+    Dispatcher.dispatch({
+      type: ActionType.ROUTER_NEXT_TRANSITION_PATH,
+      path: path
+    })
   }
 }

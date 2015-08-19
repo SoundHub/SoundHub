@@ -13,6 +13,7 @@ import UserActions from '../actions/userActionCreators';
 import UserProfileStore from '../stores/userProfileStore';
 import ForkedSongStore from '../stores/forkedSongStore';
 import ForkedCreateStore from '../stores/forkedCreateStore';
+import AuthenticatedComponent from './authenticatedComponent'
 
 class ForkList extends React.Component {
   constructor() {
@@ -118,7 +119,7 @@ class Favor extends React.Component {
   }
 }
 
-class User extends React.Component {
+export default AuthenticatedComponent(class User extends React.Component {
   constructor(props) {
     super(props);
     this.gotoMusic = this.gotoMusic.bind(this);
@@ -218,7 +219,7 @@ class User extends React.Component {
       </div>
     )
   }
-}
-User.defaultProps = { profileImg: "../assets/placeholder.jpg" , pageType: "music"};
+    
+  // User.defaultProps = { profileImg: "../assets/placeholder.jpg" , pageType: "music"};
+})
 
-export default User;
