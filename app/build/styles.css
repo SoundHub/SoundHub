@@ -2,6 +2,21 @@
 button:focus {
   outline: 0 !important; }
 
+input:focus {
+  outline: 0 !important; }
+
+body {
+  min-width: 700px; }
+
+/* =============== Font ================ */
+@font-face {
+  font-family: nexaBold;
+  src: url(../assets/font/NexaBold.otf); }
+
+@font-face {
+  font-family: nexaLight;
+  src: url(../assets/font/NexaLight.otf); }
+
 /* ============== TOP BAR =============== */
 .topBar {
   height: 80px;
@@ -16,7 +31,7 @@ button:focus {
     text-align: right;
     margin-top: 20px;
     margin-right: 10px;
-    width: 300px; }
+    width: 220px; }
     .topBar nav a {
       height: 50px;
       color: #000;
@@ -58,8 +73,22 @@ button:focus {
   text-decoration: none;
   text-shadow: 0px 1px 0px #b23e35; }
 
-.authButton:hover {
-  background-color: #eb675e; }
+.profileButton2 {
+  -moz-box-shadow: inset 0px 39px 0px -24px #e67a73;
+  -webkit-box-shadow: inset 0px 39px 0px -24px #e67a73;
+  box-shadow: inset 0px 39px 0px -24px #569EAD;
+  background-color: #50919E;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  border: none;
+  display: inline-block;
+  cursor: pointer;
+  color: #fff;
+  font-size: 15px;
+  padding: 6px 15px;
+  text-decoration: none;
+  text-shadow: 0px 1px 0px #b23e35; }
 
 .authButton:active {
   position: relative;
@@ -68,7 +97,8 @@ button:focus {
 /* ================ Auth ================= */
 .authPage .authBanner {
   height: 300px;
-  background-image: url("../assets/authbanner.jpg"); }
+  background: url("../assets/authbanner.jpg");
+  background-size: 100% 100%; }
 
 .authPage .authBannerTitle {
   position: relative;
@@ -79,6 +109,76 @@ button:focus {
   font-size: 90px;
   vertical-align: middle; }
 
+/* ================ profile ================= */
+.boxed-group-profile {
+  margin-top: 30px;
+  margin-left: 3%;
+  padding-left: 3%;
+  min-width: 500px;
+  min-height: 400px;
+  z-index: 10;
+  border: 0px;
+  float: left;
+  border-left: 1px;
+  border-color: rgba(13, 92, 109, 0.24);
+  border-style: solid;
+  max-width: 70%; }
+
+.pageTitle {
+  text-align: center;
+  color: #1C3B73;
+  margin-top: 15px;
+  margin-bottom: 15px;
+  font-size: 24px;
+  display: block; }
+
+.profileItem {
+  position: absolute;
+  width: 400px;
+  top: 120px;
+  left: 15%; }
+
+.edit-profile-avatar {
+  margin: 15px 0;
+  height: 150px; }
+
+#avatar {
+  float: left;
+  height: 100px;
+  display: inline-block;
+  overflow: hidden;
+  line-height: 1;
+  vertical-align: middle;
+  border-radius: 3px; }
+
+.edit-profile {
+  margin: 15px 0; }
+
+.edit-profile-avatar {
+  margin: 15px 0;
+  height: 150px; }
+
+.profile-input {
+  width: 56%;
+  margin-top: 5px;
+  min-width: 180px; }
+
+.fileupload {
+  position: relative;
+  overflow: hidden;
+  margin: 10px; }
+
+.fileupload input.upload {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0;
+  filter: alpha(opacity=0); }
+
 /* ================ Home ================= */
 .userSongTitle {
   font-size: 20px;
@@ -87,69 +187,114 @@ button:focus {
   margin-top: 35px;
   color: #FFFFFF; }
 
-.HomePage {
-  height: 100%;
-  width: 100%;
+.playerBox {
   position: fixed;
-  top: 80px;
-  left: 0;
-  background-color: rgba(249, 255, 224, 0.33); }
-  .HomePage .playerBox {
-    display: flex; }
+  bottom: 0;
+  width: 100%;
+  z-index: 10; }
 
 .playList {
   background: #FFFFFF;
   vertical-align: middle;
-  padding: 5px;
-  width: 100%;
-  height: 100%;
-  margin-left: auto;
-  margin-right: auto; }
+  height: 100%; }
+
+.songPanel {
+  padding: 10px;
+  z-index: 2;
+  height: 76px;
+  width: 350px;
+  background-color: #A6D1E0;
+  border-radius: 10px; }
+
+.hideItem {
+  visibility: hidden; }
+
+.songBox {
+  margin-left: 15px;
+  margin-bottom: 10px;
+  display: inline-block;
+  margin-right: 15px; }
 
 .songItem {
+  z-index: 3;
   float: left;
-  width: 300px;
-  margin: 5px;
-  padding: 5px;
-  background-color: rgba(140, 146, 149, 0.6); }
+  width: 350px;
+  padding: 8px;
+  border-radius: 10px;
+  background-color: #bed4de; }
   .songItem .title {
     font-size: 15px;
     color: white;
     text-transform: capitalize; }
-  .songItem .itemPlay {
-    margin: 0;
-    width: 30px;
-    padding: 7px 0px 0px 9px;
-    background-color: #FFFFFF;
-    text-align: center;
-    height: 30px;
-    border-radius: 100%;
-    display: -webkit-inline-box; }
+
+.itemOther {
+  font-size: 14px;
+  margin-top: 3px;
+  color: #6A8E9B;
+  float: left;
+  margin-right: 5px;
+  width: 26px;
+  padding: 3px 0px 0px 7px;
+  background-color: white;
+  text-align: center;
+  height: 26px;
+  border-radius: 18%;
+  display: -webkit-inline-box; }
 
 .songItem:hover {
-  transition: background-color 0.6s;
+  transition: background-color 0.3s;
   background-color: #879EAB; }
 
 .like-count {
+  font-size: 20px;
   color: #FF598E;
   float: right; }
 
-/* ================ MyMusic ================= */
+.banner {
+  height: 400px !important;
+  width: 100%; }
+
+.bannerTitle {
+  font-weight: bold;
+  font-size: 40px; }
+
+.bannerText {
+  padding-bottom: 100px; }
+
+.sortBox {
+  margin: 20px;
+  width: 400px; }
+
+.sortButton {
+  color: white;
+  background-color: crimson;
+  margin-right: 10px;
+  border: 0;
+  padding: 5px;
+  width: 100px;
+  height: 30px;
+  border-radius: 20px; }
+
+/* ================ User Panel ================= */
 .profilePage .randomBG {
   height: 100px;
   width: 100%; }
 
 .profilePage .profileImg {
+  float: left;
+  width: 100px;
   height: 100px;
-  position: absolute;
+  display: inline;
   top: 120px;
   left: 15%;
   border-radius: 100%;
   border-width: 5px;
   border-color: white;
-  border-style: solid; }
+  border-style: solid;
+  z-index: 11; }
 
 .profilePage .profileButton {
+  font-family: nexaLight;
   background-color: #FFFFFF;
   outline: 0;
   color: #C7ABAB;
@@ -159,24 +304,34 @@ button:focus {
   border-right: 0px;
   border-left: 0px;
   border-top: 0px;
-  margin: 10px; }
+  margin: 10px;
+  display: block; }
 
 .profilePage .profileButton:hover {
   color: #D21D6F;
   border-color: #D21D6F; }
 
 .profilePage .profileButtonCollection {
-  margin-left: 30%;
-  min-width: 900px; }
+  margin-top: 40px;
+  margin-left: 7%;
+  min-width: 100px;
+  display: inline;
+  float: left; }
 
-.mylist {
-  width: 100%;
-  padding: 10px; }
+.profileUsername {
+  font-family: nexaLight;
+  text-transform: capitalize;
+  float: left;
+  font-size: 25px;
+  left: 24%;
+  display: inline;
+  margin-top: 60px; }
 
 /* ================ MusicPlayer ================= */
 .audio-player {
   min-width: 780px;
-  background: url(../assets/random-bg/playerbg3.jpg);
+  background: url(../assets/random-bg/up.jpg);
+  background-size: 100% 100%;
   vertical-align: middle;
   padding: 10px 0px 0px 0px;
   width: 100%;
@@ -185,7 +340,7 @@ button:focus {
 
 .audio-button-panel {
   padding-top: 2px;
-  margin-left: 10px; }
+  margin-left: 20px; }
 
 .audio-refresh-animate {
   -webkit-animation: rotating 1.5s linear infinite;
@@ -199,13 +354,13 @@ button:focus {
   height: 30px;
   border-right: 2px solid white;
   border-left: 2px solid white;
-  width: 70%; }
+  width: 85%; }
 
 .audio-progress-container-short-width {
   width: 130px; }
 
 .audio-progress {
-  background: rgba(255, 236, 141, 0.95);
+  background: rgba(80, 83, 120, 0.73);
   width: 100%;
   height: 100%; }
 
@@ -318,22 +473,47 @@ button:focus {
     -o-transform: rotate(360deg); } }
 
 /* ================ Tree ================= */
+.treeDiv {
+  position: relative;
+  background-color: #F7F7F7; }
+  .treeDiv .sideBar {
+    float: right;
+    width: 25%;
+    border: 3px solid black;
+    padding: 5px; }
+
+.treeBox {
+  margin-right: auto;
+  margin-left: auto;
+  width: 900px; }
+
+/*
+  .nodeCircle{
+    fill:rgb(20, 197, 184) !important;
+  }
+*/
 .node {
-  cursor: pointer; }
-  .node .circle {
-    fill: #fff;
-    stroke: steelblue;
-    stroke-width: 1.5px; }
+  cursor: pointer;
+  /*
+    .circle {
+      stroke: steelblue;
+      stroke-width: 2.5px;
+    }
+*/ }
   .node .text {
     font-size: 10px;
     font-family: sans-serif; }
+  .node .node-image {
+    border-style: solid;
+    border-width: 10px;
+    border-radius: 100%; }
 
 .overlay {
-  background-color: #EEE; }
+  background-color: #F7F7F7; }
 
 .link {
   fill: none;
-  stroke: #ccc;
+  stroke: #F1D2AF;
   stroke-width: 3px; }
 
 .templink {
@@ -341,8 +521,31 @@ button:focus {
   stroke: red;
   stroke-width: 3px; }
 
-.treeDiv .sideBar {
-  float: right;
-  width: 25%;
-  border: 3px solid black;
-  padding: 5px; }
+/*
+  .selected {
+    width: 75px;
+    height: 75px;
+    text-align: center;
+    vertical-align: middle;
+
+    -webkit-box-shadow: -6px -8px 10px #F8A50E, -4px 7px 10px #BFF80E, 6px -4px 10px #0ED6F8;
+    -moz-box-shadow: -6px -8px 10px #F8A50E, -4px 7px 10px #BFF80E, 6px -4px 10px #0ED6F8;
+    box-shadow: -6px -8px 10px #F8A50E, -4px 7px 10px #BFF80E, 6px -4px 10px #0ED6F8;
+
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    border-radius: 50px;
+
+    -webkit-transition: box-shadow .4s ease;
+    -moz-transition: box-shadow .4s ease;
+    -o-transition: box-shadow .4s ease;
+    -ms-transition: box-shadow .4s ease;
+    transition: box-shadow .4s ease;
+  }
+*/
+/* ================ shadow effect ================= */
+.effect8 {
+  position: relative;
+  -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+  -moz-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset; }

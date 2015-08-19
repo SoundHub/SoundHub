@@ -14,23 +14,20 @@ server.use(function(req, res, next) {
   next();
 });
 
-server.use(bodyParser.json()); 
+server.use(bodyParser.json());
 
 server.use('/s3', require('react-s3-uploader/s3router')({
-    bucket: "soundhub"
+    bucket: "soundhub",
+    ACL: "public-read"
 }));
 
 
 /** DB ROUTES **/
 var db = require('./db.js');
 
-server.get('/login', function(req, res) {
+server.post('/login', function(req, res) {
   db.login(req.body.username, req.body.password, function(response) {
-    if (response.success) {
-      req.session.user = response.user;
-      req.session.save();
-    }
-    res.send(response.data);
+    res.send(response);
   })
 })
 
@@ -42,9 +39,27 @@ server.post('/signup', function(req, res) {
   });
 })
 
+server.post('/updateUsername', function(req, res) {
+  var userId = req.body.userId;
+  var newname = req.body.newname;
+  db.updateUsername(userId, newname, function(data) {
+    res.send(data);
+  })
+})
+
+server.post('/updateImg', function(req, res) {
+  var userId = req.body.userId;
+  var imgUrl = req.body.imgUrl;
+  db.updateImg(userId, imgUrl, function(data) {
+    res.send(data);
+  })
+})
+
 server.post('/addSong', function(req, res) {  //** MVP **//
   var songData = req.body;
-  db.addSong(songData.title, songData.genre, songData.author, songData.path, songData.description, songData.url, function(response) {
+  db.addSong(songData.title, songData.genre, songData.author,
+    songData.authorName, songData.authorPic, songData.description,
+    songData.url, songData.rootId, songData.parentId, function(response) {
     res.send(response);
   });
 })
@@ -55,48 +70,70 @@ server.get('/allSongs', function(req, res) {  //** MVP **//
   });
 })
 
-server.get('/tree', function(req, res) {       //** MVP **//
+server.post('/tree', function(req, res) {       //** MVP **//
   var rootId = req.body.rootId;
-  db.findSongsbyRoot(rootId, function(data) {   
-    res.send(db.treeify(data));                
+  db.findSongsbyRoot(rootId, function(data) {
+    res.json(db.treeify(data));
   });
 })
 
-server.get('/mySongs', function(req, res) {   //** MVP **//
-  var userId = req.body.userId              
-  db.mySongs(userId, function(data) {            
+server.post('/mySongs', function(req, res) {   //** MVP **//
+  var userId = req.body.userId;
+  db.mySongs(userId, function(data) {
     res.send(data);
   })
 })
 
-server.get('/myForks', function(req, res) {  //** MVP **//
-  var userId = req.body.userId
-  db.myForks(userId, function(stuff) {
-    res.send(stuff);
+server.post('/myForks', function(req, res) {  //** MVP **//
+  var userId = req.body.userId;
+  db.myForks(userId, function(data) {
+    res.send(data);
+  })
+})
+
+server.post('/myFavs', function(req, res) {
+  var userId = req.body.userId;
+  db.myFavs(userId, function(data) {
+    console.log(data)
+    res.send(data);
   })
 })
 
 server.post('/addFork', function(req, res) { //** MVP **//
-  var userID = req.body.userId;
-  var songID = req.body.songId;
+  var userId = req.body.userId;
+  var songId = req.body.songId;
   db.addFork(userId, songId, function(forkData) {
-    console.log(forkData);
     res.send('fork added');
   })
 })
 
+server.post('/addFav', function(req, res) {
+  var userId = req.body.userId;
+  var songId = req.body.songId;
+  db.addFav(userId, songId, function(data) {
+    res.send(data);
+  })
+})
 
+server.post('/myVotes', function(req, res) {
+  var userId = req.body.userId
+  db.myVotes(userId, function(data) {
+    res.send(data);
+  })
+})
+
+server.post('/addVote', function(req, res) {
+  var vote = req.body.vote;
+  var userId = req.body.userId;
+  var songId = req.body.songId;
+  db.addVote(vote, userId, songId, function(data) {
+    res.send(data);
+  })
+})
 
 
 /** END DB ROUTES **/
 
-//** UPLOAD/DOWNLOAD/STREAM SONG METHDOS **//
-
-server.get('/testSong', function(req, res) {
-  res.sendFile(__dirname + '/songs/giveyouup.mp3')
-})
-
-//** END UP/DOWN/STREAM **//
 
 server.use('/', express.static(path.join(__dirname, '/build')));
 server.use('/assets', express.static(path.join(__dirname, '/assets')));
@@ -108,3 +145,5 @@ server.get('*', function(req, res) {
 var port = process.env.PORT || 3000;
 server.listen(port);
 console.log('listening on port', port);
+
+module.exports = server;

@@ -1,6 +1,11 @@
 node_modules
 bower_components
+app/build/build.js
+app/build/build.js.map
 .DS_Store
+
+
+
 
 
 

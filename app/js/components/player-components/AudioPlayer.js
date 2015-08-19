@@ -1,13 +1,14 @@
-var React = require('react/addons');
-var ButtonPanel = require("./ButtonPanel");
-var ProgressBar = require("./ProgressBar");
-var VolumeBar = require("./VolumeBar");
-var TimeLabel = require("./TimeLabel");
-var NameLabel = require("./NameLabel");
-
-
-
+import React from 'react';
+import ButtonPanel from './ButtonPanel';
+import ProgressBar from './ProgressBar';
+import VolumeBar from './VolumeBar';
+import TimeLabel from './TimeLabel';
+import NameLabel from './NameLabel';
 import {Button,Glyphicon} from 'react-bootstrap';
+import SongActions from '../../actions/songActionCreators';
+import UserProfileStore from '../../stores/userProfileStore';
+import VotedSongStore from '../../stores/votedSongStore';
+import AllSongStore from '../../stores/allSongStore';
 
 var Howl = require('./howler').Howl;
 
@@ -24,14 +25,13 @@ module.exports = React.createClass({
 	},
 
 	componentWillUnmount:function(){
-		console.log('END!!!!!')
 		this.clearSoundObject();
 		this.playEnd();
 	},
 
 	componentWillReceiveProps: function(nextProps,nextState){
-		this.clearSoundObject();
-		if(nextProps.song){
+		if(nextProps.song!==this.props.song){
+			this.clearSoundObject();
 			this.setState({song:nextProps.song}, () => {
 				this.playEnd();
 				this.clearSoundObject();
@@ -40,7 +40,6 @@ module.exports = React.createClass({
 				}
 			})
 		}
-		console.log(nextProps.song);
 	},
 
 	render: function() {
@@ -49,8 +48,6 @@ module.exports = React.createClass({
 		if (this.state.seek && this.state.duration) {
 			percent = this.state.seek / this.state.duration;
 		}
-
-
 		var topComponents = [
 			<ButtonPanel
 			 isPlaying={this.state.isPlaying}
@@ -59,15 +56,11 @@ module.exports = React.createClass({
 			 onPlayBtnClick={this.onPlayBtnClick}
 			 onPauseBtnClick={this.onPauseBtnClick}/>,
 			<ProgressBar percent={percent} seekTo={this.seekTo} />,
-			<VolumeBar volume={this.state.volume} adjustVolumeTo={this.adjustVolumeTo} />,
-			<Button bsSize="small" className="audio-rbtn"><Glyphicon glyph='heart' /></Button>,
-			<Button bsSize="small" className="audio-rbtn"><Glyphicon glyph='chevron-up' /></Button>,
-			<Button bsSize="small" className="audio-rbtn"><Glyphicon glyph='chevron-down' /></Button>,
-			<Button bsSize="small" className="audio-rbtn"><Glyphicon glyph='paperclip' /></Button>
+			<VolumeBar volume={this.state.volume} adjustVolumeTo={this.adjustVolumeTo} />
 		];
-		if(this.state.song){
+		if(this.state.song) {
 			songName = this.state.song.title;
-		}else{
+		} else {
 			songName = 'Please add a song'
 		}
 
@@ -85,7 +78,7 @@ module.exports = React.createClass({
 	  	return (
 	  		<div>{ userPageComponents }</div>
 	  		);
-	  }else{
+	  } else {
 	  	return (
 				<div className="audio-player">
 					<div className="clearfix">
@@ -98,13 +91,10 @@ module.exports = React.createClass({
 				</div>
 			);
 	  }
-
-
 	},
 
 
 	onPlayBtnClick: function() {
-
 		if (this.state.isPlaying && !this.state.isPause) {
 			return;
 		};

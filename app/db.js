@@ -6,6 +6,12 @@ var orm = new Sequelize(process.env.DATABASE_URL || 'sqlite://SoundHub.sqlite');
 var bcrypt = require('bcrypt');
 var promise = require('bluebird');
 var compare = promise.promisify(bcrypt.compare);
+var uuid = require('node-uuid');
+
+console.log(typeof uuid.v4());
+for (var i = 0; i < 10; i++) {
+  console.log(uuid.v4());
+}
 
 /** SCHEMA **/
 
@@ -15,30 +21,40 @@ var SongNode = orm.define('songNodes', {
   genre: { type: Sequelize.STRING, allowNull: true },
   forks: { type: Sequelize.INTEGER, defaultValue: 0 },
   author: { type: Sequelize.INTEGER, allowNull: false },
-  path: { type: Sequelize.STRING, allowNull: false },
-  description: { type: Sequelize.STRING, defaultValue: 'This person didn\'t care enough to put a description in' },
-  url: { type: Sequelize.STRING, allowNull: false }  //when we have urls for songz
+  authorName: { type: Sequelize.STRING, allowNull: true},
+  authorPic: { type: Sequelize.STRING, allowNull: true},
+  description: { type: Sequelize.STRING, defaultValue: '' },
+  url: { type: Sequelize.STRING, allowNull: true },
+  uuid: { type: Sequelize.STRING, allowNull: false},
+  rootId: { type: Sequelize.STRING, allowNull: false },
+  parentId: { type: Sequelize.STRING, allowNull: true }
 });
 
 var User = orm.define('users', {
   username: { type: Sequelize.STRING, allowNull: false },
   password: { type: Sequelize.STRING, allowNull: false },
   email: { type: Sequelize.STRING, allowNull: true },
-  profilePic: { type: Sequelize.STRING, allowNull: true }
+  profilePic: { type: Sequelize.STRING, defaultValue: 'https://s3-us-west-2.amazonaws.com/soundhub/defaultImg.jpg' }
 });
 
-// Define the join table which joins Users and SongNodes
+// Define the join table which joins Users and 'forked' SongNodes
 var Fork = orm.define('forks', {
+  userId: { type: Sequelize.INTEGER, allowNull: false },
+  songNodeId: { type: Sequelize.STRING, allowNull: false}
 });
 
-// Setup the many-many relationship through the orm
-User.belongsToMany(SongNode, {
-  through: Fork
+// Define the join table which joins Users and 'favorited' SongNodes
+var Favorite = orm.define('favorites', {
+  userId: { type: Sequelize.INTEGER, allowNull: false },
+  songNodeId: { type: Sequelize.STRING, allowNull: false}
 });
 
-SongNode.belongsToMany(User, {
-  through: Fork
-});
+//Define the join table which joins Users and 'upvoted/downvoted' SongNodes
+var Upvote = orm.define('upvotes', {
+  userId: { type: Sequelize.INTEGER, allowNull: false },
+  songNodeId: { type: Sequelize.STRING, allowNull: false},
+  upvote: { type: Sequelize.INTEGER, allowNull: true }
+})
 
 orm.sync();
 
@@ -49,7 +65,7 @@ var login = function(username, password, callback) {
   response.success = false;
   var hashedPw;
   var userObj;
-  sequelize.User.findAll({
+  User.findAll({
     where: {
       username: username
     }
@@ -61,16 +77,15 @@ var login = function(username, password, callback) {
       .then(function(data) { //data = bool from compare
         if (data) {
           response.user = userObj;
-          response.success = true;
         }
-        response.data = data;
+        response.success = data;
         callback(response);
       })
   })
 };
 
 var signup = function(username, password, callback) {
-  var response;
+  var response = {};
   var exists;
   User.findOne({
     where: {
@@ -89,47 +104,78 @@ var signup = function(username, password, callback) {
           User.create({
               username: username,
               password: hash
-            }).then(function() {
-              response = ('success');
+            }).then(function(userData) {
+              console.log(userData);
+              response.userData = userData;
+              response.success = true;
+              callback(response);
             })
         })
       })
     } else {
-      response = 'username already exists';
+      response.success = false;
+      callback(response);
     }
-  }).then(function() {
-    callback(response);
-  });
+  })
 };
 
-module.exports.login = login;
-module.exports.signup = signup;
+var updateUsername = function(userId, newname, callback) {
+  User.update({
+    username: newname
+  }, {
+    where: {
+      id: userId
+    }
+  })
+  .then(function(data) {
+    callback(data);
+  })
+}
+
+var updateImg = function(userId, imgUrl, callback) {
+  User.update({
+    profilePic: imgUrl
+  }, {
+    where: {
+      id: userId
+    }
+  })
+  .then(function(data) {
+    callback(data);
+  })
+}
+
+
+exports.login = login;
+exports.signup = signup;
+exports.updateUsername = updateUsername;
+exports.updateImg = updateImg;
 
 
 /** INSERT/QUERY FUNCTIONS **/
 
-var addSong = function(title, genre, author, pathString, description, url, callback) {
+
+var addSong = function(title, genre, author, authorName, authorPic, description, url, rootId, parentId, callback) {
+  var guid = uuid.v4();
+  rootId = rootId || guid;
+  parentId = parentId || null;
   orm.sync().then(function() {
     return SongNode.create({
       title: title,
       genre: genre,
       author: author,
-      path: pathString,
+      authorName: authorName,
+      authorPic: authorPic,
       description: description,
-      url: url             //when we have uris for songz
+      url: url,
+      uuid: guid,
+      rootId: rootId,
+      parentId: parentId
     });
   }).then(function(song) {
     callback(song);
   });
 };
-
-var songCompiler = function(data) { //helper function to compile/clean queried songs
-  var songs = [];
-  for (var i = 0; i < data.length; i++) {
-    songs.push(data[i].get({plain: true}));
-  }
-  return songs;
-}
 
 var allSongs = function(callback) {
   SongNode.findAll({
@@ -140,11 +186,11 @@ var allSongs = function(callback) {
   })
 };
 
-var findSongsbyRoot = function(rootNodeID, callback) {
-  rootNodeID = rootNodeID.split('/')[1];
+var findSongsbyRoot = function(rootNodeId, callback) {
+  // rootNodeID = rootNodeID.split('/')[1];
   SongNode.findAll({
   where: {
-      path: { like: '%/' + rootNodeID + '/%' }
+      rootId: rootNodeId
     }
   })
   .then(function(data) {
@@ -161,38 +207,119 @@ var mySongs = function(userID, callback) {
   })
   .then(function(data) {
     var mySongs = songCompiler(data);
+    callback(mySongs);
   })
 };
 
-var myForks = function(userID, callback) {
-  User.findOne({
-    where: {
-      id: 1
-    }
-  })
-  .then(function(userObj) {
-    userObj.getSongNodes()
-    .then(function(stuff) {
-      callback(stuff);
-    })
+var myForks = function(userId, callback) {
+  orm.query(
+    'select distinct songNodes.title, songNodes.author, songNodes.uuid, songNodes.genre, songNodes.description, songNodes.like, songNodes.forks, songNodes.parentId, songNodes.rootId, songNodes.url from ' +
+    'forks inner join users on forks.userId = '+userId+
+    ' inner join songNodes on forks.songNodeId = songNodes.uuid;'
+  ).then(function(data) {
+    console.log(data);
+    callback(data.slice(0, (data.length - 1))[0]);
   })
 };
 
-var addFork = function(userID, songID, callback) {
-  orm.sync().then(function() {
-    return Fork.create({
-      userId: userID,
-      songNodeId: songID
-    })
-  }).then(function(forkData) {
+var addFork = function(userId, songNodeId, callback) {
+  Fork.create({
+    userId: userId,
+    songNodeId: songNodeId
+  })
+  .then(function(forkData) {
+    SongNode.update(
+      {
+        forks: Sequelize.literal('forks +1')
+      },
+      {
+        where: {
+          uuid: songNodeId
+        }
+      }
+    )
     callback(forkData);
   });
 };
 
-var myFavs = function(userID, callback) {  //I AM NOT MVP
-  //gotta make a join table yo             //I AM A LEAF ON THE WIND
+var myFavs = function(userId, callback) {  //I AM NOT MVP
+  orm.query(
+    'select distinct songNodes.title, songNodes.author, songNodes.uuid, songNodes.genre, songNodes.description, songNodes.like, songNodes.forks, songNodes.parentId, songNodes.rootId, songNodes.url from ' +
+    'favorites join users on favorites.userId = '+userId+
+    ' join songNodes on favorites.songNodeId = songNodes.uuid;'
+  ).then(function(data) {
+    callback(data.slice(0, (data.length - 1))[0]);
+  })
 };
 
+var addFav = function(userId, songNodeId, callback) {
+  Favorite.findOrCreate({
+    where: {
+      userId: userId,
+      songNodeId: songNodeId
+    }
+  })
+  .then(function(forkData) {
+    callback(forkData);
+  });
+};
+
+var myVotes = function(userId, callback) {
+  orm.query(
+    'select distinct songNodes.title, songNodes.author, songNodes.uuid, songNodes.genre, songNodes.description, upvotes.upvote, songNodes.forks, songNodes.parentId, songNodes.rootId, songNodes.url from ' +
+    'upvotes join users on upvotes.userId = '+userId+
+    ' join songNodes on upvotes.songNodeId = songNodes.uuid;'
+  ).then(function(data) {
+    callback(data.slice(0, (data.length - 1))[0]);
+  })
+};
+
+var addVote = function(voteVal, userId, songNodeId, callback) {
+  Upvote.findOrCreate({
+    where: {
+      userId: userId,
+      songNodeId: songNodeId
+    }
+  })
+  .then(function(data) {
+    if (data[1]) {
+      Upvote.update({
+          upvote: voteVal
+        }, {
+          where: {
+           userId: userId,
+           songNodeId: songNodeId,
+          }
+        }
+      )
+      .then(function(data) {
+        updateVotes(songNodeId);
+        callback(data); // chained from upvote.update
+      })
+    } else {
+        if (data[0].dataValues.upvote !== voteVal) {
+          Upvote.update({
+              upvote: voteVal
+            }, {
+              where: {
+               userId: userId,
+               songNodeId: songNodeId,
+              }
+            }
+          )
+          .then(function(data) {
+            updateVotes(songNodeId);
+            callback(data); // chained from upvote.updat
+          })
+        } else {
+          callback(data)
+        }
+      }
+  })
+}
+
+
+//*************************EXPORTS**************************//
 
 exports.addSong = addSong;
 exports.allSongs = allSongs;
@@ -200,35 +327,74 @@ exports.findSongsbyRoot = findSongsbyRoot;
 exports.mySongs = mySongs;
 exports.myForks = myForks;
 exports.addFork = addFork;
+exports.myFavs = myFavs;
+exports.addFav = addFav;
+exports.myVotes = myVotes;
+exports.addVote = addVote;
 
 
 
+//*********************HELPER FUNCTIONS**********************//
 
-/* BUILD TREE FROM FLATTENED ARRAY, PROBS FOR FRONT END */
+
+/* UPDATE SONG WITH LIKES TOTAL AFTER LIKE */
+var updateVotes = function(songNodeId) {
+  Upvote.findAll({
+    where: {
+      songNodeId: songNodeId
+    }
+  })
+  .then(function(data){
+    var voteSum = 0;
+    for (var x in data) {
+      voteSum += data[x].dataValues.upvote
+    }
+    SongNode.update({
+        like: voteSum
+      }, {
+        where: {
+          uuid: songNodeId
+        }
+      }
+    )
+    console.log('new votesum', voteSum);
+  })
+}
+
+/* COMPILE/CLEAN QUERIED SONGS */
+var songCompiler = function(data) {
+  var songs = [];
+  for (var i = 0; i < data.length; i++) {
+    songs.push(data[i].get({plain: true}));
+  }
+  return songs;
+}
+
+/* BUILD TREE FROM FLATTENED ARRAY */
 
 //this should be optimized, currently O(n^2)
 var treeify = function(nodesArray) {
   var tree;
   //determine root node
   for (var i = 0, j = nodesArray.length; i < j; i++) {
-    var pathArr = nodesArray[i].path.split('/');
-    nodesArray[i].parent = pathArr[pathArr.length - 3];
     nodesArray[i].children = [];
     if (!tree) {
-      if (nodesArray[i].parent === '') {
+      if (nodesArray[i].parentId === null) {
         tree = nodesArray[i];
       }
     }
   }
   //recursively build and traverse tree
   function depthFirstFill(node) {
-    for (var i = 0; i < nodesArray.length; i++) {
-      if (parseInt(nodesArray[i].parent) === node.id) {
-        node.children.push(nodesArray[i]);
+    if(node) {
+      for (var i = 0; i < nodesArray.length; i++) {
+        if (nodesArray[i].parentId === node.uuid) {
+          node.children.push(nodesArray[i]);
+        }
       }
-    }
-    for (var i = 0; i < node.children.length; i++) {
-      depthFirstFill(node.children[i]);
+      for (var i = 0; i < node.children.length; i++) {
+        depthFirstFill(node.children[i]);
+      }
     }
   }
   depthFirstFill(tree);

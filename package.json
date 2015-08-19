@@ -4,7 +4,8 @@
   "description": "github for music",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "start": "node ./app/server.js"
   },
   "repository": {
     "type": "git",
@@ -36,10 +37,13 @@
     "keymirror": "~0.1.1",
     "lodash": "^3.10.1",
     "markdown": "^0.5.0",
+    "node-uuid": "^1.4.3",
     "object-assign": "^3.0.0",
     "react": "^0.13.3",
-    "react-bootstrap": "^0.24.3",
+    "react-avatar-editor": "^1.3.6",
+    "react-bootstrap": "^0.24.5",
     "react-dropzone": "^1.2.4",
+    "react-modal": "^0.3.0",
     "react-router": "^0.13.3",
     "react-s3-uploader": "^1.1.12",
     "react-soundplayer": "^0.2.0",
@@ -49,16 +53,37 @@
     "whatwg-fetch": "^0.9.0"
   },
   "devDependencies": {
+    "assert": "^1.3.0",
+    "babel-jest": "*",
     "babelify": "^6.1.3",
     "browserify": "^11.0.1",
+    "chai": "^3.2.0",
     "gulp": "^3.9.0",
     "gulp-babel": "^5.2.0",
     "gulp-concat": "^2.6.0",
+    "gulp-jest": "^0.4.0",
+    "gulp-mocha": "^2.1.3",
     "gulp-nodemon": "^2.0.3",
     "gulp-sass": "^2.0.4",
     "gulp-sourcemaps": "^1.5.2",
+    "http": "0.0.0",
+    "jest-cli": "^0.4.18",
+    "mocha": "^2.2.5",
+    "request": "^2.60.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.3.1"
+  },
+  "jest": {
+    "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
+    "testFileExtensions": [
+      "es6",
+      "js"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "es6"
+    ]
   }
 }

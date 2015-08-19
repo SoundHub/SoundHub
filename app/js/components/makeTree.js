@@ -3,8 +3,8 @@ var d3 = require('d3');
 var exports = {};
 
   // D3 code that actually makes the tree
-  exports.makeTree = function(data, svgDomNode, clickCallBack) {
-    var treeData = data[0];
+  exports.makeTree = function(data, svgDomNode, clickCallBack, centerOnUuid) {
+    var treeData = data;
     // Calculate total nodes, max label length
     var totalNodes = 0;
     var maxLabelLength = 0;
@@ -16,17 +16,19 @@ var exports = {};
     var panBoundary = 20; // Within 20px from edges will pan when dragging.
     // Misc. variables
     var i = 0;
-    var duration = 750;
+    var duration = 700;
     var root;
 
-    var nodeCircleRadius = 15; // 4.5 was original size
+    var nodeCircleRadius = 25; // 4.5 was original size
 
     // size of the diagram
-    // var viewerWidth = $(document).width();
-    // var viewerHeight = $(document).height();
+    var widthOffset = $(document).width() - 900; // 900 is size of .treeBox element
 
-    var viewerWidth = 960;
-    var viewerHeight = 500;
+    var viewerWidth = $(document).width() - widthOffset;
+    var viewerHeight = $(document).height() - 200;
+
+    // var viewerWidth = 960;
+    // var viewerHeight = 500;
 
     var tree = d3.layout.tree()
         .size([viewerWidth, viewerHeight]);
@@ -120,7 +122,7 @@ var exports = {};
     var zoomListener = d3.behavior.zoom().scaleExtent([0.1, 3]).on("zoom", zoom);
 
     // define the baseSvg, attaching a class for styling and the zoomListener
-    var baseSvg = d3.select(svgDomNode)/*.append("svg")*/
+    var baseSvg = d3.select(svgDomNode).append("svg")
         .attr("width", viewerWidth)
         .attr("height", viewerHeight)
         .attr("class", "overlay")
@@ -134,55 +136,114 @@ var exports = {};
         var y = -source.x0;
         x = x * scale + viewerWidth / 2;
         y = y * scale + viewerHeight / 2;
-        var offset = viewerWidth / 4;  // Jim added
         d3.select('g').transition()
             .duration(duration)
-            .attr("transform", "translate(" + x + "," + y + ")scale(" + scale + ")"); // added offset
+            .attr("transform", "translate(" + x + "," + y + ")scale(" + scale + ")");
         zoomListener.scale(scale);
         zoomListener.translate([x, y]);
     }
 
     // Toggle children on click.
 
+    // var glowDefs = baseSvg.append("defs").attr("id", "glowdefs");
+    var lastClicked;
     function click(d) {
+        console.log('makeTree click called: ', d, ' last: ', lastClicked);
         if (d3.event.defaultPrevented) return; // click suppressed
         // d = toggleChildren(d);
         // update(d);
+        if(lastClicked) {
+            d3.select("#node" + lastClicked.id)
+                .selectAll('.glow')
+                .remove();
+                // .classed ("selected", false);
+        }
+
+        d3.select("#node" + d.id)
+            .append('circle')
+            .attr('class', 'glow')
+            .attr('r', nodeCircleRadius+3)
+            .style('fill', 'none')
+            .style('stroke', '#FF005D')
+            .style('stroke-opacity', 0.75)
+            .style('stroke-width', 6);
+            // .classed("selected", true);
+            // .append("circle")
+            // .attr("id", function(d) {
+            //     return "circle" + d.id;
+            // })
+            // .attr("r", nodeCircleRadius+10)
+            // .attr("fill", "#569EAD");
+
+        lastClicked = d;
         centerNode(d);
         clickCallBack(d);
     }
 
     function update(source) {
+/*
+############################################################
+        ##### SET OFFSET FOR LINK ANGLES HERE #####
+############################################################
+*/
+        var offset = 50;  // <- offset for link angles in pixels
+
         // Compute the new height, function counts total children of root node and sets tree height accordingly.
         // This prevents the layout looking squashed when new nodes are made visible or looking sparse when nodes are removed
         // This makes the layout more consistent.
-        // var levelWidth = [1];
-        // var childCount = function(level, n) {
+        var levelWidth = [1];
+        var childCount = function(level, n) {
 
-        //     if (n.children && n.children.length > 0) {
-        //         if (levelWidth.length <= level + 1) levelWidth.push(0);
+            if (n.children && n.children.length > 0) {
+                if (levelWidth.length <= level + 1) levelWidth.push(0);
 
-        //         levelWidth[level + 1] += n.children.length;
-        //         n.children.forEach(function(d) {
-        //             childCount(level + 1, d);
-        //         });
-        //     }
-        // };
-        // childCount(0, root);
-        // var newHeight = d3.max(levelWidth) * 25; // 25 pixels per line
+                levelWidth[level + 1] += n.children.length;
+                n.children.forEach(function(d) {
+                    childCount(level + 1, d);
+                });
+            }
+        };
+        childCount(0, root);
+        var newHeight = d3.max(levelWidth) * 100; // 25 pixels per line is original
         // tree = tree.size([newHeight, viewerWidth]);
-        tree = tree.nodeSize([50, 50]);
+        tree = tree.nodeSize([100, 200]);
 
         // Compute the new tree layout.
         var nodes = tree.nodes(root).reverse(),
             links = tree.links(nodes);
 
+        var defs = baseSvg.append("defs").attr("id", "imgdefs");
+        var imgPatterns = {};
+
+/*
+############################################################
+        ##### SET LENGTH BETWEEN DEPTH HERE #####
+############################################################
+
+        Modify the number after 'd.depth' to adjust
+*/
         // Set widths between levels based on maxLabelLength.
         nodes.forEach(function(d) {
-            d.y = (d.depth * (maxLabelLength * 10)); //maxLabelLength * 10px
+            // d.y = (d.depth * (maxLabelLength * 10)); //maxLabelLength * 10px
             // alternatively to keep a fixed scale one can set a fixed depth per level
             // Normalize for fixed-depth by commenting out below line
-            // d.y = (d.depth * 500); //500px per level.
+             //500px per level.
+            d.y = (d.depth * 225); // 720p / 1.6 (for 16:10) is 450, half of that is 225
+
+            imgPatterns[d.id] = defs.append("pattern")
+                                    .attr("id", "img" + d.id)
+                                    .attr("width", 1)
+                                    .attr("height", 1)
+                                    .attr("x", "0")
+                                    .attr("y", "0");
+
+            imgPatterns[d.id].append("image")
+                            // define a rectangular image that is diameter x diameter
+                            .attr("width", nodeCircleRadius*2 + "px")
+                            .attr("height", nodeCircleRadius*2 + "px")
+                            .attr("x", "0px")
+                            .attr("y", "0px")
+                            .attr("xlink:href", d.authorPic);
         });
 
         // Update the nodes…
@@ -195,31 +256,44 @@ var exports = {};
         var nodeEnter = node.enter().append("g")
             // .call(dragListener)  // Jim removed as we are not dragging nodes
             .attr("class", "node")
+            .attr("id", function(d) {
+                return "node" + d.id;
+            })
             .attr("transform", function(d) {
                 return "translate(" + source.y0 + "," + source.x0 + ")";
             })
             .on('click', click);
 
         nodeEnter.append("circle")
-            .attr('class', 'nodeCircle')
-            .attr("r", 0)
-            .style("fill", function(d) {
-                return d._children ? "lightsteelblue" : "#fff";
+            .attr("class", "nodeCircle")
+            .attr("r", nodeCircleRadius)
+            .attr("fill", function(d) {
+                return "url(#img" + d.id + ")";
             });
 
-        nodeEnter.append("text")
-            .attr("x", function(d) {
-                return d.children || d._children ? -10 : 10;
-            })
-            .attr("dy", ".35em")
-            .attr('class', 'nodeText')
-            .attr("text-anchor", function(d) {
-                return d.children || d._children ? "end" : "start";
-            })
-            .text(function(d) {
-                return "title: " + d.title + ", id: " + d.id;
-            })
-            .style("fill-opacity", 0);
+        // nodeEnter.append("image")
+        //     .attr("xlink:href", function(d) { return d.authorPic; })
+        //     .attr("class", "node-image")
+        //     .attr("x", "-20px")
+        //     .attr("y", "-20px")
+        //     .attr("width", "40px")
+        //     .attr("height", "40px");
+            // .attr("border-radius", "50%");
+
+        // // Text for diagnostic purposes, uncomment to use
+        // nodeEnter.append("text")
+        //     .attr("x", function(d) {
+        //         return d.children || d._children ? -10 : 10;
+        //     })
+        //     .attr("dy", ".35em")
+        //     .attr('class', 'nodeText')
+        //     .attr("text-anchor", function(d) {
+        //         return d.children || d._children ? "end" : "start";
+        //     })
+        //     .text(function(d) {
+        //         return "uuid: " + d.uuid;
+        //     })
+        //     .style("fill-opacity", 0);
 
         // phantom node to give us mouseover in a radius around it
         // nodeEnter.append("circle")
@@ -248,11 +322,11 @@ var exports = {};
         //     });
 
         // Change the circle fill depending on whether it has children and is collapsed
-        node.select("circle.nodeCircle")
-            .attr("r", nodeCircleRadius) // was 4.5
-            .style("fill", function(d) {
-                return d._children ? "lightsteelblue" : "#fff";
-            });
+        // node.select("circle.nodeCircle")
+        //     .attr("r", nodeCircleRadius) // was 4.5
+        //     .style("fill", function(d) {
+        //         return d._children ? "lightsteelblue" : "#fff";
+        //     });
 
         // Transition nodes to their new position.
         var nodeUpdate = node.transition()
@@ -354,11 +428,11 @@ var exports = {};
                     },
                     {
                         y: d.source.x,
-                        x: d.source.y + 50
+                        x: d.source.y + offset
                     },
                     {
                         y: d.target.x,
-                        x: d.target.y - 50
+                        x: d.target.y - offset
                     },
                     {
                         y: d.target.x,
@@ -422,7 +496,7 @@ var exports = {};
                     },
                     {
                         y: source.x,
-                        x: source.y + 50
+                        x: source.y + offset
                     }
                 ]);
             })
@@ -443,10 +517,22 @@ var exports = {};
     root.x0 = viewerHeight / 2;
     root.y0 = 0;
 
+    // find the node to center on when first displaying the tree
+    var centerOn;
+    visit(root, function(d) {
+        if(d.uuid === centerOnUuid) {
+            centerOn = d;
+            return;
+        }
+    }, function(d) {
+        return d.children && d.children.length > 0 ? d.children : null;
+    });
+
     // Layout the tree initially and center on the root node.
     // toggleChildren(root);   // sets tree to be initially fully collapsed, remove for opposite behaviour
     update(root);
-    centerNode(root);
+    centerNode(centerOn);  // center on the calling song
+    clickCallBack(centerOn);
     // toggleChildren(root);   // open root's children
     update(root);
   }

@@ -1,102 +1,113 @@
 'use strict';
 import React from 'react';
+import Router from 'react-router';
+import SongList from './songlist';
+import { Modal } from 'react-bootstrap';
+
 import SongActions from '../actions/songActionCreators';
+import AudioPlayer from './player-components/AudioPlayer';
+
 import AllSongStore from '../stores/allSongStore';
-import {Glyphicon} from 'react-bootstrap';
-var AudioPlayer = require("./player-components/AudioPlayer");
-
-var arr = [{
-  title:'badboy',
-  url: "assets/badboy.mp3",
-  author:"big bang",
-  like:"223"
-},{
-  title:'bang bang bang',
-  url: "assets/bang.mp3",
-  author:"big bang",
-  like:"53"
-},{
-  title:'tonight',
-  url: "assets/giveyouup.mp3",
-  author:"big bang",
-  like:"103"
-}];
-
+import UserProfileStore from '../stores/userProfileStore';
+import VotedSongStore from '../stores/votedSongStore';
+import AuthModalStore from '../stores/authModalStore';
+import PlaySongStore from '../stores/playSongStore';
 
 class Home extends React.Component {
   constructor(props) {
     super(props);
     SongActions.getAllSongs();
-    //should this be this.setState instead?
+    SongActions.getUserVotes(UserProfileStore.getCookieID())
+    this.state = {songs: {allSongs: []},
+                  order: 'like',
+                  showModal: false};
 
-    this.state = {songs: {
-        allSongs: [],
-      }
-    }
-    //bindings
     this.componentDidMount = this.componentDidMount.bind(this);
-    this.switchSong = this.switchSong.bind(this);
+    this.playsong = this.playsong.bind(this);
     this.render = this.render.bind(this);
     this._onChange = this._onChange.bind(this);
+    this._userNotAuthed = this._userNotAuthed.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+    this.openModal = this.openModal.bind(this);
+    this.handleNewestClick = this.handleNewestClick.bind(this);
+    this.handleUpvotedClick = this.handleUpvotedClick.bind(this);
+    this.filter = this.filter.bind(this);
   }
 
   componentDidMount () {
     AllSongStore.addChangeListener(this._onChange);
+    AuthModalStore.addChangeListener(this._userNotAuthed);
+    PlaySongStore.addChangeListener(this.playsong);
   }
 
-  switchSong(song){
-    this.setState({currentsong:song});
+  componentWillUnmount() {
+    AllSongStore.removeChangeListener(this._onChange);
+    AuthModalStore.removeChangeListener(this._userNotAuthed);
+    PlaySongStore.removeChangeListener(this.playsong);
   }
 
-  render() {
-    return (
-      <div className= "HomePage">
-      <div className= "playerBox">
-        <AudioPlayer song = {this.state.currentsong} mode = "home" />
-      </div>
-        <SongList data = {arr}  switchSong = {this.switchSong} />
-      </div>
-    );
+  playsong(){
+    this.setState({currentsong:PlaySongStore.getSong()});
   }
-  // this.state.songs.allSongs
 
   _onChange() {
     this.setState({songs: AllSongStore.getAllSongs()});
-    console.log(this.state);
+    console.log("songs", this.state.songs);
   }
-}
 
-class SongList extends React.Component{
-  constructor() {
-    super();
-    this.handleClick = this.handleClick.bind(this);
-   }
+  _userNotAuthed() {
+    this.setState({showModal: true})
+  }
+  
+  handleNewestClick() {
+    this.setState({order: 'createdAt'});
+  }
 
-  handleClick(i){
-    this.props.switchSong(this.props.data[i]);
+  handleUpvotedClick() {
+    this.setState({order: 'like'});
+  }
+
+  openModal() {
+    this.setState({ showModal: true })
+  }
+
+  closeModal(){
+    this.setState({ showModal: false });
+  }
+
+  filter() {
+    console.log("filter");
   }
 
   render() {
+    var order = this.state.order;
+    console.log(order);
     return (
-      <div className="playList" >
-        {this.props.data.map(function(song, i) {
-          return (
-            <div className = "songItem" key={i}>
-              <div className="itemPlay" onClick={this.handleClick.bind(this, i)}>
-                <Glyphicon glyph='play' />
-              </div>
-              <span className = "title"  > {song.title} </span>
-              <span className> by {song.author} </span>
-              <span className="like-count" > <Glyphicon glyph='heart' /> {song.like} </span>
-            </div>
-          );
-        }, this)}
+
+      <div className= "HomePage">
+        <div className = "sortBox">
+          <button className="sortButton" onClick={this.handleNewestClick} >Newest</button>
+          <button className="sortButton" onClick={this.handleUpvotedClick} >Hottest</button>
+        </div>
+        <Modal show={this.state.showModal} onHide={this.closeModal}> You must be logged in!</Modal>
+        <div className= "playerBox">
+          <AudioPlayer song = {this.state.currentsong} mode = "home" />
+        </div>
+          <SongList data = {this.state.songs.allSongs.sort(function(a, b) {
+            if (order === 'like') {
+              return b[order] - a[order];
+            }
+            else if (order = 'createdAt') {
+              let a_date = new Date(a.createdAt);
+              let b_date = new Date(b.createdAt);
+              return b_date - a_date;
+            }
+          })} page='home'/>
       </div>
     );
   }
 }
 
 
-export { SongList, Home };
 export default Home;
 
