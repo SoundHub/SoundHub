@@ -9,8 +9,12 @@ import AudioPlayer from './player-components/AudioPlayer';
 
 import AllSongStore from '../stores/allSongStore';
 import UserProfileStore from '../stores/userProfileStore';
+<<<<<<< HEAD
 import VotedSongStore from '../stores/votedSongStore';
 import AuthModalStore from '../stores/authModalStore';
+=======
+import PlaySongStore from '../stores/playSongStore';
+>>>>>>> fe8d3db8346f22fa0a67fc2dafa60ffe0f9091d2
 
 class Home extends React.Component {
   constructor(props) {
@@ -22,7 +26,7 @@ class Home extends React.Component {
                   showModal: false};
 
     this.componentDidMount = this.componentDidMount.bind(this);
-    this.switchSong = this.switchSong.bind(this);
+    this.playsong = this.playsong.bind(this);
     this.render = this.render.bind(this);
     this._onChange = this._onChange.bind(this);
     this._userNotAuthed = this._userNotAuthed.bind(this);
@@ -35,15 +39,17 @@ class Home extends React.Component {
   componentDidMount () {
     AllSongStore.addChangeListener(this._onChange);
     AuthModalStore.addChangeListener(this._userNotAuthed);
+    PlaySongStore.addChangeListener(this.playsong);
   }
 
   componentWillUnmount() {
     AllSongStore.removeChangeListener(this._onChange);
     AuthModalStore.removeChangeListener(this._userNotAuthed);
+    PlaySongStore.removeChangeListener(this.playsong);
   }
 
-  switchSong(song){
-    this.setState({currentsong:song});
+  playsong(){
+    this.setState({currentsong:PlaySongStore.getSong()});
   }
 
   _onChange() {
@@ -54,12 +60,12 @@ class Home extends React.Component {
   _userNotAuthed() {
     this.setState({showModal: true})
   }
-
-  handleNewestClick() {    
+  
+  handleNewestClick() {
     this.setState({order: 'createdAt'});
   }
 
-  handleUpvotedClick() {    
+  handleUpvotedClick() {
     this.setState({order: 'like'});
   }
 
@@ -76,22 +82,25 @@ class Home extends React.Component {
     console.log(order);
     return (
       <div className= "HomePage">
-        <div className = "select">
-          <button className="sortButton" onClick={this.handleNewestClick} >View Newest</button>
-          <button className="sortButton" onClick={this.handleUpvotedClick} >View Most Upvoted</button>
+        <div className = "sortBox">
+          <button className="sortButton" onClick={this.handleNewestClick} >Newest</button>
+          <button className="sortButton" onClick={this.handleUpvotedClick} >Hottest</button>
         </div>
-        <select>
-          <option value="volvo">Volvo</option>
-          <option value="saab"> Saab</option>
-          <option value="mercedes">Mercedes</option>
-          <option value="audi">Audi</option>
-        </select>
         <Modal show={this.state.showModal} onHide={this.closeModal}> You must be logged in!</Modal>
-        <hr></hr>
         <div className= "playerBox">
           <AudioPlayer song = {this.state.currentsong} mode = "home" />
         </div>
-          <SongList data = {this.state.songs.allSongs} switchSong={this.switchSong} page='home'/>
+          <SongList data = {this.state.songs.allSongs.sort(function(a, b) {
+            if (order === 'like') {
+              return b[order] - a[order];
+            }
+            else if (order = 'createdAt') {
+              let a_date = new Date(a.createdAt);
+              let b_date = new Date(b.createdAt);
+              console.log(a_date, b_date);
+              return b_date - a_date;
+            }
+          })} page='home'/>
       </div>
     );
   }

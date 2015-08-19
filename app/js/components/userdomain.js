@@ -157,7 +157,7 @@ export default AuthenticatedComponent(class User extends React.Component {
       username:'',
       userimg:"",
       userId:-1,
-      pageType: props.pageType,
+      pageType: 'music',
       currentsong: {},
       forkSong:{}
     }
@@ -220,7 +220,7 @@ export default AuthenticatedComponent(class User extends React.Component {
 
     return (
       <div className="profilePage">
-        <img className='randomBG' src="../assets/random-bg/13772829224_76f2c28068_h.jpg"></img>
+        <img className='randomBG' src="../assets/random-bg/down.jpg"></img>
         <div className='profileItem'>
           <img className='profileImg' src = {this.state.userimg}></img>
           <div className='profileUsername'>Hello {this.state.username}</div>
@@ -233,6 +233,9 @@ export default AuthenticatedComponent(class User extends React.Component {
           <button className="profileButton" onClick={this.gotoCreate}><Glyphicon glyph='upload' /> Create</button>
         </div>
         {profilePage}
+        <div className= "playerBox">
+          <AudioPlayer song = {this.state.currentsong} mode = "home" />
+        </div>
       </div>
     )
   }

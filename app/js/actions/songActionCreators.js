@@ -7,7 +7,12 @@ import Utils from '../utils/appUtils';
 const ActionType = Constants.ActionTypes;
 
 export default {
-
+  playSong(song){
+    Dispatcher.dispatch({
+      type: ActionType.PLAY,
+      song:song
+    });
+  },
   // retrieve all songs from server
   getAllSongs() {
     Utils.get('/allSongs')
