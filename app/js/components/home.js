@@ -28,13 +28,11 @@ class Home extends React.Component {
     this.addVote = this.addVote.bind(this);
     this.handleUpvote = this.handleUpvote.bind(this);
     this.handleDownvote = this.handleDownvote.bind(this);
-    this.forkSong = this.forkSong.bind(this);
     this.fav = this.fav.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.openModal = this.openModal.bind(this);
     this.handleNewestClick = this.handleNewestClick.bind(this);
     this.handleUpvotedClick = this.handleUpvotedClick.bind(this);
-
   }
 
   componentDidMount () {
@@ -54,12 +52,12 @@ class Home extends React.Component {
     console.log("songs", this.state.songs);
   }
 
-  handleNewestClick() {    
+  handleNewestClick() {
     this.setState({order: 'like'});
     //console.log('newest click nonsync', this.state.order);
   }
 
-  handleUpvotedClick() {    
+  handleUpvotedClick() {
     this.setState({order: 'createdAt'});
     //console.log('upvoted click nonsync', this.state.order);
   }
@@ -113,15 +111,6 @@ class Home extends React.Component {
     }
   }
 
-  forkSong() {
-    if(UserProfileStore.isLoggedIn()) {
-      var userId = UserProfileStore.getCookieID();
-      SongActions.forkSong(userId, this.props.song.uuid);
-    } else {
-      this.openModal();
-    }
-  }
-
   fav(){
     if(UserProfileStore.isLoggedIn()) {
       var userId = UserProfileStore.getCookieID();
@@ -149,13 +138,10 @@ class Home extends React.Component {
         <Modal show={this.state.showModal} onHide={this.closeModal}> You must be logged in!</Modal>
         <hr></hr>
         <div className= "playerBox">
-          <AudioPlayer song = {this.state.currentsong} fav={this.fav} handleDownvote={this.handleDownvote} 
-          handleUpvote={this.handleUpvote} forkSong={this.forkSong} mode = "home" />
+          <AudioPlayer song = {this.state.currentsong} fav={this.fav} handleDownvote={this.handleDownvote}
+          handleUpvote={this.handleUpvote} mode = "home" />
         </div>
-          <SongList data = {this.state.songs.allSongs.sort(function(a, b) {
-            return b[order] - a[order];
-          })} 
-          switchSong = {this.switchSong} />
+          <SongList data = {this.state.songs.allSongs} switchSong={this.switchSong} page='home'/>
       </div>
     );
   }
