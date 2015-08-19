@@ -15,6 +15,5 @@ export default {
     Dispatcher.dispatch({
       type: ActionType.OPEN_AUTH_MODAL
     })
-    console.log('auth modal dispatched')
   }
 }
