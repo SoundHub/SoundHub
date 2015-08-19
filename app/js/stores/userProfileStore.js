@@ -57,10 +57,16 @@ let UserProfile = assign({}, EventEmitter.prototype, {
 });
 
 
-var setCookie = function (id, username,img) {
-  document.cookie = "id" + "=" + id;
-  document.cookie = "username" + "=" + username;
-  document.cookie = "img" + "=" + img;
+var setCookie = function (id, username, img) {
+  if (id !== null) {
+    document.cookie = "id" + "=" + id;
+  }
+  if (username !== null) {
+    document.cookie = "username" + "=" + username;
+  }
+  if (img !== null) {
+    document.cookie = "img" + "=" + img;
+  }
 };
 
 var deleteCookie = function() {
@@ -103,6 +109,13 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
     case ActionType.LOGOUT:
       console.log("store logout");
       deleteCookie();
+      UserProfile.emitChange();
+      break;
+
+    case ActionType.UPDATE:
+      let username = payload.response.newname;
+      let imgUrl = payload.response.imgUrl;
+      setCookie(null, username, imgUrl);
       UserProfile.emitChange();
       break;
 
