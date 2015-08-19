@@ -74,7 +74,7 @@ class Home extends React.Component {
       <div className= "HomePage">
         <div className = "sortBox">
           <button className="sortButton" onClick={this.handleNewestClick} >Newest</button>
-          <button className="sortButton" onClick={this.handleUpvotedClick} >Hotest</button>
+          <button className="sortButton" onClick={this.handleUpvotedClick} >Hottest</button>
         </div>
         <Modal show={this.state.showModal} onHide={this.closeModal}> You must be logged in!</Modal>
         <div className= "playerBox">
