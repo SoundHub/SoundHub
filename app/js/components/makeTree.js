@@ -19,7 +19,7 @@ var exports = {};
     var duration = 700;
     var root;
 
-    var nodeCircleRadius = 15; // 4.5 was original size
+    var nodeCircleRadius = 25; // 4.5 was original size
 
     // size of the diagram
     var widthOffset = $(document).width() - 900; // 900 is size of .treeBox element
@@ -145,10 +145,37 @@ var exports = {};
 
     // Toggle children on click.
 
+    // var glowDefs = baseSvg.append("defs").attr("id", "glowdefs");
+    var lastClicked;
     function click(d) {
+        console.log('makeTree click called: ', d, ' last: ', lastClicked);
         if (d3.event.defaultPrevented) return; // click suppressed
         // d = toggleChildren(d);
         // update(d);
+        if(lastClicked) {
+            d3.select("#node" + lastClicked.id)
+                .selectAll('.glow')
+                .remove();
+                // .classed ("selected", false);
+        }
+
+        d3.select("#node" + d.id)
+            .append('circle')
+            .attr('class', 'glow')
+            .attr('r', nodeCircleRadius+3)
+            .style('fill', 'none')
+            .style('stroke', '#FF005D')
+            .style('stroke-opacity', 0.75)
+            .style('stroke-width', 6);
+            // .classed("selected", true);
+            // .append("circle")
+            // .attr("id", function(d) {
+            //     return "circle" + d.id;
+            // })
+            // .attr("r", nodeCircleRadius+10)
+            // .attr("fill", "#569EAD");
+
+        lastClicked = d;
         centerNode(d);
         clickCallBack(d);
     }
@@ -185,6 +212,9 @@ var exports = {};
         var nodes = tree.nodes(root).reverse(),
             links = tree.links(nodes);
 
+        var defs = baseSvg.append("defs").attr("id", "imgdefs");
+        var imgPatterns = {};
+
 /*
 ############################################################
         ##### SET LENGTH BETWEEN DEPTH HERE #####
@@ -199,6 +229,21 @@ var exports = {};
             // Normalize for fixed-depth by commenting out below line
              //500px per level.
             d.y = (d.depth * 225); // 720p / 1.6 (for 16:10) is 450, half of that is 225
+
+            imgPatterns[d.id] = defs.append("pattern")
+                                    .attr("id", "img" + d.id)
+                                    .attr("width", 1)
+                                    .attr("height", 1)
+                                    .attr("x", "0")
+                                    .attr("y", "0");
+
+            imgPatterns[d.id].append("image")
+                            // define a rectangular image that is diameter x diameter
+                            .attr("width", nodeCircleRadius*2 + "px")
+                            .attr("height", nodeCircleRadius*2 + "px")
+                            .attr("x", "0px")
+                            .attr("y", "0px")
+                            .attr("xlink:href", d.authorPic);
         });
 
         // Update the nodes…
@@ -211,29 +256,44 @@ var exports = {};
         var nodeEnter = node.enter().append("g")
             // .call(dragListener)  // Jim removed as we are not dragging nodes
             .attr("class", "node")
+            .attr("id", function(d) {
+                return "node" + d.id;
+            })
             .attr("transform", function(d) {
                 return "translate(" + source.y0 + "," + source.x0 + ")";
             })
             .on('click', click);
 
         nodeEnter.append("circle")
-            .attr('class', 'nodeCircle')
-            .attr("r", 0);
+            .attr("class", "nodeCircle")
+            .attr("r", nodeCircleRadius)
+            .attr("fill", function(d) {
+                return "url(#img" + d.id + ")";
+            });
 
-        nodeEnter.append("text")
-            .attr("x", function(d) {
-                return d.children || d._children ? -10 : 10;
-            })
-            .attr("dy", ".35em")
-            .attr('class', 'nodeText')
-            .attr("text-anchor", function(d) {
-                return d.children || d._children ? "end" : "start";
-            })
-            // uncomment to see node uuid
-            // .text(function(d) {
-            //     return "uuid: " + d.uuid;
-            // })
-            .style("fill-opacity", 0);
+        // nodeEnter.append("image")
+        //     .attr("xlink:href", function(d) { return d.authorPic; })
+        //     .attr("class", "node-image")
+        //     .attr("x", "-20px")
+        //     .attr("y", "-20px")
+        //     .attr("width", "40px")
+        //     .attr("height", "40px");
+            // .attr("border-radius", "50%");
+
+        // // Text for diagnostic purposes, uncomment to use
+        // nodeEnter.append("text")
+        //     .attr("x", function(d) {
+        //         return d.children || d._children ? -10 : 10;
+        //     })
+        //     .attr("dy", ".35em")
+        //     .attr('class', 'nodeText')
+        //     .attr("text-anchor", function(d) {
+        //         return d.children || d._children ? "end" : "start";
+        //     })
+        //     .text(function(d) {
+        //         return "uuid: " + d.uuid;
+        //     })
+        //     .style("fill-opacity", 0);
 
         // phantom node to give us mouseover in a radius around it
         // nodeEnter.append("circle")
@@ -262,11 +322,11 @@ var exports = {};
         //     });
 
         // Change the circle fill depending on whether it has children and is collapsed
-        node.select("circle.nodeCircle")
-            .attr("r", nodeCircleRadius) // was 4.5
-            .style("fill", function(d) {
-                return d._children ? "lightsteelblue" : "#fff";
-            });
+        // node.select("circle.nodeCircle")
+        //     .attr("r", nodeCircleRadius) // was 4.5
+        //     .style("fill", function(d) {
+        //         return d._children ? "lightsteelblue" : "#fff";
+        //     });
 
         // Transition nodes to their new position.
         var nodeUpdate = node.transition()

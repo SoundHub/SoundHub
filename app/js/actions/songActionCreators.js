@@ -7,7 +7,12 @@ import Utils from '../utils/appUtils';
 const ActionType = Constants.ActionTypes;
 
 export default {
-
+  playSong(song){
+    Dispatcher.dispatch({
+      type: ActionType.PLAY,
+      song:song
+    });
+  },
   // retrieve all songs from server
   getAllSongs() {
     Utils.get('/allSongs')
@@ -24,8 +29,34 @@ export default {
       console.error('failed: ', err)
     })
   },
-
-  // retrieve song tree
+  getAllFavs(userId) {
+    var data = {userId: userId}
+    Utils.postJSON('/myFavs',data)
+    .then((json) => {
+      Dispatcher.dispatch({
+        type: ActionType.RECEIVE_ALL_FAV_SONGS,
+        songs: json
+      })
+    })
+    .catch((err) => {
+      console.error('failed: ', err)
+    })
+  },
+  addFav(userId,songId) {
+    var data = {
+      userId:userId,
+      songId:songId
+    }
+    Utils.postJSON('/addFav',data)
+    .then((json) => {
+      Dispatcher.dispatch({
+        type: ActionType.ADD_FAV_SUCCESS,
+      })
+    })
+    .catch((err) => {
+      console.error('failed: ', err)
+    })
+  },
   getSongTree(song) {
     Utils.getTree('/tree', song)
     .then((json) => {
@@ -139,10 +170,6 @@ export default {
       voteInfo: voteInfo
     })
     Utils.simplePost('/addVote', voteInfo)
-    .then(() => {
-      console.log('voted posted with vote ', voteInfo.vote)
-      // this.getUserVotes(voteInfo.userId);
-    })
     .catch((err) => {
       console.log('voting failed: ', err)
     })
@@ -151,7 +178,7 @@ export default {
   // get songs that user has voted on
   getUserVotes(userId) {
     var data = {userId: userId};
-    Utils.postJSON('/myVotes', data) 
+    Utils.postJSON('/myVotes', data)
     .then((response) => {
       Dispatcher.dispatch({
         type: ActionType.GET_USER_VOTES,

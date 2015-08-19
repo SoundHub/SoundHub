@@ -5,7 +5,6 @@ import Dispatcher from '../dispatcher/dispatcher.js';
 import Constants from '../constants/constants';
 import EventEmitter from 'events';
 import assign from 'object-assign';
-import UserSongStore from './userSongStore';
 import _ from 'lodash';
 
 const ActionType = Constants.ActionTypes;
@@ -22,7 +21,6 @@ var addVote = function(voteInfo) {
     var diff = voteInfo.vote - voteInfo.prev;
     _.forEach(_songs.allSongs, (song) => {
       if(song.uuid === voteInfo.songId) {
-        console.log(voteInfo, ' going to change from ', song.like, ' by ', diff )
         song.like += diff;
         resolve(song.like)
         return false;
@@ -76,7 +74,6 @@ AllSongStore.dispatchToken = Dispatcher.register(function(payload) {
       addVote(payload.voteInfo)
       .then(() => {
         AllSongStore.emitChange();
-        console.log('all song store emitted change')
       })
       break;
 
@@ -89,7 +86,7 @@ AllSongStore.dispatchToken = Dispatcher.register(function(payload) {
       break;
 
     default:
-      // do nothing
+      break;
   }
 
 });

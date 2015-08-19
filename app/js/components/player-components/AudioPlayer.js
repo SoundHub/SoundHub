@@ -10,7 +10,6 @@ import UserProfileStore from '../../stores/userProfileStore';
 import VotedSongStore from '../../stores/votedSongStore';
 import AllSongStore from '../../stores/allSongStore';
 
-
 var Howl = require('./howler').Howl;
 
 module.exports = React.createClass({
@@ -43,52 +42,12 @@ module.exports = React.createClass({
 		}
 	},
 
-	handleUpvote: function () {
-		VotedSongStore.getSongVoteStatus(this.props.song.uuid)
-		.then((currVal) => {
-			if(currVal === 1) {
-				console.log('neutral')
-				SongActions.addSongVote(UserProfileStore.getCookieID(), this.props.song.uuid, 0, currVal);
-			} else { 
-				console.log('add')
-				SongActions.addSongVote(UserProfileStore.getCookieID(), this.props.song.uuid, 1, currVal);
-			}
-		})
-		.catch((err) => {
-			console.log('error: ', err)
-		})
-	},
-
-	handleDownvote: function() {
-		VotedSongStore.getSongVoteStatus(this.props.song.uuid)
-		.then((currVal) => {
-			if(currVal === -1) {
-				console.log('neutral')
-				SongActions.addSongVote(UserProfileStore.getCookieID(), this.props.song.uuid, 0, currVal);
-			} else { // 0 or -1
-				console.log('subtract')
-				SongActions.addSongVote(UserProfileStore.getCookieID(), this.props.song.uuid, -1, currVal);
-			}
-		})
-		.catch((err) => {
-			console.log('error: ', err)
-		})
-	},
-
-	forkSong: function() {
-		var userId = UserProfileStore.getCookieID();
-		console.log('enter fork', userId, this.props.song.uuid)
-		SongActions.forkSong(userId, this.props.song.uuid);
-	},
-
 	render: function() {
 		var percent = 0;
 		var songName;
 		if (this.state.seek && this.state.duration) {
 			percent = this.state.seek / this.state.duration;
 		}
-
-
 		var topComponents = [
 			<ButtonPanel
 			 isPlaying={this.state.isPlaying}
@@ -97,15 +56,11 @@ module.exports = React.createClass({
 			 onPlayBtnClick={this.onPlayBtnClick}
 			 onPauseBtnClick={this.onPauseBtnClick}/>,
 			<ProgressBar percent={percent} seekTo={this.seekTo} />,
-			<VolumeBar volume={this.state.volume} adjustVolumeTo={this.adjustVolumeTo} />,
-			<Button bsSize="small" className="audio-rbtn"><Glyphicon glyph='heart' /></Button>,
-			<Button bsSize="small" className="audio-rbtn" onClick={this.handleUpvote}><Glyphicon glyph='chevron-up' /></Button>,
-			<Button bsSize="small" className="audio-rbtn" onClick={this.handleDownvote}><Glyphicon glyph='chevron-down' /></Button>,
-			<Button bsSize="small" className="audio-rbtn" onClick={this.forkSong}><Glyphicon glyph='paperclip' /></Button>
+			<VolumeBar volume={this.state.volume} adjustVolumeTo={this.adjustVolumeTo} />
 		];
-		if(this.state.song){
+		if(this.state.song) {
 			songName = this.state.song.title;
-		}else{
+		} else {
 			songName = 'Please add a song'
 		}
 
@@ -123,7 +78,7 @@ module.exports = React.createClass({
 	  	return (
 	  		<div>{ userPageComponents }</div>
 	  		);
-	  }else{
+	  } else {
 	  	return (
 				<div className="audio-player">
 					<div className="clearfix">
@@ -136,8 +91,6 @@ module.exports = React.createClass({
 				</div>
 			);
 	  }
-
-
 	},
 
 

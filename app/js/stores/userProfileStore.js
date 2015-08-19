@@ -9,7 +9,6 @@ import assign from 'object-assign';
 const ActionType = Constants.ActionTypes;
 const CHANGE_EVENT = 'change';
 
-
 var _user = {};
 
 let UserProfile = assign({}, EventEmitter.prototype, {
@@ -21,6 +20,9 @@ let UserProfile = assign({}, EventEmitter.prototype, {
   },
   removeChangeListener(callback) {
     this.removeListener(CHANGE_EVENT, callback)
+  },
+  isLoggedIn() {
+    return !!this.getCookieID();
   },
   getCookieID() {
     let name = 'id=';
@@ -76,20 +78,26 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
         let username = payload.response.user[0].username;
         let img = payload.response.user[0].profilePic;
         setCookie(id,username,img);
-      }
-      else {
+      } else {
         console.log("login failed, user does not exist");
       }
-
       UserProfile.emitChange();
       break;
 
     case ActionType.SIGNUP:
       if (payload.response.success) {
         console.log('signup success');
+        console.log(payload.response);
+        let id = payload.response.userData.id;
+        let username = payload.response.userData.username;
+        let img = payload.response.userData.profilePic;
+        setCookie(id, username, img);
+        UserProfile.emitChange();
+
       } else {
         console.log("signup failed, user already exists");
       }
+
       break;
 
     case ActionType.LOGOUT:

@@ -6,13 +6,17 @@ import Edit from './editprofile';
 import Create from './create';
 import Router from 'react-router';
 import AudioPlayer from './player-components/AudioPlayer';
-import UserSongStore from '../stores/userSongStore';
-import UserImgStore from '../stores/userImgStore';
+
 import SongActions from '../actions/songActionCreators';
 import UserActions from '../actions/userActionCreators';
+
+import FavSongStore from '../stores/favSongStore';
+import UserSongStore from '../stores/userSongStore';
+import UserImgStore from '../stores/userImgStore';
 import UserProfileStore from '../stores/userProfileStore';
 import ForkedSongStore from '../stores/forkedSongStore';
 import ForkedCreateStore from '../stores/forkedCreateStore';
+import AuthenticatedComponent from './authenticatedComponent'
 
 class ForkList extends React.Component {
   constructor() {
@@ -30,12 +34,8 @@ class ForkList extends React.Component {
     ForkedSongStore.removeChangeListener(this._onChange);
   }
 
-  switchSong(song){
-    this.props.switchsong(song)
-  }
 
   _onChange() {
-    console.log('on change')
     this.setState({forkedSongs: ForkedSongStore.getForkedSongs()});
   }
 
@@ -46,7 +46,7 @@ class ForkList extends React.Component {
           {
             this.state.forkedSongs.length ?
             <div className="mylist">
-              <SongList data = {this.state.forkedSongs}  switchSong = {this.switchSong} uploadmode={true}/>
+              <SongList data = {this.state.forkedSongs} page='fork'/>
             </div>:
             <div>
               You have not forked any songs!
@@ -63,7 +63,6 @@ class MyMusic extends React.Component {
   constructor() {
     super();
     this.state = {userSongs: []};
-    this.switchSong = this.switchSong.bind(this);
     this.componentDidMount = this.componentDidMount.bind(this);
     this._onChange = this._onChange.bind(this);
   }
@@ -77,10 +76,6 @@ class MyMusic extends React.Component {
     UserSongStore.removeChangeListener(this._onChange);
   }
 
-  switchSong(song){
-    this.props.switchsong(song)
-  }
-
   _onChange() {
     this.setState({userSongs: UserSongStore.getUserCreatedSongs().allCreated});
   }
@@ -89,11 +84,10 @@ class MyMusic extends React.Component {
     return (
       <div className="boxed-group-profile">
           <div className="pageTitle">MyMusic</div>
-
           {
             this.state.userSongs.length ?
             <div className="mylist">
-              <SongList data = {this.state.userSongs}  switchSong = {this.switchSong} />
+              <SongList data = {this.state.userSongs} />
             </div>:
             <div>
               You have not uploaded any songs!
@@ -110,15 +104,41 @@ class MyMusic extends React.Component {
 class Favor extends React.Component {
   constructor() {
     super();
+    this.state = {favSongs: []};
+    this.componentDidMount = this.componentDidMount.bind(this);
+    this._onChange = this._onChange.bind(this);
+  }
+  componentDidMount() {
+    SongActions.getAllFavs(this.props.userId);
+    FavSongStore.addChangeListener(this._onChange);
+  }
+  componentWillUnmount() {
+    FavSongStore.removeChangeListener(this._onChange);
+  }
+
+  _onChange() {
+    this.setState({favSongs: FavSongStore.getAllSongs()});
   }
   render() {
     return (
-      <div>Favorite</div>
+      <div className="boxed-group-profile">
+          <div className="pageTitle">Favourites</div>
+          {
+            this.state.favSongs.length ?
+            <div className="mylist">
+              <SongList data = {this.state.favSongs}  page='fav'/>
+            </div>:
+            <div>
+              You have not like any songs!
+            </div>
+          }
+
+      </div>
     );
   }
 }
 
-class User extends React.Component {
+export default AuthenticatedComponent(class User extends React.Component {
   constructor(props) {
     super(props);
     this.gotoMusic = this.gotoMusic.bind(this);
@@ -137,7 +157,7 @@ class User extends React.Component {
       username:'',
       userimg:"",
       userId:-1,
-      pageType: props.pageType,
+      pageType: 'music',
       currentsong: {},
       forkSong:{}
     }
@@ -152,7 +172,6 @@ class User extends React.Component {
   componentDidMount(){
     ForkedCreateStore.addChangeListener(this._onChange);
     UserImgStore.addChangeListener(this._changeImgUrl);
-
     this.setState({username:UserProfileStore.getCookieName()})
     // this.setState({userimg:UserProfileStore.getLoggedInUser().userimg})
    }
@@ -192,7 +211,7 @@ class User extends React.Component {
     }else if(this.state.pageType==='branch'){
       profilePage = <ForkList switchsong = {this.setsong} userId={this.state.userId}/>
     }else if(this.state.pageType==='fav'){
-      profilePage = <Favor />
+      profilePage = <Favor switchsong = {this.setsong} userId={this.state.userId}/>
     }else if(this.state.pageType==='profile'){
       profilePage = <Edit username = {this.state.username} profileImg= {this.state.userimg} userId={this.state.userId}/>
     }else if(this.state.pageType==='create'){
@@ -201,8 +220,7 @@ class User extends React.Component {
 
     return (
       <div className="profilePage">
-      <AudioPlayer song = {this.state.currentsong} mode = "user" />
-        <img className='randomBG' src="../assets/random-bg/13772829224_76f2c28068_h.jpg"></img>
+        <img className='randomBG' src="../assets/random-bg/down.jpg"></img>
         <div className='profileItem'>
           <img className='profileImg' src = {this.state.userimg}></img>
           <div className='profileUsername'>Hello {this.state.username}</div>
@@ -215,10 +233,13 @@ class User extends React.Component {
           <button className="profileButton" onClick={this.gotoCreate}><Glyphicon glyph='upload' /> Create</button>
         </div>
         {profilePage}
+        <div className= "playerBox">
+          <AudioPlayer song = {this.state.currentsong} mode = "home" />
+        </div>
       </div>
     )
   }
-}
-User.defaultProps = { profileImg: "../assets/placeholder.jpg" , pageType: "music"};
 
-export default User;
+  // User.defaultProps = { profileImg: "../assets/placeholder.jpg" , pageType: "music"};
+})
+
