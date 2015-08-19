@@ -16,7 +16,11 @@ class Home extends React.Component {
     super(props);
     SongActions.getAllSongs();
     SongActions.getUserVotes(UserProfileStore.getCookieID())
-    this.state = {songs: {allSongs: []}, showModal: false};
+
+    this.state = {songs: {allSongs: []},
+                  order: 'like',
+                  showModal: false};
+
     this.componentDidMount = this.componentDidMount.bind(this);
     this.switchSong = this.switchSong.bind(this);
     this.render = this.render.bind(this);
@@ -27,6 +31,8 @@ class Home extends React.Component {
     this.fav = this.fav.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.openModal = this.openModal.bind(this);
+    this.handleNewestClick = this.handleNewestClick.bind(this);
+    this.handleUpvotedClick = this.handleUpvotedClick.bind(this);
   }
 
   componentDidMount () {
@@ -43,6 +49,17 @@ class Home extends React.Component {
 
   _onChange() {
     this.setState({songs: AllSongStore.getAllSongs()});
+    console.log("songs", this.state.songs);
+  }
+
+  handleNewestClick() {
+    this.setState({order: 'like'});
+    //console.log('newest click nonsync', this.state.order);
+  }
+
+  handleUpvotedClick() {
+    this.setState({order: 'createdAt'});
+    //console.log('upvoted click nonsync', this.state.order);
   }
 
   openModal() {
@@ -104,15 +121,17 @@ class Home extends React.Component {
   }
 
   render() {
+    var order = this.state.order;
+    console.log(order);
     return (
       <div className= "HomePage">
         <div className = "select">
-          <button className="sortButton">View Newest</button>
-          <button className="sortButton">View Most Upvoted</button>
+          <button className="sortButton" onClick={this.handleNewestClick} >View Newest</button>
+          <button className="sortButton" onClick={this.handleUpvotedClick} >View Most Upvoted</button>
         </div>
         <select>
           <option value="volvo">Volvo</option>
-          <option value="saab">Saab</option>
+          <option value="saab"> Saab</option>
           <option value="mercedes">Mercedes</option>
           <option value="audi">Audi</option>
         </select>
