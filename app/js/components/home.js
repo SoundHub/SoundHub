@@ -42,7 +42,6 @@ class Home extends React.Component {
   }
 
   playsong(){
-    console.log('play song setState')
     this.setState({currentsong:PlaySongStore.getSong()});
   }
 
@@ -52,13 +51,11 @@ class Home extends React.Component {
   }
 
   handleNewestClick() {
-    this.setState({order: 'like'});
-    //console.log('newest click nonsync', this.state.order);
+    this.setState({order: 'createdAt'});
   }
 
   handleUpvotedClick() {
-    this.setState({order: 'createdAt'});
-    //console.log('upvoted click nonsync', this.state.order);
+    this.setState({order: 'like'});
   }
 
   openModal() {
@@ -75,18 +72,11 @@ class Home extends React.Component {
     console.log(order);
     return (
       <div className= "HomePage">
-        <div className = "select">
-          <button className="sortButton" onClick={this.handleNewestClick} >View Newest</button>
-          <button className="sortButton" onClick={this.handleUpvotedClick} >View Most Upvoted</button>
+        <div className = "sortBox">
+          <button className="sortButton" onClick={this.handleNewestClick} >Newest</button>
+          <button className="sortButton" onClick={this.handleUpvotedClick} >Hottest</button>
         </div>
-        <select>
-          <option value="volvo">Volvo</option>
-          <option value="saab"> Saab</option>
-          <option value="mercedes">Mercedes</option>
-          <option value="audi">Audi</option>
-        </select>
         <Modal show={this.state.showModal} onHide={this.closeModal}> You must be logged in!</Modal>
-        <hr></hr>
         <div className= "playerBox">
           <AudioPlayer song = {this.state.currentsong} mode = "home" />
         </div>
