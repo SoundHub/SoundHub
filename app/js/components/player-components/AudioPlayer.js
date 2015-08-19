@@ -49,7 +49,7 @@ module.exports = React.createClass({
 			if(currVal === 1) {
 				console.log('neutral')
 				SongActions.addSongVote(UserProfileStore.getCookieID(), this.props.song.uuid, 0, currVal);
-			} else { 
+			} else {
 				console.log('add')
 				SongActions.addSongVote(UserProfileStore.getCookieID(), this.props.song.uuid, 1, currVal);
 			}
@@ -77,8 +77,12 @@ module.exports = React.createClass({
 
 	forkSong: function() {
 		var userId = UserProfileStore.getCookieID();
-		console.log('enter fork', userId, this.props.song.uuid)
 		SongActions.forkSong(userId, this.props.song.uuid);
+	},
+
+	fav:function(){
+		var userId = UserProfileStore.getCookieID();
+		SongActions.addFav(userId, this.props.song.uuid);
 	},
 
 	render: function() {
@@ -87,8 +91,6 @@ module.exports = React.createClass({
 		if (this.state.seek && this.state.duration) {
 			percent = this.state.seek / this.state.duration;
 		}
-
-
 		var topComponents = [
 			<ButtonPanel
 			 isPlaying={this.state.isPlaying}
@@ -98,7 +100,7 @@ module.exports = React.createClass({
 			 onPauseBtnClick={this.onPauseBtnClick}/>,
 			<ProgressBar percent={percent} seekTo={this.seekTo} />,
 			<VolumeBar volume={this.state.volume} adjustVolumeTo={this.adjustVolumeTo} />,
-			<Button bsSize="small" className="audio-rbtn"><Glyphicon glyph='heart' /></Button>,
+			<Button bsSize="small" className="audio-rbtn" onClick={this.fav}><Glyphicon glyph='heart' /></Button>,
 			<Button bsSize="small" className="audio-rbtn" onClick={this.handleUpvote}><Glyphicon glyph='chevron-up' /></Button>,
 			<Button bsSize="small" className="audio-rbtn" onClick={this.handleDownvote}><Glyphicon glyph='chevron-down' /></Button>,
 			<Button bsSize="small" className="audio-rbtn" onClick={this.forkSong}><Glyphicon glyph='paperclip' /></Button>

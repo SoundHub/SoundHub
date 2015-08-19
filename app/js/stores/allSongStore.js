@@ -5,7 +5,6 @@ import Dispatcher from '../dispatcher/dispatcher.js';
 import Constants from '../constants/constants';
 import EventEmitter from 'events';
 import assign from 'object-assign';
-import UserSongStore from './userSongStore';
 import _ from 'lodash';
 
 const ActionType = Constants.ActionTypes;

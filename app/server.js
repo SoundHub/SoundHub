@@ -94,6 +94,7 @@ server.post('/myForks', function(req, res) {  //** MVP **//
 server.post('/myFavs', function(req, res) {
   var userId = req.body.userId;
   db.myFavs(userId, function(data) {
+    console.log(data)
     res.send(data);
   })
 })
