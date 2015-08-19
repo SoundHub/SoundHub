@@ -31,6 +31,7 @@ class Home extends React.Component {
     this.openModal = this.openModal.bind(this);
     this.handleNewestClick = this.handleNewestClick.bind(this);
     this.handleUpvotedClick = this.handleUpvotedClick.bind(this);
+    this.filter = this.filter.bind(this);
   }
 
   componentDidMount () {
@@ -74,6 +75,10 @@ class Home extends React.Component {
     this.setState({ showModal: false });
   }
 
+  filter() {
+    console.log("filter");
+  }
+
   render() {
     var order = this.state.order;
     console.log(order);
@@ -94,7 +99,6 @@ class Home extends React.Component {
             else if (order = 'createdAt') {
               let a_date = new Date(a.createdAt);
               let b_date = new Date(b.createdAt);
-              console.log(a_date, b_date);
               return b_date - a_date;
             }
           })} page='home'/>
