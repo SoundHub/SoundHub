@@ -401,7 +401,6 @@ $animate-sec: 1.5s;
 }
 
 .audio-button-panel {
-  padding-top: 2px;
   margin-left: 20px;
 }
 
@@ -415,7 +414,7 @@ $animate-sec: 1.5s;
 
 .audio-progress-container {
   float: left;
-  height: 30px;
+  height: 35px;
   border-right: 2px solid white;
   border-left: 2px solid white;
   width: 85%;
@@ -461,6 +460,7 @@ $animate-sec: 1.5s;
   padding-left: $common-padding;
   padding-top: 2px;
 
+
   .btn:focus {
     background-color: #fff;
     outline: none;
@@ -469,7 +469,12 @@ $animate-sec: 1.5s;
   .audio-volume-bar {
     position: absolute;
     z-index: 1001;
-    background: #ddd;
+    background: #FFC3C3;
+    bottom: 80px;
+    width: 40px;
+    border: 2px;
+    border-color: rgba(110, 110, 110, 0.53);
+    border-style: solid;
   }
 
   .audio-volume-bar-hide {
@@ -477,9 +482,9 @@ $animate-sec: 1.5s;
   }
 
   .audio-volume-percent-container {
-    border-top: 1px solid #aaa;
-    border-bottom: 1px solid #aaa;
-    width: 34px;
+    border-top: 3px solid #FFE4FC;
+    border-bottom: 3px solid #FFE4FC;
+    width: 36px;
     height: 100px;
     position: relative;
     cursor: pointer;
@@ -499,8 +504,9 @@ $animate-sec: 1.5s;
     width: 100%;
     bottom: 0;
     top: 50%;
-    background: #666;
+    background: #B2004F;
     position: absolute;
+    width: 38px;
   }
 
 }
