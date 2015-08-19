@@ -9,7 +9,7 @@ import AudioPlayer from './player-components/AudioPlayer';
 
 import AllSongStore from '../stores/allSongStore';
 import UserProfileStore from '../stores/userProfileStore';
-import VotedSongStore from '../stores/votedSongStore'
+import PlaySongStore from '../stores/playSongStore';
 
 class Home extends React.Component {
   constructor(props) {
@@ -22,7 +22,7 @@ class Home extends React.Component {
                   showModal: false};
 
     this.componentDidMount = this.componentDidMount.bind(this);
-    this.switchSong = this.switchSong.bind(this);
+    this.playsong = this.playsong.bind(this);
     this.render = this.render.bind(this);
     this._onChange = this._onChange.bind(this);
     this.closeModal = this.closeModal.bind(this);
@@ -33,14 +33,17 @@ class Home extends React.Component {
 
   componentDidMount () {
     AllSongStore.addChangeListener(this._onChange);
+    PlaySongStore.addChangeListener(this.playsong);
   }
 
   componentWillUnmount() {
     AllSongStore.removeChangeListener(this._onChange);
+    PlaySongStore.removeChangeListener(this.playsong);
   }
 
-  switchSong(song){
-    this.setState({currentsong:song});
+  playsong(){
+    console.log('play song setState')
+    this.setState({currentsong:PlaySongStore.getSong()});
   }
 
   _onChange() {
@@ -97,8 +100,7 @@ class Home extends React.Component {
               console.log(a_date, b_date);
               return b_date - a_date;
             }
-          })} 
-          switchSong = {this.switchSong} />
+          })} page='home'/>
       </div>
     );
   }

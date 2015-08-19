@@ -2,6 +2,7 @@ import keyMirror from 'keymirror';
 
 let constants = {
     ActionTypes: keyMirror({
+      PLAY:null,
       SIGNUP: null,
       LOGIN: null,
       LOGOUT: null,
