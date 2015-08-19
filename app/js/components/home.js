@@ -2,6 +2,7 @@
 import React from 'react';
 import Router from 'react-router';
 import SongList from './songlist';
+import AuthModal from './modal';
 
 import SongActions from '../actions/songActionCreators';
 import AudioPlayer from './player-components/AudioPlayer';
@@ -24,6 +25,7 @@ class Home extends React.Component {
 
   componentDidMount () {
     AllSongStore.addChangeListener(this._onChange);
+    this.openModal();
   }
 
   componentWillUnmount() {
@@ -40,7 +42,6 @@ class Home extends React.Component {
 
   render() {
     return (
-
       <div className= "HomePage">
         <div className = "select">
           <button className="sortButton">View Newest</button>
@@ -52,6 +53,7 @@ class Home extends React.Component {
           <option value="mercedes">Mercedes</option>
           <option value="audi">Audi</option>
         </select>
+        <AuthModal />
         <hr></hr>
         <div className= "playerBox">
           <AudioPlayer song = {this.state.currentsong} mode = "home" />

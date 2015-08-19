@@ -47,41 +47,58 @@ module.exports = React.createClass({
 	},
 
 	handleUpvote: function () {
-		VotedSongStore.getSongVoteStatus(this.props.song.uuid)
-		.then((currVal) => {
-			if(currVal === 1) {
-				this.addVote(0, currVal);
-			} else {
-				this.addVote(1, currVal);
-			}
-		})
-		.catch((err) => {
-			console.log('error: ', err)
-		})
+		if(UserProfileStore.isLoggedIn()) {
+			VotedSongStore.getSongVoteStatus(this.props.song.uuid)
+			.then((currVal) => {
+				if(currVal === 1) {
+					this.addVote(0, currVal);
+				} else {
+					this.addVote(1, currVal);
+				}
+			})
+			.catch((err) => {
+				console.log('error: ', err)
+			})
+		} else {
+			// TODO: tell user they need to be logged in
+			console.log('user is not logged in, cannot vote')
+		}
 	},
 
 	handleDownvote: function() {
-		VotedSongStore.getSongVoteStatus(this.props.song.uuid)
-		.then((currVal) => {
-			if(currVal === -1) {
-				this.addVote(0, currVal);
-			} else { // 0 or -1
-				this.addVote(-1, currVal);
-			}
-		})
-		.catch((err) => {
-			console.log('error: ', err)
-		})
+		if(UserProfileStore.isLoggedIn()) {
+			VotedSongStore.getSongVoteStatus(this.props.song.uuid)
+			.then((currVal) => {
+				if(currVal === -1) {
+					this.addVote(0, currVal);
+				} else { // 0 or -1
+					this.addVote(-1, currVal);
+				}
+			})
+			.catch((err) => {
+				console.log('error: ', err)
+			})
+		} else {
+			console.log('user is not logged in, cannot vote')
+		}
 	},
 
 	forkSong: function() {
-		var userId = UserProfileStore.getCookieID();
-		SongActions.forkSong(userId, this.props.song.uuid);
+		if(UserProfileStore.isLoggedIn()) {
+			var userId = UserProfileStore.getCookieID();
+			SongActions.forkSong(userId, this.props.song.uuid);
+		} else {
+			console.log('user is not logged in, cannot fork')
+		}
 	},
 
-	fav:function(){
-		var userId = UserProfileStore.getCookieID();
-		SongActions.addFav(userId, this.props.song.uuid);
+	fav: function(){
+		if(UserProfileStore.isLoggedIn()) {
+			var userId = UserProfileStore.getCookieID();
+			SongActions.addFav(userId, this.props.song.uuid);
+		} else {
+			console.log('user is not logged in, cannot fav')
+		}
 	},
 
 	render: function() {
@@ -104,9 +121,9 @@ module.exports = React.createClass({
 			<Button bsSize="small" className="audio-rbtn" onClick={this.handleDownvote}><Glyphicon glyph='chevron-down' /></Button>,
 			<Button bsSize="small" className="audio-rbtn" onClick={this.forkSong}><Glyphicon glyph='paperclip' /></Button>
 		];
-		if(this.state.song){
+		if(this.state.song) {
 			songName = this.state.song.title;
-		}else{
+		} else {
 			songName = 'Please add a song'
 		}
 
@@ -124,7 +141,7 @@ module.exports = React.createClass({
 	  	return (
 	  		<div>{ userPageComponents }</div>
 	  		);
-	  }else{
+	  } else {
 	  	return (
 				<div className="audio-player">
 					<div className="clearfix">
@@ -137,8 +154,6 @@ module.exports = React.createClass({
 				</div>
 			);
 	  }
-
-
 	},
 
 

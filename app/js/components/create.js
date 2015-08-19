@@ -5,25 +5,6 @@ import UserSongStore from '../stores/userSongStore';
 import UserProfileStore from '../stores/userProfileStore'
 import ReactS3Uploader from 'react-s3-uploader';
 
-// Initialize the Amazon Cognito credentials provider
-// AWS.config.region = 'us-east-1'; // Region
-// AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-//     IdentityPoolId: 'us-east-1:d23a3717-f2ef-47c3-ac35-3ee1238e6c8f',
-// });
-
-// possibly not necessary
-// AWS.config.credentials.get(function() {
-//   const client = new AWS.CognitoSyncManager();
-//   console.log('aws config: ', client)
-//   client.openOrCreateDataset('soundhub', function(err, dataset) {
-//     console.log('dataset: ', dataset)
-//     dataset.put('newRecord', 'newValue', function(err, record) {
-//       console.log(record);
-//     });
-//   });
-// });
-
-
 class Create extends React.Component {
   constructor() {
     super();
