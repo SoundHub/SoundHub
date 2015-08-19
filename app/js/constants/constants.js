@@ -20,6 +20,7 @@ let constants = {
       GET_USER_VOTES: null,
       NEW_SONG_VOTED: null,
       CHANGE_IMG_URL:null,
+      ROUTER_NEXT_TRANSITION_PATH: null,
       RECEIVE_ALL_FAV_SONGS:null,
       ADD_FAV_SUCCESS:null
   })
