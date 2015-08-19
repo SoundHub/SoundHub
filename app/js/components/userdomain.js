@@ -220,7 +220,6 @@ export default AuthenticatedComponent(class User extends React.Component {
 
     return (
       <div className="profilePage">
-      <AudioPlayer song = {this.state.currentsong} mode = "user" />
         <img className='randomBG' src="../assets/random-bg/13772829224_76f2c28068_h.jpg"></img>
         <div className='profileItem'>
           <img className='profileImg' src = {this.state.userimg}></img>
