@@ -104,7 +104,7 @@ class Home extends React.Component {
     }
   }
 
-  fav(){
+  fav() {
     if(UserProfileStore.isLoggedIn()) {
       var userId = UserProfileStore.getCookieID();
       SongActions.addFav(userId, this.props.song.uuid);
