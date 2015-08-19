@@ -56,22 +56,11 @@ class Home extends React.Component {
   handleNewestClick() {    
     this.setState({order: 'like'});
     //console.log('newest click nonsync', this.state.order);
-
   }
 
   handleUpvotedClick() {    
     this.setState({order: 'createdAt'});
     //console.log('upvoted click nonsync', this.state.order);
-
-  handleNewestClick() {
-    console.log('newest click');
-    this.setState({order: 'createdAt'});
-
-  }
-
-  handleUpvotedClick() {
-    console.log('upvoted click');
-    this.setState({order: 'like'});
   }
 
   openModal() {
@@ -147,8 +136,8 @@ class Home extends React.Component {
     return (
       <div className= "HomePage">
         <div className = "select">
-          <button className="sortButton" onClick={this.handleNewestClick}>View Newest</button>
-          <button className="sortButton" onClick={this.handleUpvotedClick}>View Most Upvoted</button>
+          <button className="sortButton" onClick={this.handleNewestClick} >View Newest</button>
+          <button className="sortButton" onClick={this.handleUpvotedClick} >View Most Upvoted</button>
         </div>
         <select>
           <option value="volvo">Volvo</option>
