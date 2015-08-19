@@ -3,8 +3,10 @@ import React from 'react';
 import Router from 'react-router';
 import {Glyphicon} from 'react-bootstrap';
 import SongActions from '../actions/songActionCreators';
+import RouterActions from '../actions/routerActionCreators';
 import UserProfileStore from '../stores/userProfileStore';
 import VotedSongStore from '../stores/votedSongStore';
+import AuthModalStore from '../stores/authModalStore';
 
 
 class SongList extends React.Component{
@@ -33,7 +35,7 @@ class SongList extends React.Component{
       var userId = UserProfileStore.getCookieID();
       SongActions.forkSong(userId, song.uuid);
     } else {
-      console.log('need login');
+      RouterActions.openAuthModal();
     }
   }
 
@@ -46,7 +48,7 @@ class SongList extends React.Component{
       var userId = UserProfileStore.getCookieID();
       SongActions.addFav(userId, song.uuid);
     } else {
-      console.log('need login');
+      RouterActions.openAuthModal();
     }
   }
 
@@ -72,7 +74,7 @@ class SongList extends React.Component{
         console.log('error: ', err)
       })
     } else {
-      console.log('need login');
+      RouterActions.openAuthModal();
     }
   }
 
@@ -90,12 +92,9 @@ class SongList extends React.Component{
         console.log('error: ', err)
       })
     } else {
-      console.log('need login');
+      RouterActions.openAuthModal();
     }
   }
-
-
-
 
   render() {
 

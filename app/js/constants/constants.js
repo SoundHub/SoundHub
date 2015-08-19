@@ -23,7 +23,8 @@ let constants = {
       CHANGE_IMG_URL:null,
       ROUTER_NEXT_TRANSITION_PATH: null,
       RECEIVE_ALL_FAV_SONGS:null,
-      ADD_FAV_SUCCESS:null
+      ADD_FAV_SUCCESS:null,
+      OPEN_AUTH_MODAL: null
   })
 };
 

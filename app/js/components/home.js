@@ -9,6 +9,8 @@ import AudioPlayer from './player-components/AudioPlayer';
 
 import AllSongStore from '../stores/allSongStore';
 import UserProfileStore from '../stores/userProfileStore';
+import VotedSongStore from '../stores/votedSongStore';
+import AuthModalStore from '../stores/authModalStore';
 import PlaySongStore from '../stores/playSongStore';
 
 class Home extends React.Component {
@@ -16,7 +18,6 @@ class Home extends React.Component {
     super(props);
     SongActions.getAllSongs();
     SongActions.getUserVotes(UserProfileStore.getCookieID())
-
     this.state = {songs: {allSongs: []},
                   order: 'like',
                   showModal: false};
@@ -25,6 +26,7 @@ class Home extends React.Component {
     this.playsong = this.playsong.bind(this);
     this.render = this.render.bind(this);
     this._onChange = this._onChange.bind(this);
+    this._userNotAuthed = this._userNotAuthed.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.openModal = this.openModal.bind(this);
     this.handleNewestClick = this.handleNewestClick.bind(this);
@@ -33,11 +35,13 @@ class Home extends React.Component {
 
   componentDidMount () {
     AllSongStore.addChangeListener(this._onChange);
+    AuthModalStore.addChangeListener(this._userNotAuthed);
     PlaySongStore.addChangeListener(this.playsong);
   }
 
   componentWillUnmount() {
     AllSongStore.removeChangeListener(this._onChange);
+    AuthModalStore.removeChangeListener(this._userNotAuthed);
     PlaySongStore.removeChangeListener(this.playsong);
   }
 
@@ -50,6 +54,10 @@ class Home extends React.Component {
     console.log("songs", this.state.songs);
   }
 
+  _userNotAuthed() {
+    this.setState({showModal: true})
+  }
+  
   handleNewestClick() {
     this.setState({order: 'createdAt'});
   }
@@ -65,7 +73,6 @@ class Home extends React.Component {
   closeModal(){
     this.setState({ showModal: false });
   }
-
 
   render() {
     var order = this.state.order;
