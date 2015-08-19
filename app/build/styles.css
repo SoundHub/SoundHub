@@ -97,7 +97,8 @@ body {
 /* ================ Auth ================= */
 .authPage .authBanner {
   height: 300px;
-  background-image: url("../assets/authbanner.jpg"); }
+  background: url("../assets/authbanner.jpg");
+  background-size: 100% 100%; }
 
 .authPage .authBannerTitle {
   position: relative;
@@ -189,49 +190,63 @@ body {
 .playerBox {
   position: fixed;
   bottom: 0;
-  width: 100%; }
+  width: 100%;
+  z-index: 10; }
 
 .playList {
   background: #FFFFFF;
   vertical-align: middle;
   height: 100%; }
 
-.songItem {
-  float: left;
-  width: 400px;
-  margin: 10px;
+.songPanel {
   padding: 10px;
+  z-index: 2;
+  height: 76px;
+  width: 350px;
+  background-color: #A6D1E0;
+  border-radius: 10px; }
+
+.hideItem {
+  visibility: hidden; }
+
+.songBox {
+  margin-left: 15px;
+  margin-bottom: 10px;
+  display: inline-block;
+  margin-right: 15px; }
+
+.songItem {
+  z-index: 3;
+  float: left;
+  width: 350px;
+  padding: 8px;
   border-radius: 10px;
-  background-color: rgba(140, 146, 149, 0.6); }
+  background-color: #bed4de; }
   .songItem .title {
     font-size: 15px;
     color: white;
     text-transform: capitalize; }
-  .songItem .itemPlay {
-    width: 30px;
-    padding: 6px 0px 0px 9px;
-    background-color: #FFFFFF;
-    text-align: center;
-    height: 30px;
-    border-radius: 100%;
-    display: -webkit-inline-box; }
-  .songItem .itemOther {
-    color: #31748D;
-    float: right;
-    margin-right: 5px;
-    width: 30px;
-    padding: 6px 0px 0px 9px;
-    background-color: #E4E4E4;
-    text-align: center;
-    height: 30px;
-    border-radius: 10%;
-    display: -webkit-inline-box; }
+
+.itemOther {
+  font-size: 14px;
+  margin-top: 3px;
+  color: #6A8E9B;
+  float: left;
+  margin-right: 5px;
+  width: 26px;
+  padding: 3px 0px 0px 7px;
+  background-color: white;
+  text-align: center;
+  height: 26px;
+  border-radius: 18%;
+  display: -webkit-inline-box; }
 
 .songItem:hover {
   transition: background-color 0.3s;
   background-color: #879EAB; }
 
 .like-count {
+  font-size: 20px;
   color: #FF598E;
   float: right; }
 
@@ -245,6 +260,20 @@ body {
 
 .bannerText {
   padding-bottom: 100px; }
+
+.sortBox {
+  margin: 20px;
+  width: 400px; }
+
+.sortButton {
+  color: white;
+  background-color: crimson;
+  margin-right: 10px;
+  border: 0;
+  padding: 5px;
+  width: 100px;
+  height: 30px;
+  border-radius: 20px; }
 
 /* ================ User Panel ================= */
 .profilePage .randomBG {
@@ -301,7 +330,8 @@ body {
 /* ================ MusicPlayer ================= */
 .audio-player {
   min-width: 780px;
-  background: url(../assets/random-bg/playerbg3.jpg);
+  background: url(../assets/random-bg/up.jpg);
+  background-size: 100% 100%;
   vertical-align: middle;
   padding: 10px 0px 0px 0px;
   width: 100%;
@@ -310,7 +340,7 @@ body {
 
 .audio-button-panel {
   padding-top: 2px;
-  margin-left: 10px; }
+  margin-left: 20px; }
 
 .audio-refresh-animate {
   -webkit-animation: rotating 1.5s linear infinite;
@@ -324,7 +354,7 @@ body {
   height: 30px;
   border-right: 2px solid white;
   border-left: 2px solid white;
-  width: 70%; }
+  width: 85%; }
 
 .audio-progress-container-short-width {
   width: 130px; }
@@ -443,23 +473,40 @@ body {
     -o-transform: rotate(360deg); } }
 
 /* ================ Tree ================= */
+.treeDiv {
+  position: relative;
+  background-color: #F7F7F7; }
+  .treeDiv .sideBar {
+    float: right;
+    width: 25%;
+    border: 3px solid black;
+    padding: 5px; }
+
 .treeBox {
   margin-right: auto;
   margin-left: auto;
   width: 900px; }
 
-.nodeCircle {
-  fill: #14c5b8 !important; }
-
+/*
+  .nodeCircle{
+    fill:rgb(20, 197, 184) !important;
+  }
+*/
 .node {
-  cursor: pointer; }
-  .node .circle {
-    fill: #fff;
-    stroke: steelblue;
-    stroke-width: 2.5px; }
+  cursor: pointer;
+  /*
+    .circle {
+      stroke: steelblue;
+      stroke-width: 2.5px;
+    }
+*/ }
   .node .text {
     font-size: 10px;
     font-family: sans-serif; }
+  .node .node-image {
+    border-style: solid;
+    border-width: 10px;
+    border-radius: 100%; }
 
 .overlay {
   background-color: #F7F7F7; }
@@ -474,15 +521,28 @@ body {
   stroke: red;
   stroke-width: 3px; }
 
-.treeDiv {
-  position: relative;
-  background-color: #F7F7F7; }
-  .treeDiv .sideBar {
-    float: right;
-    width: 25%;
-    border: 3px solid black;
-    padding: 5px; }
+/*
+  .selected {
+    width: 75px;
+    height: 75px;
+    text-align: center;
+    vertical-align: middle;
 
+    -webkit-box-shadow: -6px -8px 10px #F8A50E, -4px 7px 10px #BFF80E, 6px -4px 10px #0ED6F8;
+    -moz-box-shadow: -6px -8px 10px #F8A50E, -4px 7px 10px #BFF80E, 6px -4px 10px #0ED6F8;
+    box-shadow: -6px -8px 10px #F8A50E, -4px 7px 10px #BFF80E, 6px -4px 10px #0ED6F8;
+
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    border-radius: 50px;
+
+    -webkit-transition: box-shadow .4s ease;
+    -moz-transition: box-shadow .4s ease;
+    -o-transition: box-shadow .4s ease;
+    -ms-transition: box-shadow .4s ease;
+    transition: box-shadow .4s ease;
+  }
+*/
 /* ================ shadow effect ================= */
 .effect8 {
   position: relative;
