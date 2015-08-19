@@ -184,11 +184,5 @@ export default {
     .catch((err) => {
       console.error('getting user votes failed: ', err)
     })
-  },
-
-  openAuthModal() {
-    Dispatcher.dispatch({
-      type: ActionType.OPEN_AUTH_MODAL
-    })
   }
 }

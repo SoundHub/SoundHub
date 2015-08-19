@@ -7,5 +7,11 @@ export default {
       type: ActionType.ROUTER_NEXT_TRANSITION_PATH,
       path: path
     })
+  },
+ 
+  openAuthModal() {
+    Dispatcher.dispatch({
+      type: ActionType.OPEN_AUTH_MODAL
+    })
   }
 }

@@ -5,6 +5,7 @@ import SongList from './songlist';
 import { Modal } from 'react-bootstrap';
 
 import SongActions from '../actions/songActionCreators';
+import RouterActions from '../actions/routerActionCreators';
 import AudioPlayer from './player-components/AudioPlayer';
 
 import AllSongStore from '../stores/allSongStore';
@@ -17,7 +18,6 @@ class Home extends React.Component {
     super(props);
     SongActions.getAllSongs();
     SongActions.getUserVotes(UserProfileStore.getCookieID())
-
     this.state = {songs: {allSongs: []},
                   order: 'like',
                   showModal: false};
@@ -36,7 +36,7 @@ class Home extends React.Component {
   componentDidMount () {
     AllSongStore.addChangeListener(this._onChange);
     AuthModalStore.addChangeListener(this._userNotAuthed);
-    SongActions.openAuthModal(); // testing the modal action
+    UserActions.openAuthModal(); // testing the modal action
   }
 
   componentWillUnmount() {
