@@ -1,7 +1,7 @@
 import React from 'react';
 import UserProfileStore from '../stores/userProfileStore';
 import UserActions from '../actions/userActionCreators';
-import RouterActions from '../actions/RouterActionCreators';
+import RouterActions from '../actions/routerActionCreators';
 
 export default (Component) => {
   return class AuthenticatedComponent extends React.Component {

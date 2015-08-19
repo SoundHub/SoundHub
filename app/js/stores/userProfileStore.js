@@ -22,7 +22,6 @@ let UserProfile = assign({}, EventEmitter.prototype, {
     this.removeListener(CHANGE_EVENT, callback)
   },
   isLoggedIn() {
-    console.log('is logged in returns: ',!!this.getCookieID())
     return !!this.getCookieID();
   },
   getCookieID() {
