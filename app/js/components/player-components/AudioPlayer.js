@@ -56,9 +56,7 @@ module.exports = React.createClass({
 			 onPlayBtnClick={this.onPlayBtnClick}
 			 onPauseBtnClick={this.onPauseBtnClick}/>,
 			<ProgressBar percent={percent} seekTo={this.seekTo} />,
-			<VolumeBar volume={this.state.volume} adjustVolumeTo={this.adjustVolumeTo} />,
-			<Button bsSize="small" className="audio-rbtn" onClick={this.props.fav}><Glyphicon glyph='heart' /></Button>,
-
+			<VolumeBar volume={this.state.volume} adjustVolumeTo={this.adjustVolumeTo} />
 		];
 		if(this.state.song) {
 			songName = this.state.song.title;
