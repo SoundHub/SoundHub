@@ -7,66 +7,86 @@ import SongActions from '../actions/songActionCreators';
 class SongList extends React.Component{
   constructor() {
     super();
-    this.handleClick = this.handleClick.bind(this);
-    this.forkclick = this.forkclick.bind(this);
-    this.togglePenel = this.togglePenel.bind(this);
+    this.likeClick = this.likeClick.bind(this);
+    this.forkClick = this.forkClick.bind(this);
+    this.playClick = this.playClick.bind(this);
+    this.togglePanel = this.togglePanel.bind(this);
    }
 
-  togglePenel(i){
-    let item = 'item'+i
-    console.log('select' + i);
-    console.log(this.refs[item].props.className)
+  togglePanel(song){
+    console.log(song)
   }
 
-  handleClick(i){
-    this.props.switchSong(this.props.data[i]);
+  playClick(song){
+    console.log(song)
   }
 
-  forkclick(i){
-    let forkSong = this.props.data[i]
-    SongActions.createFromFork(forkSong);
+  forkClick(song){
+    SongActions.createFromFork(song);
+  }
+
+  likeClick(song){
+    console.log('like click');
   }
 
   render() {
+
+    var songboxs = this.props.data.map(function (song, i) {
+      return (
+        <SongBox
+          key={song.id}
+          song={song}
+          playClick={this.playClick.bind(this, song)}
+          forkClick={this.forkClick.bind(this, song)}
+          likeClick={this.likeClick.bind(this, song)}
+          page = {this.props.page}
+        />
+      );
+    }, this);
+
     return (
       <div className="playList" >
-        {this.props.data.map(function(song, i) {
-          return (
-            <div className ="songBox" key={i}>
-
-              <div className = "songItem effect8"  onClick={this.togglePenel.bind(this, i)}>
-                <Router.Link to="tree"  params={song}>
-                  <span className = "title"  > {i} {song.title} </span>
-                </Router.Link>
-                <span className> by {song.authorName} </span>
-                <span className="like-count" > <Glyphicon glyph='heart' /> {song.like} </span>
-              </div>
-
-              <div className="songPanel" ref={'item' + i}>
-                  <div className="itemOther" onClick={this.handleClick.bind(this, i)}>
-                    <Glyphicon glyph='play' />
-                  </div>
-                {
-                  this.props.uploadmode ?
-                  <div className="itemOther" onClick={this.forkclick.bind(this,i)}>
-                    <Glyphicon glyph='tags' />
-                  </div>: null
-                }
-
-                { this.props.uploadmode ?
-                  <a href={song.url} download>
-                    <div className="itemOther" >
-                      <Glyphicon glyph='download' />
-                    </div>
-                  </a> : null
-                }
-                </div>
-              </div>
-          );
-        }, this)}
+        {songboxs}
       </div>
     );
   }
 }
+class SongBox extends React.Component{
+  constructor() {
+    super();
+   }
+
+  render() {
+    return(
+    <div className ="songBox" >
+      <div className = "songItem effect8"  onClick={this.props.togglePanel}>
+          <Router.Link to="tree"  params={this.props.song}>
+            <span className = "title"  > {this.props.song.title} </span>
+          </Router.Link>
+        <span className> by {this.props.song.authorName} </span>
+        <span className="like-count" > <Glyphicon glyph='heart' /> {this.props.song.like} </span>
+      </div>
+
+      <div className="songPanel" id={this.props.key}>
+        <div className="itemOther" onClick={this.props.playClick}>
+          <Glyphicon glyph='play' />
+        </div>
+        {this.props.page==='fork' ?
+        <div className="itemOther" onClick={this.props.forkClick}>
+          <Glyphicon glyph='tags' />
+        </div>: null}
+
+        {this.props.page==='fork' ?
+        <a href={this.props.song.url} download>
+          <div className="itemOther" >
+            <Glyphicon glyph='download' />
+          </div>
+        </a> : null}
+      </div>
+    </div>
+  )}
+
+}
+
 
 export default SongList;
