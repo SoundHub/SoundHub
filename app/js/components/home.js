@@ -20,6 +20,7 @@ class Home extends React.Component {
     this.state = {songs: {allSongs: []},
                   order: 'like',
                   showModal: false};
+
     this.componentDidMount = this.componentDidMount.bind(this);
     this.switchSong = this.switchSong.bind(this);
     this.render = this.render.bind(this);
