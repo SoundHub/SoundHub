@@ -3,14 +3,17 @@ import React from 'react';
 import Router from 'react-router';
 import {Glyphicon} from 'react-bootstrap';
 import SongActions from '../actions/songActionCreators';
+import RouterActions from '../actions/routerActionCreators';
 import UserProfileStore from '../stores/userProfileStore';
 import VotedSongStore from '../stores/votedSongStore';
+import AuthModalStore from '../stores/authModalStore';
 
 
 class SongList extends React.Component{
   constructor() {
     super();
     this.addVote = this.addVote.bind(this);
+    this.addfav = this.addfav.bind(this);
     this.likeClick = this.likeClick.bind(this);
     this.forkClick = this.forkClick.bind(this);
     this.playClick = this.playClick.bind(this);
@@ -32,12 +35,21 @@ class SongList extends React.Component{
       var userId = UserProfileStore.getCookieID();
       SongActions.forkSong(userId, song.uuid);
     } else {
-      console.log('need login');
+      RouterActions.openAuthModal();
     }
   }
 
   addVote(newVote, oldVote,songId) {
     SongActions.addSongVote(UserProfileStore.getCookieID(), songId, newVote, oldVote);
+  }
+
+  addfav(song){
+    if(UserProfileStore.isLoggedIn()) {
+      var userId = UserProfileStore.getCookieID();
+      SongActions.addFav(userId, song.uuid);
+    } else {
+      RouterActions.openAuthModal();
+    }
   }
 
   createClick(song){
@@ -62,7 +74,7 @@ class SongList extends React.Component{
         console.log('error: ', err)
       })
     } else {
-      console.log('need login');
+      RouterActions.openAuthModal();
     }
   }
 
@@ -80,12 +92,9 @@ class SongList extends React.Component{
         console.log('error: ', err)
       })
     } else {
-      console.log('need login');
+      RouterActions.openAuthModal();
     }
   }
-
-
-
 
   render() {
 
@@ -94,6 +103,7 @@ class SongList extends React.Component{
         <SongBox
           key={song.id}
           song={song}
+          addfav={this.addfav.bind(this, song)}
           playClick={this.playClick.bind(this, song)}
           forkClick={this.forkClick.bind(this, song)}
           likeClick={this.likeClick.bind(this, song)}
@@ -147,6 +157,11 @@ class SongBox extends React.Component{
         {this.props.page==='home' ?
         <div className="itemOther" onClick={this.props.forkClick}>
           <Glyphicon glyph='paperclip' />
+        </div>: null}
+
+        {this.props.page==='home' ?
+        <div className="itemOther" onClick={this.props.addfav}>
+          <Glyphicon glyph='heart' />
         </div>: null}
 
         {this.props.page==='home' ?

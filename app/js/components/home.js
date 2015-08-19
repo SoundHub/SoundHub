@@ -5,7 +5,6 @@ import SongList from './songlist';
 import { Modal } from 'react-bootstrap';
 
 import SongActions from '../actions/songActionCreators';
-import RouterActions from '../actions/routerActionCreators';
 import AudioPlayer from './player-components/AudioPlayer';
 
 import AllSongStore from '../stores/allSongStore';
@@ -36,7 +35,6 @@ class Home extends React.Component {
   componentDidMount () {
     AllSongStore.addChangeListener(this._onChange);
     AuthModalStore.addChangeListener(this._userNotAuthed);
-    UserActions.openAuthModal(); // testing the modal action
   }
 
   componentWillUnmount() {
@@ -54,7 +52,6 @@ class Home extends React.Component {
   }
 
   _userNotAuthed() {
-    console.log('user not authed')
     this.setState({showModal: true})
   }
 
@@ -72,15 +69,6 @@ class Home extends React.Component {
 
   closeModal(){
     this.setState({ showModal: false });
-  }
-
-  fav(){
-    if(UserProfileStore.isLoggedIn()) {
-      var userId = UserProfileStore.getCookieID();
-      SongActions.addFav(userId, this.state.currentsong.uuid);
-    } else {
-      this.openModal();
-    }
   }
 
   render() {
@@ -101,8 +89,7 @@ class Home extends React.Component {
         <Modal show={this.state.showModal} onHide={this.closeModal}> You must be logged in!</Modal>
         <hr></hr>
         <div className= "playerBox">
-          <AudioPlayer song = {this.state.currentsong} fav={this.fav} handleDownvote={this.handleDownvote}
-          handleUpvote={this.handleUpvote} mode = "home" />
+          <AudioPlayer song = {this.state.currentsong} mode = "home" />
         </div>
           <SongList data = {this.state.songs.allSongs} switchSong={this.switchSong} page='home'/>
       </div>
