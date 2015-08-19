@@ -88,9 +88,6 @@ class Create extends React.Component {
                 <div>{this.props.forksong.title}</div>
                 <button diasbled={!this.state.uploadDone} type="button" className="btn btn-success" onClick={this.uploadSong}>
                 Create </button>
-
-                <Button diasbled type="button" className="btn btn-success" onClick={this.uploadSong}>
-                Create </Button>
                 { this.state.showUpdate ? <div>{this.state.newestCreated.title} added!</div> : null }
             </div>
       </div>

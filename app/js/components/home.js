@@ -9,7 +9,8 @@ import AudioPlayer from './player-components/AudioPlayer';
 
 import AllSongStore from '../stores/allSongStore';
 import UserProfileStore from '../stores/userProfileStore';
-import VotedSongStore from '../stores/votedSongStore'
+import VotedSongStore from '../stores/votedSongStore';
+import AuthModalStore from '../stores/authModalStore';
 
 class Home extends React.Component {
   constructor(props) {
@@ -25,6 +26,7 @@ class Home extends React.Component {
     this.switchSong = this.switchSong.bind(this);
     this.render = this.render.bind(this);
     this._onChange = this._onChange.bind(this);
+    this._userNotAuthed = this._userNotAuthed.bind(this);
     this.addVote = this.addVote.bind(this);
     this.handleUpvote = this.handleUpvote.bind(this);
     this.handleDownvote = this.handleDownvote.bind(this);
@@ -39,10 +41,12 @@ class Home extends React.Component {
 
   componentDidMount () {
     AllSongStore.addChangeListener(this._onChange);
+    AuthModalStore.addChangeListener(this._userNotAuthed);
   }
 
   componentWillUnmount() {
     AllSongStore.removeChangeListener(this._onChange);
+    AuthModalStore.removeChangeListener(this._userNotAuthed);
   }
 
   switchSong(song){
@@ -54,14 +58,17 @@ class Home extends React.Component {
     console.log("songs", this.state.songs);
   }
 
+  _userNotAuthed() {
+    console.log('user not authed')
+    this.setState({showModal: true})
+  }
+
   handleNewestClick() {    
-    this.setState({order: 'like'});
-    //console.log('newest click nonsync', this.state.order);
+    this.setState({order: 'createdAt'});
   }
 
   handleUpvotedClick() {    
-    this.setState({order: 'createdAt'});
-    //console.log('upvoted click nonsync', this.state.order);
+    this.setState({order: 'like'});
   }
 
   openModal() {
@@ -90,8 +97,7 @@ class Home extends React.Component {
         console.log('error: ', err)
       })
     } else {
-      // TODO: tell user they need to be logged in
-      this.openModal();
+      songActionCreators.openAuthModal();
     }
   }
 
@@ -101,7 +107,7 @@ class Home extends React.Component {
       .then((currVal) => {
         if(currVal === -1) {
           this.addVote(0, currVal);
-        } else { // 0 or -1
+        } else { 
           this.addVote(-1, currVal);
         }
       })
