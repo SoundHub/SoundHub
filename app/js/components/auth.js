@@ -51,19 +51,21 @@ class Signup extends React.Component {
   }
 
   handleSignup() {
-    let letters = /^[A-Za-z]+$/;
+    let filterStr = /^[A-Za-z0-9]+$/;
     let userData = {};
     console.log('refs', this.refs)
     userData.username = this.refs.username.getDOMNode().value;
     userData.password = this.refs.password.getDOMNode().value;
     userData.email = this.refs.email.getDOMNode().value;
-    if(!userData.username.match(letters)){
-      alert('Username must have alphabet characters only');
+    if(!userData.username.match(filterStr)){
+      alert('Username must have letters or numbers only');
     }else if(userData.username.length < 4){
       alert('Username must have at least 4 characters');
     }else{
-      UserActions.createUser(userData);
-      this.toggleAuth();
+      UserActions.createUser(userData, () => {
+        this.context.router.transitionTo('user');
+      });
+      // this.toggleAuth();
     }
   }
 
@@ -80,6 +82,9 @@ class Signup extends React.Component {
       );
   }
 }
+Signup.contextTypes = {
+      router: React.PropTypes.func.isRequired
+    };
 
 class Auth extends React.Component {
   constructor(props) {

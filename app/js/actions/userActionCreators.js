@@ -9,7 +9,7 @@ let ActionType = Constants.ActionTypes;
 
 export default ({
 
-  createUser (user) {
+  createUser (user, cb) {
     Utils.postJSON('/signup', user)
     .then((response) => {
       Dispatcher.dispatch({
@@ -18,6 +18,7 @@ export default ({
         user: user
       });
       console.log('user created');
+      cb();
     })
     .catch((err) => {
       console.error('signup failed ', err);
