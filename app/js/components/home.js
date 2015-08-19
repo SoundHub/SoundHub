@@ -15,7 +15,8 @@ class Home extends React.Component {
     super(props);
     SongActions.getAllSongs();
     SongActions.getUserVotes(UserProfileStore.getCookieID())
-    this.state = {songs: {allSongs: []}}
+    this.state = {songs: {allSongs: []},
+                  order: 'like'};
     this.componentDidMount = this.componentDidMount.bind(this);
     this.switchSong = this.switchSong.bind(this);
     this.render = this.render.bind(this);
@@ -48,6 +49,8 @@ class Home extends React.Component {
   }
 
   render() {
+    var order = this.state.order;
+    console.log(order);
     return (
 
       <div className= "HomePage">
@@ -65,7 +68,10 @@ class Home extends React.Component {
         <div className= "playerBox">
           <AudioPlayer song = {this.state.currentsong} mode = "home" />
         </div>
-          <SongList data = {this.state.songs.allSongs} switchSong = {this.switchSong} />
+          <SongList data = {this.state.songs.allSongs.sort(function(a, b) {
+            return b[order] - a[order];
+          })} 
+          switchSong = {this.switchSong} />
       </div>
     );
   }
