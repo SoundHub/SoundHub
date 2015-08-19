@@ -22,7 +22,7 @@ class Home extends React.Component {
     this.render = this.render.bind(this);
     this._onChange = this._onChange.bind(this);
     this.handleNewestClick = this.handleNewestClick.bind(this);
-    this.handleUpvotedClick = this.handleNewestClick.bind(this);
+    this.handleUpvotedClick = this.handleUpvotedClick.bind(this);
   }
 
   componentDidMount () {
@@ -42,15 +42,15 @@ class Home extends React.Component {
     console.log("songs", this.state.songs);
   }
 
-  handleNewestClick() {
-    console.log('newest click');
-    this.setState({order: 'createdAt'});
+  handleNewestClick() {    
+    this.setState({order: 'like'});
+    //console.log('newest click nonsync', this.state.order);
 
   }
 
-  handleUpvotedClick() {
-    console.log('upvoted click');
-    this.setState({order: 'like'});
+  handleUpvotedClick() {    
+    this.setState({order: 'createdAt'});
+    //console.log('upvoted click nonsync', this.state.order);
   }
 
   render() {
@@ -60,12 +60,12 @@ class Home extends React.Component {
 
       <div className= "HomePage">
         <div className = "select">
-          <button className="sortButton" onClick={this.handleNewestClick}>View Newest</button>
-          <button className="sortButton" onClick={this.handleUpvotedClick}>View Most Upvoted</button>
+          <button className="sortButton" onClick={this.handleNewestClick} >View Newest</button>
+          <button className="sortButton" onClick={this.handleUpvotedClick} >View Most Upvoted</button>
         </div>
         <select>
           <option value="volvo">Volvo</option>
-          <option value="saab">Saab</option>
+          <option value="saab"> Saab</option>
           <option value="mercedes">Mercedes</option>
           <option value="audi">Audi</option>
         </select>
