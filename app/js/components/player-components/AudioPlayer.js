@@ -60,7 +60,7 @@ module.exports = React.createClass({
 			<Button bsSize="small" className="audio-rbtn" onClick={this.props.fav}><Glyphicon glyph='heart' /></Button>,
 			<Button bsSize="small" className="audio-rbtn" onClick={this.props.handleUpvote}><Glyphicon glyph='chevron-up' /></Button>,
 			<Button bsSize="small" className="audio-rbtn" onClick={this.props.handleDownvote}><Glyphicon glyph='chevron-down' /></Button>,
-			<Button bsSize="small" className="audio-rbtn" onClick={this.props.forkSong}><Glyphicon glyph='paperclip' /></Button>
+
 		];
 		if(this.state.song) {
 			songName = this.state.song.title;

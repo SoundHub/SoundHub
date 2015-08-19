@@ -3,6 +3,7 @@ import React from 'react';
 import Router from 'react-router';
 import {Glyphicon} from 'react-bootstrap';
 import SongActions from '../actions/songActionCreators';
+import UserProfileStore from '../stores/userProfileStore';
 
 class SongList extends React.Component{
   constructor() {
@@ -22,6 +23,15 @@ class SongList extends React.Component{
   }
 
   forkClick(song){
+    if(UserProfileStore.isLoggedIn()) {
+      var userId = UserProfileStore.getCookieID();
+      SongActions.forkSong(userId, song.uuid);
+    } else {
+      console.log('need login');
+    }
+  }
+
+  createClick(song){
     SongActions.createFromFork(song);
   }
 
@@ -39,6 +49,7 @@ class SongList extends React.Component{
           playClick={this.playClick.bind(this, song)}
           forkClick={this.forkClick.bind(this, song)}
           likeClick={this.likeClick.bind(this, song)}
+          createClick={this.createClick.bind(this, song)}
           page = {this.props.page}
         />
       );
@@ -72,7 +83,7 @@ class SongBox extends React.Component{
           <Glyphicon glyph='play' />
         </div>
         {this.props.page==='fork' ?
-        <div className="itemOther" onClick={this.props.forkClick}>
+        <div className="itemOther" onClick={this.props.createClick}>
           <Glyphicon glyph='tags' />
         </div>: null}
 
@@ -82,6 +93,14 @@ class SongBox extends React.Component{
             <Glyphicon glyph='download' />
           </div>
         </a> : null}
+
+        {this.props.page==='home' ?
+        <div className="itemOther" onClick={this.props.forkClick}>
+          <Glyphicon glyph='paperclip' />
+        </div>: null}
+
+
+
       </div>
     </div>
   )}
