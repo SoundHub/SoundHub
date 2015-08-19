@@ -10,7 +10,6 @@ class Login extends React.Component {
     super();
     this.toggleAuth = this.toggleAuth.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
-    this.login = this.login.bind(this);
   }
 
   toggleAuth() { this.props.handleToggle('Signup');}

@@ -30,14 +30,11 @@ var addVote = function(voteInfo) {
   })
 }
 
-var addNewVotedSong = function(songId) {
-  AllSongStore.getSongById(songId)
-  .then((song) => {
-    var toVote = _.cloneDeep(song);
-    toVote.upvote = 0;
-    console.log('get song: ', toVote)
-    _votedSongs.push(toVote);
-  })
+var addNewVotedSong = function(song) {
+  let toVote = _.cloneDeep(song);
+  toVote.upvote = 0;
+  console.log('get song: ', toVote)
+  _votedSongs.push(toVote);
 }
 
 var VotedSongStore = assign({}, EventEmitter.prototype, {
@@ -58,10 +55,7 @@ var VotedSongStore = assign({}, EventEmitter.prototype, {
       if(_votedSongs.length === 0) {
         AllSongStore.getSongById(songId)
         .then((song) => {
-          var toVote = _.cloneDeep(song);
-          toVote.upvote = 0;
-          console.log('get song: ', toVote)
-          _votedSongs.push(toVote);
+          addNewVotedSong(song);
           resolve(0);
         })
       } else {
@@ -78,10 +72,7 @@ var VotedSongStore = assign({}, EventEmitter.prototype, {
           console.log('user has not upvoted this song')
           AllSongStore.getSongById(songId)
           .then((song) => {
-            var toVote = _.cloneDeep(song);
-            toVote.upvote = 0;
-            console.log('get song: ', toVote)
-            _votedSongs.push(toVote);
+            addNewVotedSong(song);
             resolve(0);
           })
           .then(() => {
