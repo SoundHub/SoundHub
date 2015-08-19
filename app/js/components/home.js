@@ -21,6 +21,8 @@ class Home extends React.Component {
     this.switchSong = this.switchSong.bind(this);
     this.render = this.render.bind(this);
     this._onChange = this._onChange.bind(this);
+    this.handleNewestClick = this.handleNewestClick.bind(this);
+    this.handleUpvotedClick = this.handleNewestClick.bind(this);
   }
 
   componentDidMount () {
@@ -42,10 +44,13 @@ class Home extends React.Component {
 
   handleNewestClick() {
     console.log('newest click');
+    this.setState({order: 'createdAt'});
+
   }
 
   handleUpvotedClick() {
     console.log('upvoted click');
+    this.setState({order: 'like'});
   }
 
   render() {
@@ -55,8 +60,8 @@ class Home extends React.Component {
 
       <div className= "HomePage">
         <div className = "select">
-          <button className="sortButton">View Newest</button>
-          <button className="sortButton">View Most Upvoted</button>
+          <button className="sortButton" onClick={this.handleNewestClick}>View Newest</button>
+          <button className="sortButton" onClick={this.handleUpvotedClick}>View Most Upvoted</button>
         </div>
         <select>
           <option value="volvo">Volvo</option>
