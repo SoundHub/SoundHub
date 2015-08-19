@@ -42,65 +42,6 @@ module.exports = React.createClass({
 		}
 	},
 
-	addVote: function(newVote, oldVote) {
-		SongActions.addSongVote(UserProfileStore.getCookieID(), this.props.song.uuid, newVote, oldVote);
-	},
-
-	handleUpvote: function () {
-		if(UserProfileStore.isLoggedIn()) {
-			VotedSongStore.getSongVoteStatus(this.props.song.uuid)
-			.then((currVal) => {
-				if(currVal === 1) {
-					this.addVote(0, currVal);
-				} else {
-					this.addVote(1, currVal);
-				}
-			})
-			.catch((err) => {
-				console.log('error: ', err)
-			})
-		} else {
-			// TODO: tell user they need to be logged in
-			console.log('user is not logged in, cannot vote')
-		}
-	},
-
-	handleDownvote: function() {
-		if(UserProfileStore.isLoggedIn()) {
-			VotedSongStore.getSongVoteStatus(this.props.song.uuid)
-			.then((currVal) => {
-				if(currVal === -1) {
-					this.addVote(0, currVal);
-				} else { // 0 or -1
-					this.addVote(-1, currVal);
-				}
-			})
-			.catch((err) => {
-				console.log('error: ', err)
-			})
-		} else {
-			console.log('user is not logged in, cannot vote')
-		}
-	},
-
-	forkSong: function() {
-		if(UserProfileStore.isLoggedIn()) {
-			var userId = UserProfileStore.getCookieID();
-			SongActions.forkSong(userId, this.props.song.uuid);
-		} else {
-			console.log('user is not logged in, cannot fork')
-		}
-	},
-
-	fav: function(){
-		if(UserProfileStore.isLoggedIn()) {
-			var userId = UserProfileStore.getCookieID();
-			SongActions.addFav(userId, this.props.song.uuid);
-		} else {
-			console.log('user is not logged in, cannot fav')
-		}
-	},
-
 	render: function() {
 		var percent = 0;
 		var songName;
@@ -116,10 +57,10 @@ module.exports = React.createClass({
 			 onPauseBtnClick={this.onPauseBtnClick}/>,
 			<ProgressBar percent={percent} seekTo={this.seekTo} />,
 			<VolumeBar volume={this.state.volume} adjustVolumeTo={this.adjustVolumeTo} />,
-			<Button bsSize="small" className="audio-rbtn" onClick={this.fav}><Glyphicon glyph='heart' /></Button>,
-			<Button bsSize="small" className="audio-rbtn" onClick={this.handleUpvote}><Glyphicon glyph='chevron-up' /></Button>,
-			<Button bsSize="small" className="audio-rbtn" onClick={this.handleDownvote}><Glyphicon glyph='chevron-down' /></Button>,
-			<Button bsSize="small" className="audio-rbtn" onClick={this.forkSong}><Glyphicon glyph='paperclip' /></Button>
+			<Button bsSize="small" className="audio-rbtn" onClick={this.props.fav}><Glyphicon glyph='heart' /></Button>,
+			<Button bsSize="small" className="audio-rbtn" onClick={this.props.handleUpvote}><Glyphicon glyph='chevron-up' /></Button>,
+			<Button bsSize="small" className="audio-rbtn" onClick={this.props.handleDownvote}><Glyphicon glyph='chevron-down' /></Button>,
+			<Button bsSize="small" className="audio-rbtn" onClick={this.props.forkSong}><Glyphicon glyph='paperclip' /></Button>
 		];
 		if(this.state.song) {
 			songName = this.state.song.title;
