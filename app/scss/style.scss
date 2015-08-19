@@ -308,6 +308,11 @@ body{min-width: 700px;}
 .bannerText{
   padding-bottom: 100px;
 }
+
+.sortBox{
+  margin: 20px;
+  width: 400px;
+}
 /* ================ User Panel ================= */
 .profilePage{
   .randomBG{
@@ -374,7 +379,7 @@ $animate-sec: 1.5s;
 
 .audio-player {
   min-width: 780px;
-    background: url(../assets/random-bg/playerbg3.jpg);
+    background: url(../assets/random-bg/down.jpg);
     vertical-align: middle;
     padding: 10px 0px 0px 0px;
     width: 100%;
@@ -437,7 +442,6 @@ $animate-sec: 1.5s;
   margin-top: 2px;
   margin-left: 2px;
 }
-
 
 .audio-volume-bar-container {
   float: left;

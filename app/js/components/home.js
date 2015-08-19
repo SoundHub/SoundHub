@@ -75,18 +75,11 @@ class Home extends React.Component {
     console.log(order);
     return (
       <div className= "HomePage">
-        <div className = "select">
+        <div className = "sortBox">
           <button className="sortButton" onClick={this.handleNewestClick} >View Newest</button>
           <button className="sortButton" onClick={this.handleUpvotedClick} >View Most Upvoted</button>
         </div>
-        <select>
-          <option value="volvo">Volvo</option>
-          <option value="saab"> Saab</option>
-          <option value="mercedes">Mercedes</option>
-          <option value="audi">Audi</option>
-        </select>
         <Modal show={this.state.showModal} onHide={this.closeModal}> You must be logged in!</Modal>
-        <hr></hr>
         <div className= "playerBox">
           <AudioPlayer song = {this.state.currentsong} mode = "home" />
         </div>
