@@ -86,7 +86,7 @@ AllSongStore.dispatchToken = Dispatcher.register(function(payload) {
       break;
 
     default:
-      // do nothing
+      break;
   }
 
 });

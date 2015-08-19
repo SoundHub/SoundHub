@@ -42,48 +42,6 @@ module.exports = React.createClass({
 		}
 	},
 
-	addVote: function(newVote, oldVote) {
-		SongActions.addSongVote(UserProfileStore.getCookieID(), this.props.song.uuid, newVote, oldVote);
-	},
-
-	handleUpvote: function () {
-		VotedSongStore.getSongVoteStatus(this.props.song.uuid)
-		.then((currVal) => {
-			if(currVal === 1) {
-				this.addVote(0, currVal);
-			} else {
-				this.addVote(1, currVal);
-			}
-		})
-		.catch((err) => {
-			console.log('error: ', err)
-		})
-	},
-
-	handleDownvote: function() {
-		VotedSongStore.getSongVoteStatus(this.props.song.uuid)
-		.then((currVal) => {
-			if(currVal === -1) {
-				this.addVote(0, currVal);
-			} else { // 0 or -1
-				this.addVote(-1, currVal);
-			}
-		})
-		.catch((err) => {
-			console.log('error: ', err)
-		})
-	},
-
-	forkSong: function() {
-		var userId = UserProfileStore.getCookieID();
-		SongActions.forkSong(userId, this.props.song.uuid);
-	},
-
-	fav:function(){
-		var userId = UserProfileStore.getCookieID();
-		SongActions.addFav(userId, this.props.song.uuid);
-	},
-
 	render: function() {
 		var percent = 0;
 		var songName;
@@ -99,14 +57,14 @@ module.exports = React.createClass({
 			 onPauseBtnClick={this.onPauseBtnClick}/>,
 			<ProgressBar percent={percent} seekTo={this.seekTo} />,
 			<VolumeBar volume={this.state.volume} adjustVolumeTo={this.adjustVolumeTo} />,
-			<Button bsSize="small" className="audio-rbtn" onClick={this.fav}><Glyphicon glyph='heart' /></Button>,
-			<Button bsSize="small" className="audio-rbtn" onClick={this.handleUpvote}><Glyphicon glyph='chevron-up' /></Button>,
-			<Button bsSize="small" className="audio-rbtn" onClick={this.handleDownvote}><Glyphicon glyph='chevron-down' /></Button>,
-			<Button bsSize="small" className="audio-rbtn" onClick={this.forkSong}><Glyphicon glyph='paperclip' /></Button>
+			<Button bsSize="small" className="audio-rbtn" onClick={this.props.fav}><Glyphicon glyph='heart' /></Button>,
+			<Button bsSize="small" className="audio-rbtn" onClick={this.props.handleUpvote}><Glyphicon glyph='chevron-up' /></Button>,
+			<Button bsSize="small" className="audio-rbtn" onClick={this.props.handleDownvote}><Glyphicon glyph='chevron-down' /></Button>,
+			<Button bsSize="small" className="audio-rbtn" onClick={this.props.forkSong}><Glyphicon glyph='paperclip' /></Button>
 		];
-		if(this.state.song){
+		if(this.state.song) {
 			songName = this.state.song.title;
-		}else{
+		} else {
 			songName = 'Please add a song'
 		}
 
@@ -124,7 +82,7 @@ module.exports = React.createClass({
 	  	return (
 	  		<div>{ userPageComponents }</div>
 	  		);
-	  }else{
+	  } else {
 	  	return (
 				<div className="audio-player">
 					<div className="clearfix">
@@ -137,8 +95,6 @@ module.exports = React.createClass({
 				</div>
 			);
 	  }
-
-
 	},
 
 
