@@ -55,6 +55,14 @@ server.post('/updateImg', function(req, res) {
   })
 })
 
+server.post('/updatePassword', function(req, res) {
+  var userId = req.body.userId;
+  var newPass = req.body.newPass;
+  db.updatePassword(userId, newPass, function(data) {
+    res.send(data);
+  })
+})
+
 server.post('/addSong', function(req, res) {  //** MVP **//
   var songData = req.body;
   db.addSong(songData.title, songData.genre, songData.author,

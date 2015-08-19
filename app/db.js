@@ -71,6 +71,7 @@ var login = function(username, password, callback) {
     }
   }).then(function(obj) {
     userObj = obj;
+    console.log(obj[0].dataValues);
     hashedPw = obj[0].dataValues.password;
   }).then(function(obj) {
     return compare(password, hashedPw)
@@ -127,8 +128,15 @@ var updateUsername = function(userId, newname, callback) {
       id: userId
     }
   })
-  .then(function(data) {
-    callback(data);
+  .then(function() {
+      console.log("I SHOULD BE UPDATING OR FAILING");
+    SongNode.update(
+    {authorName: newname}, 
+    {where: {id: userId}}
+    )
+    .then(function(data) {
+      callback(data);
+    })
   })
 }
 
@@ -140,8 +148,26 @@ var updateImg = function(userId, imgUrl, callback) {
       id: userId
     }
   })
-  .then(function(data) {
-    callback(data);
+  .then(function() {
+    SongNode.update(
+      {authorPic: imgUrl},
+      {where: {id: userId}}
+    )
+    .then(function(data) {
+      callback(data);
+    })
+  })
+}
+
+var updatePassword = function(userId, newPass, callback) {
+  bcrypt.hash(newPass, salt, function(err, hash) {
+    User.update(
+      {password: hash}, 
+      {where: {id: userId}}
+    )
+    .then(function() {
+      callback(data);
+    })
   })
 }
 
@@ -150,6 +176,7 @@ exports.login = login;
 exports.signup = signup;
 exports.updateUsername = updateUsername;
 exports.updateImg = updateImg;
+exports.updatePassword = updatePassword;
 
 
 /** INSERT/QUERY FUNCTIONS **/
