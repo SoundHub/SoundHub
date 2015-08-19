@@ -25,7 +25,7 @@ class SongList extends React.Component{
   }
 
   playClick(song){
-    console.log(song)
+    SongActions.playSong(song);
   }
 
   forkClick(song){
