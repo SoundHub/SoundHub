@@ -56,11 +56,7 @@ module.exports = React.createClass({
 			 onPlayBtnClick={this.onPlayBtnClick}
 			 onPauseBtnClick={this.onPauseBtnClick}/>,
 			<ProgressBar percent={percent} seekTo={this.seekTo} />,
-			<VolumeBar volume={this.state.volume} adjustVolumeTo={this.adjustVolumeTo} />,
-			<Button bsSize="small" className="audio-rbtn" onClick={this.props.fav}><Glyphicon glyph='heart' /></Button>,
-			<Button bsSize="small" className="audio-rbtn" onClick={this.props.handleUpvote}><Glyphicon glyph='chevron-up' /></Button>,
-			<Button bsSize="small" className="audio-rbtn" onClick={this.props.handleDownvote}><Glyphicon glyph='chevron-down' /></Button>,
-			<Button bsSize="small" className="audio-rbtn" onClick={this.props.forkSong}><Glyphicon glyph='paperclip' /></Button>
+			<VolumeBar volume={this.state.volume} adjustVolumeTo={this.adjustVolumeTo} />
 		];
 		if(this.state.song) {
 			songName = this.state.song.title;

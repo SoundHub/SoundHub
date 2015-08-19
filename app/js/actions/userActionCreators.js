@@ -117,7 +117,7 @@ export default ({
     }).catch((err) => {
       console.error('get userinfo failed: ', err);
     });
-  },
+  }
 
 
 });
