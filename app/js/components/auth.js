@@ -18,7 +18,9 @@ class Login extends React.Component {
     let userData = {};
     userData.username = this.refs.username.getDOMNode().value;
     userData.password = this.refs.password.getDOMNode().value;
-    UserActions.loginUser(userData);
+    UserActions.loginUser(userData, () => {
+      this.context.router.transitionTo('user');
+    });
   }
 
   render() {
@@ -33,6 +35,9 @@ class Login extends React.Component {
       );
   }
 }
+Login.contextTypes = {
+      router: React.PropTypes.func.isRequired
+    };
 
 class Signup extends React.Component {
   constructor() {
