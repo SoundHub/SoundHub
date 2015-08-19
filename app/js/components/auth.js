@@ -51,7 +51,7 @@ class Signup extends React.Component {
   }
 
   handleSignup() {
-    let filterStr = /^[A-Za-z0-9]+$/;
+    let filterStr = /^[A-Za-z0-9 ]+$/;
     let userData = {};
     console.log('refs', this.refs)
     userData.username = this.refs.username.getDOMNode().value;
