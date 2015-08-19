@@ -9,12 +9,9 @@ import AudioPlayer from './player-components/AudioPlayer';
 
 import AllSongStore from '../stores/allSongStore';
 import UserProfileStore from '../stores/userProfileStore';
-<<<<<<< HEAD
 import VotedSongStore from '../stores/votedSongStore';
 import AuthModalStore from '../stores/authModalStore';
-=======
 import PlaySongStore from '../stores/playSongStore';
->>>>>>> fe8d3db8346f22fa0a67fc2dafa60ffe0f9091d2
 
 class Home extends React.Component {
   constructor(props) {
