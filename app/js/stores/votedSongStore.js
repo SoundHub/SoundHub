@@ -22,7 +22,6 @@ var addVote = function(voteInfo) {
   var songExists = false;
   _.forEach(_votedSongs, (song) => {
     if(song.uuid === voteInfo.songId) {
-      console.log('setting user vote from ', song.upvote, ' to ', voteInfo.vote)
       song.upvote = voteInfo.vote;
       songExists = true;
       return false;
