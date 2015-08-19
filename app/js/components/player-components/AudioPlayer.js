@@ -50,10 +50,8 @@ module.exports = React.createClass({
 		VotedSongStore.getSongVoteStatus(this.props.song.uuid)
 		.then((currVal) => {
 			if(currVal === 1) {
-				console.log('neutral')
 				this.addVote(0, currVal);
 			} else {
-				console.log('add')
 				this.addVote(1, currVal);
 			}
 		})
@@ -66,10 +64,8 @@ module.exports = React.createClass({
 		VotedSongStore.getSongVoteStatus(this.props.song.uuid)
 		.then((currVal) => {
 			if(currVal === -1) {
-				console.log('neutral')
 				this.addVote(0, currVal);
 			} else { // 0 or -1
-				console.log('subtract')
 				this.addVote(-1, currVal);
 			}
 		})

@@ -62,14 +62,12 @@ var VotedSongStore = assign({}, EventEmitter.prototype, {
         var notFound = true;
         _.forEach(_votedSongs, (song) => {
           if(song.uuid === songId) {
-            console.log('found song, previous user vote: ', song.upvote)
             notFound = false;
             resolve(song.upvote);
             return false;
           }
         })
         if(notFound) {
-          console.log('user has not upvoted this song')
           AllSongStore.getSongById(songId)
           .then((song) => {
             addNewVotedSong(song);
