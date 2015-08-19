@@ -30,6 +30,16 @@ var addVote = function(voteInfo) {
   })
 }
 
+var addNewVotedSong = function(songId) {
+  AllSongStore.getSongById(songId)
+  .then((song) => {
+    var toVote = _.cloneDeep(song);
+    toVote.upvote = 0;
+    console.log('get song: ', toVote)
+    _votedSongs.push(toVote);
+  })
+}
+
 var VotedSongStore = assign({}, EventEmitter.prototype, {
   emitChange() {
     this.emit(CHANGE_EVENT)
@@ -73,7 +83,6 @@ var VotedSongStore = assign({}, EventEmitter.prototype, {
             console.log('get song: ', toVote)
             _votedSongs.push(toVote);
             resolve(0);
-            return;
           })
           .then(() => {
             reject(Error('nothing found'))

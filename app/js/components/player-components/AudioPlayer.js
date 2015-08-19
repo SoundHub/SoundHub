@@ -10,7 +10,6 @@ import UserProfileStore from '../../stores/userProfileStore';
 import VotedSongStore from '../../stores/votedSongStore';
 import AllSongStore from '../../stores/allSongStore';
 
-
 var Howl = require('./howler').Howl;
 
 module.exports = React.createClass({
