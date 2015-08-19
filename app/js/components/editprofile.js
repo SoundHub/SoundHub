@@ -26,7 +26,7 @@ class Edit extends React.Component {
     if(this.state.updateimg){
       console.log('id:'+ this.props.userId)
       UserActions.updateImg(this.props.userId,this.state.imageUrl)
-      console.log('update image' + this.state.imageUrl);
+      console.log('update image: ' + this.state.imageUrl);
       //call backend to update profileImg
     }
   }
