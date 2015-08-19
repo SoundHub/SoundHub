@@ -22,12 +22,18 @@ var addVote = function(voteInfo) {
   var songExists = false;
   _.forEach(_votedSongs, (song) => {
     if(song.uuid === voteInfo.songId) {
-      console.log('setting user vote from ', song.upvote, ' to ', voteInfo.vote)
       song.upvote = voteInfo.vote;
       songExists = true;
       return false;
     }
   })
+}
+
+var addNewVotedSong = function(song) {
+  let toVote = _.cloneDeep(song);
+  toVote.upvote = 0;
+  console.log('get song: ', toVote)
+  _votedSongs.push(toVote);
 }
 
 var VotedSongStore = assign({}, EventEmitter.prototype, {
@@ -48,32 +54,23 @@ var VotedSongStore = assign({}, EventEmitter.prototype, {
       if(_votedSongs.length === 0) {
         AllSongStore.getSongById(songId)
         .then((song) => {
-          var toVote = _.cloneDeep(song);
-          toVote.upvote = 0;
-          console.log('get song: ', toVote)
-          _votedSongs.push(toVote);
+          addNewVotedSong(song);
           resolve(0);
         })
       } else {
         var notFound = true;
         _.forEach(_votedSongs, (song) => {
           if(song.uuid === songId) {
-            console.log('found song, previous user vote: ', song.upvote)
             notFound = false;
             resolve(song.upvote);
             return false;
           }
         })
         if(notFound) {
-          console.log('user has not upvoted this song')
           AllSongStore.getSongById(songId)
           .then((song) => {
-            var toVote = _.cloneDeep(song);
-            toVote.upvote = 0;
-            console.log('get song: ', toVote)
-            _votedSongs.push(toVote);
+            addNewVotedSong(song);
             resolve(0);
-            return;
           })
           .then(() => {
             reject(Error('nothing found'))
