@@ -11,8 +11,6 @@ import Auth from './auth';
 import Tree from './treePage';
 import Create from './create';
 
-
-
 const Route = Router.Route;
 const DefaultRoute = Router.DefaultRoute;
 const NotFoundRoute = Router.NotFoundRoute;
