@@ -19,7 +19,7 @@ var exports = {};
     var duration = 700;
     var root;
 
-    var nodeCircleRadius = 15; // 4.5 was original size
+    var nodeCircleRadius = 25; // 4.5 was original size
 
     // size of the diagram
     var widthOffset = $(document).width() - 900; // 900 is size of .treeBox element
@@ -145,10 +145,37 @@ var exports = {};
 
     // Toggle children on click.
 
+    // var glowDefs = baseSvg.append("defs").attr("id", "glowdefs");
+    var lastClicked;
     function click(d) {
-        if (d3.event.defaultPrevented) return; // click suppressed
+        console.log('makeTree click called: ', d, ' last: ', lastClicked);
+        // if (d3.event.defaultPrevented) return; // click suppressed
         // d = toggleChildren(d);
         // update(d);
+        if(lastClicked) {
+            d3.select("#node" + lastClicked.id)
+                .selectAll('.glow')
+                .remove();
+                // .classed ("selected", false);
+        }
+
+        d3.select("#node" + d.id)
+            .append('circle')
+            .attr('class', 'glow')
+            .attr('r', nodeCircleRadius+3)
+            .style('fill', 'none')
+            .style('stroke', '#00BABB') // #FF005D
+            .style('stroke-opacity', 0.75)
+            .style('stroke-width', 6);
+            // .classed("selected", true);
+            // .append("circle")
+            // .attr("id", function(d) {
+            //     return "circle" + d.id;
+            // })
+            // .attr("r", nodeCircleRadius+10)
+            // .attr("fill", "#569EAD");
+
+        lastClicked = d;
         centerNode(d);
         clickCallBack(d);
     }
@@ -211,10 +238,11 @@ var exports = {};
                                     .attr("y", "0");
 
             imgPatterns[d.id].append("image")
-                            .attr("width", "80px")
-                            .attr("height", "80px")
-                            .attr("x", "-20px")
-                            .attr("y", "-20px")
+                            // define a rectangular image that is diameter x diameter
+                            .attr("width", nodeCircleRadius*2 + "px")
+                            .attr("height", nodeCircleRadius*2 + "px")
+                            .attr("x", "0px")
+                            .attr("y", "0px")
                             .attr("xlink:href", d.authorPic);
         });
 
@@ -228,6 +256,9 @@ var exports = {};
         var nodeEnter = node.enter().append("g")
             // .call(dragListener)  // Jim removed as we are not dragging nodes
             .attr("class", "node")
+            .attr("id", function(d) {
+                return "node" + d.id;
+            })
             .attr("transform", function(d) {
                 return "translate(" + source.y0 + "," + source.x0 + ")";
             })
@@ -235,7 +266,7 @@ var exports = {};
 
         nodeEnter.append("circle")
             .attr("class", "nodeCircle")
-            .attr("r", 20)
+            .attr("r", nodeCircleRadius)
             .attr("fill", function(d) {
                 return "url(#img" + d.id + ")";
             });
@@ -501,7 +532,8 @@ var exports = {};
     // toggleChildren(root);   // sets tree to be initially fully collapsed, remove for opposite behaviour
     update(root);
     centerNode(centerOn);  // center on the calling song
-    clickCallBack(centerOn);
+    click(centerOn);  // initialize player for calling song and highlight node
+    // clickCallBack(centerOn);
     // toggleChildren(root);   // open root's children
     update(root);
   }
