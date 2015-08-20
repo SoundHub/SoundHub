@@ -7,10 +7,13 @@ import UserActions from '../actions/userActionCreators';
 class LoginRemindModal extends React.Component {
   constructor(props) {
     super(props)
+    this.onClick = this.onClick.bind(this);
   }
 
   onClick() {
-    RouterActions.openLoginModalFromRemind();
+    this.props.onHide();
+    // open login modal
+    RouterActions.openLoginModal();
   }
 
   render() {

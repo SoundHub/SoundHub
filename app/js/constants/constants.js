@@ -25,7 +25,8 @@ let constants = {
       ROUTER_NEXT_TRANSITION_PATH: null,
       RECEIVE_ALL_FAV_SONGS:null,
       ADD_FAV_SUCCESS:null,
-      OPEN_AUTH_MODAL: null,
+      OPEN_LOGIN_REMIND_MODAL: null,
+      OPEN_LOGIN_MODAL: null,
       CLOSE_LOGIN_MODAL:null
   })
 };
