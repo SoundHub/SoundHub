@@ -14,6 +14,66 @@ hr {
 }
 
 /* =============== Font ================ */
+.developerBigTitle{
+  font-size: 30px;
+  margin-top: 250px;
+  padding: 30px 30px 30px 90px;
+  margin-bottom: 120px;
+  background-image: url(../assets/random-bg/up.jpg);
+  color: white;
+}
+
+.developerSubTitle{
+  font-size: 18px;
+}
+
+.developerContainer{
+  padding: 20px;
+  margin-top: 120px;
+  margin-bottom: 150px;
+  width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.developerImg{
+  height: 150px;
+  width: 150px;
+  border-radius: 10px;
+}
+
+.developerBox{
+  margin-left: 150px;
+  display: inline-block;
+}
+
+.developerTitle{
+  font-size: 20px;
+}
+.techImg{
+  max-height: 100px;
+}
+
+.techBox{
+  margin: 30px;
+  display: inline-block;
+}
+
+.techContainer{
+  margin-left: 50px;
+  margin-right: 50px;
+  margin-bottom: 60px;
+}
+
+.techBigTitle{
+  font-size: 30px;
+  margin-top: 280px;
+  padding: 30px 30px 30px 90px;
+  margin-bottom: 60px;
+  background-image: url(../assets/random-bg/playerbg3.jpg);
+  color: white;
+}
+/* =============== Font ================ */
 
 @font-face {
     font-family: nexaBold;
