@@ -1,7 +1,7 @@
 'use strict';
 import React from 'react';
 import Router from 'react-router';
-import {Glyphicon} from 'react-bootstrap';
+import {Glyphicon, Tooltip, OverlayTrigger} from 'react-bootstrap';
 import SongActions from '../actions/songActionCreators';
 import RouterActions from '../actions/routerActionCreators';
 import UserProfileStore from '../stores/userProfileStore';
@@ -128,7 +128,8 @@ class SongBox extends React.Component{
    }
 
   render() {
-    return(
+
+    return (
     <div className ="songBox" >
       <div className = "songItem effect8"  onClick={this.props.togglePanel}>
           <Router.Link to="tree"  params={this.props.song}>
@@ -144,34 +145,46 @@ class SongBox extends React.Component{
         </div>
         {this.props.page==='fork' ?
         <div className="itemOther" onClick={this.props.createClick}>
+        <OverlayTrigger placement='bottom' overlay={<Tooltip>upload your new branch of this song</Tooltip>}>
           <Glyphicon glyph='tags' />
+        </OverlayTrigger>
         </div>: null}
 
         {this.props.page==='fork' ?
         <a href={this.props.song.url} download>
           <div className="itemOther" >
+          <OverlayTrigger placement='bottom' overlay={<Tooltip>download</Tooltip>}>
             <Glyphicon glyph='download' />
+          </OverlayTrigger>
           </div>
         </a> : null}
 
         {this.props.page==='home' ?
         <div className="itemOther" onClick={this.props.forkClick}>
+        <OverlayTrigger placement='bottom' overlay={<Tooltip>fork</Tooltip>}>
           <Glyphicon glyph='paperclip' />
+        </OverlayTrigger>
         </div>: null}
 
         {this.props.page==='home' ?
         <div className="itemOther" onClick={this.props.addfav}>
+        <OverlayTrigger placement='bottom' overlay={<Tooltip>favorite</Tooltip>}>
           <Glyphicon glyph='heart' />
+        </OverlayTrigger>
         </div>: null}
 
         {this.props.page==='home' ?
         <div className="itemOther" onClick={this.props.upvoteClick}>
-          <Glyphicon glyph='chevron-up' />
+          <OverlayTrigger placement='bottom' overlay={<Tooltip>upvote</Tooltip>}>
+            <Glyphicon glyph='chevron-up' />
+          </OverlayTrigger>
         </div>: null}
 
         {this.props.page==='home' ?
         <div className="itemOther" onClick={this.props.downvoteClick}>
+        <OverlayTrigger placement='bottom' overlay={<Tooltip>downvote</Tooltip>}>
           <Glyphicon glyph='chevron-down' />
+        </OverlayTrigger>
         </div>: null}
 
       </div>
