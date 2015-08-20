@@ -81,25 +81,6 @@ class Signup extends React.Component {
   }
 }
 
-class LoginRemindModal extends React.Component {
-  constructor(props) {
-    super(props)
-  }
-
-  render() {
-    return (
-    <Modal show={this.props.show} onHide={this.props.onHide}>
-      <Modal.Header>
-        <Modal.Title>Sign up or Log in</Modal.Title>
-      </Modal.Header>
-      <Modal.Body> You must be logged in to do this!</Modal.Body>
-      <Modal.Footer>
-      </Modal.Footer>
-    </Modal>
-    )
-  } 
-}
-
 class LoginModal extends React.Component {
   constructor(props) {
     super(props);
@@ -146,6 +127,5 @@ class LoginModal extends React.Component {
 };
 
 export default LoginModal;
-export default LoginRemindModal;
 
 

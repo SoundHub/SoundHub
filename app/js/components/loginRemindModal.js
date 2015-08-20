@@ -1,0 +1,26 @@
+'use strict';
+import React from 'react';
+import { Modal } from 'react-bootstrap';
+import RouterActions from '../actions/RouterActionCreators';
+import UserActions from '../actions/userActionCreators';
+
+class LoginRemindModal extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+
+  render() {
+    return (
+    <Modal show={this.props.show} onHide={this.props.onHide}>
+      <Modal.Header>
+        <Modal.Title>Sign up or Log in</Modal.Title>
+      </Modal.Header>
+      <Modal.Body> You must be logged in to do this!</Modal.Body>
+      <Modal.Footer>
+      </Modal.Footer>
+    </Modal>
+    )
+  } 
+}
+
+export default LoginRemindModal;
