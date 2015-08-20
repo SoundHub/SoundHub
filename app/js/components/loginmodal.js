@@ -1,7 +1,7 @@
 'use strict';
 import React from 'react';
 import { Modal } from 'react-bootstrap';
-import routerAction from '../actions/routerActionCreators';
+import RouterActions from '../actions/RouterActionCreators';
 import UserActions from '../actions/userActionCreators';
 
 class Login extends React.Component {
@@ -81,6 +81,24 @@ class Signup extends React.Component {
   }
 }
 
+class LoginRemindModal extends React.Component {
+  constructor(props) {
+    super(props)
+  }
+
+  render() {
+    return (
+    <Modal show={this.props.show} onHide={this.props.onHide}>
+      <Modal.Header>
+        <Modal.Title>Sign up or Log in</Modal.Title>
+      </Modal.Header>
+      <Modal.Body> You must be logged in to do this!</Modal.Body>
+      <Modal.Footer>
+      </Modal.Footer>
+    </Modal>
+    )
+  } 
+}
 
 class LoginModal extends React.Component {
   constructor(props) {
@@ -89,9 +107,10 @@ class LoginModal extends React.Component {
     this.state = {authType: props.authType};
     this.close = this.close.bind(this);
   }
-   close(){
-    routerAction.closeLoginModal()
-   }
+
+ close(){
+  RouterActions.closeLoginModal()
+ }
 
  toggle(data){
     this.setState({authType:data}, () => {});
@@ -124,9 +143,9 @@ class LoginModal extends React.Component {
       </div>
     );
   }
-
 };
 
 export default LoginModal;
+export default LoginRemindModal;
 
 

@@ -6,6 +6,7 @@ import { Modal } from 'react-bootstrap';
 
 import SongActions from '../actions/songActionCreators';
 import AudioPlayer from './player-components/AudioPlayer';
+import {LoginModal, LoginRemindModal} from './loginmodal'
 
 import AllSongStore from '../stores/allSongStore';
 import UserProfileStore from '../stores/userProfileStore';
@@ -84,7 +85,8 @@ class Home extends React.Component {
           <button className="sortButton" onClick={this.handleNewestClick} >Newest</button>
           <button className="sortButton" onClick={this.handleUpvotedClick} >Hottest</button>
         </div>
-        <Modal show={this.state.showModal} onHide={this.closeModal}> You must be logged in!</Modal>
+        <LoginRemindModal show={this.state.showModal} onHide={this.closeModal} />
+        <LoginModal />
         <div className= "playerBox">
           <AudioPlayer song = {this.state.currentsong} mode = "home" />
         </div>
