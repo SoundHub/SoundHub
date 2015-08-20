@@ -15,5 +15,11 @@ export default {
     Dispatcher.dispatch({
       type: ActionType.OPEN_AUTH_MODAL
     })
+  },
+
+  closeLoginModal(){
+    Dispatcher.dispatch({
+      type: ActionType.CLOSE_LOGIN_MODAL
+    })
   }
 }

@@ -18,6 +18,26 @@ body{min-width: 700px;}
 
 
 
+/* ================= Modal ================== */
+.modal {
+  text-align: center;
+}
+
+@media screen {
+  .modal:before {
+    display: inline-block;
+    vertical-align: middle;
+    content: " ";
+    height: 100%;
+  }
+}
+
+.modal-dialog {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}
+
 
 /* ============== TOP BAR =============== */
 .topBar{
@@ -311,19 +331,23 @@ body{min-width: 700px;}
 }
 
 .sortBox{
-  margin: 20px;
-  width: 400px;
+    background-color: rgba(228, 228, 228, 0.15);
+    height: 50px;
+    padding: 10px 0px 0px 20px;
+    width: 100%;
+    margin-bottom: 20px;
 }
 
 .sortButton{
-  color: white;
-  background-color: crimson;
-  margin-right: 10px;
-  border: 0;
-  padding: 5px;
-  width: 100px;
-  height: 30px;
-  border-radius: 20px;
+    color: white;
+    background-color: #EB6255;
+    margin-right: 10px;
+    border: 0;
+    padding: 5px;
+    width: 70px;
+    height: 30px;
+    border-radius: 5px;
+    text-shadow: 1px 1px 1px #B82A1F;
 }
 /* ================ User Panel ================= */
 .profilePage{
@@ -401,7 +425,6 @@ $animate-sec: 1.5s;
 }
 
 .audio-button-panel {
-  padding-top: 2px;
   margin-left: 20px;
 }
 
@@ -415,7 +438,7 @@ $animate-sec: 1.5s;
 
 .audio-progress-container {
   float: left;
-  height: 30px;
+  height: 35px;
   border-right: 2px solid white;
   border-left: 2px solid white;
   width: 85%;
@@ -461,6 +484,7 @@ $animate-sec: 1.5s;
   padding-left: $common-padding;
   padding-top: 2px;
 
+
   .btn:focus {
     background-color: #fff;
     outline: none;
@@ -469,7 +493,12 @@ $animate-sec: 1.5s;
   .audio-volume-bar {
     position: absolute;
     z-index: 1001;
-    background: #ddd;
+    background: #FFC3C3;
+    bottom: 80px;
+    width: 40px;
+    border: 2px;
+    border-color: rgba(110, 110, 110, 0.53);
+    border-style: solid;
   }
 
   .audio-volume-bar-hide {
@@ -477,9 +506,9 @@ $animate-sec: 1.5s;
   }
 
   .audio-volume-percent-container {
-    border-top: 1px solid #aaa;
-    border-bottom: 1px solid #aaa;
-    width: 34px;
+    border-top: 3px solid #FFE4FC;
+    border-bottom: 3px solid #FFE4FC;
+    width: 36px;
     height: 100px;
     position: relative;
     cursor: pointer;
@@ -499,8 +528,9 @@ $animate-sec: 1.5s;
     width: 100%;
     bottom: 0;
     top: 50%;
-    background: #666;
+    background: #B2004F;
     position: absolute;
+    width: 38px;
   }
 
 }
