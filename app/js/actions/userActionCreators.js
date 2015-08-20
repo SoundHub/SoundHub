@@ -43,7 +43,6 @@ export default ({
         response: response
       });
       console.log('logged in successfuly');
-      console.log(response);
       cb();
     })
     .catch((err) => {
@@ -51,11 +50,12 @@ export default ({
     });
   },
 
-  logoutUser (userID) {
+  logoutUser (callback) {
     Dispatcher.dispatch({
       type: ActionType.LOGOUT,
       message: 'Logout successful',
     });
+    callback();
   },
 
   getUser(userID){

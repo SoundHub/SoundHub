@@ -29,27 +29,23 @@ class LoginButton extends React.Component {
       open:false
     }
   }
-
   componentDidMount() {
     ModalStore.addChangeListener(this.close);
+    ModalStore.addOpenListener(this.open);
   }
-
   componentWillUnmount() {
     ModalStore.removeChangeListener(this.close);
+    ModalStore.removeOpenListener(this.open);
   }
-
   open(){
     this.setState({open:true})
   }
-
   close(){
     this.setState({open:false})
   }
-
   render() {
     return (
-      <div>
-        <button className="authButton" onClick={this.open}>Login</button>
+      <div className="loginButton topButton" onClick={this.open}>Login
         <LoginModal show={this.state.open}/>
       </div>
     );
@@ -63,12 +59,14 @@ class LogoutButton extends React.Component {
   }
 
   logout(){
-    UserActions.logoutUser();
+    UserActions.logoutUser( () => {
+      this.context.router.transitionTo('home');
+    });
   }
 
   render() {
     return (
-      <button className="authButton" onClick ={this.logout} >Logout</button>
+      <button className="loginButton topButton" onClick ={this.logout} >Logout</button>
     );
   }
 };
@@ -119,9 +117,13 @@ class Nav extends React.Component {
         </span>
         <nav>
 
+          <Router.Link to="auth">
+            <button className="aboutButton topButton">About</button>
+          </Router.Link>
+
         { this.state.loggedIn ?
           <Router.Link to="user">
-            <button className="profileButton2">Profile</button>
+            <button className="myhubButton topButton">MyHub</button>
           </Router.Link> : null }
 
         {this.state.loggedIn? <LogoutButton /> : <LoginButton />}

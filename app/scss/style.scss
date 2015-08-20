@@ -4,6 +4,75 @@ button:focus {outline:0 !important;}
 input:focus {outline:0 !important;}
 body{min-width: 700px;}
 
+
+hr {
+    display: block;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    border-color: rgba(75, 151, 135, 0.2);
+}
+
+/* =============== Font ================ */
+.developerBigTitle{
+  font-size: 30px;
+  margin-top: 250px;
+  padding: 30px 30px 30px 90px;
+  margin-bottom: 120px;
+  background-image: url(../assets/random-bg/up.jpg);
+  color: white;
+}
+
+.developerSubTitle{
+  font-size: 18px;
+}
+
+.developerContainer{
+  padding: 20px;
+  margin-top: 120px;
+  margin-bottom: 150px;
+  width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.developerImg{
+  height: 150px;
+  width: 150px;
+  border-radius: 10px;
+}
+
+.developerBox{
+  margin-left: 150px;
+  display: inline-block;
+}
+
+.developerTitle{
+  font-size: 20px;
+}
+.techImg{
+  max-height: 100px;
+}
+
+.techBox{
+  margin: 30px;
+  display: inline-block;
+}
+
+.techContainer{
+  margin-left: 50px;
+  margin-right: 50px;
+  margin-bottom: 60px;
+}
+
+.techBigTitle{
+  font-size: 30px;
+  margin-top: 280px;
+  padding: 30px 30px 30px 90px;
+  margin-bottom: 60px;
+  background-image: url(../assets/random-bg/playerbg3.jpg);
+  color: white;
+}
 /* =============== Font ================ */
 
 @font-face {
@@ -50,16 +119,13 @@ body{min-width: 700px;}
   nav{
     float: right;
     vertical-align: text-top;
-    display: inline;
     text-align: right;
-    margin-top: 20px;
+    width: 300px;
     margin-right: 10px;
-    width: 220px;
+    margin-top: 10px;
     a {
       height: 50px;
       color: #000;
-      padding-left: 10px;
-      padding-right: 10px;
       text-decoration: none;
     }
   }
@@ -88,43 +154,35 @@ body{min-width: 700px;}
     margin-top:10px;
   }
 }
-
-  .authButton {
-    -moz-box-shadow:inset 0px 39px 0px -24px #e67a73;
-    -webkit-box-shadow:inset 0px 39px 0px -24px #e67a73;
-    box-shadow:inset 0px 39px 0px -24px #e67a73;
+  .topButton{
+    text-decoration:none;
+    padding:6px 15px;
+    -moz-border-radius:4px;
+    -webkit-border-radius:4px;
+    border-radius:4px;
+    border:none;
+    font-size:15px;
+    cursor:pointer;
+    display:inline-block;
+    color: #fff;
+    margin-left: 5px;
+    margin-right: 5px;
+  }
+  .loginButton {
     background-color:#e4685d;
-    -moz-border-radius:4px;
-    -webkit-border-radius:4px;
-    border-radius:4px;
-    border:none;
-    display:inline-block;
-    cursor:pointer;
-    color:#fff;
-    font-size:15px;
-    padding:6px 15px;
-    text-decoration:none;
     text-shadow:0px 1px 0px #b23e35;
   }
-  .profileButton2{
-    -moz-box-shadow:inset 0px 39px 0px -24px #e67a73;
-    -webkit-box-shadow:inset 0px 39px 0px -24px #e67a73;
-    box-shadow: inset 0px 39px 0px -24px #569EAD;
-    background-color: #50919E;
-    -moz-border-radius:4px;
-    -webkit-border-radius:4px;
-    border-radius:4px;
-    border:none;
-    display:inline-block;
-    cursor:pointer;
-    color:#fff;
-    font-size:15px;
-    padding:6px 15px;
-    text-decoration:none;
-    text-shadow:0px 1px 0px #b23e35;
+  .aboutButton{
+    background-color: #1AA5C1;
+    text-shadow: 0px 1px 0px #167187;
   }
 
-  .authButton:active {
+  .myhubButton{
+    background-color: #FDBE22;
+    text-shadow: 0px 1px 0px #C4A70F;
+  }
+
+  .topButton:active {
     position:relative;
     top:1px;
   }
@@ -156,6 +214,27 @@ body{min-width: 700px;}
 
 
 }
+
+.modalButtonBox{
+    width: 80px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.modalButtonBox2{
+    width: 170px;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.modalButtonBox3{
+    width: 150px;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 
 /* ================ profile ================= */
 .boxed-group-profile{
@@ -258,6 +337,7 @@ body{min-width: 700px;}
     background: #FFFFFF;
     vertical-align: middle;
     height: 100%;
+    margin-bottom: 100px;
 }
 .songPanel {
     padding: 10px;
@@ -634,7 +714,8 @@ $animate-sec: 1.5s;
   .treeBox{
     margin-right: auto;
     margin-left: auto;
-    width: 900px;
+    /*width: 900px;*/
+    width: 100%;
   }
 
 /*
@@ -666,7 +747,9 @@ $animate-sec: 1.5s;
   }
 
   .overlay{
-      background-color:#F7F7F7;
+      /*background-color:#F7F7F7;*/
+      background: url("../assets/authbanner.jpg");
+      background-size: 100% 100%;
   }
 
   .link {

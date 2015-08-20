@@ -11,9 +11,15 @@ export default {
     })
   },
 
-  openAuthModal() {
+  openLoginRemindModal() {
     Dispatcher.dispatch({
-      type: ActionType.OPEN_AUTH_MODAL
+      type: ActionType.OPEN_LOGIN_REMIND_MODAL
+    })
+  },
+
+  openLoginModal() {
+    Dispatcher.dispatch({
+      type: ActionType.OPEN_LOGIN_MODAL
     })
   },
 
