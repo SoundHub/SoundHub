@@ -47,6 +47,7 @@ class D3Tree extends React.Component {
   //   return false;
   // }
 
+  // We need to receive the tree data before we can render it
   componentWillReceiveProps(nextProps) {
     var mountNode = React.findDOMNode(this.refs.songTree);
     treeUtils.makeTree(nextProps.treeData, mountNode, this.onClick, nextProps.uuid);
