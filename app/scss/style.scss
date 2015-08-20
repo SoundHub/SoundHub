@@ -587,7 +587,8 @@ $animate-sec: 1.5s;
   .treeBox{
     margin-right: auto;
     margin-left: auto;
-    width: 900px;
+    /*width: 900px;*/
+    width: 100%;
   }
 
 /*
@@ -619,7 +620,9 @@ $animate-sec: 1.5s;
   }
 
   .overlay{
-      background-color:#F7F7F7;
+      /*background-color:#F7F7F7;*/
+      background: url("../assets/authbanner.jpg");
+      background-size: 100% 100%;
   }
 
   .link {
