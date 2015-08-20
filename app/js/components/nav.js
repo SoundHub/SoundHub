@@ -32,10 +32,12 @@ class LoginButton extends React.Component {
 
   componentDidMount() {
     ModalStore.addChangeListener(this.close);
+    ModalStore.addOpenListener(this.open);
   }
 
   componentWillUnmount() {
     ModalStore.removeChangeListener(this.close);
+    ModalStore.removeOpenListener(this.open);
   }
 
   open(){

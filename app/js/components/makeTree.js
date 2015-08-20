@@ -22,10 +22,10 @@ var exports = {};
     var nodeCircleRadius = 25; // 4.5 was original size
 
     // size of the diagram
-    var widthOffset = $(document).width() - 900; // 900 is size of .treeBox element
+    // var widthOffset = $(document).width() - 900; // 900 is size of .treeBox element
 
-    var viewerWidth = $(document).width() - widthOffset;
-    var viewerHeight = $(document).height() - 200;
+    var viewerWidth = $(document).width(); /*- widthOffset;*/
+    var viewerHeight = $(document).height(); /*- 200;*/
 
     // var viewerWidth = 960;
     // var viewerHeight = 500;
@@ -164,8 +164,8 @@ var exports = {};
             .attr('class', 'glow')
             .attr('r', nodeCircleRadius+3)
             .style('fill', 'none')
-            .style('stroke', '#00BABB') // #FF005D
-            .style('stroke-opacity', 0.75)
+            .style('stroke', 'rgb(255, 255, 255)') // #FF005D, #00BABB
+            .style('stroke-opacity', 1)
             .style('stroke-width', 6);
             // .classed("selected", true);
             // .append("circle")
@@ -264,12 +264,23 @@ var exports = {};
             })
             .on('click', click);
 
+        // append the background circle to fill in for non square images
+        nodeEnter.append("circle")
+            .attr("class", "nodeCircle-Background")
+            .attr("r", nodeCircleRadius)
+            .attr("fill", "#666");  // happens to be a good shade of grey ¬_¬
+            // if you want to make the background circle transparent
+            // .attr("fill-opacity", 0.75);
+
+        // append the image
         nodeEnter.append("circle")
             .attr("class", "nodeCircle")
             .attr("r", nodeCircleRadius)
             .attr("fill", function(d) {
                 return "url(#img" + d.id + ")";
-            });
+            })
+            .style("stroke", "#000")
+            .style("stroke-width", "1.5px");
 
         // nodeEnter.append("image")
         //     .attr("xlink:href", function(d) { return d.authorPic; })
