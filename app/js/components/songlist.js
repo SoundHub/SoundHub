@@ -141,11 +141,13 @@ class SongBox extends React.Component{
 
       <div className="songPanel" id={this.props.key}>
         <div className="itemOther" onClick={this.props.playClick}>
+        <OverlayTrigger placement='bottom' overlay={<Tooltip>play</Tooltip>}>
           <Glyphicon glyph='play' />
+        </OverlayTrigger>
         </div>
         {this.props.page==='fork' ?
         <div className="itemOther" onClick={this.props.createClick}>
-        <OverlayTrigger placement='bottom' overlay={<Tooltip>upload your new branch of this song</Tooltip>}>
+        <OverlayTrigger placement='bottom' overlay={<Tooltip>upload your new sound</Tooltip>}>
           <Glyphicon glyph='tags' />
         </OverlayTrigger>
         </div>: null}
@@ -175,9 +177,9 @@ class SongBox extends React.Component{
 
         {this.props.page==='home' ?
         <div className="itemOther" onClick={this.props.upvoteClick}>
-          <OverlayTrigger placement='bottom' overlay={<Tooltip>upvote</Tooltip>}>
-            <Glyphicon glyph='chevron-up' />
-          </OverlayTrigger>
+        <OverlayTrigger placement='bottom' overlay={<Tooltip>upvote</Tooltip>}>
+          <Glyphicon glyph='chevron-up' />
+        </OverlayTrigger>
         </div>: null}
 
         {this.props.page==='home' ?
