@@ -13,6 +13,7 @@ import VotedSongStore from '../stores/votedSongStore';
 import AuthModalStore from '../stores/authModalStore';
 import PlaySongStore from '../stores/playSongStore';
 
+
 class Home extends React.Component {
   constructor(props) {
     super(props);
@@ -57,7 +58,7 @@ class Home extends React.Component {
   _userNotAuthed() {
     this.setState({showModal: true})
   }
-  
+
   handleNewestClick() {
     this.setState({order: 'createdAt'});
   }

@@ -4,8 +4,9 @@ import React from 'react';
 import Router from 'react-router';
 import UserProfileStore from '../stores/userProfileStore';
 import UserActions from '../actions/userActionCreators';
+import ModalStore from '../stores/modalStore';
 
-
+import LoginModal from './loginmodal';
 
 
 class NavLink extends React.Component {
@@ -19,12 +20,38 @@ class NavLink extends React.Component {
   }
 };
 
-
-
 class LoginButton extends React.Component {
+  constructor() {
+    super();
+    this.open = this.open.bind(this);
+    this.close = this.close.bind(this);
+    this.state = {
+      open:false
+    }
+  }
+
+  componentDidMount() {
+    ModalStore.addChangeListener(this.close);
+  }
+
+  componentWillUnmount() {
+    ModalStore.removeChangeListener(this.close);
+  }
+
+  open(){
+    this.setState({open:true})
+  }
+
+  close(){
+    this.setState({open:false})
+  }
+
   render() {
     return (
-      <button className="authButton">Login</button>
+      <div>
+        <button className="authButton" onClick={this.open}>Login</button>
+        <LoginModal show={this.state.open}/>
+      </div>
     );
   }
 };
@@ -67,7 +94,9 @@ class Nav extends React.Component {
   }
 
   componentDidMount() {
+    ModalStore.addChangeListener(this._onChange);
     UserProfileStore.addChangeListener(this._onChange);
+
     if (UserProfileStore.getCookieID()){
       this.setState({loggedIn: true});
     }else {
@@ -76,6 +105,7 @@ class Nav extends React.Component {
   }
 
   componentWillUnmount() {
+    ModalStore.removeChangeListener(this._onChange);
     UserProfileStore.removeChangeListener(this._onChange);
   }
 
@@ -94,9 +124,7 @@ class Nav extends React.Component {
             <button className="profileButton2">Profile</button>
           </Router.Link> : null }
 
-          <Router.Link to="auth" ref="authbutton">
-            {this.state.loggedIn? <LogoutButton /> : <LoginButton />}
-          </Router.Link>
+        {this.state.loggedIn? <LogoutButton /> : <LoginButton />}
 
         </nav>
       </div>

@@ -16,5 +16,11 @@ export default {
       type: ActionType.OPEN_AUTH_MODAL
     })
     console.log('auth modal dispatched')
+  },
+
+  closeLoginModal(){
+    Dispatcher.dispatch({
+      type: ActionType.CLOSE_LOGIN_MODAL
+    })
   }
 }
