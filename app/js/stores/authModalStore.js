@@ -22,7 +22,7 @@ var AuthModalStore = assign({}, EventEmitter.prototype, {
 
 AuthModalStore.dispatchToken = Dispatcher.register(function(payload) {
   switch(payload.type) {
-    case ActionType.OPEN_AUTH_MODAL:
+    case ActionType.OPEN_LOGIN_REMIND_MODAL:
       AuthModalStore.emitChange();
       break;
 

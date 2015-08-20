@@ -35,7 +35,7 @@ class SongList extends React.Component{
       var userId = UserProfileStore.getCookieID();
       SongActions.forkSong(userId, song.uuid);
     } else {
-      RouterActions.openAuthModal();
+      RouterActions.openLoginRemindModal();
     }
   }
 
@@ -48,7 +48,7 @@ class SongList extends React.Component{
       var userId = UserProfileStore.getCookieID();
       SongActions.addFav(userId, song.uuid);
     } else {
-      RouterActions.openAuthModal();
+      RouterActions.openLoginRemindModal();
     }
   }
 
@@ -74,7 +74,7 @@ class SongList extends React.Component{
         console.log('error: ', err)
       })
     } else {
-      RouterActions.openAuthModal();
+      RouterActions.openLoginRemindModal();
     }
   }
 
@@ -92,7 +92,7 @@ class SongList extends React.Component{
         console.log('error: ', err)
       })
     } else {
-      RouterActions.openAuthModal();
+      RouterActions.openLoginRemindModal();
     }
   }
 
