@@ -58,10 +58,7 @@ class SongList extends React.Component{
   }
 
   shareLink(song){
-    console.log("shareLink");
-    console.log(song);
     let origin = window.location.origin;
-
     let link = origin + '/tree/' + song.rootId + '&' + song.uuid;
     console.log(link);
     window.prompt("Copy to clipboard: Ctrl+C, Enter", link);
