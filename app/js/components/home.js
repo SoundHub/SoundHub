@@ -6,7 +6,7 @@ import { Modal } from 'react-bootstrap';
 
 import SongActions from '../actions/songActionCreators';
 import AudioPlayer from './player-components/AudioPlayer';
-import LoginRemindModal from './loginmodal'
+import LoginRemindModal from './loginRemindModal'
 
 import AllSongStore from '../stores/allSongStore';
 import UserProfileStore from '../stores/userProfileStore';

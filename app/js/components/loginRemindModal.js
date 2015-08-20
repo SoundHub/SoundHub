@@ -9,6 +9,10 @@ class LoginRemindModal extends React.Component {
     super(props)
   }
 
+  onClick() {
+    RouterActions.openLoginModalFromRemind();
+  }
+
   render() {
     return (
     <Modal show={this.props.show} onHide={this.props.onHide}>
@@ -17,6 +21,7 @@ class LoginRemindModal extends React.Component {
       </Modal.Header>
       <Modal.Body> You must be logged in to do this!</Modal.Body>
       <Modal.Footer>
+        <button className="authButton" onClick={this.onClick}>Login/Signup</button>
       </Modal.Footer>
     </Modal>
     )
