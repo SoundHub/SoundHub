@@ -1,7 +1,7 @@
 'use strict';
 import React from 'react';
 import { Modal } from 'react-bootstrap';
-import RouterActions from '../actions/RouterActionCreators';
+import RouterActions from '../actions/routerActionCreators';
 import UserActions from '../actions/userActionCreators';
 
 class Login extends React.Component {
