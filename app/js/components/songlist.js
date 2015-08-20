@@ -161,16 +161,16 @@ class SongBox extends React.Component{
 
         {this.props.page==='home' ?
         <div className="itemOther" onClick={this.props.addfav}>
-          <Glyphicon glyph='heart' />
+          <Glyphicon glyph='star' />
         </div>: null}
 
         {this.props.page==='home' ?
-        <div className="itemOther" onClick={this.props.upvoteClick}>
+        <div className="itemArrow" onClick={this.props.upvoteClick}>
           <Glyphicon glyph='chevron-up' />
         </div>: null}
 
         {this.props.page==='home' ?
-        <div className="itemOther" onClick={this.props.downvoteClick}>
+        <div className="itemArrow" onClick={this.props.downvoteClick}>
           <Glyphicon glyph='chevron-down' />
         </div>: null}
 

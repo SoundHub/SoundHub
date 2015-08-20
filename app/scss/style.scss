@@ -286,6 +286,23 @@ body{min-width: 700px;}
     display: -webkit-inline-box;
   }
 
+  .itemArrow{
+    font-size: 14px;
+    margin-top: 3px;
+    color: #6A8E9B;
+    float: right;
+    margin-right: 5px;
+    width: 26px;
+    padding: 3px 0px 0px 7px;
+    background-color: white;
+    text-align: center;
+    height: 26px;
+    border-radius: 18%;
+    display: -webkit-inline-box;
+  }
+
+
+
 .songItem:hover{
   transition: background-color .3s;
   background-color: #879EAB;
