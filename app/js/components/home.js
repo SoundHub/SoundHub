@@ -97,7 +97,7 @@ class Home extends React.Component {
             if (order === 'like') {
               return b[order] - a[order];
             }
-            else if (order = 'createdAt') {
+            else if (order === 'createdAt') {
               let a_date = new Date(a.createdAt);
               let b_date = new Date(b.createdAt);
               return b_date - a_date;
