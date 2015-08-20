@@ -1,7 +1,7 @@
 'use strict';
 import React from 'react';
 import { Modal } from 'react-bootstrap';
-import routerAction from '../actions/routerActionCreators';
+import RouterActions from '../actions/RouterActionCreators';
 import UserActions from '../actions/userActionCreators';
 
 class Login extends React.Component {
@@ -88,7 +88,6 @@ class Signup extends React.Component {
   }
 }
 
-
 class LoginModal extends React.Component {
   constructor(props) {
     super(props);
@@ -96,9 +95,10 @@ class LoginModal extends React.Component {
     this.state = {authType: props.authType};
     this.close = this.close.bind(this);
   }
-   close(){
-    routerAction.closeLoginModal()
-   }
+
+ close(){
+  RouterActions.closeLoginModal()
+ }
 
  toggle(data){
     this.setState({authType:data}, () => {});
@@ -131,7 +131,6 @@ class LoginModal extends React.Component {
       </div>
     );
   }
-
 };
 
 export default LoginModal;
