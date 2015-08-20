@@ -29,25 +29,20 @@ class LoginButton extends React.Component {
       open:false
     }
   }
-
   componentDidMount() {
     ModalStore.addChangeListener(this.close);
     ModalStore.addOpenListener(this.open);
   }
-
   componentWillUnmount() {
     ModalStore.removeChangeListener(this.close);
     ModalStore.removeOpenListener(this.open);
   }
-
   open(){
     this.setState({open:true})
   }
-
   close(){
     this.setState({open:false})
   }
-
   render() {
     return (
       <div className="loginButton topButton" onClick={this.open}>Login
@@ -64,7 +59,9 @@ class LogoutButton extends React.Component {
   }
 
   logout(){
-    UserActions.logoutUser();
+    UserActions.logoutUser( () => {
+      this.context.router.transitionTo('home');
+    });
   }
 
   render() {

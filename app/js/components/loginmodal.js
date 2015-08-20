@@ -63,7 +63,7 @@ class Signup extends React.Component {
       alert('Username must have at least 4 characters');
     }else if (userData.password !== userData.verpassword) {
       alert('Passwords must match');
-    }else if (userData.password.match(passwordStr)) {
+    }else if (!userData.password.match(passwordStr)) {
       alert('Password must be between 4 and 10 character');
     }else {
       UserActions.createUser(userData, () => {

@@ -96,34 +96,23 @@ body{min-width: 700px;}
     cursor:pointer;
     display:inline-block;
     margin-left: 10px;
+    color: #fff;
   }
   .loginButton {
-    -moz-box-shadow:inset 0px 39px 0px -24px #e67a73;
-    -webkit-box-shadow:inset 0px 39px 0px -24px #e67a73;
-    box-shadow:inset 0px 39px 0px -24px #e67a73;
     background-color:#e4685d;
-    color:#fff;
     text-shadow:0px 1px 0px #b23e35;
   }
   .aboutButton{
-    -moz-box-shadow:inset 0px 39px 0px -24px #e67a73;
-    -webkit-box-shadow:inset 0px 39px 0px -24px #e67a73;
-    box-shadow: inset 0px 39px 0px -24px #569EAD;
-    background-color: #50919E;
-    color:#fff;
-    text-shadow:0px 1px 0px #b23e35;
+    background-color: #1AA5C1;
+    text-shadow: 0px 1px 0px #167187;
   }
 
   .myhubButton{
-    -moz-box-shadow:inset 0px 39px 0px -24px #e67a73;
-    -webkit-box-shadow:inset 0px 39px 0px -24px #e67a73;
-    box-shadow: inset 0px 39px 0px -24px #569EAD;
-    background-color: #50919E;
-    color:#fff;
-    text-shadow:0px 1px 0px #b23e35;
+    background-color: #FDBE22;
+    text-shadow: 0px 1px 0px #C4A70F;
   }
 
-  .authButton:active {
+  .topButton:active {
     position:relative;
     top:1px;
   }
