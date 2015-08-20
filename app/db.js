@@ -85,7 +85,7 @@ var login = function(username, password, callback) {
   })
 };
 
-var signup = function(username, password, callback) {
+var signup = function(username, password, email, callback) {
   var response = {};
   var exists;
   User.findOne({
@@ -104,7 +104,8 @@ var signup = function(username, password, callback) {
         bcrypt.hash(password, salt, function(err, hash) {
           User.create({
               username: username,
-              password: hash
+              password: hash,
+              email: email
             }).then(function(userData) {
               console.log(userData);
               response.userData = userData;

@@ -6,6 +6,8 @@ var session = require('express-session');
 var fs = require('fs');
 var favicon = require('serve-favicon');
 var bodyParser = require('body-parser');
+var nodemailer = require('nodemailer');
+var transporter = nodemailer.createTransport();
 
 server.use(favicon(path.join(__dirname, '/assets', 'favicon.ico')));
 
@@ -32,9 +34,10 @@ server.post('/login', function(req, res) {
 })
 
 server.post('/signup', function(req, res) {
-  var username = req.body.username
-  var password = req.body.password
-  db.signup(username, password, function(response) {
+  var username = req.body.username;
+  var password = req.body.password;
+  var email = req.body.email;
+  db.signup(username, password, email, function(response) {
     res.send(response);
   });
 })
