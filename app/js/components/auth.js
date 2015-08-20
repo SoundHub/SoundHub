@@ -14,6 +14,74 @@ class Auth extends React.Component {
         <div className = "Carcouselbox">
           <Carcousel bsSize="small"/>
         </div>
+
+        <div className="developerBigTitle">OUR TEAM</div>
+        <div className="developerContainer">
+          <div className="developerBox">
+          <img className="developerImg" src="../assets/matt.png"></img>
+            <div className="developerTitle">Matt Topolski</div>
+            <div className="developerSubTitle">Product Owner</div>
+          </div>
+
+          <div className="developerBox">
+          <img className="developerImg" src="../assets/james.jpg"></img>
+            <div className="developerTitle">James Larrenaga</div>
+            <div className="developerSubTitle">Full Stack Developer</div>
+          </div>
+
+          <div className="developerBox">
+          <img className="developerImg" src="../assets/mike.jpg"></img>
+            <div className="developerTitle">Mikhail Shnayder</div>
+            <div className="developerSubTitle">Scrum Master</div>
+          </div>
+
+          </div>
+          <div className="techBigTitle">TECH STACK</div>
+          <div>
+
+          <div className ="techContainer">
+
+          <div className="techBox">
+          <img className="techImg" src="../assets/ecmascript6-logo.png"></img>
+          </div>
+
+          <div className="techBox">
+          <img className="techImg" src="../assets/react.png"></img>
+          </div>
+
+          <div className="techBox">
+          <img className="techImg" src="../assets/flux.png"></img>
+          </div>
+
+          <div className="techBox">
+          <img className="techImg" src="../assets/D3.png"></img>
+          </div>
+
+          <div className="techBox">
+          <img className="techImg" src="../assets/node.png"></img>
+          </div>
+
+          <div className="techBox">
+          <img className="techImg" src="../assets/expresslogo.png"></img>
+          </div>
+
+          <div className="techBox">
+          <img className="techImg" src="../assets/gulp.png"></img>
+          </div>
+
+          <div className="techBox">
+          <img className="techImg" src="../assets/SQLite.png"></img>
+          </div>
+
+          <div className="techBox">
+          <img className="techImg" src="../assets/S3.png"></img>
+          </div>
+
+          </div>
+
+
+        </div>
+
       </div>
     );
   }
