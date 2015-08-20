@@ -149,7 +149,7 @@ var exports = {};
     var lastClicked;
     function click(d) {
         console.log('makeTree click called: ', d, ' last: ', lastClicked);
-        if (d3.event.defaultPrevented) return; // click suppressed
+        // if (d3.event.defaultPrevented) return; // click suppressed
         // d = toggleChildren(d);
         // update(d);
         if(lastClicked) {
@@ -164,7 +164,7 @@ var exports = {};
             .attr('class', 'glow')
             .attr('r', nodeCircleRadius+3)
             .style('fill', 'none')
-            .style('stroke', '#FF005D')
+            .style('stroke', '#00BABB') // #FF005D
             .style('stroke-opacity', 0.75)
             .style('stroke-width', 6);
             // .classed("selected", true);
@@ -532,7 +532,8 @@ var exports = {};
     // toggleChildren(root);   // sets tree to be initially fully collapsed, remove for opposite behaviour
     update(root);
     centerNode(centerOn);  // center on the calling song
-    clickCallBack(centerOn);
+    click(centerOn);  // initialize player for calling song and highlight node
+    // clickCallBack(centerOn);
     // toggleChildren(root);   // open root's children
     update(root);
   }
