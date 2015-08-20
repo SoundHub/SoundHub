@@ -4,6 +4,15 @@ button:focus {outline:0 !important;}
 input:focus {outline:0 !important;}
 body{min-width: 700px;}
 
+
+hr {
+    display: block;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    border-color: rgba(75, 151, 135, 0.2);
+}
+
 /* =============== Font ================ */
 
 @font-face {
@@ -95,8 +104,9 @@ body{min-width: 700px;}
     font-size:15px;
     cursor:pointer;
     display:inline-block;
-    margin-left: 10px;
     color: #fff;
+    margin-left: 5px;
+    margin-right: 5px;
   }
   .loginButton {
     background-color:#e4685d;
@@ -144,6 +154,27 @@ body{min-width: 700px;}
 
 
 }
+
+.modalButtonBox{
+    width: 80px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.modalButtonBox2{
+    width: 170px;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.modalButtonBox3{
+    width: 150px;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 
 /* ================ profile ================= */
 .boxed-group-profile{
