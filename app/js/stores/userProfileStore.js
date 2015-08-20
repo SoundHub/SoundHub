@@ -93,7 +93,6 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
     case ActionType.SIGNUP:
       if (payload.response.success) {
         console.log('signup success');
-        console.log(payload.response);
         let id = payload.response.userData.id;
         let username = payload.response.userData.username;
         let img = payload.response.userData.profilePic;
@@ -103,7 +102,6 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
       } else {
         console.log("signup failed, user already exists");
       }
-
       break;
 
     case ActionType.LOGOUT:
@@ -120,7 +118,6 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
       break;
 
     default:
-      //dont do anying
   }
 
 });
