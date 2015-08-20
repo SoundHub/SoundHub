@@ -26,11 +26,13 @@ class Login extends React.Component {
   render() {
     return (
         <div className="AuthForm">
-          <h1>This is Login</h1>
           <p><input type="text" placeholder="Username" ref="username" /></p>
           <p><input type="password" placeholder="Password" ref="password" /></p>
           <input type="button" value="Login" onClick={this.handleLogin}/>
-          <input type="button" value="Signup" onClick={this.toggleAuth}/>
+          <div>
+            <a onClick={this.toggleAuth}>Already Have an Account?</a>
+          </div>
+
         </div>
       );
   }
@@ -76,7 +78,6 @@ class Signup extends React.Component {
   render() {
     return (
         <div className="AuthForm">
-          <h1>This is Signup</h1>
           <p><input type="text" placeholder="Username" ref="username" /></p>
           <p><input type="password" placeholder="Password" ref="password" /></p>
           <p><input type="password" placeholder="Verify password" ref="verpassword" /></p>
@@ -110,16 +111,19 @@ class LoginModal extends React.Component {
 
   render() {
     var authform = <Login handleToggle = {this.toggle}/>;
+    var authtitle = <Modal.Title>LOGIN</Modal.Title>
     if(this.state.authType === 'Signup'){
       authform = <Signup handleToggle = {this.toggle}/>
+      authtitle = <Modal.Title>SIGNUP</Modal.Title>
     }else if(this.state.authType === 'Login'){
       authform = <Login handleToggle = {this.toggle}/>
+      authtitle = <Modal.Title>LOGIN</Modal.Title>
     }
     return (
       <div>
         <Modal show={this.props.show} onHide={this.close}>
           <Modal.Header closeButton>
-            <Modal.Title>Welcome</Modal.Title>
+            {authtitle}
           </Modal.Header>
           <Modal.Body>
             {authform}
