@@ -171,19 +171,19 @@ class SongBox extends React.Component{
         {this.props.page==='home' ?
         <div className="itemOther" onClick={this.props.addfav}>
         <OverlayTrigger placement='bottom' overlay={<Tooltip>favorite</Tooltip>}>
-          <Glyphicon glyph='heart' />
+          <Glyphicon glyph='star' />
         </OverlayTrigger>
         </div>: null}
 
         {this.props.page==='home' ?
-        <div className="itemOther" onClick={this.props.upvoteClick}>
+        <div className="itemArrow" onClick={this.props.upvoteClick}>
         <OverlayTrigger placement='bottom' overlay={<Tooltip>upvote</Tooltip>}>
           <Glyphicon glyph='chevron-up' />
         </OverlayTrigger>
         </div>: null}
 
         {this.props.page==='home' ?
-        <div className="itemOther" onClick={this.props.downvoteClick}>
+        <div className="itemArrow" onClick={this.props.downvoteClick}>
         <OverlayTrigger placement='bottom' overlay={<Tooltip>downvote</Tooltip>}>
           <Glyphicon glyph='chevron-down' />
         </OverlayTrigger>
