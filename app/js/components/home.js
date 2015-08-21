@@ -8,12 +8,14 @@ import SongActions from '../actions/songActionCreators';
 import AudioPlayer from './player-components/AudioPlayer';
 import LoginRemindModal from './loginRemindModal'
 import PageNav from './pagination';
+import ActionAlert from './actionAlert'
 
 import AllSongStore from '../stores/allSongStore';
 import UserProfileStore from '../stores/userProfileStore';
 import VotedSongStore from '../stores/votedSongStore';
 import AuthModalStore from '../stores/authModalStore';
 import PlaySongStore from '../stores/playSongStore';
+import AlertStore from '../stores/alertStore'
 
 
 class Home extends React.Component {
@@ -23,6 +25,7 @@ class Home extends React.Component {
                   order: 'like',
                   showModal: false,
                   activePage: 1,
+                  alertVisible: false,
                   activeSong: null};
 
     this.componentDidMount = this.componentDidMount.bind(this);
@@ -31,6 +34,8 @@ class Home extends React.Component {
     this.render = this.render.bind(this);
     this._onChange = this._onChange.bind(this);
     this._onUpdate = this._onUpdate.bind(this);
+    this._onAlert = this._onAlert.bind(this);
+    this.handleAlertDismiss = this.handleAlertDismiss.bind(this);
     this._userNotAuthed = this._userNotAuthed.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.openModal = this.openModal.bind(this);
@@ -46,6 +51,7 @@ class Home extends React.Component {
     AllSongStore.addUpdateListener(this._onUpdate);
     AuthModalStore.addChangeListener(this._userNotAuthed);
     PlaySongStore.addChangeListener(this.playsong);
+    AlertStore.addChangeListener(this._onAlert);
   }
 
   componentWillUnmount() {
@@ -53,17 +59,18 @@ class Home extends React.Component {
     AllSongStore.removeUpdateListener(this._onUpdate);
     AuthModalStore.removeChangeListener(this._userNotAuthed);
     PlaySongStore.removeChangeListener(this.playsong);
+    AlertStore.removeChangeListener(this._onAlert);
   }
 
-  playsong(){
+  playsong(){ //sets current song
     this.setState({currentsong:PlaySongStore.getSong()});
   }
 
-  getPageNumber(){
-    return Math.floor(AllSongStore.getSongNum() / 6) + 2;
+  getPageNumber(){ //gets page number for pagination nav bar
+    return Math.floor(AllSongStore.getSongNum() / 24) + 1;
   }
 
-  _onChange() {
+  _onChange() { //callback for AllSongStore change listener
     this.setState({songs: AllSongStore.getAllSongs()});
   }
 
@@ -77,6 +84,14 @@ class Home extends React.Component {
 
   _userNotAuthed() {
     this.setState({showModal: true})
+  }
+
+  _onAlert() {
+    this.setState({alertVisible: true, alertMessage: AlertStore.getMessage()});
+  }
+
+  handleAlertDismiss() {
+    this.setState({alertVisible: false});
   }
 
   handleNewestClick() {
@@ -110,6 +125,8 @@ class Home extends React.Component {
         <div className ="homeBannertitle">Open Source Music</div>
         <img id="bg12" src="../assets/bg1.2.png"></img>
       </div>
+      <ActionAlert onDismiss={this.handleAlertDismiss} 
+        alertVisible={this.state.alertVisible} alertMessage={this.state.alertMessage}/>
         <div className = "sortBox">
           <button className="sortButton" onClick={this.handleNewestClick} >Newest</button>
           <button className="sortButton" onClick={this.handleUpvotedClick} >Hottest</button>
