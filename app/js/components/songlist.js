@@ -35,7 +35,6 @@ class SongList extends React.Component{
 
   forkClick(song){
     if(UserProfileStore.isLoggedIn()) {
-      // alert song forked
       RouterActions.alertUserAction('fork');
       var userId = UserProfileStore.getCookieID();
       SongActions.forkSong(userId, song.uuid);
@@ -183,7 +182,7 @@ class SongBox extends React.Component{
         {this.props.page==='home' || 'mymusic' ?
         <div className="itemOther" onClick={this.props.forkClick}>
         <OverlayTrigger placement='bottom' overlay={<Tooltip>branch</Tooltip>}>
-          <Glyphicon glyph='leaf' />
+          <Glyphicon glyph='leaf'/>
         </OverlayTrigger>
         </div>: null}
 

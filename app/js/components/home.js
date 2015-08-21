@@ -15,6 +15,7 @@ import UserProfileStore from '../stores/userProfileStore';
 import VotedSongStore from '../stores/votedSongStore';
 import AuthModalStore from '../stores/authModalStore';
 import PlaySongStore from '../stores/playSongStore';
+import AlertStore from '../stores/alertStore'
 
 
 class Home extends React.Component {
@@ -65,7 +66,7 @@ class Home extends React.Component {
   }
 
   getPageNumber(){
-    return Math.floor(AllSongStore.getSongNum() / 6) + 2;
+    return Math.floor(AllSongStore.getSongNum() / 24) + 1;
   }
 
   _onChange() {
@@ -83,6 +84,10 @@ class Home extends React.Component {
 
   _onAlert() {
     this.setState({alertVisible: true, alertMessage: AlertStore.getMessage()});
+  }
+
+  handleAlertDismiss() {
+    this.setState({alertVisible: false});
   }
 
   handleNewestClick() {
@@ -116,7 +121,7 @@ class Home extends React.Component {
         <div className ="homeBannertitle">Open Source Music</div>
         <img id="bg12" src="../assets/bg1.2.png"></img>
       </div>
-      <ActionAlert message={this.state.alertMessage} alertVisible={this.state.alertVisible}/>
+      <ActionAlert onDismiss={this.handleAlertDismiss} alertVisible={this.state.alertVisible} alertMessage={this.state.alertMessage}/>
         <div className = "sortBox">
           <button className="sortButton" onClick={this.handleNewestClick} >Newest</button>
           <button className="sortButton" onClick={this.handleUpvotedClick} >Hottest</button>
