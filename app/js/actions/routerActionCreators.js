@@ -11,10 +11,21 @@ export default {
     })
   },
 
-  openAuthModal() {
+  openLoginRemindModal() {
     Dispatcher.dispatch({
-      type: ActionType.OPEN_AUTH_MODAL
+      type: ActionType.OPEN_LOGIN_REMIND_MODAL
     })
-    console.log('auth modal dispatched')
+  },
+
+  openLoginModal() {
+    Dispatcher.dispatch({
+      type: ActionType.OPEN_LOGIN_MODAL
+    })
+  },
+
+  closeLoginModal(){
+    Dispatcher.dispatch({
+      type: ActionType.CLOSE_LOGIN_MODAL
+    })
   }
 }

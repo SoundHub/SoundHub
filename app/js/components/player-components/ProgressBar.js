@@ -1,6 +1,5 @@
-var React = require('react/addons');
-var classnames = require("classnames");
-
+import React from 'react';
+import classnames from 'classnames';
 import {ProgressBar} from 'react-bootstrap';
 
 module.exports = React.createClass({

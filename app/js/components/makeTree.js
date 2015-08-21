@@ -22,10 +22,10 @@ var exports = {};
     var nodeCircleRadius = 25; // 4.5 was original size
 
     // size of the diagram
-    var widthOffset = $(document).width() - 900; // 900 is size of .treeBox element
+    // var widthOffset = 0;
 
-    var viewerWidth = $(document).width() - widthOffset;
-    var viewerHeight = $(document).height() - 200;
+    var viewerWidth = $(document).width(); /*- widthOffset;*/  // make room for sidebar
+    var viewerHeight = $(document).height() - 165; // top bar is 80 and player is 85
 
     // var viewerWidth = 960;
     // var viewerHeight = 500;
@@ -148,8 +148,8 @@ var exports = {};
     // var glowDefs = baseSvg.append("defs").attr("id", "glowdefs");
     var lastClicked;
     function click(d) {
-        console.log('makeTree click called: ', d, ' last: ', lastClicked);
-        if (d3.event.defaultPrevented) return; // click suppressed
+        // console.log('makeTree click called: ', d, ' last: ', lastClicked);
+        // if (d3.event.defaultPrevented) return; // click suppressed
         // d = toggleChildren(d);
         // update(d);
         if(lastClicked) {
@@ -164,8 +164,8 @@ var exports = {};
             .attr('class', 'glow')
             .attr('r', nodeCircleRadius+3)
             .style('fill', 'none')
-            .style('stroke', '#FF005D')
-            .style('stroke-opacity', 0.75)
+            .style('stroke', 'rgb(255, 255, 255)') // #FF005D, #00BABB
+            .style('stroke-opacity', 1)
             .style('stroke-width', 6);
             // .classed("selected", true);
             // .append("circle")
@@ -264,12 +264,23 @@ var exports = {};
             })
             .on('click', click);
 
+        // append the background circle to fill in for non square images
+        nodeEnter.append("circle")
+            .attr("class", "nodeCircle-Background")
+            .attr("r", nodeCircleRadius)
+            .attr("fill", "#666");  // happens to be a good shade of grey ¬_¬
+            // if you want to make the background circle transparent
+            // .attr("fill-opacity", 0.75);
+
+        // append the image
         nodeEnter.append("circle")
             .attr("class", "nodeCircle")
             .attr("r", nodeCircleRadius)
             .attr("fill", function(d) {
                 return "url(#img" + d.id + ")";
-            });
+            })
+            .style("stroke", "#000")
+            .style("stroke-width", "1.5px");
 
         // nodeEnter.append("image")
         //     .attr("xlink:href", function(d) { return d.authorPic; })
@@ -532,7 +543,8 @@ var exports = {};
     // toggleChildren(root);   // sets tree to be initially fully collapsed, remove for opposite behaviour
     update(root);
     centerNode(centerOn);  // center on the calling song
-    clickCallBack(centerOn);
+    click(centerOn);  // initialize player for calling song and highlight node
+    // clickCallBack(centerOn);
     // toggleChildren(root);   // open root's children
     update(root);
   }

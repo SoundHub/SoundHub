@@ -64,6 +64,8 @@ class Create extends React.Component {
     this.setState({ uploadProgress: percent });
     if(percent === 100) {
       this.setState({ uploadDone: true })
+    } else {
+      this.setState({ uploadStatus: 'Uploading: ' + percent + '% done' })
     }
   }
 
@@ -76,7 +78,10 @@ class Create extends React.Component {
         <div className="boxed-group-profile CreateForm">
             <div className="pageTitle">Create</div>
             <div className="edit-profile-avatar">
-            <ProgressBar active now={this.state.uploadProgress}/>
+            <div>
+              { this.state.uploadDone ? <div>Upload Complete!</div> : <div>{this.state.uploadStatus}</div> }
+              <ProgressBar now={this.state.uploadProgress}/> 
+            </div>
                 <ReactS3Uploader
                   signingUrl="/s3/sign"
                   accept="audio/*"
@@ -86,7 +91,7 @@ class Create extends React.Component {
                 <input type="text" placeholder="Name" ref="songName"/>
                 <input type="text" placeholder="Genre" ref="songGenre" />
                 <div>{this.props.forksong.title}</div>
-                <button diasbled={!this.state.uploadDone} type="button" className="btn btn-success" onClick={this.uploadSong}>
+                <button disabled={!this.state.uploadDone} type="button" className="btn btn-success" onClick={this.uploadSong}>
                 Create </button>
                 { this.state.showUpdate ? <div>{this.state.newestCreated.title} added!</div> : null }
             </div>

@@ -26,7 +26,7 @@ class Edit extends React.Component {
     if(this.state.updateimg){
       console.log('id:'+ this.props.userId)
       UserActions.updateImg(this.props.userId,this.state.imageUrl)
-      console.log('update image' + this.state.imageUrl);
+      console.log('update image: ' + this.state.imageUrl);
       //call backend to update profileImg
     }
   }
@@ -57,7 +57,7 @@ class Edit extends React.Component {
 
                 <div className="edit-profile">
                 <div>Name</div>
-                  <input classNameName="profile-input" ref="username" type="text" placeholder={this.props.username}></input>
+                  <input className="profile-input" ref="username" type="text" placeholder={this.props.username}></input>
                 </div>
                 <button onClick={this.save} className="btn btn-success">SAVE</button>
               </div>

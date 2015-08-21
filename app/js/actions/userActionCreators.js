@@ -9,6 +9,15 @@ let ActionType = Constants.ActionTypes;
 
 export default ({
 
+  updateUser (user, cb) {
+    Dispatcher.dispatch({
+      type: ActionType.UPDATE,
+      message: 'update successful',
+      user: user
+    });
+    cb();
+  },
+
   createUser (user, cb) {
     Utils.postJSON('/signup', user)
     .then((response) => {
@@ -34,7 +43,6 @@ export default ({
         response: response
       });
       console.log('logged in successfuly');
-      console.log(response);
       cb();
     })
     .catch((err) => {
@@ -42,11 +50,12 @@ export default ({
     });
   },
 
-  logoutUser (userID) {
+  logoutUser (callback) {
     Dispatcher.dispatch({
       type: ActionType.LOGOUT,
       message: 'Logout successful',
     });
+    callback();
   },
 
   getUser(userID){
@@ -74,15 +83,16 @@ export default ({
 
   updateUsername(userId,newname){
     let obj={
-      userId:userId,
-      newname:newname
+      userId: userId,
+      newname: newname,
+      imgUrl: null
     }
     Utils.postJSON('/updateUsername',obj)
     .then((response) => {
       Dispatcher.dispatch({
-        type: ActionType.GET_USER,
+        type: ActionType.UPDATE,
         message: 'Get user info',
-        response: response
+        response: obj
       });
       console.log('get userinfo successfuly');
     }).catch((err) => {
@@ -92,15 +102,16 @@ export default ({
 
   updateImg(userId,imgUrl){
     let obj={
-      userId:userId,
-      imgUrl:imgUrl
+      userId: userId,
+      imgUrl: imgUrl,
+      newname: null
     }
     Utils.postJSON('/updateImg',obj)
     .then((response) => {
       Dispatcher.dispatch({
-        type: ActionType.GET_USER,
+        type: ActionType.UPDATE,
         message: 'Get user info',
-        response: response
+        response: obj
       });
       console.log('get userinfo successfuly');
     }).catch((err) => {

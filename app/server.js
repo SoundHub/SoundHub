@@ -32,11 +32,19 @@ server.post('/login', function(req, res) {
 })
 
 server.post('/signup', function(req, res) {
-  var username = req.body.username
-  var password = req.body.password
-  db.signup(username, password, function(response) {
+  var username = req.body.username;
+  var password = req.body.password;
+  var email = req.body.email;
+  db.signup(username, password, email, function(response) {
     res.send(response);
   });
+})
+
+server.post('/getuser', function(req, res) {
+  var id = req.body.id;
+  db.getuser(id, function(response) {
+    res.send(response);
+  })
 })
 
 server.post('/updateUsername', function(req, res) {
@@ -55,6 +63,14 @@ server.post('/updateImg', function(req, res) {
   })
 })
 
+server.post('/updatePassword', function(req, res) {
+  var userId = req.body.userId;
+  var newPass = req.body.newPass;
+  db.updatePassword(userId, newPass, function(data) {
+    res.send(data);
+  })
+})
+
 server.post('/addSong', function(req, res) {  //** MVP **//
   var songData = req.body;
   db.addSong(songData.title, songData.genre, songData.author,
@@ -68,6 +84,25 @@ server.get('/allSongs', function(req, res) {  //** MVP **//
   db.allSongs(function(data) {
     res.send(data);
   });
+})
+
+server.post('/allSongSort', function(req, res) {
+  var order = req.body.order;
+  var page = req.body.page;
+  var data = {songs: [], number: 0};
+  db.allSongSort(order, page, function(songs) {
+    data.songs = songs;
+    db.getNumSongs(function(number) {
+      data.number = number;
+      res.send(data);
+    })
+  })
+})
+
+server.get('/numSongs', function(req, res) {
+  db.getNumSongs(function(data) {
+    res.send(data);
+  })
 })
 
 server.post('/tree', function(req, res) {       //** MVP **//

@@ -2,11 +2,14 @@ import keyMirror from 'keymirror';
 
 let constants = {
     ActionTypes: keyMirror({
+      ACTIVE_SONG: null,
       PLAY:null,
       SIGNUP: null,
       LOGIN: null,
       LOGOUT: null,
+      UPDATE: null,
       RECEIVE_ALL_SONGS: null,
+      RECEIVE_ALL_SONGS_SORTED: null,
       FORK: null,
       DOWNLOAD: null,
       UPLOAD: null,
@@ -24,7 +27,9 @@ let constants = {
       ROUTER_NEXT_TRANSITION_PATH: null,
       RECEIVE_ALL_FAV_SONGS:null,
       ADD_FAV_SUCCESS:null,
-      OPEN_AUTH_MODAL: null
+      OPEN_LOGIN_REMIND_MODAL: null,
+      OPEN_LOGIN_MODAL: null,
+      CLOSE_LOGIN_MODAL:null
   })
 };
 

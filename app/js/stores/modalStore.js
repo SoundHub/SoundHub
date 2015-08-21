@@ -8,14 +8,9 @@ import assign from 'object-assign';
 
 const ActionType = Constants.ActionTypes;
 const CHANGE_EVENT = 'change';
+const OPEN_EVENT = 'open';
 
-var _song;
-
-var setPlaySongs = function(song) {
-  _song = song;
-}
-
-var PlaySongStore = assign({}, EventEmitter.prototype, {
+var ModalStore = assign({}, EventEmitter.prototype, {
   emitChange() {
     this.emit(CHANGE_EVENT)
   },
@@ -25,22 +20,33 @@ var PlaySongStore = assign({}, EventEmitter.prototype, {
   removeChangeListener(callback) {
     this.removeListener(CHANGE_EVENT, callback)
   },
-  getSong() {
-    return _song;
+
+  // event for when modal open is triggered
+  emitOpen() {
+    this.emit(OPEN_EVENT)
   },
+  addOpenListener(callback) {
+    this.on(OPEN_EVENT, callback)
+  },
+  removeOpenListener(callback) {
+    this.removeListener(OPEN_EVENT, callback)
+  }
 })
 
-PlaySongStore.dispatchToken = Dispatcher.register(function(payload) {
-
+ModalStore.dispatchToken = Dispatcher.register(function(payload) {
   switch(payload.type) {
-    case ActionType.PLAY:
-      setPlaySongs(payload.song)
-      PlaySongStore.emitChange();
+    case ActionType.CLOSE_LOGIN_MODAL:
+      ModalStore.emitChange();
       break;
+
+    case ActionType.OPEN_LOGIN_MODAL:
+      ModalStore.emitOpen();
+
+
     default:
       // do nothing
   }
 
 });
 
-export default PlaySongStore;
+export default ModalStore;

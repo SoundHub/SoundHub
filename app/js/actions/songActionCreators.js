@@ -29,6 +29,24 @@ export default {
       console.error('failed: ', err)
     })
   },
+
+  getAllSongsSorted(order, page) {
+    let data = {
+      order: order,
+      page: page
+    }
+    Utils.postJSON('/allSongSort', data)
+    .then((json) => {
+      Dispatcher.dispatch({
+        type: ActionType.RECEIVE_ALL_SONGS_SORTED,
+        songs: json
+      })
+    })
+    .catch((err) => {
+      console.log('failed to sort ', err)
+    })
+  },
+
   getAllFavs(userId) {
     var data = {userId: userId}
     Utils.postJSON('/myFavs',data)
@@ -184,10 +202,16 @@ export default {
         type: ActionType.GET_USER_VOTES,
         songs: response
       })
-      console.log('dispatched: getUserVotes')
     })
     .catch((err) => {
       console.error('getting user votes failed: ', err)
+    })
+  },
+
+  updateActiveSong(id) {
+    Dispatcher.dispatch({
+      type: ActionType.ACTIVE_SONG,
+      id: id
     })
   }
 }

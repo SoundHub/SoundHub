@@ -71,6 +71,7 @@ var login = function(username, password, callback) {
     }
   }).then(function(obj) {
     userObj = obj;
+    console.log(obj[0].dataValues);
     hashedPw = obj[0].dataValues.password;
   }).then(function(obj) {
     return compare(password, hashedPw)
@@ -84,7 +85,7 @@ var login = function(username, password, callback) {
   })
 };
 
-var signup = function(username, password, callback) {
+var signup = function(username, password, email, callback) {
   var response = {};
   var exists;
   User.findOne({
@@ -103,7 +104,8 @@ var signup = function(username, password, callback) {
         bcrypt.hash(password, salt, function(err, hash) {
           User.create({
               username: username,
-              password: hash
+              password: hash,
+              email: email
             }).then(function(userData) {
               console.log(userData);
               response.userData = userData;
@@ -119,6 +121,15 @@ var signup = function(username, password, callback) {
   })
 };
 
+var getuser = function(userId, callback) {
+  User.findOne(
+    {where: {id: userId}}
+  )
+  .then(function(data) {
+    callback(data);
+  })
+}
+
 var updateUsername = function(userId, newname, callback) {
   User.update({
     username: newname
@@ -127,8 +138,14 @@ var updateUsername = function(userId, newname, callback) {
       id: userId
     }
   })
-  .then(function(data) {
-    callback(data);
+  .then(function() {
+    SongNode.update(
+    {authorName: newname}, 
+    {where: {author: userId}}
+    )
+    .then(function(data) {
+      callback(data);
+    })
   })
 }
 
@@ -140,8 +157,26 @@ var updateImg = function(userId, imgUrl, callback) {
       id: userId
     }
   })
-  .then(function(data) {
-    callback(data);
+  .then(function() {
+    SongNode.update(
+      {authorPic: imgUrl},
+      {where: {author: userId}}
+    )
+    .then(function(data) {
+      callback(data);
+    })
+  })
+}
+
+var updatePassword = function(userId, newPass, callback) {
+  bcrypt.hash(newPass, salt, function(err, hash) {
+    User.update(
+      {password: hash}, 
+      {where: {id: userId}}
+    )
+    .then(function() {
+      callback(data);
+    })
   })
 }
 
@@ -150,6 +185,7 @@ exports.login = login;
 exports.signup = signup;
 exports.updateUsername = updateUsername;
 exports.updateImg = updateImg;
+exports.updatePassword = updatePassword;
 
 
 /** INSERT/QUERY FUNCTIONS **/
@@ -186,6 +222,26 @@ var allSongs = function(callback) {
   })
 };
 
+var allSongSort = function(order, page, callback) {
+  console.log('offset: ', page, (page-1) * 6)
+  SongNode.findAll({
+    offset: (page-1) * 6,
+    limit: 6,
+    order: order + ' DESC',
+  }).then(function(data) {
+    callback(data);
+  })
+}
+
+var getNumSongs = function(callback) {
+  orm.query('select count(*) from songNodes')
+  .then(function(data) {
+    var copy = data.slice(0,1);
+    var count = copy[0][0]['count(*)']
+    callback(count);
+  })
+}
+
 var findSongsbyRoot = function(rootNodeId, callback) {
   // rootNodeID = rootNodeID.split('/')[1];
   SongNode.findAll({
@@ -213,7 +269,7 @@ var mySongs = function(userID, callback) {
 
 var myForks = function(userId, callback) {
   orm.query(
-    'select distinct songNodes.title, songNodes.author, songNodes.uuid, songNodes.genre, songNodes.description, songNodes.like, songNodes.forks, songNodes.parentId, songNodes.rootId, songNodes.url from ' +
+    'select distinct songNodes.title, songNodes.author, songNodes.authorName, songNodes.authorPic, songNodes.uuid, songNodes.genre, songNodes.description, songNodes.like, songNodes.forks, songNodes.parentId, songNodes.rootId, songNodes.url from ' +
     'forks inner join users on forks.userId = '+userId+
     ' inner join songNodes on forks.songNodeId = songNodes.uuid;'
   ).then(function(data) {
@@ -244,7 +300,7 @@ var addFork = function(userId, songNodeId, callback) {
 
 var myFavs = function(userId, callback) {  //I AM NOT MVP
   orm.query(
-    'select distinct songNodes.title, songNodes.author, songNodes.uuid, songNodes.genre, songNodes.description, songNodes.like, songNodes.forks, songNodes.parentId, songNodes.rootId, songNodes.url from ' +
+    'select distinct songNodes.title, songNodes.author, songNodes.authorName, songNodes.authorPic, songNodes.uuid, songNodes.genre, songNodes.description, songNodes.like, songNodes.forks, songNodes.parentId, songNodes.rootId, songNodes.url from ' +
     'favorites join users on favorites.userId = '+userId+
     ' join songNodes on favorites.songNodeId = songNodes.uuid;'
   ).then(function(data) {
@@ -323,6 +379,8 @@ var addVote = function(voteVal, userId, songNodeId, callback) {
 
 exports.addSong = addSong;
 exports.allSongs = allSongs;
+exports.allSongSort = allSongSort;
+exports.getNumSongs = getNumSongs;
 exports.findSongsbyRoot = findSongsbyRoot;
 exports.mySongs = mySongs;
 exports.myForks = myForks;
@@ -352,7 +410,7 @@ var updateVotes = function(songNodeId) {
     SongNode.update({
         like: voteSum
       }, {
-        where: {
+        where: { 
           uuid: songNodeId
         }
       }

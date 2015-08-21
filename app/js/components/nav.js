@@ -4,8 +4,9 @@ import React from 'react';
 import Router from 'react-router';
 import UserProfileStore from '../stores/userProfileStore';
 import UserActions from '../actions/userActionCreators';
+import ModalStore from '../stores/modalStore';
 
-
+import LoginModal from './loginmodal';
 
 
 class NavLink extends React.Component {
@@ -19,12 +20,34 @@ class NavLink extends React.Component {
   }
 };
 
-
-
 class LoginButton extends React.Component {
+  constructor() {
+    super();
+    this.open = this.open.bind(this);
+    this.close = this.close.bind(this);
+    this.state = {
+      open:false
+    }
+  }
+  componentDidMount() {
+    ModalStore.addChangeListener(this.close);
+    ModalStore.addOpenListener(this.open);
+  }
+  componentWillUnmount() {
+    ModalStore.removeChangeListener(this.close);
+    ModalStore.removeOpenListener(this.open);
+  }
+  open(){
+    this.setState({open:true})
+  }
+  close(){
+    this.setState({open:false})
+  }
   render() {
     return (
-      <button className="authButton">Login</button>
+      <div className="loginButton topButton" onClick={this.open}>Login
+        <LoginModal show={this.state.open}/>
+      </div>
     );
   }
 };
@@ -36,12 +59,14 @@ class LogoutButton extends React.Component {
   }
 
   logout(){
-    UserActions.logoutUser();
+    UserActions.logoutUser( () => {
+      this.context.router.transitionTo('home');
+    });
   }
 
   render() {
     return (
-      <button className="authButton" onClick ={this.logout} >Logout</button>
+      <button className="loginButton topButton" onClick ={this.logout} >Logout</button>
     );
   }
 };
@@ -67,7 +92,9 @@ class Nav extends React.Component {
   }
 
   componentDidMount() {
+    ModalStore.addChangeListener(this._onChange);
     UserProfileStore.addChangeListener(this._onChange);
+
     if (UserProfileStore.getCookieID()){
       this.setState({loggedIn: true});
     }else {
@@ -76,6 +103,7 @@ class Nav extends React.Component {
   }
 
   componentWillUnmount() {
+    ModalStore.removeChangeListener(this._onChange);
     UserProfileStore.removeChangeListener(this._onChange);
   }
 
@@ -89,14 +117,16 @@ class Nav extends React.Component {
         </span>
         <nav>
 
+          <Router.Link to="auth">
+            <button className="aboutButton topButton">About</button>
+          </Router.Link>
+
         { this.state.loggedIn ?
           <Router.Link to="user">
-            <button className="profileButton2">Profile</button>
+            <button className="myhubButton topButton">MyHub</button>
           </Router.Link> : null }
 
-          <Router.Link to="auth" ref="authbutton">
-            {this.state.loggedIn? <LogoutButton /> : <LoginButton />}
-          </Router.Link>
+        {this.state.loggedIn? <LogoutButton /> : <LoginButton />}
 
         </nav>
       </div>
