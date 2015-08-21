@@ -14,6 +14,7 @@ class Auth extends React.Component {
         <div className = "Carcouselbox">
           <Carcousel bsSize="small"/>
         </div>
+        <div className="seemore">Scroll down for more details</div>
 
         <div className="developerBigTitle">OUR TEAM</div>
         <div className="developerContainer">

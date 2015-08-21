@@ -164,9 +164,9 @@ var exports = {};
             .attr('class', 'glow')
             .attr('r', nodeCircleRadius+3)
             .style('fill', 'none')
-            .style('stroke', 'rgb(255, 255, 255)') // #FF005D, #00BABB
+            .style('stroke', 'rgb(255, 83, 34)') // #FF005D, #00BABB
             .style('stroke-opacity', 1)
-            .style('stroke-width', 6);
+            .style('stroke-width', 4);
             // .classed("selected", true);
             // .append("circle")
             // .attr("id", function(d) {

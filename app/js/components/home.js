@@ -104,7 +104,7 @@ class Home extends React.Component {
       <div className= "HomePage">
       <div id="bg1">
         <img id="bg11" src="../assets/bg1.1.png"></img>
-        <div className ="homeBannertitle">Collaborating of Music</div>
+        <div className ="homeBannertitle">Open Source Music</div>
         <img id="bg12" src="../assets/bg1.2.png"></img>
       </div>
         <div className = "sortBox">
