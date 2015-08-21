@@ -6,8 +6,6 @@ var session = require('express-session');
 var fs = require('fs');
 var favicon = require('serve-favicon');
 var bodyParser = require('body-parser');
-var nodemailer = require('nodemailer');
-var transporter = nodemailer.createTransport();
 
 server.use(favicon(path.join(__dirname, '/assets', 'favicon.ico')));
 
