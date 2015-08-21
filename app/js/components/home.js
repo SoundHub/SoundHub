@@ -20,6 +20,7 @@ class Home extends React.Component {
     super(props);
     SongActions.getAllSongs();
     SongActions.getUserVotes(UserProfileStore.getCookieID())
+    SongActions.getAllSongsSorted('like', 1)
     this.state = {songs: {allSongs: []},
                   order: 'like',
                   showModal: false};

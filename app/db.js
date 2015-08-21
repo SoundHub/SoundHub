@@ -222,20 +222,16 @@ var allSongs = function(callback) {
   })
 };
 
-var allSongsSort = function(order, page, callback) {
-  var offset = page * 40;
+var allSongSort = function(order, page, callback) {
+  var offset = (page-1) * 40;
   SongNode.findAll({
     offset: offset,
     limit: 40,
-    order: [
-      ['title', 'DESC'],
-      Sequelize.fn('max', Sequelize.col('like')), 
-    ]
+    order: [Sequelize.fn('max', Sequelize.col('like'))]
   }).then(function(data) {
     console.log('allSongs sort: ', data);
   })
 }
-
 
 var findSongsbyRoot = function(rootNodeId, callback) {
   // rootNodeID = rootNodeID.split('/')[1];
