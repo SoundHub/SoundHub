@@ -1,16 +1,8 @@
 'use strict';
-import _ from 'lodash';
 import React from 'react';
 import Router from 'react-router';
-import UserProfileStore from '../stores/userProfileStore';
-<<<<<<< HEAD
-import UserActions from '../actions/userActionCreators';
-=======
 import SongActions from '../actions/songActionCreators';
->>>>>>> pagination
-import ModalStore from '../stores/modalStore';
 import { Pagination } from 'react-bootstrap';
-import LoginModal from './loginmodal';
 
 
 class PageNav extends React.Component {

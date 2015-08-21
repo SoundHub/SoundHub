@@ -56,12 +56,11 @@ class Home extends React.Component {
   }
 
   getPageNumber(){
-    return Math.floor(AllSongStore.getSongNum() / 6) + 1;
+    return Math.floor(AllSongStore.getSongNum() / 6) + 2;
   }
 
   _onChange() {
     this.setState({songs: AllSongStore.getAllSongs()});
-    console.log("songs", this.state.songs);
   }
 
   _userNotAuthed() {
