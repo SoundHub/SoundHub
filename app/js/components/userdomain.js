@@ -11,12 +11,14 @@ import SongActions from '../actions/songActionCreators';
 import UserActions from '../actions/userActionCreators';
 
 import FavSongStore from '../stores/favSongStore';
+import AllSongStore from '../stores/allSongStore';
 import UserSongStore from '../stores/userSongStore';
 import UserImgStore from '../stores/userImgStore';
 import UserProfileStore from '../stores/userProfileStore';
 import ForkedSongStore from '../stores/forkedSongStore';
 import ForkedCreateStore from '../stores/forkedCreateStore';
-import AuthenticatedComponent from './authenticatedComponent'
+import PlaySongStore from '../stores/playSongStore';
+import AuthenticatedComponent from './authenticatedComponent';
 
 class ForkList extends React.Component {
   constructor() {
@@ -34,8 +36,13 @@ class ForkList extends React.Component {
     ForkedSongStore.removeChangeListener(this._onChange);
   }
 
+  playsong(){
+    this.setState({currentsong:PlaySongStore.getSong()});
+  }
+
 
   _onChange() {
+    console.log("I'm trying here");
     this.setState({forkedSongs: ForkedSongStore.getForkedSongs()});
   }
 
@@ -67,6 +74,11 @@ class MyMusic extends React.Component {
     this._onChange = this._onChange.bind(this);
   }
 
+  _onUpdate() {
+    console.log('update in component');
+    this.setState({activeSong: AllSongStore.getCurrentSong()});
+  }
+  
   componentDidMount() {
     SongActions.getUserCreatedSongs(this.props.userId);
     UserSongStore.addChangeListener(this._onChange);
