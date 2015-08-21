@@ -24,6 +24,7 @@ class Home extends React.Component {
                   order: 'like',
                   showModal: false,
                   activePage: 1,
+                  alertVisible: false,
                   activeSong: null};
 
     this.componentDidMount = this.componentDidMount.bind(this);
@@ -32,6 +33,7 @@ class Home extends React.Component {
     this.render = this.render.bind(this);
     this._onChange = this._onChange.bind(this);
     this._onUpdate = this._onUpdate.bind(this);
+    this._onAlert = this._onAlert.bind(this);
     this._userNotAuthed = this._userNotAuthed.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.openModal = this.openModal.bind(this);
@@ -47,6 +49,7 @@ class Home extends React.Component {
     AllSongStore.addUpdateListener(this._onUpdate);
     AuthModalStore.addChangeListener(this._userNotAuthed);
     PlaySongStore.addChangeListener(this.playsong);
+    AlertStore.addChangeListener(this._onAlert);
   }
 
   componentWillUnmount() {
@@ -54,6 +57,7 @@ class Home extends React.Component {
     AllSongStore.removeUpdateListener(this._onUpdate);
     AuthModalStore.removeChangeListener(this._userNotAuthed);
     PlaySongStore.removeChangeListener(this.playsong);
+    AlertStore.removeChangeListener(this._onAlert);
   }
 
   playsong(){
@@ -75,6 +79,10 @@ class Home extends React.Component {
 
   _userNotAuthed() {
     this.setState({showModal: true})
+  }
+
+  _onAlert() {
+    this.setState({alertVisible: true, message: AlertStore.getMessage()});
   }
 
   handleNewestClick() {

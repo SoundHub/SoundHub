@@ -8,6 +8,15 @@ import assign from 'object-assign';
 const ActionType = Constants.ActionTypes;
 const CHANGE_EVENT = 'change';
 
+var _alert = {};
+
+var setAlert = function(event) {
+  if(event === 'fork') {
+    _alert.alert = 'Song forked!'
+  } else if(event === 'favorite') {
+    _alert.alert = 'Song added to favorites!'
+  }
+}
 
 var AlertStore = assign({}, EventEmitter.prototype, {
   emitChange() {
@@ -18,13 +27,16 @@ var AlertStore = assign({}, EventEmitter.prototype, {
   },
   removeChangeListener(callback) {
     this.removeListener(CHANGE_EVENT, callback)
+  },
+  getMessage() {
+    return _alert.alert;
   }
 })
 
 AlertStore.dispatchToken = Dispatcher.register(function(payload) {
   switch(payload.type) {
-    case ActionType.NEW_ALERT:
-      payload.event
+    case ActionType.OPEN_ALERT:
+      setAlert(payload.event);
       AlertStore.emitChange();
       break;
 
