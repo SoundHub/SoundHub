@@ -182,9 +182,21 @@ hr {
     background-color: #1AA5C1;
     text-shadow: 0px 1px 0px #167187;
   }
-
   .myhubButton{
     background-color: #FDBE22;
+    text-shadow: 0px 1px 0px #C4A70F;
+  }
+
+  .loginButton:hover {
+    background-color:#B63E33;
+    text-shadow:0px 1px 0px #b23e35;
+  }
+  .aboutButton:hover{
+    background-color: #1A869B;
+    text-shadow: 0px 1px 0px #167187;
+  }
+  .myhubButton:hover{
+    background-color: #D7A40F;
     text-shadow: 0px 1px 0px #C4A70F;
   }
 
