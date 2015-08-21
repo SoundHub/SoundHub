@@ -21,7 +21,7 @@ class SongList extends React.Component{
     this.downvoteClick = this.downvoteClick.bind(this);
     this.togglePanel = this.togglePanel.bind(this);
     this.shareLink = this.shareLink.bind(this);
-   }
+  }
 
   togglePanel(id){
     SongActions.updateActiveSong(id);
