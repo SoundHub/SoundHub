@@ -223,9 +223,9 @@ var allSongs = function(callback) {
 };
 
 var allSongSort = function(order, page, callback) {
-  var offset = (page-1) * 6;
+  console.log('offset: ', page, (page-1) * 6)
   SongNode.findAll({
-    offset: offset,
+    offset: (page-1) * 6,
     limit: 6,
     order: order + ' DESC',
   }).then(function(data) {

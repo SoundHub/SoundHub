@@ -93,7 +93,7 @@ server.post('/allSongSort', function(req, res) {
   var page = req.body.page;
   var data = {songs: [], number: 0};
   db.allSongSort(order, page, function(songs) {
-    data.songs.push(songs);
+    data.songs = songs;
     db.getNumSongs(function(number) {
       data.number = number;
       res.send(data);

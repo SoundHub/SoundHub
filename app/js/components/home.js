@@ -27,6 +27,7 @@ class Home extends React.Component {
                   activePage: 1};
 
     this.componentDidMount = this.componentDidMount.bind(this);
+    this.getPageNumber = this.getPageNumber(this);
     this.playsong = this.playsong.bind(this);
     this.render = this.render.bind(this);
     this._onChange = this._onChange.bind(this);
@@ -54,8 +55,8 @@ class Home extends React.Component {
     this.setState({currentsong:PlaySongStore.getSong()});
   }
 
-  getNumber(){
-    return AllSongStore.getSongNum();
+  getPageNumber(){
+    return Math.floor(AllSongStore.getSongNum() / 6) + 2;
   }
 
   _onChange() {
@@ -89,7 +90,6 @@ class Home extends React.Component {
 
   render() {
     var order = this.state.order;
-    console.log(order);
     return (
       <div className= "HomePage">
         <div className = "sortBox">
@@ -101,7 +101,7 @@ class Home extends React.Component {
           <AudioPlayer song = {this.state.currentsong} mode = "home" />
         </div>
           <SongList data = {this.state.songs} page='home'/>
-          <PageNav pages={this.getNumber / 6}/>
+          <PageNav pages={this.getPageNumber} order={this.state.order}/>
       </div>
     );
   }
