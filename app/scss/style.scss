@@ -611,19 +611,13 @@ $animate-sec: 1.5s;
   .treeDiv {
     position: relative;
     background-color: #F7F7F7;
-    .sideBar {
-      float: right;
-      width: 25%;
-      border: 3px solid black;
-      padding: 5px;
-    }
   }
 
   .treeBox{
+    float: left;
     margin-right: auto;
-    margin-left: auto;
     /*width: 900px;*/
-    width: 100%;
+    width: 80%;
   }
 
 /*
@@ -694,6 +688,12 @@ $animate-sec: 1.5s;
     transition: box-shadow .4s ease;
   }
 */
+  .sideBar {
+    position: fixed;
+    width: 350px;
+    float: right;
+    right: 0;
+  }
 
 /* ================ shadow effect ================= */
 
