@@ -122,7 +122,7 @@ class Favor extends React.Component {
   render() {
     return (
       <div className="boxed-group-profile">
-          <div className="pageTitle">Favourites</div>
+          <div className="pageTitle">Favorites</div>
           {
             this.state.favSongs.length ?
             <div className="mylist">
@@ -143,7 +143,7 @@ export default AuthenticatedComponent(class User extends React.Component {
     super(props);
     this.gotoMusic = this.gotoMusic.bind(this);
     this.gotoBranches = this.gotoBranches.bind(this);
-    this.gotoFavourites = this.gotoFavourites.bind(this);
+    this.gotoFavorites = this.gotoFavorites.bind(this);
     this.gotoProfile = this.gotoProfile.bind(this);
     this.gotoCreate = this.gotoCreate.bind(this);
     this.setsong = this.setsong.bind(this);
@@ -207,7 +207,7 @@ export default AuthenticatedComponent(class User extends React.Component {
 
    gotoMusic(){this.setState({pageType:'music',currentsong:{}});}
    gotoBranches(){this.setState({pageType:'branch',currentsong:{}});}
-   gotoFavourites(){ this.setState({pageType:'fav',currentsong:{}}); }
+   gotoFavorites(){ this.setState({pageType:'fav',currentsong:{}}); }
    gotoProfile(){ this.setState({pageType:'profile',currentsong:{}}); }
    gotoCreate(){ this.setState({pageType:'create',currentsong:{}}); }
    setsong(song){ this.setState({currentsong:song}); }
@@ -236,7 +236,7 @@ export default AuthenticatedComponent(class User extends React.Component {
         <div className="profileButtonCollection">
           <button className="profileButton" onClick={this.gotoMusic}><Glyphicon glyph='music'  /> MyMusic</button>
           <button className="profileButton" onClick={this.gotoBranches}><Glyphicon glyph='paperclip' onClick={this.gotoBranches} /> Branches</button>
-          <button className="profileButton" onClick={this.gotoFavourites}><Glyphicon glyph='heart' /> Favourites</button>
+          <button className="profileButton" onClick={this.gotoFavorites}><Glyphicon glyph='heart' /> Favorites</button>
           <button className="profileButton" onClick={this.gotoProfile}><Glyphicon glyph='user' /> Profile</button>
           <button className="profileButton" onClick={this.gotoCreate}><Glyphicon glyph='upload' /> Create</button>
         </div>
