@@ -88,10 +88,10 @@ server.get('/allSongs', function(req, res) {  //** MVP **//
   });
 })
 
-server.post('/allSongsSorted', function(req, res) {
+server.post('/allSongsSort', function(req, res) {
   var order = req.body.order;
   var page = req.body.page;
-  db.allSongs(order, page, function(data) {
+  db.allSongsSort(order, page, function(data) {
     res.send(data);
   })
 })
