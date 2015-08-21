@@ -128,7 +128,7 @@ hr {
     text-align: right;
     width: 300px;
     margin-right: 10px;
-    margin-top: 10px;
+    margin-top: 20px;
     a {
       height: 50px;
       color: #000;
@@ -257,6 +257,19 @@ hr {
     margin-top: 5%;
 }
 
+.seemore{
+    text-align: center;
+    border-radius: 15px;
+    color: white;
+    margin-top: 40px;
+    margin-left: auto;
+    font-size: 15px;
+    background-color: #CCCCCC;
+    width: 240px;
+    padding: 10px;
+    margin-right: auto;
+}
+
 /* ================ profile ================= */
 .boxed-group-profile{
     margin-top: 30px;
@@ -336,11 +349,12 @@ hr {
 .homeBannertitle{
     font-family: edosz;
     z-index: 999;
+    width: 420px;
     top: 100px;
-    left: 30%;
+    left: 33%;
     color: white;
     position: absolute;
-    font-size: 40px;
+    font-size: 50px;
 }
 
 .homeBannerSubtitle{
@@ -398,6 +412,16 @@ hr {
     background-color: #9EC7DC;
     border-radius: 10px;
 }
+
+.songPanel2 {
+    padding: 10px;
+    z-index: 2;
+    height: 76px;
+    width: 350px;
+    background-color: #9C9C9C;
+    border-radius: 10px;
+}
+
 .hideItem{
   visibility: hidden;
 }
@@ -409,16 +433,31 @@ hr {
     margin-right: 15px;
 }
 
+
+.songitem2{
+    z-index: 3;
+    float: left;
+    width: 350px;
+    padding: 8px 10px 5px 15px;
+    border-radius: 10px;
+    background-color: #DEDEDE;
+  .title{
+    font-size: 18px;
+    color: #100000;
+    text-transform: capitalize;
+  }
+}
+
 .songItem{
     z-index: 3;
     float: left;
     width: 350px;
-    padding: 8px;
+    padding: 8px 10px 5px 15px;
     border-radius: 10px;
     background-color: #bed4de;
   .title{
-    font-size: 15px;
-    color: white;
+    font-size: 18px;
+    color: #100000;
     text-transform: capitalize;
   }
 }
@@ -427,13 +466,24 @@ hr {
   z-index: 3;
     float: left;
     width: 350px;
-    padding: 8px;
+    padding: 8px 10px 5px 15px;
     border-radius: 10px;
     background-color: #37819A;
+    color: white;
   .title{
-    font-size: 15px;
+    font-size: 18px;
     color: white;
     text-transform: capitalize;
+  }
+}
+
+
+.songItem:hover{
+  transition: background-color 0.3s;
+  background-color: #37819A;
+  color: white;
+.title{
+    color: white;
   }
 }
   .itemOther{
@@ -468,10 +518,7 @@ hr {
 
 
 
-.songItem:hover{
-  transition: background-color 0.3s;
-  background-color: #37819A;
-}
+
 
 .like-count{
   font-size: 20px;
@@ -782,7 +829,7 @@ $animate-sec: 1.5s;
 }
   .treeDiv {
     position: relative;
-    background-color: #F7F7F7;
+    background-color: #929292;
   }
 
   .treeBox{
@@ -828,13 +875,13 @@ $animate-sec: 1.5s;
 
   .link {
     fill: none;
-    stroke: #F1D2AF;
+    stroke: #929292;
     stroke-width: 3px;
   }
 
   .templink {
     fill: none;
-    stroke: red;
+    stroke: #B5B5B5;
     stroke-width: 3px;
   }
 
