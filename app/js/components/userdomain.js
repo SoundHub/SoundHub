@@ -87,7 +87,7 @@ class MyMusic extends React.Component {
           {
             this.state.userSongs.length ?
             <div className="mylist">
-              <SongList data = {this.state.userSongs} />
+              <SongList data = {this.state.userSongs} page='mymusic'/>
             </div>:
             <div>
               You have not uploaded any songs!
