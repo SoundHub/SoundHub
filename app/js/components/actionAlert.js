@@ -14,7 +14,7 @@ class ActionAlert extends React.Component {
   render() {
     return (
       <Alert bsStyle='success' onDismiss={this.handleAlertDismiss} dismissAfter={2000}>
-        <h4>Oh snap! You got an error!</h4>
+        <h4>{this.props.alertMessage}</h4>
       </Alert>
     )
   }
@@ -24,7 +24,7 @@ class ActionAlert extends React.Component {
   }
 
   handleAlertShow() {
-    this.setState({alertVisible: true});
+    this.setState({alertVisible: this.props.alertVisible});
   }
 };
 

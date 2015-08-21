@@ -82,7 +82,7 @@ class Home extends React.Component {
   }
 
   _onAlert() {
-    this.setState({alertVisible: true, message: AlertStore.getMessage()});
+    this.setState({alertVisible: true, alertMessage: AlertStore.getMessage()});
   }
 
   handleNewestClick() {
@@ -117,6 +117,7 @@ class Home extends React.Component {
         <div className ="homeBannerSubtitle">See how amazing music is being created from a simple motif</div>
         <img id="bg12" src="../assets/bg1.2.png"></img>
       </div>
+      <ActionAlert message={this.state.alertMessage} alertVisible={this.state.alertVisible}/>
         <div className = "sortBox">
           <button className="sortButton" onClick={this.handleNewestClick} >Newest</button>
           <button className="sortButton" onClick={this.handleUpvotedClick} >Hottest</button>
