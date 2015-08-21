@@ -335,7 +335,7 @@ hr {
 
 .homeBannertitle{
     font-family: edosz;
-    z-index: 1999;
+    z-index: 999;
     top: 100px;
     left: 30%;
     color: white;
@@ -387,7 +387,7 @@ hr {
     background: #FFFFFF;
     vertical-align: middle;
     height: 100%;
-    margin-bottom: 100px;
+    margin-bottom: 20px;
 }
 .songPanel {
     padding: 10px;
@@ -509,6 +509,14 @@ hr {
     height: 30px;
     border-radius: 5px;
 }
+
+.homePageNav{
+    margin-right: auto;
+    margin-left: auto;
+    width: 195px;
+    margin-bottom: 100px;
+}
+
 /* ================ User Panel ================= */
 .profilePage{
   .randomBG{

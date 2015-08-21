@@ -116,7 +116,9 @@ class Home extends React.Component {
           <AudioPlayer song = {this.state.currentsong} mode = "home" />
         </div>
           <SongList data = {this.state.songs} page='home' activeSong = {this.state.activeSong}/>
+          <div className="homePageNav">
           <PageNav pages={this.getPageNumber} order={this.state.order}/>
+          </div>
       </div>
     );
   }
