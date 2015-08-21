@@ -85,6 +85,12 @@ class Home extends React.Component {
     var order = this.state.order;
     return (
       <div className= "HomePage">
+      <div id="bg1">
+        <img id="bg11" src="../assets/bg1.1.png"></img>
+        <div className ="homeBannertitle">Collaborating of Music</div>
+        <div className ="homeBannerSubtitle">See how amazing music is being created from a simple motif</div>
+        <img id="bg12" src="../assets/bg1.2.png"></img>
+      </div>
         <div className = "sortBox">
           <button className="sortButton" onClick={this.handleNewestClick} >Newest</button>
           <button className="sortButton" onClick={this.handleUpvotedClick} >Hottest</button>
