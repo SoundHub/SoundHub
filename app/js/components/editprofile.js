@@ -57,7 +57,7 @@ class Edit extends React.Component {
 
                 <div className="edit-profile">
                 <div>Name</div>
-                  <input classNameName="profile-input" ref="username" type="text" placeholder={this.props.username}></input>
+                  <input className="profile-input" ref="username" type="text" placeholder={this.props.username}></input>
                 </div>
                 <button onClick={this.save} className="btn btn-success">SAVE</button>
               </div>

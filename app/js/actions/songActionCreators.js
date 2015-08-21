@@ -184,10 +184,16 @@ export default {
         type: ActionType.GET_USER_VOTES,
         songs: response
       })
-      console.log('dispatched: getUserVotes')
     })
     .catch((err) => {
       console.error('getting user votes failed: ', err)
+    })
+  },
+
+  updateActiveSong(id) {
+    Dispatcher.dispatch({
+      type: ActionType.ACTIVE_SONG,
+      id: id
     })
   }
 }

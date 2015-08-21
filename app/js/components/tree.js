@@ -118,6 +118,10 @@ class D3Tree extends React.Component {
     treeUtils.makeTree(nextProps.treeData, mountNode, this.onClick, nextProps.uuid);
   }
 
+  componentWillUnmount() {
+   AllSongStore.removeChangeListener(this._onChange); 
+  }
+
     togglePanel(song){
     console.log(song)
   }
