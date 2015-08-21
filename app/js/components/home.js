@@ -19,8 +19,6 @@ import PlaySongStore from '../stores/playSongStore';
 class Home extends React.Component {
   constructor(props) {
     super(props);
-    SongActions.getAllSongsSorted('like', 1)
-    SongActions.getUserVotes(UserProfileStore.getCookieID())
     this.state = {songs: [],
                   order: 'like',
                   showModal: false,
@@ -40,6 +38,8 @@ class Home extends React.Component {
   }
 
   componentDidMount () {
+    SongActions.getAllSongsSorted(this.state.order, 1)
+    SongActions.getUserVotes(UserProfileStore.getCookieID())
     AllSongStore.addChangeListener(this._onChange);
     AuthModalStore.addChangeListener(this._userNotAuthed);
     PlaySongStore.addChangeListener(this.playsong);
@@ -70,10 +70,12 @@ class Home extends React.Component {
 
   handleNewestClick() {
     this.setState({order: 'createdAt'});
+    SongActions.getAllSongsSorted('createdAt', 1);
   }
 
   handleUpvotedClick() {
     this.setState({order: 'like'});
+    SongActions.getAllSongsSorted('like', 1);
   }
 
   openModal() {
