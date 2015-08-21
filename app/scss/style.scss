@@ -414,6 +414,8 @@ hr {
     border-radius: 10px;
 }
 
+
+
 .songPanel2 {
     padding: 10px;
     z-index: 2;
@@ -466,7 +468,7 @@ hr {
 .songItemActive{
   z-index: 3;
     float: left;
-    width: 350px;
+    width: 280px;
     padding: 8px 10px 5px 15px;
     border-radius: 10px;
     background-color: #37819A;
@@ -487,10 +489,13 @@ hr {
     color: white;
   }
 }
+
+
   .itemOther{
+    cursor: pointer;
     font-size: 14px;
     margin-top: 3px;
-    color: #6A8E9B;
+    color: #337ab7;
     float: left;
     margin-right: 5px;
     width: 26px;
@@ -501,6 +506,7 @@ hr {
     border-radius: 18%;
     display: -webkit-inline-box;
   }
+
 
   .itemArrow{
     font-size: 14px;
@@ -516,9 +522,6 @@ hr {
     border-radius: 18%;
     display: -webkit-inline-box;
   }
-
-
-
 
 
 .like-count{
@@ -633,7 +636,7 @@ $animate-sec: 1.5s;
 .audio-player {
     opacity: 0.85;
     min-width: 780px;
-    background-color: #C1C1C1;
+    background-color: rgb(145, 129, 129);
     background-size: 100% 100%;
     vertical-align: middle;
     padding: 10px 0px 0px 0px;
