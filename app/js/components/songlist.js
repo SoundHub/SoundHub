@@ -153,7 +153,8 @@ class SongBox extends React.Component{
         <span className="like-count" > <Glyphicon glyph='heart' /> {this.props.song.like} </span>
       </div>
 
-      <div className="songPanel" id={this.props.key}>
+      <div className= 'songPanel'  id={this.props.key}>
+
         {this.props.page==='fork' ?
         <div className="itemOther" onClick={this.props.createClick}>
         <OverlayTrigger placement='bottom' overlay={<Tooltip>upload your new sound</Tooltip>}>
@@ -170,7 +171,7 @@ class SongBox extends React.Component{
           </div>
         </a> : null}
 
-        {this.props.page==='home' || 'fav' ?
+        {this.props.page==='home' || this.props.page=== 'fav' || this.props.page=== 'mymusic' || this.props.page=== 'fork' ?
         <div className="itemOther">
         <OverlayTrigger placement='bottom' overlay={<Tooltip>tree</Tooltip>}>
           <Router.Link to="tree"  params={this.props.song}>
@@ -179,7 +180,7 @@ class SongBox extends React.Component{
         </OverlayTrigger>
         </div> : null}
 
-        {this.props.page==='home' || 'mymusic' ?
+        {this.props.page==='home' || this.props.page=== 'mymusic' ?
         <div className="itemOther" onClick={this.props.forkClick}>
         <OverlayTrigger placement='bottom' overlay={<Tooltip>branch</Tooltip>}>
           <Glyphicon glyph='leaf'/>
@@ -193,7 +194,7 @@ class SongBox extends React.Component{
         </OverlayTrigger>
         </div>: null}
 
-        {this.props.page==='home' || 'fav' || 'mymusic' ?
+        {this.props.page==='home' || this.props.page=== 'fav' || this.props.page=== 'mymusic' ?
         <div className="itemOther" onClick={this.props.shareLink}>
         <OverlayTrigger placement='bottom' overlay={<Tooltip>share link</Tooltip>}>
           <Glyphicon glyph='share' />
