@@ -227,7 +227,7 @@ var allSongSort = function(order, page, callback) {
   SongNode.findAll({
     offset: offset,
     limit: 40,
-    order: [Sequelize.fn('max', Sequelize.col('like'))]
+    order: 'like DESC',
   }).then(function(data) {
     console.log('allSongs sort: ', data);
   })
@@ -370,6 +370,7 @@ var addVote = function(voteVal, userId, songNodeId, callback) {
 
 exports.addSong = addSong;
 exports.allSongs = allSongs;
+exports.allSongSort = allSongSort;
 exports.findSongsbyRoot = findSongsbyRoot;
 exports.mySongs = mySongs;
 exports.myForks = myForks;
