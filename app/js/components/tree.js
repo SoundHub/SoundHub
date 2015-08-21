@@ -33,13 +33,13 @@ class SongBox extends React.Component{
     return (
       <div className = "treeboxfloat">
         <div className= "sideBar">
-        <div className = "songItem effect8"  onClick={this.props.togglePanel}>
+        <div className = "songitem2 effect8"  onClick={this.props.togglePanel}>
           <span className = "title"  > {this.props.song.title} </span>
           <span className> by {this.props.song.authorName} </span>
           <span className="like-count" > <Glyphicon glyph='heart' /> {this.props.song.like} </span>
         </div>
 
-        <div className="songPanel" id={this.props.key}>
+        <div className="songPanel2" id={this.props.key}>
           <div className="itemOther" onClick={this.props.forkClick}>
           <OverlayTrigger placement='bottom' overlay={<Tooltip>fork</Tooltip>}>
             <Glyphicon glyph='leaf' />
@@ -119,7 +119,7 @@ class D3Tree extends React.Component {
   }
 
   componentWillUnmount() {
-   AllSongStore.removeChangeListener(this._onChange); 
+   AllSongStore.removeChangeListener(this._onChange);
   }
 
     togglePanel(song){

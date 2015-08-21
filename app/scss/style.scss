@@ -27,7 +27,7 @@ hr {
 
 @font-face {
     font-family: edosz;
-    src: url(../assets/font/edosz.ttf);
+    src: url(../assets/font/basictitlefont.ttf);
 }
 
 
@@ -128,7 +128,7 @@ hr {
     text-align: right;
     width: 300px;
     margin-right: 10px;
-    margin-top: 10px;
+    margin-top: 20px;
     a {
       height: 50px;
       color: #000;
@@ -257,6 +257,19 @@ hr {
     margin-top: 5%;
 }
 
+.seemore{
+    text-align: center;
+    border-radius: 15px;
+    color: white;
+    margin-top: 40px;
+    margin-left: auto;
+    font-size: 15px;
+    background-color: #CCCCCC;
+    width: 240px;
+    padding: 10px;
+    margin-right: auto;
+}
+
 /* ================ profile ================= */
 .boxed-group-profile{
     margin-top: 30px;
@@ -335,20 +348,20 @@ hr {
 
 .homeBannertitle{
     font-family: edosz;
-    z-index: 1999;
+    z-index: 999;
+    width: 420px;
     top: 100px;
-    left: 30%;
+    left: 33%;
     color: white;
     position: absolute;
-    font-size: 35px;
-    text-shadow: 2px 2px #783737;
+    font-size: 50px;
 }
 
 .homeBannerSubtitle{
     position: absolute;
     color: white;
-    left: 30%;
-    top: 150px;
+    left: 32%;
+    top: 145px;
     z-index: 2000;
     font-size: 12px;
 }
@@ -357,7 +370,6 @@ hr {
     height: 100px;
     background-size: cover;
     background-image: url(../assets/random-bg/down.jpg);
-    margin-bottom: 30px;
 
   #bg11{
     height: 100px;
@@ -389,16 +401,28 @@ hr {
     background: #FFFFFF;
     vertical-align: middle;
     height: 100%;
-    margin-bottom: 100px;
+    margin-bottom: 20px;
+    margin-left: 10px;
+    min-height: 200px;
 }
 .songPanel {
     padding: 10px;
     z-index: 2;
     height: 76px;
-    width: 350px;
-    background-color: #A6D1E0;
+    width: 280px;
+    background-color: #9EC7DC;
     border-radius: 10px;
 }
+
+.songPanel2 {
+    padding: 10px;
+    z-index: 2;
+    height: 76px;
+    width: 280px;
+    background-color: #9C9C9C;
+    border-radius: 10px;
+}
+
 .hideItem{
   visibility: hidden;
 }
@@ -410,16 +434,31 @@ hr {
     margin-right: 15px;
 }
 
+
+.songitem2{
+    z-index: 3;
+    float: left;
+    width: 280px;
+    padding: 8px 10px 5px 15px;
+    border-radius: 10px;
+    background-color: #DEDEDE;
+  .title{
+    font-size: 18px;
+    color: #100000;
+    text-transform: capitalize;
+  }
+}
+
 .songItem{
     z-index: 3;
     float: left;
-    width: 350px;
-    padding: 8px;
+    width: 280px;
+    padding: 8px 10px 5px 15px;
     border-radius: 10px;
     background-color: #bed4de;
   .title{
-    font-size: 15px;
-    color: white;
+    font-size: 18px;
+    color: #100000;
     text-transform: capitalize;
   }
 }
@@ -428,13 +467,24 @@ hr {
   z-index: 3;
     float: left;
     width: 350px;
-    padding: 8px;
+    padding: 8px 10px 5px 15px;
     border-radius: 10px;
-    background-color: #879EAB;
+    background-color: #37819A;
+    color: white;
   .title{
-    font-size: 15px;
+    font-size: 18px;
     color: white;
     text-transform: capitalize;
+  }
+}
+
+
+.songItem:hover{
+  transition: background-color 0.3s;
+  background-color: #37819A;
+  color: white;
+.title{
+    color: white;
   }
 }
   .itemOther{
@@ -469,10 +519,7 @@ hr {
 
 
 
-.songItem:hover{
-  transition: background-color .3s;
-  background-color: #879EAB;
-}
+
 
 .like-count{
   font-size: 20px;
@@ -494,24 +541,31 @@ hr {
 }
 
 .sortBox{
-    position: absolute;
-    padding: 10px 0px 0px 20px;
+    padding: 10px 20px 10px 20px;
     width: 100%;
     z-index: 99;
-    top: 120px;
+    background-color: rgba(255, 255, 255, 0.9);
+    margin-bottom: 20px;
 }
 
 .sortButton{
     color: white;
-    background-color: #20B0C2;
-    margin-right: 10px;
+    background-color: #FF9696;
+    margin-right: 20px;
     border: 0;
     padding: 5px;
     width: 70px;
     height: 30px;
     border-radius: 5px;
-    text-shadow: 1px 1px 1px #7CC6CC;
 }
+
+.homePageNav{
+    margin-right: auto;
+    margin-left: auto;
+    width: 195px;
+    margin-bottom: 100px;
+}
+
 /* ================ User Panel ================= */
 .profilePage{
   .randomBG{
@@ -577,8 +631,9 @@ $common-padding: 5px;
 $animate-sec: 1.5s;
 
 .audio-player {
-  min-width: 780px;
-    background: url(../assets/random-bg/up.jpg);
+    opacity: 0.85;
+    min-width: 780px;
+    background-color: #C1C1C1;
     background-size: 100% 100%;
     vertical-align: middle;
     padding: 10px 0px 0px 0px;
@@ -612,7 +667,7 @@ $animate-sec: 1.5s;
 }
 
 .audio-progress {
-  background: rgba(80, 83, 120, 0.73);
+  background: rgba(0, 0, 0, 0.49);
   width: 100%;
   height: 100%;
 }
@@ -699,11 +754,12 @@ $animate-sec: 1.5s;
 }
 
 .audio-desc-container {
+  height: 30px;
   margin-top: 10px;
   width: 100%;
   vertical-align: middle;
   padding: 5px;
-  background-color: rgba(241, 172, 213, 0.42);
+  background-color: rgba(0, 0, 0, 0.62);
   color: white;
 }
 
@@ -713,10 +769,13 @@ $animate-sec: 1.5s;
 }
 
 .audio-name-label {
+    position: absolute;
     padding-left: 20px;
-    height: 20px;
     overflow: hidden;
-
+    top: 14px;
+    left: 60px;
+    font-size: 20px;
+    text-transform: uppercase;
 }
 
   .userPlayButton{
@@ -771,7 +830,7 @@ $animate-sec: 1.5s;
 }
   .treeDiv {
     position: relative;
-    background-color: #F7F7F7;
+    background-color: #929292;
   }
 
   .treeBox{
@@ -810,19 +869,20 @@ $animate-sec: 1.5s;
   }
 
   .overlay{
+    // background-image: url(../assets/paper.jpg);
     background-color: rgba(227, 227, 227, 0.25);
     background-size: 100% 100%;
   }
 
   .link {
     fill: none;
-    stroke: #F1D2AF;
+    stroke: #929292;
     stroke-width: 3px;
   }
 
   .templink {
     fill: none;
-    stroke: red;
+    stroke: #B5B5B5;
     stroke-width: 3px;
   }
 

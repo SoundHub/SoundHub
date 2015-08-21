@@ -7,6 +7,7 @@ import { Modal } from 'react-bootstrap';
 import SongActions from '../actions/songActionCreators';
 import AudioPlayer from './player-components/AudioPlayer';
 import LoginRemindModal from './loginRemindModal'
+import PageNav from './pagination';
 
 import AllSongStore from '../stores/allSongStore';
 import UserProfileStore from '../stores/userProfileStore';
@@ -18,14 +19,14 @@ import PlaySongStore from '../stores/playSongStore';
 class Home extends React.Component {
   constructor(props) {
     super(props);
-    SongActions.getAllSongs();
-    SongActions.getUserVotes(UserProfileStore.getCookieID())
-    this.state = {songs: {allSongs: []},
+    this.state = {songs: [],
                   order: 'like',
                   showModal: false,
+                  activePage: 1,
                   activeSong: null};
 
     this.componentDidMount = this.componentDidMount.bind(this);
+    this.getPageNumber = this.getPageNumber(this);
     this.playsong = this.playsong.bind(this);
     this.render = this.render.bind(this);
     this._onChange = this._onChange.bind(this);
@@ -39,6 +40,8 @@ class Home extends React.Component {
   }
 
   componentDidMount () {
+    SongActions.getAllSongsSorted(this.state.order, 1);
+    SongActions.getUserVotes(UserProfileStore.getCookieID());
     AllSongStore.addChangeListener(this._onChange);
     AllSongStore.addUpdateListener(this._onUpdate);
     AuthModalStore.addChangeListener(this._userNotAuthed);
@@ -56,6 +59,10 @@ class Home extends React.Component {
     this.setState({currentsong:PlaySongStore.getSong()});
   }
 
+  getPageNumber(){
+    return Math.floor(AllSongStore.getSongNum() / 6) + 2;
+  }
+
   _onChange() {
     this.setState({songs: AllSongStore.getAllSongs()});
   }
@@ -71,10 +78,12 @@ class Home extends React.Component {
 
   handleNewestClick() {
     this.setState({order: 'createdAt'});
+    SongActions.getAllSongsSorted('createdAt', 1);
   }
 
   handleUpvotedClick() {
     this.setState({order: 'like'});
+    SongActions.getAllSongsSorted('like', 1);
   }
 
   openModal() {
@@ -95,8 +104,7 @@ class Home extends React.Component {
       <div className= "HomePage">
       <div id="bg1">
         <img id="bg11" src="../assets/bg1.1.png"></img>
-        <div className ="homeBannertitle">Collaborating of Music</div>
-        <div className ="homeBannerSubtitle">See how amazing music is being created from a simple motif</div>
+        <div className ="homeBannertitle">Open Source Music</div>
         <img id="bg12" src="../assets/bg1.2.png"></img>
       </div>
         <div className = "sortBox">
@@ -107,16 +115,10 @@ class Home extends React.Component {
         <div className= "playerBox">
           <AudioPlayer song = {this.state.currentsong} mode = "home" />
         </div>
-          <SongList data = {this.state.songs.allSongs.sort(function(a, b) {
-            if (order === 'like') {
-              return b[order] - a[order];
-            }
-            else if (order === 'createdAt') {
-              let a_date = new Date(a.createdAt);
-              let b_date = new Date(b.createdAt);
-              return b_date - a_date;
-            }
-          })} page='home' activeSong = {this.state.activeSong} />
+          <SongList data = {this.state.songs} page='home' activeSong = {this.state.activeSong}/>
+          <div className="homePageNav">
+          <PageNav pages={this.getPageNumber} order={this.state.order}/>
+          </div>
       </div>
     );
   }
