@@ -223,13 +223,12 @@ var allSongs = function(callback) {
 };
 
 var allSongSort = function(order, page, callback) {
-  var offset = (page-1) * 40;
+  var offset = (page-1) * 6;
   SongNode.findAll({
     offset: offset,
-    limit: 40,
+    limit: 6,
     order: order + ' DESC',
   }).then(function(data) {
-    console.log('allSongs sort: ', data);
     callback(data);
   })
 }

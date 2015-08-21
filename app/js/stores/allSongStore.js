@@ -41,7 +41,7 @@ let AllSongStore = assign({}, EventEmitter.prototype, {
     this.removeListener(CHANGE_EVENT, callback)
   },
   getAllSongs() {
-    return _songs;
+    return _songs.allSongs;
   },
   getSongById(uuid) {
     return new Promise((resolve, reject) => {
@@ -64,7 +64,7 @@ let AllSongStore = assign({}, EventEmitter.prototype, {
 AllSongStore.dispatchToken = Dispatcher.register(function(payload) {
 
   switch(payload.type) {
-    case ActionType.RECEIVE_ALL_SONGS:
+    case ActionType.RECEIVE_ALL_SONGS_SORTED:
       let songs = payload.songs;
       setAllSongs(songs);
       AllSongStore.emitChange();

@@ -36,8 +36,11 @@ export default {
       page: page
     }
     Utils.postJSON('/allSongSort', data)
-    .then((response) => {
-      console.log('get all songs sort success: ', response)
+    .then((json) => {
+      Dispatcher.dispatch({
+        type: ActionType.RECEIVE_ALL_SONGS_SORTED,
+        songs: json
+      })
     })
     .catch((err) => {
       console.log('failed to sort ', err)

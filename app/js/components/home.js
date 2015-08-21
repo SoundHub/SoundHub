@@ -21,7 +21,7 @@ class Home extends React.Component {
     super(props);
     SongActions.getAllSongsSorted('like', 1)
     SongActions.getUserVotes(UserProfileStore.getCookieID())
-    this.state = {songs: {allSongs: []},
+    this.state = {songs: [],
                   order: 'like',
                   showModal: false,
                   activePage: 1};
@@ -96,16 +96,7 @@ class Home extends React.Component {
         <div className= "playerBox">
           <AudioPlayer song = {this.state.currentsong} mode = "home" />
         </div>
-          <SongList data = {this.state.songs.allSongs.sort(function(a, b) {
-            if (order === 'like') {
-              return b[order] - a[order];
-            }
-            else if (order === 'createdAt') {
-              let a_date = new Date(a.createdAt);
-              let b_date = new Date(b.createdAt);
-              return b_date - a_date;
-            }
-          })} page='home'/>
+          <SongList data = {this.state.songs} page='home'/>
           <PageNav />
       </div>
     );
