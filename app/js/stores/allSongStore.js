@@ -16,7 +16,9 @@ let _songs = {
 };
 
 let setAllSongs = function (songs) {
-  _songs.allSongs = songs;
+  _songs.allSongs = songs.songs;
+  _songs.number = songs.number;
+  console.log('_songs ', _songs)
 };
 
 var addVote = function(voteInfo) {
@@ -45,6 +47,9 @@ let AllSongStore = assign({}, EventEmitter.prototype, {
   },
   getAllSongs() {
     return _songs.allSongs;
+  },
+  getSongNum() {
+    return _songs.number;
   },
   getSongById(uuid) {
     return new Promise((resolve, reject) => {

@@ -236,7 +236,9 @@ var allSongSort = function(order, page, callback) {
 var getNumSongs = function(callback) {
   orm.query('select count(*) from songNodes')
   .then(function(data) {
-    callback(data);
+    var copy = data.slice(0,1);
+    var count = copy[0][0]['count(*)']
+    callback(count);
   })
 }
 
@@ -378,6 +380,7 @@ var addVote = function(voteVal, userId, songNodeId, callback) {
 exports.addSong = addSong;
 exports.allSongs = allSongs;
 exports.allSongSort = allSongSort;
+exports.getNumSongs = getNumSongs;
 exports.findSongsbyRoot = findSongsbyRoot;
 exports.mySongs = mySongs;
 exports.myForks = myForks;

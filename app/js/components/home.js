@@ -54,6 +54,10 @@ class Home extends React.Component {
     this.setState({currentsong:PlaySongStore.getSong()});
   }
 
+  getNumber(){
+    return AllSongStore.getSongNum();
+  }
+
   _onChange() {
     this.setState({songs: AllSongStore.getAllSongs()});
     console.log("songs", this.state.songs);
