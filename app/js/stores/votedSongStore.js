@@ -15,7 +15,6 @@ var _votedSongs = [];
 
 var setUserVotedSongs = function(songs) {
   _votedSongs = songs;
-  console.log('user voted songs: ', _votedSongs)
 }
 
 var addVote = function(voteInfo) {

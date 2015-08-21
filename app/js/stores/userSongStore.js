@@ -27,7 +27,6 @@ let setNewestCreated = function(songData) {
 
 let setUserSongs = function(userSongs) {
   _userSongs.allCreated = userSongs;
-  console.log(_userSongs);
 }
 
 let setUserForks = function(forks) {
@@ -65,13 +64,11 @@ UserSongStore.dispatchToken = Dispatcher.register(function(payload) {
 
   switch(payload.type) {
     case ActionType.SONG_ADD_SUCCESS:
-      console.log('enter user song store', payload)
       setNewestCreated(payload.songData);
       UserSongStore.emitChange();
       break;
 
     case ActionType.GET_USER_SONGS:
-      console.log('enter user song store', payload)
       setUserSongs(payload.userSongs);
       UserSongStore.emitChange();
       break;

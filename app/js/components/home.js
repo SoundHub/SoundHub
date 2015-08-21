@@ -22,12 +22,14 @@ class Home extends React.Component {
     SongActions.getUserVotes(UserProfileStore.getCookieID())
     this.state = {songs: {allSongs: []},
                   order: 'like',
-                  showModal: false};
+                  showModal: false,
+                  activeSong: null};
 
     this.componentDidMount = this.componentDidMount.bind(this);
     this.playsong = this.playsong.bind(this);
     this.render = this.render.bind(this);
     this._onChange = this._onChange.bind(this);
+    this._onUpdate = this._onUpdate.bind(this);
     this._userNotAuthed = this._userNotAuthed.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.openModal = this.openModal.bind(this);
@@ -38,12 +40,14 @@ class Home extends React.Component {
 
   componentDidMount () {
     AllSongStore.addChangeListener(this._onChange);
+    AllSongStore.addUpdateListener(this._onUpdate);
     AuthModalStore.addChangeListener(this._userNotAuthed);
     PlaySongStore.addChangeListener(this.playsong);
   }
 
   componentWillUnmount() {
     AllSongStore.removeChangeListener(this._onChange);
+    AllSongStore.removeUpdateListener(this._onUpdate);
     AuthModalStore.removeChangeListener(this._userNotAuthed);
     PlaySongStore.removeChangeListener(this.playsong);
   }
@@ -54,7 +58,11 @@ class Home extends React.Component {
 
   _onChange() {
     this.setState({songs: AllSongStore.getAllSongs()});
-    console.log("songs", this.state.songs);
+  }
+
+  _onUpdate() {
+    console.log('update in component');
+    this.setState({activeSong: AllSongStore.getCurrentSong()});
   }
 
   _userNotAuthed() {
@@ -83,7 +91,6 @@ class Home extends React.Component {
 
   render() {
     var order = this.state.order;
-    console.log(order);
     return (
       <div className= "HomePage">
       <div id="bg1">
@@ -109,7 +116,7 @@ class Home extends React.Component {
               let b_date = new Date(b.createdAt);
               return b_date - a_date;
             }
-          })} page='home'/>
+          })} page='home' activeSong = {this.state.activeSong} />
       </div>
     );
   }

@@ -148,7 +148,7 @@ var exports = {};
     // var glowDefs = baseSvg.append("defs").attr("id", "glowdefs");
     var lastClicked;
     function click(d) {
-        console.log('makeTree click called: ', d, ' last: ', lastClicked);
+        // console.log('makeTree click called: ', d, ' last: ', lastClicked);
         // if (d3.event.defaultPrevented) return; // click suppressed
         // d = toggleChildren(d);
         // update(d);
