@@ -27,7 +27,7 @@ hr {
 
 @font-face {
     font-family: edosz;
-    src: url(../assets/font/edosz.ttf);
+    src: url(../assets/font/basictitlefont.ttf);
 }
 
 
@@ -340,15 +340,14 @@ hr {
     left: 30%;
     color: white;
     position: absolute;
-    font-size: 35px;
-    text-shadow: 2px 2px #783737;
+    font-size: 40px;
 }
 
 .homeBannerSubtitle{
     position: absolute;
     color: white;
-    left: 30%;
-    top: 150px;
+    left: 32%;
+    top: 145px;
     z-index: 2000;
     font-size: 12px;
 }
@@ -357,7 +356,7 @@ hr {
     height: 100px;
     background-size: cover;
     background-image: url(../assets/random-bg/down.jpg);
-    margin-bottom: 30px;
+    margin-bottom: 10px;
 
   #bg11{
     height: 100px;
@@ -480,11 +479,10 @@ hr {
 }
 
 .sortBox{
-    position: absolute;
-    padding: 10px 0px 0px 20px;
+    padding: 0px 0px 0px 20px;
     width: 100%;
     z-index: 99;
-    top: 120px;
+    margin-bottom: 10px;
 }
 
 .sortButton{
@@ -563,7 +561,8 @@ $common-padding: 5px;
 $animate-sec: 1.5s;
 
 .audio-player {
-  min-width: 780px;
+    opacity: 0.85;
+    min-width: 780px;
     background: url(../assets/random-bg/up.jpg);
     background-size: 100% 100%;
     vertical-align: middle;
@@ -685,6 +684,7 @@ $animate-sec: 1.5s;
 }
 
 .audio-desc-container {
+  height: 30px;
   margin-top: 10px;
   width: 100%;
   vertical-align: middle;
@@ -699,10 +699,13 @@ $animate-sec: 1.5s;
 }
 
 .audio-name-label {
+    position: absolute;
     padding-left: 20px;
-    height: 20px;
     overflow: hidden;
-
+    top: 14px;
+    left: 60px;
+    font-size: 20px;
+    text-transform: uppercase;
 }
 
   .userPlayButton{
@@ -796,6 +799,7 @@ $animate-sec: 1.5s;
   }
 
   .overlay{
+    // background-image: url(../assets/paper.jpg);
     background-color: rgba(227, 227, 227, 0.25);
     background-size: 100% 100%;
   }
