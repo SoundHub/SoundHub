@@ -113,8 +113,7 @@ class Home extends React.Component {
       <div className= "HomePage">
       <div id="bg1">
         <img id="bg11" src="../assets/bg1.1.png"></img>
-        <div className ="homeBannertitle">Collaborating of Music</div>
-        <div className ="homeBannerSubtitle">See how amazing music is being created from a simple motif</div>
+        <div className ="homeBannertitle">Open Source Music</div>
         <img id="bg12" src="../assets/bg1.2.png"></img>
       </div>
       <ActionAlert message={this.state.alertMessage} alertVisible={this.state.alertVisible}/>
@@ -127,7 +126,9 @@ class Home extends React.Component {
           <AudioPlayer song = {this.state.currentsong} mode = "home" />
         </div>
           <SongList data = {this.state.songs} page='home' activeSong = {this.state.activeSong}/>
+          <div className="homePageNav">
           <PageNav pages={this.getPageNumber} order={this.state.order}/>
+          </div>
       </div>
     );
   }

@@ -171,7 +171,7 @@ class SongBox extends React.Component{
           </div>
         </a> : null}
 
-        {this.props.page==='home' ?
+        {this.props.page==='home' || 'fav' ?
         <div className="itemOther">
         <OverlayTrigger placement='bottom' overlay={<Tooltip>tree</Tooltip>}>
           <Router.Link to="tree"  params={this.props.song}>
@@ -180,7 +180,7 @@ class SongBox extends React.Component{
         </OverlayTrigger>
         </div> : null}
 
-        {this.props.page==='home' ?
+        {this.props.page==='home' || 'mymusic' ?
         <div className="itemOther" onClick={this.props.forkClick}>
         <OverlayTrigger placement='bottom' overlay={<Tooltip>branch</Tooltip>}>
           <Glyphicon glyph='leaf' />
@@ -194,7 +194,7 @@ class SongBox extends React.Component{
         </OverlayTrigger>
         </div>: null}
 
-        {this.props.page==='home' ?
+        {this.props.page==='home' || 'fav' || 'mymusic' ?
         <div className="itemOther" onClick={this.props.shareLink}>
         <OverlayTrigger placement='bottom' overlay={<Tooltip>share link</Tooltip>}>
           <Glyphicon glyph='share' />
