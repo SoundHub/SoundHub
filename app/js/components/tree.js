@@ -31,7 +31,8 @@ class SongBox extends React.Component{
   render() {
 
     return (
-      <div className = "sideBar">
+      <div className = "treeboxfloat">
+        <div className= "sideBar">
         <div className = "songItem effect8"  onClick={this.props.togglePanel}>
           <span className = "title"  > {this.props.song.title} </span>
           <span className> by {this.props.song.authorName} </span>
@@ -63,6 +64,7 @@ class SongBox extends React.Component{
           </OverlayTrigger>
           </div>
         </div>
+      </div>
       </div>
     )
   }
