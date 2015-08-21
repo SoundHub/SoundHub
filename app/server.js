@@ -91,7 +91,18 @@ server.get('/allSongs', function(req, res) {  //** MVP **//
 server.post('/allSongSort', function(req, res) {
   var order = req.body.order;
   var page = req.body.page;
-  db.allSongSort(order, page, function(data) {
+  var data = {songs: [], number: 0};
+  db.allSongSort(order, page, function(songs) {
+    data.songs.push(songs);
+    db.getNumSongs(function(number) {
+      data.number = number;
+      res.send(data);
+    })
+  })
+})
+
+server.get('/numSongs', function(req, res) {
+  db.getNumSongs(function(data) {
     res.send(data);
   })
 })

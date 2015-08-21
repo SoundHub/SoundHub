@@ -27,10 +27,13 @@ class PageNav extends React.Component {
   render() {
     return (
       <Pagination
-          bsSize='small'
-          items={10}
-          activePage={this.state.activePage}
-          onSelect={this.handleSelect} />
+        className="pageNav"
+        prev next first last ellipsis
+        bsSize='small'
+        items={this.props.pages}
+        maxButtons={5}
+        activePage={this.state.activePage}
+        onSelect={this.handleSelect} />
     )
   } 
 }

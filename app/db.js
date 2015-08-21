@@ -233,6 +233,13 @@ var allSongSort = function(order, page, callback) {
   })
 }
 
+var getNumSongs = function(callback) {
+  orm.query('select count(*) from songNodes')
+  .then(function(data) {
+    callback(data);
+  })
+}
+
 var findSongsbyRoot = function(rootNodeId, callback) {
   // rootNodeID = rootNodeID.split('/')[1];
   SongNode.findAll({

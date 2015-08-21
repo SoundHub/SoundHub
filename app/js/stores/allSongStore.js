@@ -10,7 +10,10 @@ import _ from 'lodash';
 const ActionType = Constants.ActionTypes;
 const CHANGE_EVENT = 'change';
 
-let _songs = {};
+let _songs = {
+  allSongs: [],
+  number: 0
+};
 
 let setAllSongs = function (songs) {
   _songs.allSongs = songs;
