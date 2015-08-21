@@ -23,11 +23,8 @@ class SongList extends React.Component{
     this.shareLink = this.shareLink.bind(this);
    }
 
-  togglePanel(song){
-    this.props.activeId = song.uuid;
-    console.log('testing 1 2 3: ', this.props.activeId);
-    console.log(song.uuid);
-    console.log(this.props.key);
+  togglePanel(id){
+    SongActions.updateActiveSong(id);
   }
 
   playClick(song){
@@ -108,11 +105,11 @@ class SongList extends React.Component{
   }
 
   render() {
-
+    var activeSong = this.props.activeSong;
     var songboxs = this.props.data.map(function (song, i) {
       return (
         <SongBox
-          activeId={false}
+          activeId={activeSong}
           key={song.id}
           song={song}
           addfav={this.addfav.bind(this, song)}
@@ -142,10 +139,12 @@ class SongBox extends React.Component{
    }
 
   render() {
+    var normCss = 'songItem effect8';
+    var selectedCss = 'songItemActive effect8';
 
     return (
     <div className ="songBox" >
-      <div className = "songItem effect8"  onClick={(function() {this.props.playClick(); this.props.togglePanel('stuff');}).bind(this)}>
+      <div className = {this.props.song.uuid === this.props.activeId ? selectedCss : normCss}  onClick={(function() {this.props.playClick(); this.props.togglePanel(this.props.song.uuid);}).bind(this)}>
         <span className = "title" > {this.props.song.title} </span>
         <span className> by {this.props.song.authorName} </span>
         <span className="like-count" > <Glyphicon glyph='heart' /> {this.props.song.like} </span>

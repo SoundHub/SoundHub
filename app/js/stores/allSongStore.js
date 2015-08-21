@@ -12,9 +12,15 @@ const CHANGE_EVENT = 'change';
 
 let _songs = {};
 
+let _activeId = null;
+
 let setAllSongs = function (songs) {
   _songs.allSongs = songs;
 };
+
+let setActiveSong = function(song) {
+  _activeId = song;
+}
 
 var addVote = function(voteInfo) {
   return new Promise((resolve, reject) => {
@@ -42,6 +48,9 @@ let AllSongStore = assign({}, EventEmitter.prototype, {
   },
   getAllSongs() {
     return _songs;
+  },
+  getCurrentSong() {
+    return _activeId;
   },
   getSongById(uuid) {
     return new Promise((resolve, reject) => {
@@ -82,7 +91,13 @@ AllSongStore.dispatchToken = Dispatcher.register(function(payload) {
       break;
 
     case ActionType.FORK_SUCCESS:
-      console.log('fork success')
+      console.log('fork success');
+      break;
+
+    case ActionType.ACTIVE_SONG:
+      let activeId = payload.id.uuid;
+      setActiveSong(activeId);
+      AllSongStore.emitChange();
       break;
 
     default:

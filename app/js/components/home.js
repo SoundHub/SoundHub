@@ -22,7 +22,8 @@ class Home extends React.Component {
     SongActions.getUserVotes(UserProfileStore.getCookieID())
     this.state = {songs: {allSongs: []},
                   order: 'like',
-                  showModal: false};
+                  showModal: false,
+                  activeSong: null};
 
     this.componentDidMount = this.componentDidMount.bind(this);
     this.playsong = this.playsong.bind(this);
@@ -53,8 +54,7 @@ class Home extends React.Component {
   }
 
   _onChange() {
-    this.setState({songs: AllSongStore.getAllSongs()});
-    console.log("songs", this.state.songs);
+    this.setState({songs: AllSongStore.getAllSongs(), activeSong: AllSongStore.getCurrentSong()});
   }
 
   _userNotAuthed() {
@@ -83,7 +83,6 @@ class Home extends React.Component {
 
   render() {
     var order = this.state.order;
-    console.log(order);
     return (
       <div className= "HomePage">
         <div className = "sortBox">
@@ -103,7 +102,7 @@ class Home extends React.Component {
               let b_date = new Date(b.createdAt);
               return b_date - a_date;
             }
-          })} page='home'/>
+          })} page='home' activeSong = {this.state.activeSong} />
       </div>
     );
   }

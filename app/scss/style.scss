@@ -371,6 +371,20 @@ hr {
     text-transform: capitalize;
   }
 }
+
+.songItemActive{
+  z-index: 3;
+    float: left;
+    width: 350px;
+    padding: 8px;
+    border-radius: 10px;
+    background-color: #879EAB;
+  .title{
+    font-size: 15px;
+    color: white;
+    text-transform: capitalize;
+  }
+}
   .itemOther{
     font-size: 14px;
     margin-top: 3px;
