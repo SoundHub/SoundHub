@@ -37,7 +37,7 @@ export default {
     }
     Utils.postJSON('/allSongSort', data)
     .then((response) => {
-      conosle.log('get all songs sort success: ', response)
+      console.log('get all songs sort success: ', response)
     })
     .catch((err) => {
       console.log('failed to sort ', err)

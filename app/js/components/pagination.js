@@ -15,14 +15,22 @@ class PageNav extends React.Component {
     this.state = {
       activePage: 1
     }
+    this.handleSelect = this.handleSelect.bind(this);
   }
 
-  onClick() { 
+  handleSelect(event, selectedEvent){
+    this.setState({
+      activePage: selectedEvent.eventKey
+    });
   }
 
   render() {
     return (
-    <Pagination/>
+      <Pagination
+          bsSize='small'
+          items={10}
+          activePage={this.state.activePage}
+          onSelect={this.handleSelect} />
     )
   } 
 }

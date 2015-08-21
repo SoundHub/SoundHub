@@ -227,9 +227,10 @@ var allSongSort = function(order, page, callback) {
   SongNode.findAll({
     offset: offset,
     limit: 40,
-    order: 'like DESC',
+    order: order + ' DESC',
   }).then(function(data) {
     console.log('allSongs sort: ', data);
+    callback(data);
   })
 }
 

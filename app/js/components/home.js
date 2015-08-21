@@ -7,6 +7,7 @@ import { Modal } from 'react-bootstrap';
 import SongActions from '../actions/songActionCreators';
 import AudioPlayer from './player-components/AudioPlayer';
 import LoginRemindModal from './loginRemindModal'
+import PageNav from './pagination';
 
 import AllSongStore from '../stores/allSongStore';
 import UserProfileStore from '../stores/userProfileStore';
@@ -18,12 +19,12 @@ import PlaySongStore from '../stores/playSongStore';
 class Home extends React.Component {
   constructor(props) {
     super(props);
-    SongActions.getAllSongs();
-    SongActions.getUserVotes(UserProfileStore.getCookieID())
     SongActions.getAllSongsSorted('like', 1)
+    SongActions.getUserVotes(UserProfileStore.getCookieID())
     this.state = {songs: {allSongs: []},
                   order: 'like',
-                  showModal: false};
+                  showModal: false,
+                  activePage: 1};
 
     this.componentDidMount = this.componentDidMount.bind(this);
     this.playsong = this.playsong.bind(this);
@@ -105,6 +106,7 @@ class Home extends React.Component {
               return b_date - a_date;
             }
           })} page='home'/>
+          <PageNav />
       </div>
     );
   }
