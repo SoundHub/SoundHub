@@ -11,7 +11,7 @@ class ActionAlert extends React.Component {
   render() {
     if(this.props.alertVisible) { 
       return (
-        <Alert bsStyle='success' dismissAfter={2000}>
+        <Alert onDismiss={this.props.onDismiss} bsStyle='success' dismissAfter={1000}>
           <h4>{this.props.alertMessage}</h4>
         </Alert>
       )
