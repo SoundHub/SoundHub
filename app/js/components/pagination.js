@@ -22,7 +22,6 @@ class PageNav extends React.Component {
     this.setState({
       activePage: selectedEvent.eventKey
     });
-    console.log('active page: ', this.state.activePage, selectedEvent.eventKey)
     SongActions.getAllSongsSorted(this.props.order, selectedEvent.eventKey)
   }
 

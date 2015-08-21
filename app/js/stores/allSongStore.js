@@ -18,7 +18,6 @@ let _songs = {
 let setAllSongs = function (songs) {
   _songs.allSongs = songs.songs;
   _songs.number = songs.number;
-  console.log('_songs ', _songs)
 };
 
 var addVote = function(voteInfo) {

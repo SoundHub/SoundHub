@@ -56,7 +56,7 @@ class Home extends React.Component {
   }
 
   getPageNumber(){
-    return Math.floor(AllSongStore.getSongNum() / 6) + 2;
+    return Math.floor(AllSongStore.getSongNum() / 6) + 1;
   }
 
   _onChange() {
