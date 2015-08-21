@@ -24,10 +24,9 @@ var AlertStore = assign({}, EventEmitter.prototype, {
 AlertStore.dispatchToken = Dispatcher.register(function(payload) {
   switch(payload.type) {
     case ActionType.NEW_ALERT:
-
+      payload.event
       AlertStore.emitChange();
       break;
-
 
     default:
       // do nothing
