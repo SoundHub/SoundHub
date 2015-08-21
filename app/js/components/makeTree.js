@@ -155,9 +155,21 @@ var exports = {};
 
         filter.append("feGaussianBlur")
                         .attr("in", "SourceAlpha")
-                        .attr("stdDeviation", "2")
+                        .attr("stdDeviation", "1")
                         .attr("result", "blur");
-                        // .attr("radius", "1");
+
+        filter.append("feFlood")
+                    .attr("in", "blur")
+                    .attr("flood-color", "#E86544")
+                    .attr("flood-opacity", "1")
+                    .attr("result", "offsetColor");
+
+    var composite = filter.append("feComposite")
+                        .attr("in", "offsetColor")
+                        .attr("in2", "blur")
+                        .attr("operator", "in")
+                        .attr("result", "offsetBlur");
+
 
         // filter.append("feMorphology")
         //                 .attr("operator", "erode")
@@ -194,9 +206,9 @@ var exports = {};
         d3.select("#node" + d.id)
             .append('circle')
             .attr('class', 'glow')
-            .attr('r', nodeCircleRadius+4)
+            .attr('r', nodeCircleRadius+3)
             .style('fill', 'none')
-            .style('stroke', '#E86544') // #FF005D, #00BABB
+            .style('stroke', '#000') // #FF005D, #00BABB, E86544
             .style('stroke-opacity', 1)
             .style('stroke-width', 6)
             .style("filter", "url(#drop-shadow)");
