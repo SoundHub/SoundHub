@@ -125,7 +125,7 @@ class Home extends React.Component {
         <div className ="homeBannertitle">Open Source Music</div>
         <img id="bg12" src="../assets/bg1.2.png"></img>
       </div>
-      <ActionAlert onDismiss={this.handleAlertDismiss} 
+      <ActionAlert className="alertBox" onDismiss={this.handleAlertDismiss} 
         alertVisible={this.state.alertVisible} alertMessage={this.state.alertMessage}/>
         <div className = "sortBox">
           <button className="sortButton" onClick={this.handleNewestClick} >Newest</button>
