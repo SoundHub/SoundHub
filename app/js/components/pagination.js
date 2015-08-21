@@ -3,7 +3,11 @@ import _ from 'lodash';
 import React from 'react';
 import Router from 'react-router';
 import UserProfileStore from '../stores/userProfileStore';
+<<<<<<< HEAD
 import UserActions from '../actions/userActionCreators';
+=======
+import SongActions from '../actions/songActionCreators';
+>>>>>>> pagination
 import ModalStore from '../stores/modalStore';
 import { Pagination } from 'react-bootstrap';
 import LoginModal from './loginmodal';
@@ -15,14 +19,26 @@ class PageNav extends React.Component {
     this.state = {
       activePage: 1
     }
+    this.handleSelect = this.handleSelect.bind(this);
   }
 
-  onClick() { 
+  handleSelect(event, selectedEvent){
+    this.setState({
+      activePage: selectedEvent.eventKey
+    });
+    SongActions.getAllSongsSorted(this.props.order, selectedEvent.eventKey)
   }
 
   render() {
     return (
-    <Pagination/>
+      <Pagination
+        className="pageNav"
+        prev next first last ellipsis
+        bsSize='small'
+        items={this.props.pages}
+        maxButtons={5}
+        activePage={this.state.activePage}
+        onSelect={this.handleSelect} />
     )
   } 
 }

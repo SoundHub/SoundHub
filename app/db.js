@@ -222,6 +222,26 @@ var allSongs = function(callback) {
   })
 };
 
+var allSongSort = function(order, page, callback) {
+  console.log('offset: ', page, (page-1) * 6)
+  SongNode.findAll({
+    offset: (page-1) * 6,
+    limit: 6,
+    order: order + ' DESC',
+  }).then(function(data) {
+    callback(data);
+  })
+}
+
+var getNumSongs = function(callback) {
+  orm.query('select count(*) from songNodes')
+  .then(function(data) {
+    var copy = data.slice(0,1);
+    var count = copy[0][0]['count(*)']
+    callback(count);
+  })
+}
+
 var findSongsbyRoot = function(rootNodeId, callback) {
   // rootNodeID = rootNodeID.split('/')[1];
   SongNode.findAll({
@@ -359,6 +379,8 @@ var addVote = function(voteVal, userId, songNodeId, callback) {
 
 exports.addSong = addSong;
 exports.allSongs = allSongs;
+exports.allSongSort = allSongSort;
+exports.getNumSongs = getNumSongs;
 exports.findSongsbyRoot = findSongsbyRoot;
 exports.mySongs = mySongs;
 exports.myForks = myForks;
