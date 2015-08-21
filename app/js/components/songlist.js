@@ -110,7 +110,7 @@ class SongList extends React.Component{
       return (
         <SongBox
           activeId={activeSong}
-          key={song.id}
+          key={song.uuid}
           song={song}
           addfav={this.addfav.bind(this, song)}
           playClick={this.playClick.bind(this, song)}
@@ -143,7 +143,7 @@ class SongBox extends React.Component{
     var selectedCss = 'songItemActive effect8';
 
     return (
-    <div className ="songBox" >
+    <div className ="songBox" key={this.props.key}>
       <div className = {this.props.song.uuid === this.props.activeId ? selectedCss : normCss}  onClick={(function() {this.props.playClick(); this.props.togglePanel(this.props.song.uuid);}).bind(this)}>
         <span className = "title" > {this.props.song.title} </span>
         <span className> by {this.props.song.authorName} </span>

@@ -8,7 +8,7 @@ export default (Component) => {
 
     static willTransitionTo(transition) {
 
-      console.log('willTransitionTo for AuthenticatedComponent. Going to: ', transition.path, 'logged in: ', UserProfileStore.isLoggedIn())   
+      // console.log('willTransitionTo for AuthenticatedComponent. Going to: ', transition.path, 'logged in: ', UserProfileStore.isLoggedIn())   
       
       if(!UserProfileStore.isLoggedIn()) {
         let transitionPath = transition.path;

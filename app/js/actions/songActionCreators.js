@@ -184,7 +184,6 @@ export default {
         type: ActionType.GET_USER_VOTES,
         songs: response
       })
-      console.log('dispatched: getUserVotes')
     })
     .catch((err) => {
       console.error('getting user votes failed: ', err)

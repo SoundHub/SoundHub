@@ -9,10 +9,10 @@ import _ from 'lodash';
 
 const ActionType = Constants.ActionTypes;
 const CHANGE_EVENT = 'change';
+const UPDATE_EVENT = 'update';
+var _songs = {};
 
-let _songs = {};
-
-let _activeId = null;
+var _activeId = null;
 
 let setAllSongs = function (songs) {
   _songs.allSongs = songs;
@@ -40,8 +40,17 @@ let AllSongStore = assign({}, EventEmitter.prototype, {
   emitChange() {
     this.emit(CHANGE_EVENT)
   },
+  emitUpdate() {
+    this.emit(UPDATE_EVENT)
+  },
   addChangeListener(callback) {
     this.on(CHANGE_EVENT, callback)
+  },
+  addUpdateListener(callback) {
+    this.on(UPDATE_EVENT, callback)
+  },
+  removeUpdateListener(callback) {
+    this.removeListener(UPDATE_EVENT, callback)
   },
   removeChangeListener(callback) {
     this.removeListener(CHANGE_EVENT, callback)
@@ -97,7 +106,8 @@ AllSongStore.dispatchToken = Dispatcher.register(function(payload) {
     case ActionType.ACTIVE_SONG:
       let activeId = payload.id.uuid;
       setActiveSong(activeId);
-      AllSongStore.emitChange();
+      console.log('active song store update');
+      AllSongStore.emitUpdate();
       break;
 
     default:

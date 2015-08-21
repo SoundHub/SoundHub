@@ -29,6 +29,7 @@ class Home extends React.Component {
     this.playsong = this.playsong.bind(this);
     this.render = this.render.bind(this);
     this._onChange = this._onChange.bind(this);
+    this._onUpdate = this._onUpdate.bind(this);
     this._userNotAuthed = this._userNotAuthed.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.openModal = this.openModal.bind(this);
@@ -39,12 +40,14 @@ class Home extends React.Component {
 
   componentDidMount () {
     AllSongStore.addChangeListener(this._onChange);
+    AllSongStore.addUpdateListener(this._onUpdate);
     AuthModalStore.addChangeListener(this._userNotAuthed);
     PlaySongStore.addChangeListener(this.playsong);
   }
 
   componentWillUnmount() {
     AllSongStore.removeChangeListener(this._onChange);
+    AllSongStore.removeUpdateListener(this._onUpdate);
     AuthModalStore.removeChangeListener(this._userNotAuthed);
     PlaySongStore.removeChangeListener(this.playsong);
   }
@@ -54,7 +57,12 @@ class Home extends React.Component {
   }
 
   _onChange() {
-    this.setState({songs: AllSongStore.getAllSongs(), activeSong: AllSongStore.getCurrentSong()});
+    this.setState({songs: AllSongStore.getAllSongs()});
+  }
+
+  _onUpdate() {
+    console.log('update in component');
+    this.setState({activeSong: AllSongStore.getCurrentSong()});
   }
 
   _userNotAuthed() {
