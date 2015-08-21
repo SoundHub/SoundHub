@@ -35,6 +35,7 @@ class Home extends React.Component {
     this._onChange = this._onChange.bind(this);
     this._onUpdate = this._onUpdate.bind(this);
     this._onAlert = this._onAlert.bind(this);
+    this.handleAlertDismiss = this.handleAlertDismiss.bind(this);
     this._userNotAuthed = this._userNotAuthed.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.openModal = this.openModal.bind(this);
@@ -61,15 +62,15 @@ class Home extends React.Component {
     AlertStore.removeChangeListener(this._onAlert);
   }
 
-  playsong(){
+  playsong(){ //sets current song
     this.setState({currentsong:PlaySongStore.getSong()});
   }
 
-  getPageNumber(){
+  getPageNumber(){ //gets page number for pagination nav bar
     return Math.floor(AllSongStore.getSongNum() / 24) + 1;
   }
 
-  _onChange() {
+  _onChange() { //callback for AllSongStore change listener
     this.setState({songs: AllSongStore.getAllSongs()});
   }
 
@@ -121,7 +122,8 @@ class Home extends React.Component {
         <div className ="homeBannertitle">Open Source Music</div>
         <img id="bg12" src="../assets/bg1.2.png"></img>
       </div>
-      <ActionAlert onDismiss={this.handleAlertDismiss} alertVisible={this.state.alertVisible} alertMessage={this.state.alertMessage}/>
+      <ActionAlert onDismiss={this.handleAlertDismiss} 
+        alertVisible={this.state.alertVisible} alertMessage={this.state.alertMessage}/>
         <div className = "sortBox">
           <button className="sortButton" onClick={this.handleNewestClick} >Newest</button>
           <button className="sortButton" onClick={this.handleUpvotedClick} >Hottest</button>

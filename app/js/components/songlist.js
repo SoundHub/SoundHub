@@ -49,7 +49,7 @@ class SongList extends React.Component{
 
   addfav(song){
     if(UserProfileStore.isLoggedIn()) {
-      //alert song liked
+      RouterActions.alertUserAction('favorite');
       var userId = UserProfileStore.getCookieID();
       SongActions.addFav(userId, song.uuid);
     } else {
