@@ -751,7 +751,10 @@ $animate-sec: 1.5s;
 
 /* ================ Tree ================= */
 
-
+.treeboxfloat{
+    margin-left: 5%;
+    width: 400px;
+}
   .treeDiv {
     position: relative;
     background-color: #F7F7F7;
@@ -793,9 +796,8 @@ $animate-sec: 1.5s;
   }
 
   .overlay{
-      /*background-color:#F7F7F7;*/
-      background: url("../assets/authbanner.jpg");
-      background-size: 100% 100%;
+    background-color: rgba(227, 227, 227, 0.25);
+    background-size: 100% 100%;
   }
 
   .link {
@@ -833,10 +835,8 @@ $animate-sec: 1.5s;
   }
 */
   .sideBar {
-    position: fixed;
-    width: 350px;
-    float: right;
-    right: 0;
+    top: 30px;
+    position: absolute;
   }
 
 /* ================ shadow effect ================= */
