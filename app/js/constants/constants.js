@@ -9,6 +9,7 @@ let constants = {
       LOGOUT: null,
       UPDATE: null,
       RECEIVE_ALL_SONGS: null,
+      RECEIVE_ALL_SONGS_SORTED: null,
       FORK: null,
       DOWNLOAD: null,
       UPLOAD: null,

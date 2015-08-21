@@ -29,6 +29,24 @@ export default {
       console.error('failed: ', err)
     })
   },
+
+  getAllSongsSorted(order, page) {
+    let data = {
+      order: order,
+      page: page
+    }
+    Utils.postJSON('/allSongSort', data)
+    .then((json) => {
+      Dispatcher.dispatch({
+        type: ActionType.RECEIVE_ALL_SONGS_SORTED,
+        songs: json
+      })
+    })
+    .catch((err) => {
+      console.log('failed to sort ', err)
+    })
+  },
+
   getAllFavs(userId) {
     var data = {userId: userId}
     Utils.postJSON('/myFavs',data)

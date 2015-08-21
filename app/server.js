@@ -6,6 +6,8 @@ var session = require('express-session');
 var fs = require('fs');
 var favicon = require('serve-favicon');
 var bodyParser = require('body-parser');
+var nodemailer = require('nodemailer');
+var transporter = nodemailer.createTransport();
 
 server.use(favicon(path.join(__dirname, '/assets', 'favicon.ico')));
 
@@ -32,9 +34,10 @@ server.post('/login', function(req, res) {
 })
 
 server.post('/signup', function(req, res) {
-  var username = req.body.username
-  var password = req.body.password
-  db.signup(username, password, function(response) {
+  var username = req.body.username;
+  var password = req.body.password;
+  var email = req.body.email;
+  db.signup(username, password, email, function(response) {
     res.send(response);
   });
 })
@@ -83,6 +86,25 @@ server.get('/allSongs', function(req, res) {  //** MVP **//
   db.allSongs(function(data) {
     res.send(data);
   });
+})
+
+server.post('/allSongSort', function(req, res) {
+  var order = req.body.order;
+  var page = req.body.page;
+  var data = {songs: [], number: 0};
+  db.allSongSort(order, page, function(songs) {
+    data.songs = songs;
+    db.getNumSongs(function(number) {
+      data.number = number;
+      res.send(data);
+    })
+  })
+})
+
+server.get('/numSongs', function(req, res) {
+  db.getNumSongs(function(data) {
+    res.send(data);
+  })
 })
 
 server.post('/tree', function(req, res) {       //** MVP **//
