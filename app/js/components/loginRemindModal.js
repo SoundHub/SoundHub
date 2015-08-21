@@ -20,15 +20,15 @@ class LoginRemindModal extends React.Component {
     return (
     <Modal show={this.props.show} onHide={this.props.onHide}>
       <Modal.Header>
-        <Modal.Title>Sign up or Log in</Modal.Title>
+        <Modal.Title>Please Login</Modal.Title>
       </Modal.Header>
       <Modal.Body> You must be logged in to do this!</Modal.Body>
       <Modal.Footer>
-        <button className="authButton" onClick={this.onClick}>Login/Signup</button>
+        <button className="topButton aboutButton" onClick={this.onClick}>Login</button>
       </Modal.Footer>
     </Modal>
     )
-  } 
+  }
 }
 
 export default LoginRemindModal;

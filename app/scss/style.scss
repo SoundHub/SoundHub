@@ -14,6 +14,24 @@ hr {
 }
 
 /* =============== Font ================ */
+
+@font-face {
+    font-family: nexaBold;
+    src: url(../assets/font/NexaBold.otf);
+}
+
+@font-face {
+    font-family: nexaLight;
+    src: url(../assets/font/NexaLight.otf);
+}
+
+@font-face {
+    font-family: edosz;
+    src: url(../assets/font/edosz.ttf);
+}
+
+
+/* =============== Developer ================ */
 .developerBigTitle{
   font-size: 30px;
   margin-top: 250px;
@@ -73,18 +91,6 @@ hr {
   background-image: url(../assets/random-bg/playerbg3.jpg);
   color: white;
 }
-/* =============== Font ================ */
-
-@font-face {
-    font-family: nexaBold;
-    src: url(../assets/font/NexaBold.otf);
-}
-
-@font-face {
-    font-family: nexaLight;
-    src: url(../assets/font/NexaLight.otf);
-}
-
 
 
 /* ================= Modal ================== */
@@ -235,6 +241,9 @@ hr {
     margin-right: auto;
 }
 
+.Carcouselbox {
+    margin-top: 5%;
+}
 
 /* ================ profile ================= */
 .boxed-group-profile{
@@ -310,14 +319,45 @@ hr {
 }
 
 
-
-
-
-
-
-
-
 /* ================ Home ================= */
+
+.homeBannertitle{
+    font-family: edosz;
+    z-index: 1999;
+    top: 100px;
+    left: 30%;
+    color: white;
+    position: absolute;
+    font-size: 35px;
+    text-shadow: 2px 2px #783737;
+}
+
+.homeBannerSubtitle{
+    position: absolute;
+    color: white;
+    left: 30%;
+    top: 150px;
+    z-index: 2000;
+    font-size: 12px;
+}
+
+#bg1{
+    height: 100px;
+    background-size: cover;
+    background-image: url(../assets/random-bg/down.jpg);
+    margin-bottom: 30px;
+
+  #bg11{
+    height: 100px;
+  }
+
+  #bg12{
+    float: right;
+    height: 100px;
+  }
+}
+
+
 
 .userSongTitle{
     font-size: 20px;
@@ -428,23 +468,23 @@ hr {
 }
 
 .sortBox{
-    background-color: rgba(228, 228, 228, 0.15);
-    height: 50px;
+    position: absolute;
     padding: 10px 0px 0px 20px;
     width: 100%;
-    margin-bottom: 20px;
+    z-index: 99;
+    top: 120px;
 }
 
 .sortButton{
     color: white;
-    background-color: #EB6255;
+    background-color: #20B0C2;
     margin-right: 10px;
     border: 0;
     padding: 5px;
     width: 70px;
     height: 30px;
     border-radius: 5px;
-    text-shadow: 1px 1px 1px #B82A1F;
+    text-shadow: 1px 1px 1px #7CC6CC;
 }
 /* ================ User Panel ================= */
 .profilePage{
