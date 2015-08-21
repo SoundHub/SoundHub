@@ -9,16 +9,23 @@ import _ from 'lodash';
 
 const ActionType = Constants.ActionTypes;
 const CHANGE_EVENT = 'change';
+const UPDATE_EVENT = 'update';
 
-let _songs = {
+var _songs = {
   allSongs: [],
   number: 0
 };
+
+var _activeId = null;
 
 let setAllSongs = function (songs) {
   _songs.allSongs = songs.songs;
   _songs.number = songs.number;
 };
+
+let setActiveSong = function(song) {
+  _activeId = song;
+}
 
 var addVote = function(voteInfo) {
   return new Promise((resolve, reject) => {
@@ -38,8 +45,17 @@ let AllSongStore = assign({}, EventEmitter.prototype, {
   emitChange() {
     this.emit(CHANGE_EVENT)
   },
+  emitUpdate() {
+    this.emit(UPDATE_EVENT)
+  },
   addChangeListener(callback) {
     this.on(CHANGE_EVENT, callback)
+  },
+  addUpdateListener(callback) {
+    this.on(UPDATE_EVENT, callback)
+  },
+  removeUpdateListener(callback) {
+    this.removeListener(UPDATE_EVENT, callback)
   },
   removeChangeListener(callback) {
     this.removeListener(CHANGE_EVENT, callback)
@@ -49,6 +65,9 @@ let AllSongStore = assign({}, EventEmitter.prototype, {
   },
   getSongNum() {
     return _songs.number;
+  },
+  getCurrentSong() {
+    return _activeId;
   },
   getSongById(uuid) {
     return new Promise((resolve, reject) => {
@@ -89,7 +108,14 @@ AllSongStore.dispatchToken = Dispatcher.register(function(payload) {
       break;
 
     case ActionType.FORK_SUCCESS:
-      console.log('fork success')
+      console.log('fork success');
+      break;
+
+    case ActionType.ACTIVE_SONG:
+      let activeId = payload.id.uuid;
+      setActiveSong(activeId);
+      console.log('active song store update');
+      AllSongStore.emitUpdate();
       break;
 
     default:

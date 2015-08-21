@@ -20,10 +20,11 @@ class SongList extends React.Component{
     this.upvoteClick = this.upvoteClick.bind(this);
     this.downvoteClick = this.downvoteClick.bind(this);
     this.togglePanel = this.togglePanel.bind(this);
+    this.shareLink = this.shareLink.bind(this);
    }
 
-  togglePanel(song){
-    console.log(song)
+  togglePanel(id){
+    SongActions.updateActiveSong(id);
   }
 
   playClick(song){
@@ -54,6 +55,13 @@ class SongList extends React.Component{
 
   createClick(song){
     SongActions.createFromFork(song);
+  }
+
+  shareLink(song){
+    let origin = window.location.origin;
+    let link = origin + '/tree/' + song.rootId + '&' + song.uuid;
+    console.log(link);
+    window.prompt("Copy to clipboard: Ctrl+C, Enter", link);
   }
 
   likeClick(song){
@@ -97,11 +105,12 @@ class SongList extends React.Component{
   }
 
   render() {
-
+    var activeSong = this.props.activeSong;
     var songboxs = this.props.data.map(function (song, i) {
       return (
         <SongBox
-          key={song.id}
+          activeId={activeSong}
+          key={song.uuid}
           song={song}
           addfav={this.addfav.bind(this, song)}
           playClick={this.playClick.bind(this, song)}
@@ -109,7 +118,9 @@ class SongList extends React.Component{
           likeClick={this.likeClick.bind(this, song)}
           downvoteClick={this.downvoteClick.bind(this, song)}
           upvoteClick={this.upvoteClick.bind(this, song)}
+          shareLink={this.shareLink.bind(this, song)}
           createClick={this.createClick.bind(this, song)}
+          togglePanel={this.togglePanel.bind(this, song)}
           page = {this.props.page}
         />
       );
@@ -128,23 +139,18 @@ class SongBox extends React.Component{
    }
 
   render() {
+    var normCss = 'songItem effect8';
+    var selectedCss = 'songItemActive effect8';
 
     return (
-    <div className ="songBox" >
-      <div className = "songItem effect8"  onClick={this.props.togglePanel}>
-          <Router.Link to="tree"  params={this.props.song}>
-            <span className = "title"  > {this.props.song.title} </span>
-          </Router.Link>
+    <div className ="songBox" key={this.props.key}>
+      <div className = {this.props.song.uuid === this.props.activeId ? selectedCss : normCss}  onClick={(function() {this.props.playClick(); this.props.togglePanel(this.props.song.uuid);}).bind(this)}>
+        <span className = "title" > {this.props.song.title} </span>
         <span className> by {this.props.song.authorName} </span>
         <span className="like-count" > <Glyphicon glyph='heart' /> {this.props.song.like} </span>
       </div>
 
       <div className="songPanel" id={this.props.key}>
-        <div className="itemOther" onClick={this.props.playClick}>
-        <OverlayTrigger placement='bottom' overlay={<Tooltip>play</Tooltip>}>
-          <Glyphicon glyph='play' />
-        </OverlayTrigger>
-        </div>
         {this.props.page==='fork' ?
         <div className="itemOther" onClick={this.props.createClick}>
         <OverlayTrigger placement='bottom' overlay={<Tooltip>upload your new sound</Tooltip>}>
@@ -162,9 +168,18 @@ class SongBox extends React.Component{
         </a> : null}
 
         {this.props.page==='home' ?
+        <div className="itemOther">
+        <OverlayTrigger placement='bottom' overlay={<Tooltip>tree</Tooltip>}>
+          <Router.Link to="tree"  params={this.props.song}>
+            <Glyphicon glyph='tree-deciduous' />
+          </Router.Link>
+        </OverlayTrigger>
+        </div> : null}
+
+        {this.props.page==='home' ?
         <div className="itemOther" onClick={this.props.forkClick}>
-        <OverlayTrigger placement='bottom' overlay={<Tooltip>fork</Tooltip>}>
-          <Glyphicon glyph='paperclip' />
+        <OverlayTrigger placement='bottom' overlay={<Tooltip>branch</Tooltip>}>
+          <Glyphicon glyph='leaf' />
         </OverlayTrigger>
         </div>: null}
 
@@ -172,6 +187,13 @@ class SongBox extends React.Component{
         <div className="itemOther" onClick={this.props.addfav}>
         <OverlayTrigger placement='bottom' overlay={<Tooltip>favorite</Tooltip>}>
           <Glyphicon glyph='star' />
+        </OverlayTrigger>
+        </div>: null}
+
+        {this.props.page==='home' ?
+        <div className="itemOther" onClick={this.props.shareLink}>
+        <OverlayTrigger placement='bottom' overlay={<Tooltip>share link</Tooltip>}>
+          <Glyphicon glyph='share' />
         </OverlayTrigger>
         </div>: null}
 

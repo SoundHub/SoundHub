@@ -22,13 +22,15 @@ class Home extends React.Component {
     this.state = {songs: [],
                   order: 'like',
                   showModal: false,
-                  activePage: 1};
+                  activePage: 1,
+                  activeSong: null};
 
     this.componentDidMount = this.componentDidMount.bind(this);
     this.getPageNumber = this.getPageNumber(this);
     this.playsong = this.playsong.bind(this);
     this.render = this.render.bind(this);
     this._onChange = this._onChange.bind(this);
+    this._onUpdate = this._onUpdate.bind(this);
     this._userNotAuthed = this._userNotAuthed.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.openModal = this.openModal.bind(this);
@@ -38,15 +40,17 @@ class Home extends React.Component {
   }
 
   componentDidMount () {
-    SongActions.getAllSongsSorted(this.state.order, 1)
-    SongActions.getUserVotes(UserProfileStore.getCookieID())
+    SongActions.getAllSongsSorted(this.state.order, 1);
+    SongActions.getUserVotes(UserProfileStore.getCookieID());
     AllSongStore.addChangeListener(this._onChange);
+    AllSongStore.addUpdateListener(this._onUpdate);
     AuthModalStore.addChangeListener(this._userNotAuthed);
     PlaySongStore.addChangeListener(this.playsong);
   }
 
   componentWillUnmount() {
     AllSongStore.removeChangeListener(this._onChange);
+    AllSongStore.removeUpdateListener(this._onUpdate);
     AuthModalStore.removeChangeListener(this._userNotAuthed);
     PlaySongStore.removeChangeListener(this.playsong);
   }
@@ -61,6 +65,11 @@ class Home extends React.Component {
 
   _onChange() {
     this.setState({songs: AllSongStore.getAllSongs()});
+  }
+
+  _onUpdate() {
+    console.log('update in component');
+    this.setState({activeSong: AllSongStore.getCurrentSong()});
   }
 
   _userNotAuthed() {
@@ -93,6 +102,12 @@ class Home extends React.Component {
     var order = this.state.order;
     return (
       <div className= "HomePage">
+      <div id="bg1">
+        <img id="bg11" src="../assets/bg1.1.png"></img>
+        <div className ="homeBannertitle">Collaborating of Music</div>
+        <div className ="homeBannerSubtitle">See how amazing music is being created from a simple motif</div>
+        <img id="bg12" src="../assets/bg1.2.png"></img>
+      </div>
         <div className = "sortBox">
           <button className="sortButton" onClick={this.handleNewestClick} >Newest</button>
           <button className="sortButton" onClick={this.handleUpvotedClick} >Hottest</button>
@@ -101,7 +116,7 @@ class Home extends React.Component {
         <div className= "playerBox">
           <AudioPlayer song = {this.state.currentsong} mode = "home" />
         </div>
-          <SongList data = {this.state.songs} page='home'/>
+          <SongList data = {this.state.songs} page='home' activeSong = {this.state.activeSong}/>
           <PageNav pages={this.getPageNumber} order={this.state.order}/>
       </div>
     );

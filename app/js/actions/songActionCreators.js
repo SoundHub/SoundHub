@@ -206,5 +206,12 @@ export default {
     .catch((err) => {
       console.error('getting user votes failed: ', err)
     })
+  },
+
+  updateActiveSong(id) {
+    Dispatcher.dispatch({
+      type: ActionType.ACTIVE_SONG,
+      id: id
+    })
   }
 }

@@ -4,6 +4,15 @@ button:focus {outline:0 !important;}
 input:focus {outline:0 !important;}
 body{min-width: 700px;}
 
+
+hr {
+    display: block;
+    margin-bottom: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    border-color: rgba(75, 151, 135, 0.2);
+}
+
 /* =============== Font ================ */
 
 @font-face {
@@ -16,6 +25,72 @@ body{min-width: 700px;}
     src: url(../assets/font/NexaLight.otf);
 }
 
+@font-face {
+    font-family: edosz;
+    src: url(../assets/font/edosz.ttf);
+}
+
+
+/* =============== Developer ================ */
+.developerBigTitle{
+  font-size: 30px;
+  margin-top: 250px;
+  padding: 30px 30px 30px 90px;
+  margin-bottom: 120px;
+  background-image: url(../assets/random-bg/up.jpg);
+  color: white;
+}
+
+.developerSubTitle{
+  font-size: 18px;
+}
+
+.developerContainer{
+  padding: 20px;
+  margin-top: 150px;
+  margin-bottom: 200px;
+  width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.developerImg{
+  height: 150px;
+  width: 150px;
+  border-radius: 10px;
+}
+
+.developerBox{
+  margin-left: 150px;
+  display: inline-block;
+}
+
+.developerTitle{
+  font-size: 20px;
+}
+.techImg{
+  max-height: 100px;
+}
+
+.techBox{
+  margin: 30px;
+  display: inline-block;
+}
+
+.techContainer{
+  margin-left: 50px;
+  margin-right: 50px;
+  margin-bottom: 260px;
+}
+
+.techBigTitle{
+  font-size: 30px;
+  margin-top: 280px;
+  padding: 30px 30px 30px 90px;
+  margin-bottom: 60px;
+  background-image: url(../assets/random-bg/playerbg3.jpg);
+  color: white;
+}
 
 
 /* ================= Modal ================== */
@@ -95,8 +170,9 @@ body{min-width: 700px;}
     font-size:15px;
     cursor:pointer;
     display:inline-block;
-    margin-left: 10px;
     color: #fff;
+    margin-left: 5px;
+    margin-right: 5px;
   }
   .loginButton {
     background-color:#e4685d;
@@ -106,9 +182,21 @@ body{min-width: 700px;}
     background-color: #1AA5C1;
     text-shadow: 0px 1px 0px #167187;
   }
-
   .myhubButton{
     background-color: #FDBE22;
+    text-shadow: 0px 1px 0px #C4A70F;
+  }
+
+  .loginButton:hover {
+    background-color:#B63E33;
+    text-shadow:0px 1px 0px #b23e35;
+  }
+  .aboutButton:hover{
+    background-color: #1A869B;
+    text-shadow: 0px 1px 0px #167187;
+  }
+  .myhubButton:hover{
+    background-color: #D7A40F;
     text-shadow: 0px 1px 0px #C4A70F;
   }
 
@@ -143,6 +231,30 @@ body{min-width: 700px;}
 
 
 
+}
+
+.modalButtonBox{
+    width: 80px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.modalButtonBox2{
+    width: 170px;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.modalButtonBox3{
+    width: 150px;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.Carcouselbox {
+    margin-top: 5%;
 }
 
 /* ================ profile ================= */
@@ -219,14 +331,45 @@ body{min-width: 700px;}
 }
 
 
-
-
-
-
-
-
-
 /* ================ Home ================= */
+
+.homeBannertitle{
+    font-family: edosz;
+    z-index: 1999;
+    top: 100px;
+    left: 30%;
+    color: white;
+    position: absolute;
+    font-size: 35px;
+    text-shadow: 2px 2px #783737;
+}
+
+.homeBannerSubtitle{
+    position: absolute;
+    color: white;
+    left: 30%;
+    top: 150px;
+    z-index: 2000;
+    font-size: 12px;
+}
+
+#bg1{
+    height: 100px;
+    background-size: cover;
+    background-image: url(../assets/random-bg/down.jpg);
+    margin-bottom: 30px;
+
+  #bg11{
+    height: 100px;
+  }
+
+  #bg12{
+    float: right;
+    height: 100px;
+  }
+}
+
+
 
 .userSongTitle{
     font-size: 20px;
@@ -246,6 +389,7 @@ body{min-width: 700px;}
     background: #FFFFFF;
     vertical-align: middle;
     height: 100%;
+    margin-bottom: 100px;
 }
 .songPanel {
     padding: 10px;
@@ -273,6 +417,20 @@ body{min-width: 700px;}
     padding: 8px;
     border-radius: 10px;
     background-color: #bed4de;
+  .title{
+    font-size: 15px;
+    color: white;
+    text-transform: capitalize;
+  }
+}
+
+.songItemActive{
+  z-index: 3;
+    float: left;
+    width: 350px;
+    padding: 8px;
+    border-radius: 10px;
+    background-color: #879EAB;
   .title{
     font-size: 15px;
     color: white;
@@ -336,23 +494,23 @@ body{min-width: 700px;}
 }
 
 .sortBox{
-    background-color: rgba(228, 228, 228, 0.15);
-    height: 50px;
+    position: absolute;
     padding: 10px 0px 0px 20px;
     width: 100%;
-    margin-bottom: 20px;
+    z-index: 99;
+    top: 120px;
 }
 
 .sortButton{
     color: white;
-    background-color: #EB6255;
+    background-color: #20B0C2;
     margin-right: 10px;
     border: 0;
     padding: 5px;
     width: 70px;
     height: 30px;
     border-radius: 5px;
-    text-shadow: 1px 1px 1px #B82A1F;
+    text-shadow: 1px 1px 1px #7CC6CC;
 }
 /* ================ User Panel ================= */
 .profilePage{
@@ -607,23 +765,20 @@ $animate-sec: 1.5s;
 
 /* ================ Tree ================= */
 
-
+.treeboxfloat{
+    margin-left: 5%;
+    width: 400px;
+}
   .treeDiv {
     position: relative;
     background-color: #F7F7F7;
-    .sideBar {
-      float: right;
-      width: 25%;
-      border: 3px solid black;
-      padding: 5px;
-    }
   }
 
   .treeBox{
+    float: left;
     margin-right: auto;
-    margin-left: auto;
     /*width: 900px;*/
-    width: 100%;
+    width: 80%;
   }
 
 /*
@@ -655,9 +810,8 @@ $animate-sec: 1.5s;
   }
 
   .overlay{
-      /*background-color:#F7F7F7;*/
-      background: url("../assets/authbanner.jpg");
-      background-size: 100% 100%;
+    background-color: rgba(227, 227, 227, 0.25);
+    background-size: 100% 100%;
   }
 
   .link {
@@ -694,6 +848,10 @@ $animate-sec: 1.5s;
     transition: box-shadow .4s ease;
   }
 */
+  .sideBar {
+    top: 30px;
+    position: absolute;
+  }
 
 /* ================ shadow effect ================= */
 

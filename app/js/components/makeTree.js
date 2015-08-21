@@ -22,10 +22,10 @@ var exports = {};
     var nodeCircleRadius = 25; // 4.5 was original size
 
     // size of the diagram
-    // var widthOffset = $(document).width() - 900; // 900 is size of .treeBox element
+    // var widthOffset = 0;
 
-    var viewerWidth = $(document).width(); /*- widthOffset;*/
-    var viewerHeight = $(document).height(); /*- 200;*/
+    var viewerWidth = $(document).width(); /*- widthOffset;*/  // make room for sidebar
+    var viewerHeight = $(document).height() - 165; // top bar is 80 and player is 85
 
     // var viewerWidth = 960;
     // var viewerHeight = 500;
@@ -148,7 +148,7 @@ var exports = {};
     // var glowDefs = baseSvg.append("defs").attr("id", "glowdefs");
     var lastClicked;
     function click(d) {
-        console.log('makeTree click called: ', d, ' last: ', lastClicked);
+        // console.log('makeTree click called: ', d, ' last: ', lastClicked);
         // if (d3.event.defaultPrevented) return; // click suppressed
         // d = toggleChildren(d);
         // update(d);
