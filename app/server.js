@@ -88,6 +88,14 @@ server.get('/allSongs', function(req, res) {  //** MVP **//
   });
 })
 
+server.post('/allSongsSorted', function(req, res) {
+  var order = req.body.order;
+  var page = req.body.page;
+  db.allSongs(order, page, function(data) {
+    res.send(data);
+  })
+})
+
 server.post('/tree', function(req, res) {       //** MVP **//
   var rootId = req.body.rootId;
   db.findSongsbyRoot(rootId, function(data) {
