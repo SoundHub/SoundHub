@@ -68,8 +68,11 @@ class Home extends React.Component {
   }
 
   _onUpdate() {
-    console.log('update in component');
-    this.setState({activeSong: AllSongStore.getCurrentSong()});
+    if(this.state.activeSong === AllSongStore.getCurrentSong()){
+      this.setState({activeSong: null});
+    }else{
+      this.setState({activeSong: AllSongStore.getCurrentSong()});
+    }
   }
 
   _userNotAuthed() {
