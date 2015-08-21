@@ -70,6 +70,9 @@ class LogoutButton extends React.Component {
     );
   }
 };
+LogoutButton.contextTypes = {
+  router: React.PropTypes.func.isRequired
+}
 
 
 class Nav extends React.Component {
