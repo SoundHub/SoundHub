@@ -51,8 +51,8 @@ class Create extends React.Component {
 
     if(!songData.title.match(letters)) {
       alert('Song title must have alphabet characters only');
-    } else if(songData.title.length < 4 || songData.title.length > 20){
-      alert('Song title can only has 4 to 20 characters');
+    } else if(songData.title.length < 3 || songData.title.length > 15){
+      alert('Song title can only has 3 to 15 characters');
     } else {
       SongActions.addSong(songData);
       this.refs.songName.getDOMNode().value = '';
