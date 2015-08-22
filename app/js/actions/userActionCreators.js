@@ -34,7 +34,7 @@ export default ({
     });
   },
 
-  loginUser (user, cb) {
+  loginUser (user) {
     Utils.postJSON('/login', user)
     .then((response) => {
       Dispatcher.dispatch({
@@ -43,7 +43,6 @@ export default ({
         response: response
       });
       console.log('logged in successfuly');
-      cb();
     })
     .catch((err) => {
       console.error('login failed: ', err);
