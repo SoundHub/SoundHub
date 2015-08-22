@@ -8,7 +8,6 @@ import SongActions from '../actions/songActionCreators';
 import AudioPlayer from './player-components/AudioPlayer';
 import LoginRemindModal from './loginRemindModal'
 import PageNav from './pagination';
-import ActionAlert from './actionAlert'
 import UserActionModal from './UserActionModal';
 
 import AllSongStore from '../stores/allSongStore';
@@ -16,7 +15,6 @@ import UserProfileStore from '../stores/userProfileStore';
 import VotedSongStore from '../stores/votedSongStore';
 import AuthModalStore from '../stores/authModalStore';
 import PlaySongStore from '../stores/playSongStore';
-import AlertStore from '../stores/alertStore';
 import ModalStore from '../stores/modalStore';
 
 
@@ -27,7 +25,6 @@ class Home extends React.Component {
                   order: 'like',
                   showRemindModal: false,
                   activePage: 1,
-                  alertVisible: false,
                   activeSong: null};
 
     this.componentDidMount = this.componentDidMount.bind(this);
@@ -37,7 +34,6 @@ class Home extends React.Component {
     this._onChange = this._onChange.bind(this);
     this._onUpdate = this._onUpdate.bind(this);
     this._onAction = this._onAction.bind(this);
-    this.handleAlertDismiss = this.handleAlertDismiss.bind(this);
     this._userNotAuthed = this._userNotAuthed.bind(this);
     this.closeRemindModal = this.closeRemindModal.bind(this);
     this.closeActionModal = this.closeActionModal.bind(this);
@@ -93,11 +89,7 @@ class Home extends React.Component {
     this.setState({actionModalVisible: true, actionMessage: ModalStore.getActionMessage()})
     setTimeout(() => {
       this.closeActionModal();
-    }, 800)
-  }
-
-  handleAlertDismiss() {
-    this.setState({alertVisible: false});
+    }, 500)
   }
 
   handleNewestClick() {

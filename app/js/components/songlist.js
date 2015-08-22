@@ -7,7 +7,6 @@ import RouterActions from '../actions/routerActionCreators';
 import UserProfileStore from '../stores/userProfileStore';
 import VotedSongStore from '../stores/votedSongStore';
 import AuthModalStore from '../stores/authModalStore';
-import AlertStore from '../stores/alertStore';
 
 
 class SongList extends React.Component{
