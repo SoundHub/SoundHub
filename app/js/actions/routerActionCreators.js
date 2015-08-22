@@ -29,13 +29,6 @@ export default {
     })
   },
 
-  alertUserAction(event) {
-    Dispatcher.dispatch({
-      type: ActionType.OPEN_ALERT,
-      event: event
-    })
-  },
-
   openUserActionModal(event) {
     Dispatcher.dispatch({
       type: ActionType.OPEN_USER_ACTION_MODAL,

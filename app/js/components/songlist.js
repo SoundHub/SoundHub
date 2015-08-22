@@ -36,7 +36,6 @@ class SongList extends React.Component{
   forkClick(song){
     if(UserProfileStore.isLoggedIn()) {
       RouterActions.openUserActionModal('fork');
-      // RouterActions.alertUserAction('fork');
       var userId = UserProfileStore.getCookieID();
       SongActions.forkSong(userId, song.uuid);
     } else {
@@ -51,7 +50,6 @@ class SongList extends React.Component{
   addfav(song){
     if(UserProfileStore.isLoggedIn()) {
       RouterActions.openUserActionModal('favorite');
-      // RouterActions.alertUserAction('favorite');
       var userId = UserProfileStore.getCookieID();
       SongActions.addFav(userId, song.uuid);
     } else {

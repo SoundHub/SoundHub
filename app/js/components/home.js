@@ -37,7 +37,6 @@ class Home extends React.Component {
     this._onChange = this._onChange.bind(this);
     this._onUpdate = this._onUpdate.bind(this);
     this._onAction = this._onAction.bind(this);
-    this._onAlert = this._onAlert.bind(this);
     this.handleAlertDismiss = this.handleAlertDismiss.bind(this);
     this._userNotAuthed = this._userNotAuthed.bind(this);
     this.closeRemindModal = this.closeRemindModal.bind(this);
@@ -55,7 +54,6 @@ class Home extends React.Component {
     AllSongStore.addUpdateListener(this._onUpdate);
     AuthModalStore.addChangeListener(this._userNotAuthed);
     PlaySongStore.addChangeListener(this.playsong);
-    AlertStore.addChangeListener(this._onAlert);
     ModalStore.addActionListener(this._onAction);
   }
 
@@ -64,7 +62,6 @@ class Home extends React.Component {
     AllSongStore.removeUpdateListener(this._onUpdate);
     AuthModalStore.removeChangeListener(this._userNotAuthed);
     PlaySongStore.removeChangeListener(this.playsong);
-    AlertStore.removeChangeListener(this._onAlert);
     ModalStore.removeActionListener(this._onAction);
   }
 
@@ -92,15 +89,11 @@ class Home extends React.Component {
     this.setState({showRemindModal: true})
   }
 
-  _onAlert() {
-    this.setState({alertVisible: true, alertMessage: AlertStore.getMessage()});
-  }
-
   _onAction() {
     this.setState({actionModalVisible: true, actionMessage: ModalStore.getActionMessage()})
     setTimeout(() => {
       this.closeActionModal();
-    }, 1000)
+    }, 800)
   }
 
   handleAlertDismiss() {
@@ -142,14 +135,12 @@ class Home extends React.Component {
         <div className ="homeBannertitle">Open Source Music</div>
         <img id="bg12" src="../assets/bg1.2.png"></img>
       </div>
-      <ActionAlert className="alertBox" onDismiss={this.handleAlertDismiss} 
-        alertVisible={this.state.alertVisible} alertMessage={this.state.alertMessage}/>
+        <UserActionModal show={this.state.actionModalVisible} message={this.state.actionMessage} onHide={this.state.closeActionModal} />
         <div className = "sortBox">
           <button className="sortButton" onClick={this.handleNewestClick} >Newest</button>
           <button className="sortButton" onClick={this.handleUpvotedClick} >Hottest</button>
         </div>
         <LoginRemindModal show={this.state.showRemindModal} onHide={this.closeRemindModal} />
-        <UserActionModal show={this.state.actionModalVisible} message={this.state.actionMessage} onHide={this.state.closeActionModal} />
         <div className= "playerBox">
           <AudioPlayer song = {this.state.currentsong} mode = "home" />
         </div>
