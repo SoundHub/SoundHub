@@ -11,6 +11,7 @@ import UserActionModal from './userActionModal';
 import SongActions from '../actions/songActionCreators';
 import UserActions from '../actions/userActionCreators';
 
+import CreateSuccessModal from './createSuccessModal';
 import FavSongStore from '../stores/favSongStore';
 import AllSongStore from '../stores/allSongStore';
 import UserSongStore from '../stores/userSongStore';
@@ -211,6 +212,7 @@ export default AuthenticatedComponent(class User extends React.Component {
     this._onAction = this._onAction.bind(this);
     this.closeActionModal = this.closeActionModal.bind(this);
     this._changedUserData = this._changedUserData.bind(this);
+    this._onCreate = this._onCreate.bind(this);
     this.playsong = this.playsong.bind(this);
     this.state = {
       activeSong: null,
@@ -239,6 +241,7 @@ export default AuthenticatedComponent(class User extends React.Component {
     UserProfileStore.addChangeListener(this._changedUserData);
     this.setState({username:UserProfileStore.getCookieName()})
     ModalStore.addActionListener(this._onAction);
+    ModalStore.addCreateListener(this._onCreate);
     PlaySongStore.addChangeListener(this.playsong);
    }
 
@@ -247,6 +250,7 @@ export default AuthenticatedComponent(class User extends React.Component {
     UserImgStore.removeChangeListener(this._changeImgUrl);
     UserProfileStore.removeChangeListener(this._changedUserData);
     ModalStore.removeActionListener(this._onAction);
+    ModalStore.removeCreateListener(this._onCreate);
     PlaySongStore.removeChangeListener(this.playsong);
   }
 
@@ -268,14 +272,21 @@ export default AuthenticatedComponent(class User extends React.Component {
     }, 500)
   }
 
-   _onChange() {
+  _onChange() {
+    this.setState({
+      forkSong: ForkedCreateStore.getForkCreate()
+    },() => {
       this.setState({
-        forkSong: ForkedCreateStore.getForkCreate()
-      },() => {
-        this.setState({
-          pageType:'create'
-        })
-      });
+        pageType:'create'
+      })
+    });
+  }
+
+  _onCreate() {
+    this.setState({actionModalVisible: true, actionMessage: ModalStore.getSongCreated() + ' created!'})
+    setTimeout(() => {
+      this.closeActionModal();
+    }, 500)  
   }
 
   closeActionModal() {

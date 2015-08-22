@@ -30,8 +30,7 @@ class Create extends React.Component {
 
   _onChange() {
     this.setState({
-      newestCreated: UserSongStore.getUserCreatedSongs().newestCreated,
-      showUpdate: true
+      newestCreated: UserSongStore.getUserCreatedSongs().newestCreated
     })
   }
 
