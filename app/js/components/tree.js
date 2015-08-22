@@ -12,6 +12,7 @@ import UserProfileStore from '../stores/userProfileStore';
 import VotedSongStore from '../stores/votedSongStore';
 import AuthModalStore from '../stores/authModalStore';
 import AllSongStore from '../stores/allSongStore';
+import ModalStore from '../stores/modalStore';
 
 var song = [{
   title:'give you up',
@@ -75,7 +76,8 @@ class D3Tree extends React.Component {
   constructor() {
     super();
     this.state = {
-      currentSong: {}
+      currentSong: {},
+      actionModalVisible: false
     }
 
     this.onClick = this.onClick.bind(this);
@@ -94,13 +96,14 @@ class D3Tree extends React.Component {
     this.togglePanel = this.togglePanel.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
+    AllSongStore.addChangeListener(this._onChange);
     ModalStore.addActionListener(this._onAction);
   }
 
   componentWillUnmount() {
-    ModalStore.removeActionListener(this._onAction);   
     AllSongStore.removeChangeListener(this._onChange);
+    ModalStore.removeActionListener(this._onAction);   
   }
 
   onClick(element) {
@@ -124,7 +127,6 @@ class D3Tree extends React.Component {
 
   // We need to receive the tree data before we can render it
   componentWillReceiveProps(nextProps) {
-    AllSongStore.addChangeListener(this._onChange);
     var mountNode = React.findDOMNode(this.refs.songTree);
     treeUtils.makeTree(nextProps.treeData, mountNode, this.onClick, nextProps.uuid);
   }
@@ -135,6 +137,7 @@ class D3Tree extends React.Component {
 
   forkClick(song){
     if(UserProfileStore.isLoggedIn()) {
+      RouterActions.openUserActionModal('fork');
       var userId = UserProfileStore.getCookieID();
       SongActions.forkSong(userId, song.uuid);
     } else {
@@ -148,6 +151,7 @@ class D3Tree extends React.Component {
 
   addfav(song){
     if(UserProfileStore.isLoggedIn()) {
+      RouterActions.openUserActionModal('favorite');
       var userId = UserProfileStore.getCookieID();
       SongActions.addFav(userId, song.uuid);
     } else {
