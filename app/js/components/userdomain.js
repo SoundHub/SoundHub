@@ -286,7 +286,7 @@ export default AuthenticatedComponent(class User extends React.Component {
     this.setState({actionModalVisible: true, actionMessage: ModalStore.getSongCreated() + ' created!'})
     setTimeout(() => {
       this.closeActionModal();
-    }, 500)  
+    }, 800)  
   }
 
   closeActionModal() {
