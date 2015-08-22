@@ -5,6 +5,7 @@ import SongActions from '../actions/songActionCreators';
 import UserSongStore from '../stores/userSongStore';
 import UserProfileStore from '../stores/userProfileStore'
 import ReactS3Uploader from 'react-s3-uploader';
+import RouterActions from '../actions/routerActionCreators';
 
 class Create extends React.Component {
   constructor() {
@@ -54,6 +55,7 @@ class Create extends React.Component {
     } else if(songData.title.length < 3 || songData.title.length > 15){
       alert('Song title can only has 3 to 15 characters');
     } else {
+      RouterActions.createSong(songData);
       SongActions.addSong(songData);
       this.refs.songName.getDOMNode().value = '';
       this.refs.songGenre.getDOMNode().value = '';
