@@ -2,6 +2,7 @@
 import React from 'react';
 import treeUtils from './makeTree.js';
 import AudioPlayer from './player-components/AudioPlayer';
+import UserActionModal from './userActionModal';
 
 import Router from 'react-router';
 import {Glyphicon, Tooltip, OverlayTrigger} from 'react-bootstrap';
@@ -82,7 +83,8 @@ class D3Tree extends React.Component {
     this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this);
     this.render = this.render.bind(this);
     this._onChange = this._onChange.bind(this);
-
+    this._onAction = this._onAction.bind(this);
+    this.closeActionModal = this.closeActionModal.bind(this);
     this.addVote = this.addVote.bind(this);
     this.addfav = this.addfav.bind(this);
     this.likeClick = this.likeClick.bind(this);
@@ -90,6 +92,15 @@ class D3Tree extends React.Component {
     this.upvoteClick = this.upvoteClick.bind(this);
     this.downvoteClick = this.downvoteClick.bind(this);
     this.togglePanel = this.togglePanel.bind(this);
+  }
+
+  componentWillMount() {
+    ModalStore.addActionListener(this._onAction);
+  }
+
+  componentWillUnmount() {
+    ModalStore.removeActionListener(this._onAction);   
+    AllSongStore.removeChangeListener(this._onChange);
   }
 
   onClick(element) {
@@ -118,11 +129,7 @@ class D3Tree extends React.Component {
     treeUtils.makeTree(nextProps.treeData, mountNode, this.onClick, nextProps.uuid);
   }
 
-  componentWillUnmount() {
-   AllSongStore.removeChangeListener(this._onChange);
-  }
-
-    togglePanel(song){
+  togglePanel(song){
     console.log(song)
   }
 
@@ -194,6 +201,10 @@ class D3Tree extends React.Component {
     }
   }
 
+  closeActionModal() {
+    this.setState({actionModalVisible: false});
+  }
+
   _onChange() {
     AllSongStore.getSongById(this.state.currentSong.uuid)
     .then((song) => {
@@ -203,12 +214,20 @@ class D3Tree extends React.Component {
     // console.log('songs changed: ', this.state.currentSong);
   }
 
+  _onAction() {
+    this.setState({actionModalVisible: true, actionMessage: ModalStore.getActionMessage()})
+    setTimeout(() => {
+      this.closeActionModal();
+    }, 500)
+  }
+
   render() {
     return (
       <div className="treeDiv">
         <div className = "treeBox">
           <div ref="songTree"></div>
         </div>
+        <UserActionModal show={this.state.actionModalVisible} message={this.state.actionMessage} onHide={this.closeActionModal}/>
         <SongBox
           key={song.id}
           song = {this.state.currentSong}

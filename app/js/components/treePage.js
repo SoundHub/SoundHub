@@ -17,39 +17,27 @@ class Page extends React.Component {
     SongActions.getSongTree({rootId: rootId});  //'/1/'  '/1/2/'
     this.state = {
       treeData: {},
-      uuid: uuid,
-      actionModalVisible: false
+      uuid: uuid
     }
 
     SongTreeStore.getTree();
 
     this.componentWillMount = this.componentWillMount.bind(this);
-    // this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this);
     this.render = this.render.bind(this);
     this._onChange = this._onChange.bind(this);
-    this._onAction = this._onAction.bind(this);
-    this.closeActionModal = this.closeActionModal.bind(this);
   }
 
   componentWillMount() {
     SongTreeStore.addChangeListener(this._onChange);
-    ModalStore.addActionListener(this._onAction);
   }
 
   componentWillUnmount() {
     SongTreeStore.removeChangeListener(this._onChange);
-    ModalStore.removeActionListener(this._onAction);
   }
-
-  // componentWillReceiveProps(nextProps) {
-  //   console.log('tree.js componentWillReceiveProps: ', nextProps.treeData);
-  //   this.setState({treeData: nextProps.treeData});
-  // }
 
   render() {
     return (
       <div className="treePage ">
-        <UserActionModal show={this.state.actionModalVisible} message={this.state.actionMessage} onHide={this.closeActionModal} />
         <D3Tree treeData={this.state.treeData} uuid={this.state.uuid} />
       </div>
     );
@@ -57,17 +45,6 @@ class Page extends React.Component {
 
   _onChange() {
     this.setState({ treeData: SongTreeStore.getTree() });
-  }
-
-  _onAction() {
-    this.setState({actionModalVisible: true, actionMessage: ModalStore.getActionMessage()})
-    setTimeout(() => {
-      this.closeActionModal();
-    }, 500)
-  }
-
-  closeActionModal() {
-    this.setState({actionModalVisible: false});
   }
 }
 
