@@ -12,33 +12,52 @@ import SongActions from '../actions/songActionCreators';
 import UserActions from '../actions/userActionCreators';
 
 import FavSongStore from '../stores/favSongStore';
+import AllSongStore from '../stores/allSongStore';
 import UserSongStore from '../stores/userSongStore';
 import UserImgStore from '../stores/userImgStore';
 import UserProfileStore from '../stores/userProfileStore';
 import ForkedSongStore from '../stores/forkedSongStore';
 import ModalStore from '../stores/modalStore';
 import ForkedCreateStore from '../stores/forkedCreateStore';
-import AuthenticatedComponent from './authenticatedComponent'
+import PlaySongStore from '../stores/playSongStore';
+import AuthenticatedComponent from './authenticatedComponent';
 
 class ForkList extends React.Component {
   constructor() {
     super();
     this.state = {forkedSongs: []};
     this._onChange = this._onChange.bind(this);
+    this._onUpdate = this._onUpdate.bind(this);
   }
 
   componentDidMount() {
     ForkedSongStore.addChangeListener(this._onChange);
     SongActions.getAllForks(this.props.userId);
+    AllSongStore.addUpdateListener(this._onUpdate);
   }
 
   componentWillUnmount() {
     ForkedSongStore.removeChangeListener(this._onChange);
+    AllSongStore.removeUpdateListener(this._onUpdate);
+  }
+
+  playsong(){
+    this.setState({currentsong:PlaySongStore.getSong()});
   }
 
 
   _onChange() {
+    console.log("I'm trying here");
     this.setState({forkedSongs: ForkedSongStore.getForkedSongs()});
+  }
+
+  _onUpdate() {
+    console.log('potato');
+    if(this.state.activeSong === AllSongStore.getCurrentSong()){
+      this.setState({activeSong: null});
+    }else{
+      this.setState({activeSong: AllSongStore.getCurrentSong()});
+    }
   }
 
   render() {
@@ -48,10 +67,10 @@ class ForkList extends React.Component {
           {
             this.state.forkedSongs.length ?
             <div className="mylist">
-              <SongList data = {this.state.forkedSongs} page='fork'/>
+              <SongList data = {this.state.forkedSongs} page='fork' activeSong = {this.state.activeSong} />
             </div>:
             <div>
-              You have not forked any songs!
+              Press the <Glyphicon glyph='leaf' /> on any song to create a new branch
             </div>
           }
 
@@ -67,19 +86,39 @@ class MyMusic extends React.Component {
     this.state = {userSongs: []};
     this.componentDidMount = this.componentDidMount.bind(this);
     this._onChange = this._onChange.bind(this);
+    this._onUpdate = this._onUpdate.bind(this);
   }
 
-  componentDidMount() {
-    SongActions.getUserCreatedSongs(this.props.userId);
+  _onUpdate() {
+    console.log('update in component');
+    this.setState({activeSong: AllSongStore.getCurrentSong()});
+  }
+
+  componentWillMount() {
     UserSongStore.addChangeListener(this._onChange);
+    SongActions.getUserCreatedSongs(this.props.userId);
+  }
+  
+  componentDidMount() {
+    AllSongStore.addUpdateListener(this._onUpdate);
   }
 
   componentWillUnmount() {
     UserSongStore.removeChangeListener(this._onChange);
+    AllSongStore.removeUpdateListener(this._onUpdate);
   }
 
   _onChange() {
     this.setState({userSongs: UserSongStore.getUserCreatedSongs().allCreated});
+  }
+
+  _onUpdate() {
+    console.log('potato');
+    if(this.state.activeSong === AllSongStore.getCurrentSong()){
+      this.setState({activeSong: null});
+    }else{
+      this.setState({activeSong: AllSongStore.getCurrentSong()});
+    }
   }
 
   render() {
@@ -89,10 +128,10 @@ class MyMusic extends React.Component {
           {
             this.state.userSongs.length ?
             <div className="mylist">
-              <SongList data = {this.state.userSongs} page='mymusic'/>
+              <SongList data = {this.state.userSongs} page='mymusic' activeSong = {this.state.activeSong} />
             </div>:
             <div>
-              You have not uploaded any songs!
+              Upload a new song from '<Glyphicon glyph='upload' />Create' page
             </div>
           }
 
@@ -107,20 +146,35 @@ class Favor extends React.Component {
   constructor() {
     super();
     this.state = {favSongs: []};
+    this.activeSong = null;
     this.componentDidMount = this.componentDidMount.bind(this);
     this._onChange = this._onChange.bind(this);
+    this._onUpdate = this._onUpdate.bind(this);
   }
   componentDidMount() {
+    AllSongStore.addUpdateListener(this._onUpdate);
     SongActions.getAllFavs(this.props.userId);
     FavSongStore.addChangeListener(this._onChange);
   }
   componentWillUnmount() {
     FavSongStore.removeChangeListener(this._onChange);
+    AllSongStore.removeChangeListener(this._onChange);
+    AllSongStore.removeUpdateListener(this._onUpdate);
   }
 
   _onChange() {
     this.setState({favSongs: FavSongStore.getAllSongs()});
   }
+
+  _onUpdate() {
+    console.log('potato');
+    if(this.state.activeSong === AllSongStore.getCurrentSong()){
+      this.setState({activeSong: null});
+    }else{
+      this.setState({activeSong: AllSongStore.getCurrentSong()});
+    }
+  }
+
   render() {
     return (
       <div className="boxed-group-profile">
@@ -128,10 +182,10 @@ class Favor extends React.Component {
           {
             this.state.favSongs.length ?
             <div className="mylist">
-              <SongList data = {this.state.favSongs}  page='fav'/>
+              <SongList data = {this.state.favSongs}  page='fav' activeSong = {this.state.activeSong} />
             </div>:
             <div>
-              You have not like any songs!
+              Press <Glyphicon glyph='star' /> on any song to come back to it later
             </div>
           }
 
@@ -157,7 +211,9 @@ export default AuthenticatedComponent(class User extends React.Component {
     this._onAction = this._onAction.bind(this);
     this.closeActionModal = this.closeActionModal.bind(this);
     this._changedUserData = this._changedUserData.bind(this);
+    this.playsong = this.playsong.bind(this);
     this.state = {
+      activeSong: null,
       login:false,
       username:'',
       userimg:"",
@@ -174,6 +230,7 @@ export default AuthenticatedComponent(class User extends React.Component {
     this.setState({userId:UserProfileStore.getCookieID()})
     this.setState({username:UserProfileStore.getCookieName()})
     this.setState({userimg:UserProfileStore.getCookieImg()})
+
    }
 
   componentDidMount(){
@@ -182,6 +239,7 @@ export default AuthenticatedComponent(class User extends React.Component {
     UserProfileStore.addChangeListener(this._changedUserData);
     this.setState({username:UserProfileStore.getCookieName()})
     ModalStore.addActionListener(this._onAction);
+    PlaySongStore.addChangeListener(this.playsong);
    }
 
   componentWillUnmount() {
@@ -189,6 +247,7 @@ export default AuthenticatedComponent(class User extends React.Component {
     UserImgStore.removeChangeListener(this._changeImgUrl);
     UserProfileStore.removeChangeListener(this._changedUserData);
     ModalStore.removeActionListener(this._onAction);
+    PlaySongStore.removeChangeListener(this.playsong);
   }
 
   _changedUserData() {
@@ -221,6 +280,10 @@ export default AuthenticatedComponent(class User extends React.Component {
 
   closeActionModal() {
     this.setState({actionModalVisible: false});
+  }
+  
+  playsong(){
+    this.setState({currentsong:PlaySongStore.getSong()});
   }
 
    gotoMusic(){this.setState({pageType:'music',currentsong:{}});}
@@ -267,6 +330,5 @@ export default AuthenticatedComponent(class User extends React.Component {
     )
   }
 
-  // User.defaultProps = { profileImg: "../assets/placeholder.jpg" , pageType: "music"};
 })
 

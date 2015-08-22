@@ -114,7 +114,7 @@ AllSongStore.dispatchToken = Dispatcher.register(function(payload) {
     case ActionType.ACTIVE_SONG:
       let activeId = payload.id.uuid;
       setActiveSong(activeId);
-      console.log('active song store update');
+      console.log('active song store updatesss');
       AllSongStore.emitUpdate();
       break;
 
