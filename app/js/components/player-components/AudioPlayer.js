@@ -49,7 +49,7 @@ module.exports = React.createClass({
 			percent = this.state.seek / this.state.duration;
 		}
 
-		if(this.state.song) {
+		if(this.state.song && this.state.song.title) {
 			songName = 'Now Playing ' + this.state.song.title;
 		} else {
 			songName = 'Please add a song'
