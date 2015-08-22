@@ -36,5 +36,10 @@ export default {
     })
   },
 
-  openUserActionModal
+  openUserActionModal(event) {
+    Dispatcher.dispatch({
+      type: ActionType.OPEN_USER_ACTION_MODAL,
+      event: event
+    })
+  }
 }

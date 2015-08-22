@@ -9,13 +9,15 @@ import AudioPlayer from './player-components/AudioPlayer';
 import LoginRemindModal from './loginRemindModal'
 import PageNav from './pagination';
 import ActionAlert from './actionAlert'
+import UserActionModal from './UserActionModal';
 
 import AllSongStore from '../stores/allSongStore';
 import UserProfileStore from '../stores/userProfileStore';
 import VotedSongStore from '../stores/votedSongStore';
 import AuthModalStore from '../stores/authModalStore';
 import PlaySongStore from '../stores/playSongStore';
-import AlertStore from '../stores/alertStore'
+import AlertStore from '../stores/alertStore';
+import ModalStore from '../stores/modalStore';
 
 
 class Home extends React.Component {
@@ -34,10 +36,12 @@ class Home extends React.Component {
     this.render = this.render.bind(this);
     this._onChange = this._onChange.bind(this);
     this._onUpdate = this._onUpdate.bind(this);
+    this._onAction = this._onAction.bind(this);
     this._onAlert = this._onAlert.bind(this);
     this.handleAlertDismiss = this.handleAlertDismiss.bind(this);
     this._userNotAuthed = this._userNotAuthed.bind(this);
     this.closeRemindModal = this.closeRemindModal.bind(this);
+    this.closeActionModal = this.closeActionModal.bind(this);
     this.openModal = this.openModal.bind(this);
     this.handleNewestClick = this.handleNewestClick.bind(this);
     this.handleUpvotedClick = this.handleUpvotedClick.bind(this);
@@ -52,6 +56,7 @@ class Home extends React.Component {
     AuthModalStore.addChangeListener(this._userNotAuthed);
     PlaySongStore.addChangeListener(this.playsong);
     AlertStore.addChangeListener(this._onAlert);
+    ModalStore.addActionListener(this._onAction);
   }
 
   componentWillUnmount() {
@@ -60,6 +65,7 @@ class Home extends React.Component {
     AuthModalStore.removeChangeListener(this._userNotAuthed);
     PlaySongStore.removeChangeListener(this.playsong);
     AlertStore.removeChangeListener(this._onAlert);
+    ModalStore.removeActionListener(this._onAction);
   }
 
   playsong(){ //sets current song
@@ -90,6 +96,13 @@ class Home extends React.Component {
     this.setState({alertVisible: true, alertMessage: AlertStore.getMessage()});
   }
 
+  _onAction() {
+    this.setState({actionModalVisible: true, actionMessage: ModalStore.getActionMessage()})
+    setTimeout(() => {
+      this.closeActionModal();
+    }, 1000)
+  }
+
   handleAlertDismiss() {
     this.setState({alertVisible: false});
   }
@@ -112,6 +125,10 @@ class Home extends React.Component {
     this.setState({ showRemindModal: false });
   }
 
+  closeActionModal() {
+    this.setState({actionModalVisible: false});
+  }
+
   filter() {
     console.log("filter");
   }
@@ -132,7 +149,7 @@ class Home extends React.Component {
           <button className="sortButton" onClick={this.handleUpvotedClick} >Hottest</button>
         </div>
         <LoginRemindModal show={this.state.showRemindModal} onHide={this.closeRemindModal} />
-        <UserActionModal show={} onHide={} />
+        <UserActionModal show={this.state.actionModalVisible} message={this.state.actionMessage} onHide={this.state.closeActionModal} />
         <div className= "playerBox">
           <AudioPlayer song = {this.state.currentsong} mode = "home" />
         </div>
