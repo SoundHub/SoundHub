@@ -9,6 +9,17 @@ import assign from 'object-assign';
 const ActionType = Constants.ActionTypes;
 const CHANGE_EVENT = 'change';
 const OPEN_EVENT = 'open';
+const USER_ACTION = 'userAction'
+
+const _actions = {};
+
+var setAction = function(event) {
+  if(event === 'fork') {
+    _actions.action = 'Song forked!'
+  } else if(event === 'favorite') {
+    _actions.action = 'Song added to favorites!'
+  }
+}
 
 var ModalStore = assign({}, EventEmitter.prototype, {
   emitChange() {
@@ -30,6 +41,20 @@ var ModalStore = assign({}, EventEmitter.prototype, {
   },
   removeOpenListener(callback) {
     this.removeListener(OPEN_EVENT, callback)
+  },
+
+  // for user action modals
+  emitAction() {
+    this.emit(USER_ACTION)
+  },
+  addActionListener(callback) {
+    this.on(USER_ACTION, callback)
+  },
+  removeActionListener(callback) {
+    this.removeListener(USER_ACTION, callback)
+  },
+  getActionMessage() {
+    return _actions.action;
   }
 })
 
@@ -41,7 +66,12 @@ ModalStore.dispatchToken = Dispatcher.register(function(payload) {
 
     case ActionType.OPEN_LOGIN_MODAL:
       ModalStore.emitOpen();
+      break;
 
+    case ActionType.OPEN_USER_ACTION_MODAL:
+      setAction(payload.event)
+      ModalStore.emitAction();
+      break;
 
     default:
       // do nothing

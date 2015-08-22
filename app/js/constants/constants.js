@@ -30,7 +30,8 @@ let constants = {
       OPEN_LOGIN_REMIND_MODAL: null,
       OPEN_LOGIN_MODAL: null,
       CLOSE_LOGIN_MODAL:null,
-      OPEN_ALERT: null
+      OPEN_ALERT: null,
+      OPEN_USER_ACTION_MODAL: null
   })
 };
 
