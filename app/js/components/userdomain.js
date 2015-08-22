@@ -6,6 +6,7 @@ import Edit from './editprofile';
 import Create from './create';
 import Router from 'react-router';
 import AudioPlayer from './player-components/AudioPlayer';
+import UserActionModal from './userActionModal';
 
 import SongActions from '../actions/songActionCreators';
 import UserActions from '../actions/userActionCreators';
@@ -15,6 +16,7 @@ import UserSongStore from '../stores/userSongStore';
 import UserImgStore from '../stores/userImgStore';
 import UserProfileStore from '../stores/userProfileStore';
 import ForkedSongStore from '../stores/forkedSongStore';
+import ModalStore from '../stores/modalStore';
 import ForkedCreateStore from '../stores/forkedCreateStore';
 import AuthenticatedComponent from './authenticatedComponent'
 
@@ -152,6 +154,8 @@ export default AuthenticatedComponent(class User extends React.Component {
     this.componentWillMount = this.componentWillMount.bind(this);
     this.componentWillUnmount = this.componentWillUnmount.bind(this);
     this._onChange = this._onChange.bind(this);
+    this._onAction = this._onAction.bind(this);
+    this.closeActionModal = this.closeActionModal.bind(this);
     this._changedUserData = this._changedUserData.bind(this);
     this.state = {
       login:false,
@@ -160,7 +164,9 @@ export default AuthenticatedComponent(class User extends React.Component {
       userId:-1,
       pageType: 'music',
       currentsong: {},
-      forkSong:{}
+      forkSong:{},
+      actionModalVisible: false,
+      actionMessage: ''
     }
    }
 
@@ -175,13 +181,14 @@ export default AuthenticatedComponent(class User extends React.Component {
     UserImgStore.addChangeListener(this._changeImgUrl);
     UserProfileStore.addChangeListener(this._changedUserData);
     this.setState({username:UserProfileStore.getCookieName()})
-    // this.setState({userimg:UserProfileStore.getLoggedInUser().userimg})
+    ModalStore.addActionListener(this._onAction);
    }
 
   componentWillUnmount() {
     ForkedCreateStore.removeChangeListener(this._onChange);
     UserImgStore.removeChangeListener(this._changeImgUrl);
     UserProfileStore.removeChangeListener(this._changedUserData);
+    ModalStore.removeActionListener(this._onAction);
   }
 
   _changedUserData() {
@@ -195,6 +202,13 @@ export default AuthenticatedComponent(class User extends React.Component {
 
   }
 
+  _onAction() {
+    this.setState({actionModalVisible: true, actionMessage: ModalStore.getActionMessage()})
+    setTimeout(() => {
+      this.closeActionModal();
+    }, 500)
+  }
+
    _onChange() {
       this.setState({
         forkSong: ForkedCreateStore.getForkCreate()
@@ -203,6 +217,10 @@ export default AuthenticatedComponent(class User extends React.Component {
           pageType:'create'
         })
       });
+  }
+
+  closeActionModal() {
+    this.setState({actionModalVisible: false});
   }
 
    gotoMusic(){this.setState({pageType:'music',currentsong:{}});}
@@ -233,6 +251,7 @@ export default AuthenticatedComponent(class User extends React.Component {
           <img className='profileImg' src = {this.state.userimg}></img>
           <div className='profileUsername'>Hello {this.state.username}</div>
         </div>
+        <UserActionModal show={this.state.actionModalVisible} message={this.state.actionMessage} onHide={this.closeActionModal}/>
         <div className="profileButtonCollection">
           <button className="profileButton" onClick={this.gotoMusic}><Glyphicon glyph='music'  /> MyMusic</button>
           <button className="profileButton" onClick={this.gotoBranches}><Glyphicon glyph='paperclip' onClick={this.gotoBranches} /> Branches</button>
