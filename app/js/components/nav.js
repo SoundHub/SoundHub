@@ -53,8 +53,8 @@ class LoginButton extends React.Component {
 };
 
 class LogoutButton extends React.Component {
-  constructor() {
-    super();
+  constructor(props, context) {
+    super(props);
     this.logout = this.logout.bind(this);
   }
 
@@ -70,6 +70,9 @@ class LogoutButton extends React.Component {
     );
   }
 };
+LogoutButton.contextTypes = {
+  router: React.PropTypes.func.isRequired
+}
 
 
 class Nav extends React.Component {

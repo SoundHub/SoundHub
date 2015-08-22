@@ -223,10 +223,10 @@ var allSongs = function(callback) {
 };
 
 var allSongSort = function(order, page, callback) {
-  console.log('offset: ', page, (page-1) * 6)
+  console.log('offset: ', page, (page-1) * 24)
   SongNode.findAll({
-    offset: (page-1) * 6,
-    limit: 6,
+    offset: (page-1) * 24,
+    limit: 24,
     order: order + ' DESC',
   }).then(function(data) {
     callback(data);

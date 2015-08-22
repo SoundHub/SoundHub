@@ -27,5 +27,12 @@ export default {
     Dispatcher.dispatch({
       type: ActionType.CLOSE_LOGIN_MODAL
     })
+  },
+
+  openUserActionModal(event) {
+    Dispatcher.dispatch({
+      type: ActionType.OPEN_USER_ACTION_MODAL,
+      event: event
+    })
   }
 }

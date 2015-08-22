@@ -4,38 +4,46 @@ import { Modal } from 'react-bootstrap';
 import RouterActions from '../actions/routerActionCreators';
 import UserActions from '../actions/userActionCreators';
 
+var ENTER_KEY_CODE = 13;
+
 class Login extends React.Component {
 
-  constructor() {
-    super();
+  constructor(props, context) {
+    super(props);
     this.toggleAuth = this.toggleAuth.bind(this);
     this.handleLogin = this.handleLogin.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
   }
 
-  toggleAuth() { this.props.handleToggle('Signup');}
+  toggleAuth() { this.props.handleToggle('Signup'); }
 
   handleLogin() {
     let userData = {};
     userData.username = this.refs.username.getDOMNode().value;
     userData.password = this.refs.password.getDOMNode().value;
     if(userData.username && userData.password){
-      UserActions.loginUser(userData, () => {
-        this.context.router.transitionTo('user');
-      });
+      UserActions.loginUser(userData);
     }
 
   }
 
+  handleKeyDown(event) {
+    if(event.keyCode === ENTER_KEY_CODE) {
+      this.handleLogin();
+    }
+  }
+
   render() {
     return (
-        <div className="AuthForm">
+        <div className="AuthForm" onKeyDown={this.handleKeyDown}>
           <div className="modalButtonBox3">
             <p><input type="text" placeholder="Username" ref="username" /></p>
             <p><input type="password" placeholder="Password" ref="password" /></p>
           </div>
           <hr></hr>
           <div className="modalButtonBox">
-            <input className="topButton aboutButton" type="button" value="Login" onClick={this.handleLogin}/>
+            <input className="topButton aboutButton" type="button" value="Login"
+            onClick={this.handleLogin}/>
           </div>
           <div className="modalButtonBox2">
             <a onClick={this.toggleAuth}>Don't Have an Account?</a>

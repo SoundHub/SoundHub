@@ -8,12 +8,14 @@ import SongActions from '../actions/songActionCreators';
 import AudioPlayer from './player-components/AudioPlayer';
 import LoginRemindModal from './loginRemindModal'
 import PageNav from './pagination';
+import UserActionModal from './UserActionModal';
 
 import AllSongStore from '../stores/allSongStore';
 import UserProfileStore from '../stores/userProfileStore';
 import VotedSongStore from '../stores/votedSongStore';
 import AuthModalStore from '../stores/authModalStore';
 import PlaySongStore from '../stores/playSongStore';
+import ModalStore from '../stores/modalStore';
 
 
 class Home extends React.Component {
@@ -21,7 +23,7 @@ class Home extends React.Component {
     super(props);
     this.state = {songs: [],
                   order: 'like',
-                  showModal: false,
+                  showRemindModal: false,
                   activePage: 1,
                   activeSong: null};
 
@@ -31,8 +33,10 @@ class Home extends React.Component {
     this.render = this.render.bind(this);
     this._onChange = this._onChange.bind(this);
     this._onUpdate = this._onUpdate.bind(this);
+    this._onAction = this._onAction.bind(this);
     this._userNotAuthed = this._userNotAuthed.bind(this);
-    this.closeModal = this.closeModal.bind(this);
+    this.closeRemindModal = this.closeRemindModal.bind(this);
+    this.closeActionModal = this.closeActionModal.bind(this);
     this.openModal = this.openModal.bind(this);
     this.handleNewestClick = this.handleNewestClick.bind(this);
     this.handleUpvotedClick = this.handleUpvotedClick.bind(this);
@@ -46,6 +50,7 @@ class Home extends React.Component {
     AllSongStore.addUpdateListener(this._onUpdate);
     AuthModalStore.addChangeListener(this._userNotAuthed);
     PlaySongStore.addChangeListener(this.playsong);
+    ModalStore.addActionListener(this._onAction);
   }
 
   componentWillUnmount() {
@@ -53,17 +58,18 @@ class Home extends React.Component {
     AllSongStore.removeUpdateListener(this._onUpdate);
     AuthModalStore.removeChangeListener(this._userNotAuthed);
     PlaySongStore.removeChangeListener(this.playsong);
+    ModalStore.removeActionListener(this._onAction);
   }
 
-  playsong(){
+  playsong(){ //sets current song
     this.setState({currentsong:PlaySongStore.getSong()});
   }
 
-  getPageNumber(){
-    return Math.floor(AllSongStore.getSongNum() / 6) + 2;
+  getPageNumber(){ //gets page number for pagination nav bar
+    return Math.floor(AllSongStore.getSongNum() / 24) + 1;
   }
 
-  _onChange() {
+  _onChange() { //callback for AllSongStore change listener
     this.setState({songs: AllSongStore.getAllSongs()});
   }
 
@@ -76,7 +82,14 @@ class Home extends React.Component {
   }
 
   _userNotAuthed() {
-    this.setState({showModal: true})
+    this.setState({showRemindModal: true})
+  }
+
+  _onAction() {
+    this.setState({actionModalVisible: true, actionMessage: ModalStore.getActionMessage()})
+    setTimeout(() => {
+      this.closeActionModal();
+    }, 500)
   }
 
   handleNewestClick() {
@@ -90,11 +103,15 @@ class Home extends React.Component {
   }
 
   openModal() {
-    this.setState({ showModal: true })
+    this.setState({ showRemindModal: true })
   }
 
-  closeModal(){
-    this.setState({ showModal: false });
+  closeRemindModal(){
+    this.setState({ showRemindModal: false });
+  }
+
+  closeActionModal() {
+    this.setState({actionModalVisible: false});
   }
 
   filter() {
@@ -110,11 +127,12 @@ class Home extends React.Component {
         <div className ="homeBannertitle">Open Source Music</div>
         <img id="bg12" src="../assets/bg1.2.png"></img>
       </div>
+        <UserActionModal show={this.state.actionModalVisible} message={this.state.actionMessage} onHide={this.state.closeActionModal} />
         <div className = "sortBox">
           <button className="sortButton" onClick={this.handleNewestClick} >Newest</button>
           <button className="sortButton" onClick={this.handleUpvotedClick} >Hottest</button>
         </div>
-        <LoginRemindModal show={this.state.showModal} onHide={this.closeModal} />
+        <LoginRemindModal show={this.state.showRemindModal} onHide={this.closeRemindModal} />
         <div className= "playerBox">
           <AudioPlayer song = {this.state.currentsong} mode = "home" />
         </div>

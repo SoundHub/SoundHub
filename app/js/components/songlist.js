@@ -21,7 +21,8 @@ class SongList extends React.Component{
     this.downvoteClick = this.downvoteClick.bind(this);
     this.togglePanel = this.togglePanel.bind(this);
     this.shareLink = this.shareLink.bind(this);
-   }
+  }
+
 
   togglePanel(id){
     SongActions.updateActiveSong(id);
@@ -33,6 +34,7 @@ class SongList extends React.Component{
 
   forkClick(song){
     if(UserProfileStore.isLoggedIn()) {
+      RouterActions.openUserActionModal('fork');
       var userId = UserProfileStore.getCookieID();
       SongActions.forkSong(userId, song.uuid);
     } else {
@@ -46,6 +48,7 @@ class SongList extends React.Component{
 
   addfav(song){
     if(UserProfileStore.isLoggedIn()) {
+      RouterActions.openUserActionModal('favorite');
       var userId = UserProfileStore.getCookieID();
       SongActions.addFav(userId, song.uuid);
     } else {
@@ -60,7 +63,6 @@ class SongList extends React.Component{
   shareLink(song){
     let origin = window.location.origin;
     let link = origin + '/tree/' + song.rootId + '&' + song.uuid;
-    console.log(link);
     window.prompt("Copy to clipboard: Ctrl+C, Enter", link);
   }
 
@@ -180,7 +182,7 @@ class SongBox extends React.Component{
         {this.props.page==='home' || this.props.page=== 'mymusic' ?
         <div className="itemOther" onClick={this.props.forkClick}>
         <OverlayTrigger placement='bottom' overlay={<Tooltip>branch</Tooltip>}>
-          <Glyphicon glyph='leaf' />
+          <Glyphicon glyph='leaf'/>
         </OverlayTrigger>
         </div>: null}
 
