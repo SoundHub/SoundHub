@@ -23,7 +23,7 @@ class Home extends React.Component {
     super(props);
     this.state = {songs: [],
                   order: 'like',
-                  showModal: false,
+                  showRemindModal: false,
                   activePage: 1,
                   alertVisible: false,
                   activeSong: null};
@@ -37,7 +37,7 @@ class Home extends React.Component {
     this._onAlert = this._onAlert.bind(this);
     this.handleAlertDismiss = this.handleAlertDismiss.bind(this);
     this._userNotAuthed = this._userNotAuthed.bind(this);
-    this.closeModal = this.closeModal.bind(this);
+    this.closeRemindModal = this.closeRemindModal.bind(this);
     this.openModal = this.openModal.bind(this);
     this.handleNewestClick = this.handleNewestClick.bind(this);
     this.handleUpvotedClick = this.handleUpvotedClick.bind(this);
@@ -83,7 +83,7 @@ class Home extends React.Component {
   }
 
   _userNotAuthed() {
-    this.setState({showModal: true})
+    this.setState({showRemindModal: true})
   }
 
   _onAlert() {
@@ -105,11 +105,11 @@ class Home extends React.Component {
   }
 
   openModal() {
-    this.setState({ showModal: true })
+    this.setState({ showRemindModal: true })
   }
 
-  closeModal(){
-    this.setState({ showModal: false });
+  closeRemindModal(){
+    this.setState({ showRemindModal: false });
   }
 
   filter() {
@@ -131,7 +131,8 @@ class Home extends React.Component {
           <button className="sortButton" onClick={this.handleNewestClick} >Newest</button>
           <button className="sortButton" onClick={this.handleUpvotedClick} >Hottest</button>
         </div>
-        <LoginRemindModal show={this.state.showModal} onHide={this.closeModal} />
+        <LoginRemindModal show={this.state.showRemindModal} onHide={this.closeRemindModal} />
+        <UserActionModal show={} onHide={} />
         <div className= "playerBox">
           <AudioPlayer song = {this.state.currentsong} mode = "home" />
         </div>

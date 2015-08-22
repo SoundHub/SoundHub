@@ -34,5 +34,7 @@ export default {
       type: ActionType.OPEN_ALERT,
       event: event
     })
-  }
+  },
+
+  openUserActionModal
 }
