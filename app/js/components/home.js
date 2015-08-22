@@ -40,7 +40,6 @@ class Home extends React.Component {
     this.openModal = this.openModal.bind(this);
     this.handleNewestClick = this.handleNewestClick.bind(this);
     this.handleUpvotedClick = this.handleUpvotedClick.bind(this);
-    this.filter = this.filter.bind(this);
   }
 
   componentDidMount () {
@@ -112,10 +111,6 @@ class Home extends React.Component {
 
   closeActionModal() {
     this.setState({actionModalVisible: false});
-  }
-
-  filter() {
-    console.log("filter");
   }
 
   render() {
