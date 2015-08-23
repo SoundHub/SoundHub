@@ -154,21 +154,6 @@ class SongBox extends React.Component{
 
       <div className= 'songPanel'  id={this.props.key}>
 
-        {this.props.page==='fork' ?
-        <div className="itemOther" onClick={this.props.createClick}>
-        <OverlayTrigger placement='bottom' overlay={<Tooltip>upload your new sound</Tooltip>}>
-          <Glyphicon glyph='tags' />
-        </OverlayTrigger>
-        </div>: null}
-
-        {this.props.page==='fork' ?
-        <a href={this.props.song.url} download>
-          <div className="itemOther" >
-          <OverlayTrigger placement='bottom' overlay={<Tooltip>download</Tooltip>}>
-            <Glyphicon glyph='download' />
-          </OverlayTrigger>
-          </div>
-        </a> : null}
 
         {this.props.page==='home' || this.props.page=== 'fav' || this.props.page=== 'mymusic' || this.props.page=== 'fork' ?
         <div className="itemOther">
@@ -200,6 +185,22 @@ class SongBox extends React.Component{
         </OverlayTrigger>
         </div>: null}
 
+        {this.props.page==='fork' ?
+        <div className="itemOther" onClick={this.props.createClick}>
+        <OverlayTrigger placement='bottom' overlay={<Tooltip>upload your new sound</Tooltip>}>
+          <Glyphicon glyph='tags' />
+        </OverlayTrigger>
+        </div>: null}
+
+        {this.props.page==='fork' ?
+        <a href={this.props.song.url} download>
+          <div className="itemOther" >
+          <OverlayTrigger placement='bottom' overlay={<Tooltip>download</Tooltip>}>
+            <Glyphicon glyph='download' />
+          </OverlayTrigger>
+          </div>
+        </a> : null}
+        
         {this.props.page==='home' ?
         <div className="itemArrow" onClick={this.props.upvoteClick}>
         <OverlayTrigger placement='bottom' overlay={<Tooltip>upvote</Tooltip>}>
