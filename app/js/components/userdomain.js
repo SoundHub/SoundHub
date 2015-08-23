@@ -6,16 +6,19 @@ import Edit from './editprofile';
 import Create from './create';
 import Router from 'react-router';
 import AudioPlayer from './player-components/AudioPlayer';
+import UserActionModal from './userActionModal';
 
 import SongActions from '../actions/songActionCreators';
 import UserActions from '../actions/userActionCreators';
 
+import CreateSuccessModal from './createSuccessModal';
 import FavSongStore from '../stores/favSongStore';
 import AllSongStore from '../stores/allSongStore';
 import UserSongStore from '../stores/userSongStore';
 import UserImgStore from '../stores/userImgStore';
 import UserProfileStore from '../stores/userProfileStore';
 import ForkedSongStore from '../stores/forkedSongStore';
+import ModalStore from '../stores/modalStore';
 import ForkedCreateStore from '../stores/forkedCreateStore';
 import PlaySongStore from '../stores/playSongStore';
 import AuthenticatedComponent from './authenticatedComponent';
@@ -110,6 +113,7 @@ export default AuthenticatedComponent(class User extends React.Component {
     this._onForkStoreChange = this._onForkStoreChange.bind(this);
     this._onFavStoreChange = this._onFavStoreChange.bind(this);
     this._changedUserData = this._changedUserData.bind(this);
+    this._onCreate = this._onCreate.bind(this);
     this.playsong = this.playsong.bind(this);
     this.state = {
       activeSong: null,
@@ -141,6 +145,9 @@ export default AuthenticatedComponent(class User extends React.Component {
     ForkedCreateStore.addChangeListener(this._onChange);
     UserImgStore.addChangeListener(this._changeImgUrl);
     UserProfileStore.addChangeListener(this._changedUserData);
+    this.setState({username:UserProfileStore.getCookieName()})
+    ModalStore.addActionListener(this._onAction);
+    ModalStore.addCreateListener(this._onCreate);
     PlaySongStore.addChangeListener(this.playsong);
     ForkedSongStore.addChangeListener(this._onForkStoreChange);
     FavSongStore.addChangeListener(this._onFavStoreChange);
@@ -151,6 +158,8 @@ export default AuthenticatedComponent(class User extends React.Component {
     ForkedCreateStore.removeChangeListener(this._onChange);
     UserImgStore.removeChangeListener(this._changeImgUrl);
     UserProfileStore.removeChangeListener(this._changedUserData);
+    ModalStore.removeActionListener(this._onAction);
+    ModalStore.removeCreateListener(this._onCreate);
     PlaySongStore.removeChangeListener(this.playsong);
     ForkedSongStore.removeChangeListener(this._onForkStoreChange);
     FavSongStore.removeChangeListener(this._onFavStoreChange);
@@ -166,6 +175,13 @@ export default AuthenticatedComponent(class User extends React.Component {
       console.log(this.state.userimg)
     });
 
+  }
+
+  _onAction() {
+    this.setState({actionModalVisible: true, actionMessage: ModalStore.getActionMessage()})
+    setTimeout(() => {
+      this.closeActionModal();
+    }, 500)
   }
 
   _onUpdate() {
@@ -189,7 +205,6 @@ export default AuthenticatedComponent(class User extends React.Component {
   }
 
   _onChange() {
-    console.log('CHANGE ME MOTHA FUCKAAAA');
     this.setState({
       forkSong: ForkedCreateStore.getForkCreate()
     },() => {
@@ -199,6 +214,17 @@ export default AuthenticatedComponent(class User extends React.Component {
     });
   }
 
+  _onCreate() {
+    this.setState({actionModalVisible: true, actionMessage: ModalStore.getSongCreated() + ' created!'})
+    setTimeout(() => {
+      this.closeActionModal();
+    }, 800)
+  }
+
+  closeActionModal() {
+    this.setState({actionModalVisible: false});
+  }
+  
   playsong(){
     this.setState({currentsong:PlaySongStore.getSong()});
   }
@@ -231,6 +257,7 @@ export default AuthenticatedComponent(class User extends React.Component {
           <img className='profileImg' src = {this.state.userimg}></img>
           <div className='profileUsername'>Hello {this.state.username}</div>
         </div>
+        <UserActionModal show={this.state.actionModalVisible} message={this.state.actionMessage} onHide={this.closeActionModal}/>
         <div className="profileButtonCollection">
           <button className="profileButton" onClick={this.gotoMusic}><Glyphicon glyph='music'  /> MyMusic</button>
           <button className="profileButton" onClick={this.gotoBranches}><Glyphicon glyph='leaf' onClick={this.gotoBranches} /> Branches</button>
@@ -246,6 +273,5 @@ export default AuthenticatedComponent(class User extends React.Component {
     )
   }
 
-  // User.defaultProps = { profileImg: "../assets/placeholder.jpg" , pageType: "music"};
 })
 

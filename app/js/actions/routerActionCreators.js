@@ -34,5 +34,12 @@ export default {
       type: ActionType.OPEN_USER_ACTION_MODAL,
       event: event
     })
+  },
+
+  createSong(songData) {
+    Dispatcher.dispatch({
+      type: ActionType.CREATE_SONG,
+      song: songData
+    })
   }
 }
