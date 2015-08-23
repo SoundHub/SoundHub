@@ -114,6 +114,8 @@ export default AuthenticatedComponent(class User extends React.Component {
     this._onFavStoreChange = this._onFavStoreChange.bind(this);
     this._changedUserData = this._changedUserData.bind(this);
     this._onCreate = this._onCreate.bind(this);
+    this._onAction = this._onAction.bind(this);
+    this.closeActionModal = this.closeActionModal.bind(this);
     this.playsong = this.playsong.bind(this);
     this.state = {
       activeSong: null,
