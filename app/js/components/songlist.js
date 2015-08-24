@@ -2,11 +2,14 @@
 import React from 'react';
 import Router from 'react-router';
 import {Glyphicon, Tooltip, OverlayTrigger} from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
+
 import SongActions from '../actions/songActionCreators';
 import RouterActions from '../actions/routerActionCreators';
 import UserProfileStore from '../stores/userProfileStore';
 import VotedSongStore from '../stores/votedSongStore';
 import AuthModalStore from '../stores/authModalStore';
+
 
 
 class SongList extends React.Component{
@@ -21,8 +24,8 @@ class SongList extends React.Component{
     this.downvoteClick = this.downvoteClick.bind(this);
     this.togglePanel = this.togglePanel.bind(this);
     this.shareLink = this.shareLink.bind(this);
-  }
-
+    this.shareClick = this.shareClick.bind(this);
+   }
 
   togglePanel(id){
     SongActions.updateActiveSong(id);
@@ -40,6 +43,9 @@ class SongList extends React.Component{
     } else {
       RouterActions.openLoginRemindModal();
     }
+  }
+  shareClick(song) {
+    SongActions.openLinkModal(song);
   }
 
   addVote(newVote, oldVote,songId) {
@@ -59,6 +65,7 @@ class SongList extends React.Component{
   createClick(song){
     SongActions.createFromFork(song);
   }
+
 
   shareLink(song){
     let origin = window.location.origin;
@@ -121,6 +128,7 @@ class SongList extends React.Component{
           downvoteClick={this.downvoteClick.bind(this, song)}
           upvoteClick={this.upvoteClick.bind(this, song)}
           shareLink={this.shareLink.bind(this, song)}
+          shareClick={this.shareClick.bind(this, song)}
           createClick={this.createClick.bind(this, song)}
           togglePanel={this.togglePanel.bind(this, song)}
           page = {this.props.page}
@@ -179,10 +187,11 @@ class SongBox extends React.Component{
         </div>: null}
 
         {this.props.page==='home' || this.props.page=== 'fav' || this.props.page=== 'mymusic' ?
-        <div className="itemOther" onClick={this.props.shareLink}>
+        <div className="itemOther" onClick={this.props.shareClick}>
         <OverlayTrigger placement='bottom' overlay={<Tooltip>share link</Tooltip>}>
           <Glyphicon glyph='share' />
         </OverlayTrigger>
+        
         </div>: null}
 
         {this.props.page==='fork' ?
