@@ -8,7 +8,7 @@ import SongActions from '../actions/songActionCreators';
 import AudioPlayer from './player-components/AudioPlayer';
 import LoginRemindModal from './loginRemindModal'
 import PageNav from './pagination';
-import UserActionModal from './UserActionModal';
+import UserActionModal from './userActionModal';
 
 import AllSongStore from '../stores/allSongStore';
 import UserProfileStore from '../stores/userProfileStore';
@@ -16,6 +16,7 @@ import VotedSongStore from '../stores/votedSongStore';
 import AuthModalStore from '../stores/authModalStore';
 import PlaySongStore from '../stores/playSongStore';
 import ModalStore from '../stores/modalStore';
+import CopyLinkModal from './copyModal';
 
 
 class Home extends React.Component {
@@ -24,6 +25,7 @@ class Home extends React.Component {
     this.state = {songs: [],
                   order: 'like',
                   showRemindModal: false,
+                  showLinkModal: false,
                   activePage: 1,
                   activeSong: null};
 
@@ -34,9 +36,14 @@ class Home extends React.Component {
     this._onChange = this._onChange.bind(this);
     this._onUpdate = this._onUpdate.bind(this);
     this._onAction = this._onAction.bind(this);
+    this._onShare = this._onShare.bind(this);
     this._userNotAuthed = this._userNotAuthed.bind(this);
     this.closeRemindModal = this.closeRemindModal.bind(this);
     this.closeActionModal = this.closeActionModal.bind(this);
+    this.openModal = this.openLinkModal.bind(this);
+    this.closeLinkModal = this.closeLinkModal.bind(this);
+
+
     this.openModal = this.openModal.bind(this);
     this.handleNewestClick = this.handleNewestClick.bind(this);
     this.handleUpvotedClick = this.handleUpvotedClick.bind(this);
@@ -50,6 +57,7 @@ class Home extends React.Component {
     AuthModalStore.addChangeListener(this._userNotAuthed);
     PlaySongStore.addChangeListener(this.playsong);
     ModalStore.addActionListener(this._onAction);
+    ModalStore.addShareListener(this._onShare);
   }
 
   componentWillUnmount() {
@@ -58,6 +66,7 @@ class Home extends React.Component {
     AuthModalStore.removeChangeListener(this._userNotAuthed);
     PlaySongStore.removeChangeListener(this.playsong);
     ModalStore.removeActionListener(this._onAction);
+    ModalStore.removeShareListener(this._onShare);
   }
 
   playsong(){ //sets current song
@@ -91,6 +100,12 @@ class Home extends React.Component {
     }, 500)
   }
 
+  _onShare() {
+    this.setState({shareMessage: ModalStore.getActionMessage()});
+    this.openLinkModal();
+    // this.setState()
+  }
+
   handleNewestClick() {
     this.setState({order: 'createdAt'});
     SongActions.getAllSongsSorted('createdAt', 1);
@@ -101,7 +116,16 @@ class Home extends React.Component {
     SongActions.getAllSongsSorted('like', 1);
   }
 
+  openLinkModal() {
+    this.setState({showLinkModal: true});
+  }
+
+  closeLinkModal(){
+    this.setState({ showLinkModal: false });
+  }
+
   openModal() {
+
     this.setState({ showRemindModal: true })
   }
 
@@ -128,6 +152,7 @@ class Home extends React.Component {
           <button className="sortButton" onClick={this.handleUpvotedClick} >Hottest</button>
         </div>
         <LoginRemindModal show={this.state.showRemindModal} onHide={this.closeRemindModal} />
+        <CopyLinkModal show ={this.state.showLinkModal} message={this.state.shareMessage} onHide={this.closeLinkModal} />
         <div className= "playerBox">
           <AudioPlayer song = {this.state.currentsong} mode = "home" />
         </div>

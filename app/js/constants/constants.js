@@ -32,7 +32,9 @@ let constants = {
       CLOSE_LOGIN_MODAL:null,
       OPEN_ALERT: null,
       OPEN_USER_ACTION_MODAL: null,
-      CREATE_SONG: null
+      CREATE_SONG: null,
+      OPEN_LINK_MODAL: null
+
   })
 };
 
