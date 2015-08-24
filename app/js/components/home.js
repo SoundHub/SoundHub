@@ -9,6 +9,7 @@ import AudioPlayer from './player-components/AudioPlayer';
 import LoginRemindModal from './loginRemindModal'
 import PageNav from './pagination';
 import UserActionModal from './userActionModal';
+import CopyLinkModal from './copyModal';
 
 import AllSongStore from '../stores/allSongStore';
 import UserProfileStore from '../stores/userProfileStore';
@@ -16,7 +17,7 @@ import VotedSongStore from '../stores/votedSongStore';
 import AuthModalStore from '../stores/authModalStore';
 import PlaySongStore from '../stores/playSongStore';
 import ModalStore from '../stores/modalStore';
-import CopyLinkModal from './copyModal';
+
 
 
 class Home extends React.Component {
@@ -103,7 +104,6 @@ class Home extends React.Component {
   _onShare() {
     this.setState({shareMessage: ModalStore.getActionMessage()});
     this.openLinkModal();
-    // this.setState()
   }
 
   handleNewestClick() {
@@ -146,13 +146,13 @@ class Home extends React.Component {
         <div className ="homeBannertitle">Open Source Music</div>
         <img id="bg12" src="../assets/bg1.2.png"></img>
       </div>
-        <UserActionModal show={this.state.actionModalVisible} message={this.state.actionMessage} onHide={this.closeActionModal} />
-        <div className = "sortBox">
-          <button className="sortButton" onClick={this.handleNewestClick} >Newest</button>
-          <button className="sortButton" onClick={this.handleUpvotedClick} >Hottest</button>
+        <UserActionModal show={this.state.actionModalVisible} message={this.state.actionMessage} onHide={this.closeActionModal}/>
+        <div className="sortBox">
+          <button className="sortButton" onClick={this.handleNewestClick}>Newest</button>
+          <button className="sortButton" onClick={this.handleUpvotedClick}>Hottest</button>
         </div>
-        <LoginRemindModal show={this.state.showRemindModal} onHide={this.closeRemindModal} />
-        <CopyLinkModal show ={this.state.showLinkModal} message={this.state.shareMessage} onHide={this.closeLinkModal} />
+        <LoginRemindModal show={this.state.showRemindModal} onHide={this.closeRemindModal}/>
+        <CopyLinkModal show={this.state.showLinkModal} message={this.state.shareMessage} onHide={this.closeLinkModal}/>
         <div className= "playerBox">
           <AudioPlayer song = {this.state.currentsong} mode = "home" />
         </div>

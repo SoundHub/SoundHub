@@ -43,7 +43,7 @@ export default {
       })
     })
     .catch((err) => {
-      console.log('failed to sort ', err)
+      console.error('failed to sort ', err)
     })
   },
 
@@ -115,7 +115,6 @@ export default {
         userSongs: userSongs
       });
       console.log(userSongs)
-      console.log('dispatch!!!!')
     })
     .catch((err) => {
       console.error('failed: ', err)
@@ -189,7 +188,7 @@ export default {
     })
     Utils.simplePost('/addVote', voteInfo)
     .catch((err) => {
-      console.log('voting failed: ', err)
+      console.error('voting failed: ', err)
     })
   },
 
@@ -216,7 +215,6 @@ export default {
   },
 
   openLinkModal(song) {
-    console.log("openLinkModal action", song);
     let origin = window.location.origin;
     let link = origin + '/tree/' + song.rootId + '&' + song.uuid;
     let msg = "Ctrl+C to copy: " + link

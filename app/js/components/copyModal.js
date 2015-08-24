@@ -20,14 +20,13 @@ class CopyLinkModal  extends React.Component {
           <Modal.Title>Copy Link</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p>{this.props.message}</p>
-
+          <div className="linkMessage">
+            {this.props.message}
+          </div>
         </Modal.Body>
-      <Modal.Footer>
-        <button onClick={this.onClick}>Close</button>
-      </Modal.Footer>
-
-
+        <Modal.Footer>
+          <button onClick={this.onClick}>Close</button>
+        </Modal.Footer>
       </Modal>
 
     )
