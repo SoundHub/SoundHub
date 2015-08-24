@@ -211,16 +211,16 @@ class SongBox extends React.Component{
         </a> : null}
         
         {this.props.page==='home' ?
-        <div className="itemArrow" onClick={this.props.upvoteClick}>
-        <OverlayTrigger placement='bottom' overlay={<Tooltip>upvote</Tooltip>}>
-          <Glyphicon glyph='chevron-up' />
+        <div className="itemArrow" onClick={this.props.downvoteClick}>
+        <OverlayTrigger placement='bottom' overlay={<Tooltip>downvote</Tooltip>}>
+          <Glyphicon glyph='chevron-down' style={{color:'red'}} />
         </OverlayTrigger>
         </div>: null}
 
         {this.props.page==='home' ?
-        <div className="itemArrow" onClick={this.props.downvoteClick}>
-        <OverlayTrigger placement='bottom' overlay={<Tooltip>downvote</Tooltip>}>
-          <Glyphicon glyph='chevron-down' />
+        <div className="itemArrow" onClick={this.props.upvoteClick}>
+        <OverlayTrigger placement='bottom' overlay={<Tooltip>upvote</Tooltip>}>
+          <Glyphicon glyph='chevron-up' style={{color:'green'}} />
         </OverlayTrigger>
         </div>: null}
 
