@@ -146,13 +146,13 @@ class Home extends React.Component {
         <div className ="homeBannertitle">Open Source Music</div>
         <img id="bg12" src="../assets/bg1.2.png"></img>
       </div>
-        <UserActionModal show={this.state.actionModalVisible} message={this.state.actionMessage} onHide={this.closeActionModal} />
-        <div className = "sortBox">
-          <button className="sortButton" onClick={this.handleNewestClick} >Newest</button>
-          <button className="sortButton" onClick={this.handleUpvotedClick} >Hottest</button>
+        <UserActionModal show={this.state.actionModalVisible} message={this.state.actionMessage} onHide={this.closeActionModal}/>
+        <div className="sortBox">
+          <button className="sortButton" onClick={this.handleNewestClick}>Newest</button>
+          <button className="sortButton" onClick={this.handleUpvotedClick}>Hottest</button>
         </div>
-        <LoginRemindModal show={this.state.showRemindModal} onHide={this.closeRemindModal} />
-        <CopyLinkModal show ={this.state.showLinkModal} message={this.state.shareMessage} onHide={this.closeLinkModal} />
+        <LoginRemindModal show={this.state.showRemindModal} onHide={this.closeRemindModal}/>
+        <CopyLinkModal show={this.state.showLinkModal} message={this.state.shareMessage} onHide={this.closeLinkModal}/>
         <div className= "playerBox">
           <AudioPlayer song = {this.state.currentsong} mode = "home" />
         </div>
