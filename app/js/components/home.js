@@ -9,6 +9,7 @@ import AudioPlayer from './player-components/AudioPlayer';
 import LoginRemindModal from './loginRemindModal'
 import PageNav from './pagination';
 import UserActionModal from './userActionModal';
+import CopyLinkModal from './copyModal';
 
 import AllSongStore from '../stores/allSongStore';
 import UserProfileStore from '../stores/userProfileStore';
@@ -16,7 +17,7 @@ import VotedSongStore from '../stores/votedSongStore';
 import AuthModalStore from '../stores/authModalStore';
 import PlaySongStore from '../stores/playSongStore';
 import ModalStore from '../stores/modalStore';
-import CopyLinkModal from './copyModal';
+
 
 
 class Home extends React.Component {
@@ -103,7 +104,6 @@ class Home extends React.Component {
   _onShare() {
     this.setState({shareMessage: ModalStore.getActionMessage()});
     this.openLinkModal();
-    // this.setState()
   }
 
   handleNewestClick() {
