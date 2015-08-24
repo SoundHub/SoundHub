@@ -7,6 +7,7 @@ import Create from './create';
 import Router from 'react-router';
 import AudioPlayer from './player-components/AudioPlayer';
 import UserActionModal from './userActionModal';
+import CopyLinkModal from './copyModal';
 
 import SongActions from '../actions/songActionCreators';
 import UserActions from '../actions/userActionCreators';
@@ -109,18 +110,22 @@ export default AuthenticatedComponent(class User extends React.Component {
     this.componentWillUnmount = this.componentWillUnmount.bind(this);
     this._onUpdate = this._onUpdate.bind(this);
     this._onChange = this._onChange.bind(this);
+    this._onShare = this._onShare.bind(this);
     this._onUserStoreChange = this._onUserStoreChange.bind(this);
     this._onForkStoreChange = this._onForkStoreChange.bind(this);
     this._onFavStoreChange = this._onFavStoreChange.bind(this);
     this._changedUserData = this._changedUserData.bind(this);
     this._onCreate = this._onCreate.bind(this);
     this._onAction = this._onAction.bind(this);
+    this.openModal = this.openLinkModal.bind(this);
+    this.closeLinkModal = this.closeLinkModal.bind(this);
     this.closeActionModal = this.closeActionModal.bind(this);
     this.playsong = this.playsong.bind(this);
     this.state = {
       activeSong: null,
       login:false,
       username:'',
+      showLinkModal: false,
       userimg:"",
       userId:-1,
       pageType: 'music',
@@ -154,6 +159,8 @@ export default AuthenticatedComponent(class User extends React.Component {
     ForkedSongStore.addChangeListener(this._onForkStoreChange);
     FavSongStore.addChangeListener(this._onFavStoreChange);
     UserSongStore.addChangeListener(this._onUserStoreChange);
+    ModalStore.addShareListener(this._onShare);
+
    }
 
   componentWillUnmount() {
@@ -166,6 +173,8 @@ export default AuthenticatedComponent(class User extends React.Component {
     ForkedSongStore.removeChangeListener(this._onForkStoreChange);
     FavSongStore.removeChangeListener(this._onFavStoreChange);
     UserSongStore.removeChangeListener(this._onUserStoreChange);
+    ModalStore.removeShareListener(this._onShare);
+
   }
 
   _changedUserData() {
@@ -226,6 +235,19 @@ export default AuthenticatedComponent(class User extends React.Component {
   closeActionModal() {
     this.setState({actionModalVisible: false});
   }
+
+  _onShare() {
+    this.setState({shareMessage: ModalStore.getActionMessage()});
+    this.openLinkModal();
+  }
+
+  openLinkModal() {
+    this.setState({showLinkModal: true});
+  }
+
+  closeLinkModal(){
+    this.setState({ showLinkModal: false });
+  }
   
   playsong(){
     this.setState({currentsong:PlaySongStore.getSong()});
@@ -260,6 +282,7 @@ export default AuthenticatedComponent(class User extends React.Component {
           <div className='profileUsername'>Hello {this.state.username}</div>
         </div>
         <UserActionModal show={this.state.actionModalVisible} message={this.state.actionMessage} onHide={this.closeActionModal}/>
+        <CopyLinkModal show ={this.state.showLinkModal} message={this.state.shareMessage} onHide={this.closeLinkModal} />
         <div className="profileButtonCollection">
           <button className="profileButton" onClick={this.gotoMusic}><Glyphicon glyph='music'  /> MyMusic</button>
           <button className="profileButton" onClick={this.gotoBranches}><Glyphicon glyph='leaf' onClick={this.gotoBranches} /> Branches</button>
