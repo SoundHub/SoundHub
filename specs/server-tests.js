@@ -73,7 +73,7 @@ describe('API Integration:', function() {
         }
       }, function(err, res, body) {
         console.log(err);
-        done()
+        done();
       })
     })
 
@@ -89,7 +89,7 @@ describe('API Integration:', function() {
         }
       }, function(err, res, body) {
         console.log('response: ', response)
-        done()
+        done();
       })
     })
 
