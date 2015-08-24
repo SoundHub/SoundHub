@@ -278,11 +278,11 @@ export default AuthenticatedComponent(class User extends React.Component {
       <div className="profilePage">
         <img className='randomBG' src="../assets/random-bg/down.jpg"></img>
         <div className='profileItem'>
-          <img className='profileImg' src = {this.state.userimg}></img>
+          <img className='profileImg' src={this.state.userimg}></img>
           <div className='profileUsername'>Hello {this.state.username}</div>
         </div>
         <UserActionModal show={this.state.actionModalVisible} message={this.state.actionMessage} onHide={this.closeActionModal}/>
-        <CopyLinkModal show ={this.state.showLinkModal} message={this.state.shareMessage} onHide={this.closeLinkModal} />
+        <CopyLinkModal show={this.state.showLinkModal} message={this.state.shareMessage} onHide={this.closeLinkModal}/>
         <div className="profileButtonCollection">
           <button className="profileButton" onClick={this.gotoMusic}><Glyphicon glyph='music'  /> MyMusic</button>
           <button className="profileButton" onClick={this.gotoBranches}><Glyphicon glyph='leaf' onClick={this.gotoBranches} /> Branches</button>
@@ -292,7 +292,7 @@ export default AuthenticatedComponent(class User extends React.Component {
         </div>
         {profilePage}
         <div className= "playerBox">
-          <AudioPlayer song = {this.state.currentsong} mode = "home" />
+          <AudioPlayer song={this.state.currentsong} mode="home"/>
         </div>
       </div>
     )
