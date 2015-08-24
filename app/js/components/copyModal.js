@@ -11,19 +11,21 @@ class CopyLinkModal  extends React.Component {
   }
   onClick() {
     this.props.onHide();
-    // open login modal
   }
 
   render() {
     return (
-      <Modal show={this.props.show} onHide={this.props.onHide}>
-        <Modal.Header >
+      <Modal show={this.props.show} message={this.props.message} onHide={this.onClick}>
+        <Modal.Header closeButton>
           <Modal.Title>Copy Link</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p>Hello, this is modal.</p>
+          <p>{this.props.message}</p>
 
         </Modal.Body>
+      <Modal.Footer>
+        <button onClick={this.onClick}>Close</button>
+      </Modal.Footer>
 
 
       </Modal>

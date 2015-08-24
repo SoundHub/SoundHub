@@ -11,14 +11,17 @@ const CHANGE_EVENT = 'change';
 const OPEN_EVENT = 'open';
 const USER_ACTION = 'userAction';
 const CREATE = 'create';
+const USER_SHARE = 'share';
 
 const _actions = {};
 
-var setAction = function(event) {
+var setAction = function(event, message) {
   if(event === 'fork') {
     _actions.action = 'Song forked!'
   } else if(event === 'favorite') {
     _actions.action = 'Song added to favorites!'
+  } else if(event === 'share') {
+    _actions.action = message;
   }
 }
 
@@ -58,6 +61,18 @@ var ModalStore = assign({}, EventEmitter.prototype, {
   removeActionListener(callback) {
     this.removeListener(USER_ACTION, callback)
   },
+
+  // for user share modal
+  emitShare() {
+    this.emit(USER_SHARE)
+  },
+  addShareListener(callback) {
+    this.on(USER_SHARE, callback)
+  },
+  removeShareListener(callback) {
+    this.removeListener(USER_SHARE, callback)
+  },
+
   getActionMessage() {
     return _actions.action;
   },
@@ -77,6 +92,7 @@ var ModalStore = assign({}, EventEmitter.prototype, {
   }
 })
 
+
 ModalStore.dispatchToken = Dispatcher.register(function(payload) {
   switch(payload.type) {
     case ActionType.CLOSE_LOGIN_MODAL:
@@ -88,13 +104,18 @@ ModalStore.dispatchToken = Dispatcher.register(function(payload) {
       break;
 
     case ActionType.OPEN_USER_ACTION_MODAL:
-      setAction(payload.event)
+      setAction(payload.event);
       ModalStore.emitAction();
       break;
 
     case ActionType.CREATE_SONG:
       setSong(payload.song);
       ModalStore.emitCreate();
+      break;
+      
+    case ActionType.OPEN_LINK_MODAL:
+      setAction(payload.event, payload.message);
+      ModalStore.emitShare();
       break;
 
     default:

@@ -9,15 +9,12 @@ import RouterActions from '../actions/routerActionCreators';
 import UserProfileStore from '../stores/userProfileStore';
 import VotedSongStore from '../stores/votedSongStore';
 import AuthModalStore from '../stores/authModalStore';
-import CopyLinkModal from './copyModal';
+
 
 
 class SongList extends React.Component{
   constructor() {
     super();
-    this.state = {
-      showModal: false
-    };
     this.addVote = this.addVote.bind(this);
     this.addfav = this.addfav.bind(this);
     this.likeClick = this.likeClick.bind(this);
@@ -27,8 +24,7 @@ class SongList extends React.Component{
     this.downvoteClick = this.downvoteClick.bind(this);
     this.togglePanel = this.togglePanel.bind(this);
     this.shareLink = this.shareLink.bind(this);
-    this.openModal = this.openModal.bind(this);
-    this.closeModal = this.closeModal.bind(this);
+    this.shareClick = this.shareClick.bind(this);
    }
 
   togglePanel(id){
@@ -47,6 +43,9 @@ class SongList extends React.Component{
     } else {
       RouterActions.openLoginRemindModal();
     }
+  }
+  shareClick(song) {
+    SongActions.openLinkModal(song);
   }
 
   addVote(newVote, oldVote,songId) {
@@ -67,17 +66,6 @@ class SongList extends React.Component{
     SongActions.createFromFork(song);
   }
 
-  openModal() {
-    console.log("open modal");
-    this.setState({showModal: true}, ()=> {
-      console.log("inside callback ", this.state);
-    });
-    console.log("outside callback ", this.state);
-  }
-
-  closeModal(){
-    this.setState({ showModal: false });
-  }
 
   shareLink(song){
     let origin = window.location.origin;
@@ -140,8 +128,7 @@ class SongList extends React.Component{
           downvoteClick={this.downvoteClick.bind(this, song)}
           upvoteClick={this.upvoteClick.bind(this, song)}
           shareLink={this.shareLink.bind(this, song)}
-          openModal={this.openModal.bind(this, song)}
-          closeModal={this.closeModal.bind(this, song)}
+          shareClick={this.shareClick.bind(this, song)}
           createClick={this.createClick.bind(this, song)}
           togglePanel={this.togglePanel.bind(this, song)}
           page = {this.props.page}
@@ -200,11 +187,11 @@ class SongBox extends React.Component{
         </div>: null}
 
         {this.props.page==='home' || this.props.page=== 'fav' || this.props.page=== 'mymusic' ?
-        <div className="itemOther" onClick={this.props.openModal}>
+        <div className="itemOther" onClick={this.props.shareClick}>
         <OverlayTrigger placement='bottom' overlay={<Tooltip>share link</Tooltip>}>
           <Glyphicon glyph='share' />
         </OverlayTrigger>
-        <CopyLinkModal show ={this.props.showModal} onHide={this.props.closeModal} />
+        
         </div>: null}
 
         {this.props.page==='fork' ?
