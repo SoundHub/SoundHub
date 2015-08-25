@@ -71,7 +71,8 @@ gulp.task('jest', function () {
     unmockedModulePathPatterns: [
       "node_modules/react"
     ],
-    testDirectoryName: "spec",
+    testDirectoryName: 
+      "app/js/stores/__tests__",
     testPathIgnorePatterns: [
       "node_modules",
       "spec/support"
@@ -85,7 +86,7 @@ gulp.task('jest', function () {
 });
 
 gulp.task('default', ['build','sass','watch']);
-gulp.task('test', ['mocha']);
+gulp.task('test', ['mocha', 'jest']);
 
 
 
