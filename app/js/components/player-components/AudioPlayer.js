@@ -75,8 +75,8 @@ module.exports = React.createClass({
 					 isPause={this.state.isPause}
 					 isLoading={this.state.isLoading}
 					 onPlayBtnClick={this.onPlayBtnClick}
-					 onPauseBtnClick={this.onPauseBtnClick}/>,
-					<ProgressBar percent={percent} seekTo={this.seekTo} />,
+					 onPauseBtnClick={this.onPauseBtnClick}/>
+					<ProgressBar percent={percent} seekTo={this.seekTo} />
 					<VolumeBar volume={this.state.volume} adjustVolumeTo={this.adjustVolumeTo} />
 				</div>
 				<div className="audio-desc-container clearfix">
