@@ -1,5 +1,5 @@
 // all songs, to be displayed on homepage
-'use strict';
+// 'use strict';
 
 import Dispatcher from '../dispatcher/dispatcher.js';
 import Constants from '../constants/constants';
@@ -18,9 +18,9 @@ var _songs = {
 
 var _activeId = null;
 
-let setAllSongs = function (songs) {
-  _songs.allSongs = songs.songs;
-  _songs.number = songs.number;
+let setAllSongs = function (songData) {
+  _songs.allSongs = songData.songs;
+  _songs.number = songData.number;
 };
 
 let setActiveSong = function(song) {
