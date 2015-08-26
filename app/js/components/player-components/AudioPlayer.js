@@ -55,21 +55,29 @@ module.exports = React.createClass({
 			songName = 'Please add a song'
 		}
 
-		let topComponents = [
-			<ButtonPanel
-			 isPlaying={this.state.isPlaying}
-			 isPause={this.state.isPause}
-			 isLoading={this.state.isLoading}
-			 onPlayBtnClick={this.onPlayBtnClick}
-			 onPauseBtnClick={this.onPauseBtnClick}/>,
-			<ProgressBar percent={percent} seekTo={this.seekTo} />,
-			<VolumeBar volume={this.state.volume} adjustVolumeTo={this.adjustVolumeTo} />
-		];
+		// let topComponents = [
+		// 	<ButtonPanel
+		// 	 isPlaying={this.state.isPlaying}
+		// 	 isPause={this.state.isPause}
+		// 	 isLoading={this.state.isLoading}
+		// 	 onPlayBtnClick={this.onPlayBtnClick}
+		// 	 onPauseBtnClick={this.onPauseBtnClick}/>,
+		// 	<ProgressBar percent={percent} seekTo={this.seekTo} />,
+		// 	<VolumeBar volume={this.state.volume} adjustVolumeTo={this.adjustVolumeTo} />
+		// ];
+		// { topComponents }
 
   	return (
 			<div className="audio-player">
 				<div className="clearfix">
-					{ topComponents }
+						<ButtonPanel
+					 isPlaying={this.state.isPlaying}
+					 isPause={this.state.isPause}
+					 isLoading={this.state.isLoading}
+					 onPlayBtnClick={this.onPlayBtnClick}
+					 onPauseBtnClick={this.onPauseBtnClick}/>
+					<ProgressBar percent={percent} seekTo={this.seekTo} />
+					<VolumeBar volume={this.state.volume} adjustVolumeTo={this.adjustVolumeTo} />
 				</div>
 				<div className="audio-desc-container clearfix">
 					<NameLabel title={songName} />
