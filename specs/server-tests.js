@@ -121,9 +121,55 @@ describe('API Integration:', function() {
       var uri = 'http://localhost:3030/updateUsername';
       request({
         uri: uri,
-        
+        method: 'post',
+        json: true,
+        body: {
+          userId: 1,
+          newname: 'matt'
+        }
+      }, function(err) {
+        console.log(err);
+        request({
+          uri: 'http://localhost:3030/getuser',
+          method: 'post',
+          json: true,
+          body: {
+            id: 1
+          }
+        }, function(err, res) {
+          expect(res.body.username).to.be.eql('matt');
+          done();
+        })
       })
     })
 
-  })
-});
+    it('should update password', function(done) {
+      var uri = 'http://localhost:3030/updatePassword';
+      request({
+        uri: uri,
+        method: 'post',
+        json: true,
+        body: {
+          userId: 1,
+          newPass: 'algore7'
+        }
+      }, function(err) {
+        console.log(err);
+        request({
+          uri: 'http://localhost:3030/login',
+          method: 'post',
+          json: true,
+          body: {
+            username: 'matt',
+            password: 'algore7' 
+          }
+        }, function(err, res) {
+          console.log(err);
+          console.log('response: ', res.success)
+          done();
+          })
+        })
+      })
+    })
+  });
+

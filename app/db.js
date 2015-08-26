@@ -162,13 +162,22 @@ var updateImg = function(userId, imgUrl, callback) {
 }
 
 var updatePassword = function(userId, newPass, callback) {
-  bcrypt.hash(newPass, salt, function(err, hash) {
-    User.update(
-      {password: hash}, 
-      {where: {id: userId}}
-    )
-    .then(function() {
-      callback(data);
+  return bcrypt.genSalt(10, function(err, salt) {
+    if (err) {
+      console.log(err);
+      return;
+    }
+    bcrypt.hash(newPass, salt, function(err, hash) {
+      User.update({
+        password: hash
+      }, {
+        where: {
+          id: userId
+        }
+      })
+      .then(function(data) {
+        callback(data);
+      })
     })
   })
 }
