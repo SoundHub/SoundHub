@@ -8,11 +8,6 @@ var promise = require('bluebird');
 var compare = promise.promisify(bcrypt.compare);
 var uuid = require('node-uuid');
 
-console.log(typeof uuid.v4());
-for (var i = 0; i < 10; i++) {
-  console.log(uuid.v4());
-}
-
 /** SCHEMA **/
 
 var SongNode = orm.define('songNodes', {
@@ -71,7 +66,6 @@ var login = function(username, password, callback) {
     }
   }).then(function(obj) {
     userObj = obj;
-    console.log(obj[0].dataValues);
     hashedPw = obj[0].dataValues.password;
   }).then(function(obj) {
     return compare(password, hashedPw)
@@ -107,7 +101,6 @@ var signup = function(username, password, email, callback) {
               password: hash,
               email: email
             }).then(function(userData) {
-              console.log(userData);
               response.userData = userData;
               response.success = true;
               callback(response);
@@ -224,7 +217,6 @@ var allSongs = function(callback) {
 };
 
 var allSongSort = function(order, page, callback) {
-  console.log('offset: ', page, (page-1) * 24)
   SongNode.findAll({
     offset: (page-1) * 24,
     limit: 24,
@@ -274,7 +266,6 @@ var myForks = function(userId, callback) {
     'forks inner join users on forks.userId = '+userId+
     ' inner join songNodes on forks.songNodeId = songNodes.uuid;'
   ).then(function(data) {
-    console.log(data);
     callback(data.slice(0, (data.length - 1))[0]);
   })
 };
@@ -416,7 +407,6 @@ var updateVotes = function(songNodeId) {
         }
       }
     )
-    console.log('new votesum', voteSum);
   })
 }
 

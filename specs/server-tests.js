@@ -81,7 +81,9 @@ describe('API Integration:', function() {
             id: 1
           }
         }, function(err, res, body) {
-          console.log(res.body)
+          var username = res.body.username;
+          expect(username).to.be.eql('suz')
+          done();
         })
       })
     })
