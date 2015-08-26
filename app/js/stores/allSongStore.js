@@ -1,5 +1,5 @@
 // all songs, to be displayed on homepage
-// 'use strict';
+'use strict';
 
 import Dispatcher from '../dispatcher/dispatcher.js';
 import Constants from '../constants/constants';

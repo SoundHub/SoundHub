@@ -1,11 +1,15 @@
 jest.dontMock('../allSongStore');
+jest.dontMock('../../constants/constants');
 jest.dontMock('object-assign');
+
+var Constants = require('../../constants/constants');
 
 describe('allSongStore', () => {
 
   var Dispatcher;
   var AllSongStore;
   var callback;
+  const ActionType = Constants.ActionTypes;
 
   beforeEach(() => {
     Dispatcher = require('../../dispatcher/dispatcher');
