@@ -30,12 +30,12 @@ describe('API Integration:', function() {
 
   describe('Song functions', function() {
 
-    // after(function(done) {
-    //   db.orm.sync({force: true})
-    //     .then(function() {
-    //       done();
-    //     })
-    // })
+    after(function(done) {
+      db.orm.sync({force: true})
+        .then(function() {
+          done();
+        })
+    })
 
     it('should create a song', function(done) {
       var uri = 'http://localhost:3030/addSong';
@@ -68,7 +68,7 @@ describe('API Integration:', function() {
         json: true,
         method: 'post',
         body: {
-          username: 'suz',
+          username: 'suzanne',
           password: 'bagfries'
         }
       }, function(err, res, body) {
@@ -82,7 +82,7 @@ describe('API Integration:', function() {
           }
         }, function(err, res, body) {
           var username = res.body.username;
-          expect(username).to.be.eql('suz')
+          expect(username).to.be.eql('suzanne')
           done();
         })
       })

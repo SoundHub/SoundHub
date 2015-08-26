@@ -174,6 +174,7 @@ var updatePassword = function(userId, newPass, callback) {
 }
 
 
+exports.orm = orm; //so testing suite can sync/drop test.sqlite
 exports.login = login;
 exports.signup = signup;
 exports.getuser = getuser;
