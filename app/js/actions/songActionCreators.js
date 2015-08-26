@@ -106,10 +106,21 @@ export default {
   getSongTree(song) {
     Utils.getTree('/tree', song)
     .then((json) => {
+      // Otherwise it just returns an array that the allSongStore can't use
+      let retObj = {
+        songs: json,
+        number: json.length
+      };
+      // assemble the tree object from the unsorted array
       let assembledTree = treeify(json);
       Dispatcher.dispatch({
         type: ActionType.RECEIVE_SONG_TREE,
         songTree: assembledTree
+      })
+      // Populate the allSongStore with the songs in the tree
+      Dispatcher.dispatch({
+        type: ActionType.RECEIVE_ALL_SONGS_SORTED,
+        songs: retObj
       })
     })
     .catch((err) => {

@@ -101,7 +101,6 @@ class D3Tree extends React.Component {
     ModalStore.addActionListener(this._onAction);
     var userId = UserProfileStore.getCookieID();
     SongActions.getUserVotes(userId);
-    SongActions.getAllSongsSorted('like', 1);
   }
 
   componentWillUnmount() {
@@ -215,10 +214,8 @@ class D3Tree extends React.Component {
   _onChange() {
     AllSongStore.getSongById(this.state.currentSong.uuid)
     .then((song) => {
-      console.log('tree.js songs changed: ', song);
       this.setState({currentSong: song});
     });
-    // console.log('songs changed: ', this.state.currentSong);
   }
 
   _onAction() {
