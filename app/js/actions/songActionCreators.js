@@ -6,6 +6,34 @@ import Utils from '../utils/appUtils';
 
 const ActionType = Constants.ActionTypes;
 
+function treeify(nodesArray) {
+  var tree;
+  // determine root node
+  for (var i = 0, j = nodesArray.length; i < j; i++) {
+    nodesArray[i].children = [];
+    if (!tree) {
+      if (nodesArray[i].parentId === null) {
+        tree = nodesArray[i];
+      }
+    }
+  }
+  // recursively build and traverse tree
+  function depthFirstFill(node) {
+    if (node) {
+      for (var i = 0; i < nodesArray.length; i++) {
+        if (nodesArray[i].parentId === node.uuid) {
+          node.children.push(nodesArray[i]);
+        }
+      }
+      for (var i = 0; i < node.children.length; i++) {
+        depthFirstFill(node.children[i]);
+      }
+    }
+  }
+  depthFirstFill(tree);
+  return tree;
+};
+
 export default {
   playSong(song){
     Dispatcher.dispatch({
@@ -78,9 +106,10 @@ export default {
   getSongTree(song) {
     Utils.getTree('/tree', song)
     .then((json) => {
+      let assembledTree = treeify(json);
       Dispatcher.dispatch({
         type: ActionType.RECEIVE_SONG_TREE,
-        songTree: json
+        songTree: assembledTree
       })
     })
     .catch((err) => {

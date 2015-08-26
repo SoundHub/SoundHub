@@ -108,7 +108,7 @@ server.get('/numSongs', function(req, res) {
 server.post('/tree', function(req, res) {       //** MVP **//
   var rootId = req.body.rootId;
   db.findSongsbyRoot(rootId, function(data) {
-    res.json(db.treeify(data));
+    res.json(data);
   });
 })
 

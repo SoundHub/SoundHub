@@ -99,11 +99,14 @@ class D3Tree extends React.Component {
   componentDidMount() {
     AllSongStore.addChangeListener(this._onChange);
     ModalStore.addActionListener(this._onAction);
+    var userId = UserProfileStore.getCookieID();
+    SongActions.getUserVotes(userId);
+    SongActions.getAllSongsSorted('like', 1);
   }
 
   componentWillUnmount() {
     AllSongStore.removeChangeListener(this._onChange);
-    ModalStore.removeActionListener(this._onAction);   
+    ModalStore.removeActionListener(this._onAction);
   }
 
   onClick(element) {
