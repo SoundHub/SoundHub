@@ -73,25 +73,34 @@ describe('API Integration:', function() {
         }
       }, function(err, res, body) {
         console.log(err);
-        done();
+        request({
+          uri: 'http://localhost:3030/getuser',
+          method: 'post',
+          json: true,
+          body: {
+            id: 1
+          }
+        }, function(err, res, body) {
+          console.log(res.body)
+        })
       })
     })
 
-    it('should log a signed up user in', function(done) {
-      var uri = 'http://localhost:3030/login';
-      request({
-        uri: uri,
-        json: true,
-        method: 'post',
-        body: {
-          username: 'suz',
-          password: 'bagfries'
-        }
-      }, function(err, res, body) {
-        console.log('response: ', response)
-        done();
-      })
-    })
+    // it('should log a signed up user in', function(done) {
+    //   var uri = 'http://localhost:3030/login';
+    //   request({
+    //     uri: uri,
+    //     json: true,
+    //     method: 'post',
+    //     body: {
+    //       username: 'suz',
+    //       password: 'bagfries'
+    //     }
+    //   }, function(err, res, body) {
+    //     console.log('response: ', response)
+    //     done();
+    //   })
+    // })
 
   })
 });

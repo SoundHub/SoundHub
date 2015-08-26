@@ -1,19 +1,21 @@
-jest.dontMock('../allSongStore');
-jest.dontMock('../../constants/constants');
-jest.dontMock('object-assign');
 
-var Constants = require('../../constants/constants');
+jest.dontMock('../allSongStore');
+jest.dontMock('object-assign');
+// jest.dontMock('../../constants/constants')
 
 describe('allSongStore', () => {
 
   var Dispatcher;
   var AllSongStore;
   var callback;
-  const ActionType = Constants.ActionTypes;
+  var Constants;
+  var ActionType;
 
   beforeEach(() => {
     Dispatcher = require('../../dispatcher/dispatcher');
     AllSongStore = require('../allSongStore');
+    Constants = require('../../constants/constants');
+    ActionType = Constants.ActionTypes;
     callback = Dispatcher.register.mock.calls[0][0];
   });
 
@@ -23,7 +25,7 @@ describe('allSongStore', () => {
 
   it('should receive songs', () => {
     var payload = {
-      type: 'RECEIVE_ALL_SONGS_SORTED',
+      type: ActionType.RECEIVE_ALL_SONGS_SORTED,
       songs: [{
         title: 'test1'
       }, {
@@ -35,4 +37,5 @@ describe('allSongStore', () => {
     callback(payload);
     expect(AllSongStore.getSongNum()).toBe(2);
   })
+
 })

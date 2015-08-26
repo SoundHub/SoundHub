@@ -183,6 +183,7 @@ var updatePassword = function(userId, newPass, callback) {
 
 exports.login = login;
 exports.signup = signup;
+exports.getuser = getuser;
 exports.updateUsername = updateUsername;
 exports.updateImg = updateImg;
 exports.updatePassword = updatePassword;
