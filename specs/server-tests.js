@@ -82,27 +82,48 @@ describe('API Integration:', function() {
           }
         }, function(err, res, body) {
           var username = res.body.username;
+          var imgUrl = res.body.profilePic;
           expect(username).to.be.eql('suzanne')
+          expect(imgUrl).to.be.eql('https://s3-us-west-2.amazonaws.com/soundhub/defaultImg.jpg')
           done();
         })
       })
     })
 
-    // it('should log a signed up user in', function(done) {
-    //   var uri = 'http://localhost:3030/login';
-    //   request({
-    //     uri: uri,
-    //     json: true,
-    //     method: 'post',
-    //     body: {
-    //       username: 'suz',
-    //       password: 'bagfries'
-    //     }
-    //   }, function(err, res, body) {
-    //     console.log('response: ', response)
-    //     done();
-    //   })
-    // })
+    it('should update user profile image', function(done) {
+      var uri = 'http://localhost:3030/updateImg';
+      request({
+        uri: uri,
+        method: 'post',
+        json: true,
+        body: {
+          userId: 1,
+          imgUrl: 'http://newimgurl.com'
+        }
+      }, function(err) {
+        console.log(err);
+        request({
+          uri: 'http://localhost:3030/getuser',
+          method: 'post',
+          json: true,
+          body: {
+            id: 1
+          }
+        }, function(err, res, body) {
+          var url = res.body.profilePic;
+          expect(url).to.be.eql('http://newimgurl.com');
+          done();
+        })
+      })
+    })
+
+    it('should update username', function(done) {
+      var uri = 'http://localhost:3030/updateUsername';
+      request({
+        uri: uri,
+        
+      })
+    })
 
   })
 });
