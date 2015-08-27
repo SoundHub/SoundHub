@@ -17,7 +17,7 @@ const _actions = {};
 
 var setAction = function(event, message) {
   if(event === 'fork') {
-    _actions.action = 'Song forked!'
+    _actions.action = 'Song branched!'
   } else if(event === 'favorite') {
     _actions.action = 'Song added to favorites!'
   } else if(event === 'share') {
