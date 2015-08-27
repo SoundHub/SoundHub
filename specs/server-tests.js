@@ -61,6 +61,38 @@ describe('API Integration:', function() {
         })
       })
     })
+
+    it('should return correct number of songs', function(done) {
+      var uri = 'http://localhost:3030/addSong';
+      request({
+        uri: uri,
+        json: true,
+        method: 'post',
+        body: {
+          title: 'I want u back',
+          like: 1,
+          genre: 'folk',
+          forks: 0,
+          author: 1,
+          path: '/1/2/',
+          url: 'whatever.aws.com/test'
+        }
+      }, function(err) {
+        console.log(err);
+        request({
+          uri: 'http://localhost:3030/allSongSort',
+          method: 'post',
+          json: true,
+          body: {
+            order: 'like',
+            page: 1
+          }
+        }, function(err, res) {
+          expect(res.body.number).to.be.eql(2);
+          done();
+        })
+      })
+    })
   })
 
   describe('User profile functions', function() {

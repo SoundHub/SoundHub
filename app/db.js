@@ -240,7 +240,7 @@ var getNumSongs = function(callback) {
   orm.query('select count(*) from songNodes')
   .then(function(data) {
     var copy = data.slice(0,1);
-    var count = copy[0][0]['count(*)']
+    var count = copy[0][0]['count(*)'];
     callback(count);
   })
 }
