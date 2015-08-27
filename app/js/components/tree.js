@@ -99,11 +99,13 @@ class D3Tree extends React.Component {
   componentDidMount() {
     AllSongStore.addChangeListener(this._onChange);
     ModalStore.addActionListener(this._onAction);
+    var userId = UserProfileStore.getCookieID();
+    SongActions.getUserVotes(userId);
   }
 
   componentWillUnmount() {
     AllSongStore.removeChangeListener(this._onChange);
-    ModalStore.removeActionListener(this._onAction);   
+    ModalStore.removeActionListener(this._onAction);
   }
 
   onClick(element) {
@@ -212,10 +214,8 @@ class D3Tree extends React.Component {
   _onChange() {
     AllSongStore.getSongById(this.state.currentSong.uuid)
     .then((song) => {
-      console.log('tree.js songs changed: ', song);
       this.setState({currentSong: song});
     });
-    // console.log('songs changed: ', this.state.currentSong);
   }
 
   _onAction() {

@@ -29,7 +29,7 @@ module.exports = React.createClass({
 		}else{
 			return (
 				<ButtonGroup className={buttonPanelClasses}>
-					<Button bsSize="small" class onClick={buttonClickHandler}>
+					<Button bsSize="small" onClick={buttonClickHandler}>
 						<Glyphicon className={iconClasses} glyph={iconName} />
 					</Button>
 				</ButtonGroup>

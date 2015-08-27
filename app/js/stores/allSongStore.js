@@ -18,9 +18,9 @@ var _songs = {
 
 var _activeId = null;
 
-let setAllSongs = function (songs) {
-  _songs.allSongs = songs.songs;
-  _songs.number = songs.number;
+let setAllSongs = function (songData) {
+  _songs.allSongs = songData.songs;
+  _songs.number = songData.number;
 };
 
 let setActiveSong = function(song) {

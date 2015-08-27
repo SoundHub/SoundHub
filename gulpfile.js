@@ -8,7 +8,6 @@ var babel = require('babelify');
 var sass = require('gulp-sass');
 var concat = require('gulp-concat');
 var nodemon = require('gulp-nodemon');
-var jest = require('gulp-jest');
 var mocha = require('gulp-mocha');
 
 function compile(watch) {
@@ -64,24 +63,6 @@ gulp.task('watch', function() {
 gulp.task('mocha', function () {
     return gulp.src('specs/server-tests.js', {read: false})
         .pipe(mocha({reporter: 'nyan'}));
-});
-
-gulp.task('jest', function () {
-  return gulp.src('__tests__').pipe(jest({
-    unmockedModulePathPatterns: [
-      "node_modules/react"
-    ],
-    testDirectoryName: "spec",
-    testPathIgnorePatterns: [
-      "node_modules",
-      "spec/support"
-    ],
-    moduleFileExtensions: [
-      "js",
-      "json",
-      "react"
-    ]
-  }));
 });
 
 gulp.task('default', ['build','sass','watch']);
