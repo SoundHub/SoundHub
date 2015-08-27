@@ -43,7 +43,7 @@ class SongBox extends React.Component{
 
         <div className="songPanel2" id={this.props.key}>
           <div className="itemOther" onClick={this.props.forkClick}>
-          <OverlayTrigger placement='bottom' overlay={<Tooltip>fork</Tooltip>}>
+          <OverlayTrigger placement='bottom' overlay={<Tooltip>branch</Tooltip>}>
             <Glyphicon glyph='leaf' />
           </OverlayTrigger>
           </div>
