@@ -274,6 +274,7 @@ describe('API Integration:', function() {
         }
       }, function(err, res) {
         expect(res.body.)
+        done();
       })
     })
   })
