@@ -254,4 +254,30 @@ describe('API Integration:', function() {
       })
     })
   })
+
+  describe('user domain songs', function() {
+    after(function(done) {
+      db.orm.sync({force: true})
+        .then(function() {
+          done();
+        })
+    })
+
+    it('should correctly list uploaded songs', function(done) {
+      var uri = 'http://localhost:3030/mySongs';
+      request({
+        uri: uri,
+        method: 'post',
+        json: true,
+        body: {
+          userId: 1
+        }
+      }, function(err, res) {
+        expect(res.body.)
+      })
+    })
+  })
 });
+
+
+
