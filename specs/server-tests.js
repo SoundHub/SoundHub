@@ -15,6 +15,7 @@ var api_request = request.defaults({
 });
 
 describe('API Integration:', function() {
+  
   before(function(done) {
     var server = http.createServer(app);
     app.set('port', 3030);
@@ -59,7 +60,17 @@ describe('API Integration:', function() {
           done();
         })
       })
-    });
+    })
+  })
+
+  describe('User profile functions', function() {
+    
+    after(function(done) {
+      db.orm.sync({force: true})
+      .then(function() {
+        done();
+      })
+    })
 
     it('should sign up a user', function(done) {
       var uri = 'http://localhost:3030/signup';
@@ -167,9 +178,8 @@ describe('API Integration:', function() {
           console.log(err);
           console.log('response: ', res.success)
           done();
-          })
         })
       })
     })
-  });
-
+  })
+});
