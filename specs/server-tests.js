@@ -29,7 +29,7 @@ describe('API Integration:', function() {
     })
   });
 
-  describe('Song functions', function() {
+  describe('Basic song functions', function() {
 
     after(function(done) {
       db.orm.sync({force: true})
@@ -253,28 +253,109 @@ describe('API Integration:', function() {
         })
       })
     })
+
   })
 
-  describe('user domain songs', function() {
-    after(function(done) {
-      db.orm.sync({force: true})
-        .then(function() {
-          done();
-        })
-    })
-
-    it('should correctly list uploaded songs', function(done) {
-      var uri = 'http://localhost:3030/mySongs';
+  describe('User song functions', function() {
+    before(function(done) {
       request({
-        uri: uri,
+        uri: 'http://localhost:3030/signup',
         method: 'post',
         json: true,
         body: {
-          userId: 1
+          username: 'matt',
+          password: 'richie'
         }
-      }, function(err, res) {
-        expect(res.body.)
+      }, function(err) {
+        console.log(err);
+        request({
+          uri: 'http://localhost:3030/addSong',
+          method: 'post',
+          json: true,
+          body: {
+            title: 'bagfries',
+            genre: 'electronic',
+            author: 1,
+            path: '/',
+            url: 'whatever.aws.com/blah'
+          }
+        }, function(err) {
+          console.log(err);
+          request({
+            uri: 'http://localhost:3030/signup',
+            method: 'post',
+            json: true,
+            body: {
+              username: 'mike',
+              password: 'jim'
+            }
+          }, function(err) {
+            console.log(err);
+            request({
+              uri: 'http://localhost:3030/addSong',
+              method: 'post',
+              json: true,
+              body: {
+                title: 'riff #2',
+                genre: 'electronic',
+                author: 2,
+                path: '/',
+                url: 'whatever.aws.com/blah'
+              }
+            }, function(err) {
+              console.log(err);
+              done();
+            })
+          })
+        })
+      })
+    })
+
+    after(function(done) {
+      db.orm.sync({force: true})
+      .then(function() {
         done();
+      })
+    })
+
+    it('should correctly list uploaded songs', function(done) {
+      request({
+        uri: 'http://localhost:3030/addSong',
+        method: 'post',
+        json: true,
+        body: {
+          title: '123',
+          author: 1,
+          path: '/1/2/',
+          url: 'whatever.aws.com/blah'
+        }
+      }, function(err) {
+        var uri = 'http://localhost:3030/mySongs';
+        request({
+          uri: uri,
+          method: 'post',
+          json: true,
+          body: {
+            userId: 1
+          }
+        }, function(err, res) {
+          var songs = res.body;
+          expect(songs.length).to.be.eql(2);
+          expect(songs[0].title).to.be.eql('bagfries');
+          expect(songs[1].title).to.be.eql('123');
+          done();
+        })
+      })
+    })
+
+    it('should correctly add a favorite', function(done) {
+      request({
+        uri: 'http://localhost:3030/addFav',
+        method: 'post',
+        json: true,
+        body: {
+          userId: 
+        }
       })
     })
   })
