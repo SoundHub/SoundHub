@@ -54,9 +54,13 @@ describe('API Integration:', function() {
         },
         method: 'post'
       }, function(err, res, body) {
-        db.allSongs(function(song) {
-          expect(song).to.be.an('array');
-          expect(song[0].title).to.be.eql('bagfries');
+        request({
+          uri: 'http://localhost:3030/allSongs',
+          method: 'get'
+        }, function(err, res, body) {
+          var songs = JSON.parse(res.body);
+          expect(songs).to.be.an('array');
+          expect(songs[0].title).to.be.eql('bagfries');
           done();
         })
       })
@@ -91,6 +95,42 @@ describe('API Integration:', function() {
           expect(res.body.number).to.be.eql(2);
           done();
         })
+      })
+    })
+
+    it('should return songs correctly sorted by like', function(done) {
+      var uri = 'http://localhost:3030/allSongSort';
+      request({
+        uri: uri,
+        json: true,
+        method: 'post',
+        body: {
+          order: 'like',
+          page: 1
+        }
+      }, function(err, res) {
+        var songsByLike = res.body.songs;
+        expect(songsByLike[0].title).to.be.eql('bagfries');
+        expect(songsByLike[1].title).to.be.eql('I want u back');
+        done();
+      })
+    })
+
+    it('should return songs correctly sorted by newest', function(done) {
+      var uri = 'http://localhost:3030/allSongSort';
+      request({
+        uri: uri,
+        json: true,
+        method: 'post',
+        body: {
+          order: 'createdAt',
+          page: 1
+        }
+      }, function(err, res) {
+        var songsByNewest = res.body.songs;
+        expect(songsByNewest[0].title).to.be.eql('I want u back');
+        expect(songsByNewest[1].title).to.be.eql('bagfries');
+        done();
       })
     })
   })
