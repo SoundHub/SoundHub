@@ -112,6 +112,17 @@ hr {
   text-align: left;
   vertical-align: middle;
 }
+.clipboard {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  padding: 0;
+  margin: 0;
+  z-index: 100;
+  opacity: 0;
+}
 
 /* ============== TOP BAR =============== */
 .topBar{
