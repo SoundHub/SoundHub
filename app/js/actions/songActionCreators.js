@@ -6,6 +6,34 @@ import Utils from '../utils/appUtils';
 
 const ActionType = Constants.ActionTypes;
 
+function treeify(nodesArray) {
+  var tree;
+  // determine root node
+  for (var i = 0, j = nodesArray.length; i < j; i++) {
+    nodesArray[i].children = [];
+    if (!tree) {
+      if (nodesArray[i].parentId === null) {
+        tree = nodesArray[i];
+      }
+    }
+  }
+  // recursively build and traverse tree
+  function depthFirstFill(node) {
+    if (node) {
+      for (var i = 0; i < nodesArray.length; i++) {
+        if (nodesArray[i].parentId === node.uuid) {
+          node.children.push(nodesArray[i]);
+        }
+      }
+      for (var i = 0; i < node.children.length; i++) {
+        depthFirstFill(node.children[i]);
+      }
+    }
+  }
+  depthFirstFill(tree);
+  return tree;
+};
+
 export default {
   playSong(song){
     Dispatcher.dispatch({
@@ -29,6 +57,24 @@ export default {
       console.error('failed: ', err)
     })
   },
+
+  getAllSongsSorted(order, page) {
+    let data = {
+      order: order,
+      page: page
+    }
+    Utils.postJSON('/allSongSort', data)
+    .then((json) => {
+      Dispatcher.dispatch({
+        type: ActionType.RECEIVE_ALL_SONGS_SORTED,
+        songs: json
+      })
+    })
+    .catch((err) => {
+      console.error('failed to sort ', err)
+    })
+  },
+
   getAllFavs(userId) {
     var data = {userId: userId}
     Utils.postJSON('/myFavs',data)
@@ -60,9 +106,21 @@ export default {
   getSongTree(song) {
     Utils.getTree('/tree', song)
     .then((json) => {
+      // Otherwise it just returns an array that the allSongStore can't use
+      let retObj = {
+        songs: json,
+        number: json.length
+      };
+      // assemble the tree object from the unsorted array
+      let assembledTree = treeify(json);
       Dispatcher.dispatch({
         type: ActionType.RECEIVE_SONG_TREE,
-        songTree: json
+        songTree: assembledTree
+      })
+      // Populate the allSongStore with the songs in the tree
+      Dispatcher.dispatch({
+        type: ActionType.RECEIVE_ALL_SONGS_SORTED,
+        songs: retObj
       })
     })
     .catch((err) => {
@@ -97,7 +155,6 @@ export default {
         userSongs: userSongs
       });
       console.log(userSongs)
-      console.log('dispatch!!!!')
     })
     .catch((err) => {
       console.error('failed: ', err)
@@ -171,7 +228,7 @@ export default {
     })
     Utils.simplePost('/addVote', voteInfo)
     .catch((err) => {
-      console.log('voting failed: ', err)
+      console.error('voting failed: ', err)
     })
   },
 
@@ -184,10 +241,28 @@ export default {
         type: ActionType.GET_USER_VOTES,
         songs: response
       })
-      console.log('dispatched: getUserVotes')
     })
     .catch((err) => {
       console.error('getting user votes failed: ', err)
+    })
+  },
+
+  updateActiveSong(id) {
+    Dispatcher.dispatch({
+      type: ActionType.ACTIVE_SONG,
+      id: id
+    })
+  },
+
+  openLinkModal(song) {
+    let origin = window.location.origin;
+    let link = origin + '/tree/' + song.rootId + '&' + song.uuid;
+    let msg = link;
+    Dispatcher.dispatch({
+      type: ActionType.OPEN_LINK_MODAL,
+      event: "share",
+      id: song,
+      message: msg
     })
   }
 }

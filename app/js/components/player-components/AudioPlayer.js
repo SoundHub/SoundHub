@@ -43,54 +43,48 @@ module.exports = React.createClass({
 	},
 
 	render: function() {
-		var percent = 0;
-		var songName;
+		let percent = 0;
+		let songName;
 		if (this.state.seek && this.state.duration) {
 			percent = this.state.seek / this.state.duration;
 		}
-		var topComponents = [
-			<ButtonPanel
-			 isPlaying={this.state.isPlaying}
-			 isPause={this.state.isPause}
-			 isLoading={this.state.isLoading}
-			 onPlayBtnClick={this.onPlayBtnClick}
-			 onPauseBtnClick={this.onPauseBtnClick}/>,
-			<ProgressBar percent={percent} seekTo={this.seekTo} />,
-			<VolumeBar volume={this.state.volume} adjustVolumeTo={this.adjustVolumeTo} />
-		];
-		if(this.state.song) {
-			songName = this.state.song.title;
+
+		if(this.state.song && this.state.song.title) {
+			songName = 'Now Playing ' + this.state.song.title;
 		} else {
 			songName = 'Please add a song'
 		}
 
-		var userPageComponents = [
-			<ButtonPanel mode='user'
-			 isPlaying={this.state.isPlaying}
-			 isPause={this.state.isPause}
-			 isLoading={this.state.isLoading}
-			 onPlayBtnClick={this.onPlayBtnClick}
-			 onPauseBtnClick={this.onPauseBtnClick}/>,
-		  <NameLabel mode='user' title={songName} />
-	  ];
+		// let topComponents = [
+		// 	<ButtonPanel
+		// 	 isPlaying={this.state.isPlaying}
+		// 	 isPause={this.state.isPause}
+		// 	 isLoading={this.state.isLoading}
+		// 	 onPlayBtnClick={this.onPlayBtnClick}
+		// 	 onPauseBtnClick={this.onPauseBtnClick}/>,
+		// 	<ProgressBar percent={percent} seekTo={this.seekTo} />,
+		// 	<VolumeBar volume={this.state.volume} adjustVolumeTo={this.adjustVolumeTo} />
+		// ];
+		// { topComponents }
 
-	  if(this.props.mode==='user'){
-	  	return (
-	  		<div>{ userPageComponents }</div>
-	  		);
-	  } else {
-	  	return (
-				<div className="audio-player">
-					<div className="clearfix">
-						{ topComponents }
-					</div>
-					<div className="audio-desc-container clearfix">
-						<NameLabel title={songName} />
-						<TimeLabel seek={this.state.seek} duration={this.state.duration}/>
-					</div>
+  	return (
+			<div className="audio-player">
+				<div className="clearfix">
+						<ButtonPanel
+					 isPlaying={this.state.isPlaying}
+					 isPause={this.state.isPause}
+					 isLoading={this.state.isLoading}
+					 onPlayBtnClick={this.onPlayBtnClick}
+					 onPauseBtnClick={this.onPauseBtnClick}/>
+					<ProgressBar percent={percent} seekTo={this.seekTo} />
+					<VolumeBar volume={this.state.volume} adjustVolumeTo={this.adjustVolumeTo} />
 				</div>
-			);
-	  }
+				<div className="audio-desc-container clearfix">
+					<NameLabel title={songName} />
+					<TimeLabel seek={this.state.seek} duration={this.state.duration}/>
+				</div>
+			</div>
+		);
 	},
 
 

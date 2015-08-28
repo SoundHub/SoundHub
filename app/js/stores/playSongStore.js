@@ -26,8 +26,6 @@ var PlaySongStore = assign({}, EventEmitter.prototype, {
     this.removeListener(CHANGE_EVENT, callback)
   },
   getSong() {
-    console.log('return song')
-    console.log(_song);
     return _song;
   },
 })

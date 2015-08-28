@@ -1,17 +1,19 @@
 import keyMirror from 'keymirror';
 
-let constants = {
+const constants = {
     ActionTypes: keyMirror({
+      ACTIVE_SONG: null,
       PLAY:null,
       SIGNUP: null,
       LOGIN: null,
       LOGOUT: null,
+      UPDATE: null,
       RECEIVE_ALL_SONGS: null,
+      RECEIVE_ALL_SONGS_SORTED: null,
       FORK: null,
       DOWNLOAD: null,
       UPLOAD: null,
       RECEIVE_SONG_TREE: null,
-      CREATE_SONG: null,
       SONG_ADD_SUCCESS: null,
       VOTE: null,
       GET_USER_FORKS: null,
@@ -24,7 +26,14 @@ let constants = {
       ROUTER_NEXT_TRANSITION_PATH: null,
       RECEIVE_ALL_FAV_SONGS:null,
       ADD_FAV_SUCCESS:null,
-      OPEN_AUTH_MODAL: null
+      OPEN_LOGIN_REMIND_MODAL: null,
+      OPEN_LOGIN_MODAL: null,
+      CLOSE_LOGIN_MODAL:null,
+      OPEN_ALERT: null,
+      OPEN_USER_ACTION_MODAL: null,
+      CREATE_SONG: null,
+      OPEN_LINK_MODAL: null
+
   })
 };
 

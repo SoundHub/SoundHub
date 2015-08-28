@@ -57,10 +57,16 @@ let UserProfile = assign({}, EventEmitter.prototype, {
 });
 
 
-var setCookie = function (id, username,img) {
-  document.cookie = "id" + "=" + id;
-  document.cookie = "username" + "=" + username;
-  document.cookie = "img" + "=" + img;
+var setCookie = function (id, username, img) {
+  if (id !== null) {
+    document.cookie = "id" + "=" + id;
+  }
+  if (username !== null) {
+    document.cookie = "username" + "=" + username;
+  }
+  if (img !== null) {
+    document.cookie = "img" + "=" + img;
+  }
 };
 
 var deleteCookie = function() {
@@ -87,7 +93,6 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
     case ActionType.SIGNUP:
       if (payload.response.success) {
         console.log('signup success');
-        console.log(payload.response);
         let id = payload.response.userData.id;
         let username = payload.response.userData.username;
         let img = payload.response.userData.profilePic;
@@ -97,7 +102,6 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
       } else {
         console.log("signup failed, user already exists");
       }
-
       break;
 
     case ActionType.LOGOUT:
@@ -106,8 +110,14 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
       UserProfile.emitChange();
       break;
 
+    case ActionType.UPDATE:
+      let username = payload.response.newname;
+      let imgUrl = payload.response.imgUrl;
+      setCookie(null, username, imgUrl);
+      UserProfile.emitChange();
+      break;
+
     default:
-      //dont do anying
   }
 
 });
