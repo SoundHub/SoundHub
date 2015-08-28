@@ -55,7 +55,7 @@ class Auth extends React.Component {
           </div>
 
           <div className="techBox">
-          <img className="techImg" src="../assets/D3.png"></img>
+          <img className="techImg" src="../assets/d3.png"></img>
           </div>
 
           <div className="techBox">
@@ -82,6 +82,15 @@ class Auth extends React.Component {
 
 
         </div>
+        <img className="gitImg" src="../assets/GitHub-Mark-120px-plus.png"></img>
+        <div className="gitBigTitle">
+        <div className="gitLinkContainer">
+
+          <a className="gitLink" href="https://github.com/SoundHub/SoundHub" target="_blank">https://github.com/SoundHub/SoundHub</a>
+        </div>
+        </div>
+
+        
 
       </div>
     );
