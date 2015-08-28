@@ -28,9 +28,9 @@ class Create extends React.Component {
   }
 
   componentWillUnmount() {
-    this.props.forksong.title = null;
     UserSongStore.removeChangeListener(this._onChange);
     ModalStore.removeCreateListener(this._onCreate);
+    this.props.forksong.title = null;
   }
 
   _onChange() {
