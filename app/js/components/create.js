@@ -1,6 +1,6 @@
 'use strict';
 import React from 'react';
-import { ProgressBar, Button } from 'react-bootstrap';
+import { ProgressBar, Button, Input } from 'react-bootstrap';
 import SongActions from '../actions/songActionCreators';
 import UserSongStore from '../stores/userSongStore';
 import UserProfileStore from '../stores/userProfileStore'
@@ -30,6 +30,7 @@ class Create extends React.Component {
   componentWillUnmount() {
     UserSongStore.removeChangeListener(this._onChange);
     ModalStore.removeCreateListener(this._onCreate);
+    this.props.forksong.title = null;
   }
 
   _onChange() {
@@ -50,7 +51,6 @@ class Create extends React.Component {
     let songData = {};
 
     songData.title = this.refs.songName.getDOMNode().value;
-    songData.genre = this.refs.songGenre.getDOMNode().value;
     songData.rootId = this.props.forksong.rootId;
     songData.parentId = this.props.forksong.uuid;
     songData.url = this.state.file;
@@ -68,7 +68,6 @@ class Create extends React.Component {
       RouterActions.createSong(songData);
       SongActions.addSong(songData);
       this.refs.songName.getDOMNode().value = '';
-      this.refs.songGenre.getDOMNode().value = '';
     }
   }
 
@@ -100,11 +99,9 @@ class Create extends React.Component {
                   onProgress={this.onUploadProgress}
                   onError={this.onUploadError}
                   onFinish={this.onUploadFinish}/>
-                <input type="text" placeholder="Name" ref="songName"/>
-                <input type="text" placeholder="Genre" ref="songGenre" />
-                <div>{this.props.forksong.title}</div>
-                <button disabled={!this.state.uploadDone} type="button" className="btn btn-success" onClick={this.uploadSong}>
-                Create </button>
+                <Input className='inputSongName' type="text" placeholder="Name" ref="songName"/>
+                <button disabled={!this.state.uploadDone} type="button" className="btn btn-success createButton" 
+                onClick={this.uploadSong}> {this.props.forksong.title ? <span>Create branch of {this.props.forksong.title}</span> : <span>Create new tree</span> } </button>
             </div>
       </div>
     );
