@@ -31,4 +31,4 @@ class LoginRemindModal extends React.Component {
   }
 }
 
-export default LoginRemindModal;
+export default LoginRemindModal; 

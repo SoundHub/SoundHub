@@ -259,7 +259,7 @@ export default {
   openLinkModal(song) {
     let origin = window.location.origin;
     let link = origin + '/tree/' + song.rootId + '&' + song.uuid;
-    let msg = "Ctrl+C to copy: " + link
+    let msg = link;
     Dispatcher.dispatch({
       type: ActionType.OPEN_LINK_MODAL,
       event: "share",

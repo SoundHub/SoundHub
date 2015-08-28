@@ -6,6 +6,7 @@ import Constants from '../constants/constants';
 import EventEmitter from 'events';
 import assign from 'object-assign';
 
+
 const ActionType = Constants.ActionTypes;
 const CHANGE_EVENT = 'change';
 const OPEN_EVENT = 'open';
@@ -17,7 +18,7 @@ const _actions = {};
 
 var setAction = function(event, message) {
   if(event === 'fork') {
-    _actions.action = 'Song forked!'
+    _actions.action = 'Song branched!'
   } else if(event === 'favorite') {
     _actions.action = 'Song added to favorites!'
   } else if(event === 'share') {
