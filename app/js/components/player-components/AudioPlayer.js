@@ -49,27 +49,35 @@ module.exports = React.createClass({
 			percent = this.state.seek / this.state.duration;
 		}
 
-		if(this.state.song) {
+		if(this.state.song && this.state.song.title) {
 			songName = 'Now Playing ' + this.state.song.title;
 		} else {
 			songName = 'Please add a song'
 		}
 
-		let topComponents = [
-			<ButtonPanel
-			 isPlaying={this.state.isPlaying}
-			 isPause={this.state.isPause}
-			 isLoading={this.state.isLoading}
-			 onPlayBtnClick={this.onPlayBtnClick}
-			 onPauseBtnClick={this.onPauseBtnClick}/>,
-			<ProgressBar percent={percent} seekTo={this.seekTo} />,
-			<VolumeBar volume={this.state.volume} adjustVolumeTo={this.adjustVolumeTo} />
-		];
+		// let topComponents = [
+		// 	<ButtonPanel
+		// 	 isPlaying={this.state.isPlaying}
+		// 	 isPause={this.state.isPause}
+		// 	 isLoading={this.state.isLoading}
+		// 	 onPlayBtnClick={this.onPlayBtnClick}
+		// 	 onPauseBtnClick={this.onPauseBtnClick}/>,
+		// 	<ProgressBar percent={percent} seekTo={this.seekTo} />,
+		// 	<VolumeBar volume={this.state.volume} adjustVolumeTo={this.adjustVolumeTo} />
+		// ];
+		// { topComponents }
 
   	return (
 			<div className="audio-player">
 				<div className="clearfix">
-					{ topComponents }
+						<ButtonPanel
+					 isPlaying={this.state.isPlaying}
+					 isPause={this.state.isPause}
+					 isLoading={this.state.isLoading}
+					 onPlayBtnClick={this.onPlayBtnClick}
+					 onPauseBtnClick={this.onPauseBtnClick}/>
+					<ProgressBar percent={percent} seekTo={this.seekTo} />
+					<VolumeBar volume={this.state.volume} adjustVolumeTo={this.adjustVolumeTo} />
 				</div>
 				<div className="audio-desc-container clearfix">
 					<NameLabel title={songName} />

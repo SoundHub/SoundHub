@@ -18,9 +18,9 @@ var _songs = {
 
 var _activeId = null;
 
-let setAllSongs = function (songs) {
-  _songs.allSongs = songs.songs;
-  _songs.number = songs.number;
+let setAllSongs = function (songData) {
+  _songs.allSongs = songData.songs;
+  _songs.number = songData.number;
 };
 
 let setActiveSong = function(song) {
@@ -114,7 +114,7 @@ AllSongStore.dispatchToken = Dispatcher.register(function(payload) {
     case ActionType.ACTIVE_SONG:
       let activeId = payload.id.uuid;
       setActiveSong(activeId);
-      console.log('active song store update');
+      console.log('active song store updatesss');
       AllSongStore.emitUpdate();
       break;
 

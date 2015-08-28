@@ -146,8 +146,52 @@ var exports = {};
     // Toggle children on click.
 
     // var glowDefs = baseSvg.append("defs").attr("id", "glowdefs");
+    var defs = baseSvg.append("defs").attr("id", "imgdefs");
+
+    var filter = defs.append("filter")
+                        .attr("id", "drop-shadow")
+                        .attr("height", "200%")
+                        .attr("width", "200%");
+
+        filter.append("feGaussianBlur")
+                        .attr("in", "SourceAlpha")
+                        .attr("stdDeviation", "1")
+                        .attr("result", "blur");
+
+        filter.append("feFlood")
+                    .attr("in", "blur")
+                    .attr("flood-color", "#E86544")
+                    .attr("flood-opacity", "1")
+                    .attr("result", "offsetColor");
+
+    var composite = filter.append("feComposite")
+                        .attr("in", "offsetColor")
+                        .attr("in2", "blur")
+                        .attr("operator", "in")
+                        .attr("result", "offsetBlur");
+
+
+        // filter.append("feMorphology")
+        //                 .attr("operator", "erode")
+        //                 .attr("radius", "2");
+
+    //     filter.append("feOffset")
+    //                     .attr("in", "blur")
+    //                     .attr("dx", 5)
+    //                     .attr("dy", 5)
+    //                     .attr("result", "offsetBlur");
+
+    // var feMerge = filter.append("feMerge");
+
+    //                 feMerge.append("feMergeNode")
+    //                     .attr("in", "offsetBlur")
+    //                 feMerge.append("feMergeNode")
+    //                     .attr("in", "SourceGraphic");
+
+
     var lastClicked;
     function click(d) {
+
         // console.log('makeTree click called: ', d, ' last: ', lastClicked);
         // if (d3.event.defaultPrevented) return; // click suppressed
         // d = toggleChildren(d);
@@ -164,9 +208,10 @@ var exports = {};
             .attr('class', 'glow')
             .attr('r', nodeCircleRadius+3)
             .style('fill', 'none')
-            .style('stroke', 'rgb(255, 255, 255)') // #FF005D, #00BABB
+            .style('stroke', '#000') // #FF005D, #00BABB, E86544
             .style('stroke-opacity', 1)
-            .style('stroke-width', 6);
+            .style('stroke-width', 6)
+            .style("filter", "url(#drop-shadow)");
             // .classed("selected", true);
             // .append("circle")
             // .attr("id", function(d) {
@@ -212,9 +257,35 @@ var exports = {};
         var nodes = tree.nodes(root).reverse(),
             links = tree.links(nodes);
 
-        var defs = baseSvg.append("defs").attr("id", "imgdefs");
         var imgPatterns = {};
 
+
+         // Drop shadow experiment, doesn't look good
+        /*
+        var filter = defs.append("filter")
+                        .attr("id", "drop-shadow")
+                        .attr("height", "150%")
+                        .attr("radius", "100%");
+
+        filter.append("feGaussianBlur")
+                        // .attr("in", "SourceAlpha")
+                        .attr("stdDeviation", 10);
+                        // .attr("result", "blur");
+
+        filter.append("feOffset")
+                        .attr("in", "blur")
+                        .attr("dx", 5)
+                        .attr("dy", 5)
+                        .attr("result", "offsetBlur");
+
+        var feMerge = filter.append("feMerge");
+
+                    feMerge.append("feMergeNode")
+                        .attr("in", "offsetBlur")
+                    feMerge.append("feMergeNode")
+                        .attr("in", "SourceGraphic");
+
+        */
 /*
 ############################################################
         ##### SET LENGTH BETWEEN DEPTH HERE #####
@@ -237,6 +308,7 @@ var exports = {};
                                     .attr("x", "0")
                                     .attr("y", "0");
 
+
             imgPatterns[d.id].append("image")
                             // define a rectangular image that is diameter x diameter
                             .attr("width", nodeCircleRadius*2 + "px")
@@ -244,6 +316,10 @@ var exports = {};
                             .attr("x", "0px")
                             .attr("y", "0px")
                             .attr("xlink:href", d.authorPic);
+
+
+
+
         });
 
         // Update the nodes…
@@ -268,7 +344,7 @@ var exports = {};
         nodeEnter.append("circle")
             .attr("class", "nodeCircle-Background")
             .attr("r", nodeCircleRadius)
-            .attr("fill", "#666");  // happens to be a good shade of grey ¬_¬
+            .attr("fill", "#665");  // happens to be a good shade of grey ¬_¬
             // if you want to make the background circle transparent
             // .attr("fill-opacity", 0.75);
 

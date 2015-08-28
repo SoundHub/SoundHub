@@ -12,7 +12,7 @@ class Page extends React.Component {
     var query = window.location.pathname.split('/')[2];
     var rootId = query.split('&')[0];
     var uuid = query.split('&')[1];
-    SongActions.getSongTree({rootId: rootId});  //'/1/'  '/1/2/'
+    SongActions.getSongTree({rootId: rootId});
     this.state = {
       treeData: {},
       uuid: uuid
@@ -21,7 +21,6 @@ class Page extends React.Component {
     SongTreeStore.getTree();
 
     this.componentWillMount = this.componentWillMount.bind(this);
-    // this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this);
     this.render = this.render.bind(this);
     this._onChange = this._onChange.bind(this);
   }
@@ -34,22 +33,18 @@ class Page extends React.Component {
     SongTreeStore.removeChangeListener(this._onChange);
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   console.log('tree.js componentWillReceiveProps: ', nextProps.treeData);
-  //   this.setState({treeData: nextProps.treeData});
-  // }
-
   render() {
     return (
-        <div className="treePage ">
-          <D3Tree treeData={this.state.treeData} uuid={this.state.uuid} />
-        </div>
-      );
+      <div className="treePage ">
+        <D3Tree treeData={this.state.treeData} uuid={this.state.uuid} />
+      </div>
+    );
   }
 
   _onChange() {
     this.setState({ treeData: SongTreeStore.getTree() });
   }
+
 }
 
 export default Page;

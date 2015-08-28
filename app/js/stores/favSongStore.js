@@ -10,7 +10,7 @@ import _ from 'lodash';
 const ActionType = Constants.ActionTypes;
 const CHANGE_EVENT = 'change';
 
-var _favSongs;
+var _favSongs = [];
 
 let setAllFavSongs = function (songs) {
   _favSongs = songs;

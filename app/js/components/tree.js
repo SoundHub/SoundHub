@@ -2,6 +2,7 @@
 import React from 'react';
 import treeUtils from './makeTree.js';
 import AudioPlayer from './player-components/AudioPlayer';
+import UserActionModal from './userActionModal';
 
 import Router from 'react-router';
 import {Glyphicon, Tooltip, OverlayTrigger} from 'react-bootstrap';
@@ -11,6 +12,7 @@ import UserProfileStore from '../stores/userProfileStore';
 import VotedSongStore from '../stores/votedSongStore';
 import AuthModalStore from '../stores/authModalStore';
 import AllSongStore from '../stores/allSongStore';
+import ModalStore from '../stores/modalStore';
 
 var song = [{
   title:'give you up',
@@ -33,15 +35,15 @@ class SongBox extends React.Component{
     return (
       <div className = "treeboxfloat">
         <div className= "sideBar">
-        <div className = "songItem effect8"  onClick={this.props.togglePanel}>
+        <div className = "songitem2 effect8"  onClick={this.props.togglePanel}>
           <span className = "title"  > {this.props.song.title} </span>
           <span className> by {this.props.song.authorName} </span>
           <span className="like-count" > <Glyphicon glyph='heart' /> {this.props.song.like} </span>
         </div>
 
-        <div className="songPanel" id={this.props.key}>
+        <div className="songPanel2" id={this.props.key}>
           <div className="itemOther" onClick={this.props.forkClick}>
-          <OverlayTrigger placement='bottom' overlay={<Tooltip>fork</Tooltip>}>
+          <OverlayTrigger placement='bottom' overlay={<Tooltip>branch</Tooltip>}>
             <Glyphicon glyph='leaf' />
           </OverlayTrigger>
           </div>
@@ -74,7 +76,8 @@ class D3Tree extends React.Component {
   constructor() {
     super();
     this.state = {
-      currentSong: {}
+      currentSong: {},
+      actionModalVisible: false
     }
 
     this.onClick = this.onClick.bind(this);
@@ -82,7 +85,8 @@ class D3Tree extends React.Component {
     this.componentWillReceiveProps = this.componentWillReceiveProps.bind(this);
     this.render = this.render.bind(this);
     this._onChange = this._onChange.bind(this);
-
+    this._onAction = this._onAction.bind(this);
+    this.closeActionModal = this.closeActionModal.bind(this);
     this.addVote = this.addVote.bind(this);
     this.addfav = this.addfav.bind(this);
     this.likeClick = this.likeClick.bind(this);
@@ -90,6 +94,18 @@ class D3Tree extends React.Component {
     this.upvoteClick = this.upvoteClick.bind(this);
     this.downvoteClick = this.downvoteClick.bind(this);
     this.togglePanel = this.togglePanel.bind(this);
+  }
+
+  componentDidMount() {
+    AllSongStore.addChangeListener(this._onChange);
+    ModalStore.addActionListener(this._onAction);
+    var userId = UserProfileStore.getCookieID();
+    SongActions.getUserVotes(userId);
+  }
+
+  componentWillUnmount() {
+    AllSongStore.removeChangeListener(this._onChange);
+    ModalStore.removeActionListener(this._onAction);
   }
 
   onClick(element) {
@@ -113,21 +129,17 @@ class D3Tree extends React.Component {
 
   // We need to receive the tree data before we can render it
   componentWillReceiveProps(nextProps) {
-    AllSongStore.addChangeListener(this._onChange);
     var mountNode = React.findDOMNode(this.refs.songTree);
     treeUtils.makeTree(nextProps.treeData, mountNode, this.onClick, nextProps.uuid);
   }
 
-  componentWillUnmount() {
-   AllSongStore.removeChangeListener(this._onChange); 
-  }
-
-    togglePanel(song){
+  togglePanel(song){
     console.log(song)
   }
 
   forkClick(song){
     if(UserProfileStore.isLoggedIn()) {
+      RouterActions.openUserActionModal('fork');
       var userId = UserProfileStore.getCookieID();
       SongActions.forkSong(userId, song.uuid);
     } else {
@@ -141,6 +153,7 @@ class D3Tree extends React.Component {
 
   addfav(song){
     if(UserProfileStore.isLoggedIn()) {
+      RouterActions.openUserActionModal('favorite');
       var userId = UserProfileStore.getCookieID();
       SongActions.addFav(userId, song.uuid);
     } else {
@@ -194,13 +207,22 @@ class D3Tree extends React.Component {
     }
   }
 
+  closeActionModal() {
+    this.setState({actionModalVisible: false});
+  }
+
   _onChange() {
     AllSongStore.getSongById(this.state.currentSong.uuid)
     .then((song) => {
-      console.log('tree.js songs changed: ', song);
       this.setState({currentSong: song});
     });
-    // console.log('songs changed: ', this.state.currentSong);
+  }
+
+  _onAction() {
+    this.setState({actionModalVisible: true, actionMessage: ModalStore.getActionMessage()})
+    setTimeout(() => {
+      this.closeActionModal();
+    }, 500)
   }
 
   render() {
@@ -209,6 +231,7 @@ class D3Tree extends React.Component {
         <div className = "treeBox">
           <div ref="songTree"></div>
         </div>
+        <UserActionModal show={this.state.actionModalVisible} message={this.state.actionMessage} onHide={this.closeActionModal}/>
         <SongBox
           key={song.id}
           song = {this.state.currentSong}

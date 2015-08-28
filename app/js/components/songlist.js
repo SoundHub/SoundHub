@@ -2,11 +2,14 @@
 import React from 'react';
 import Router from 'react-router';
 import {Glyphicon, Tooltip, OverlayTrigger} from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
+
 import SongActions from '../actions/songActionCreators';
 import RouterActions from '../actions/routerActionCreators';
 import UserProfileStore from '../stores/userProfileStore';
 import VotedSongStore from '../stores/votedSongStore';
 import AuthModalStore from '../stores/authModalStore';
+
 
 
 class SongList extends React.Component{
@@ -21,6 +24,7 @@ class SongList extends React.Component{
     this.downvoteClick = this.downvoteClick.bind(this);
     this.togglePanel = this.togglePanel.bind(this);
     this.shareLink = this.shareLink.bind(this);
+    this.shareClick = this.shareClick.bind(this);
    }
 
   togglePanel(id){
@@ -33,11 +37,15 @@ class SongList extends React.Component{
 
   forkClick(song){
     if(UserProfileStore.isLoggedIn()) {
+      RouterActions.openUserActionModal('fork');
       var userId = UserProfileStore.getCookieID();
       SongActions.forkSong(userId, song.uuid);
     } else {
       RouterActions.openLoginRemindModal();
     }
+  }
+  shareClick(song) {
+    SongActions.openLinkModal(song);
   }
 
   addVote(newVote, oldVote,songId) {
@@ -46,6 +54,7 @@ class SongList extends React.Component{
 
   addfav(song){
     if(UserProfileStore.isLoggedIn()) {
+      RouterActions.openUserActionModal('favorite');
       var userId = UserProfileStore.getCookieID();
       SongActions.addFav(userId, song.uuid);
     } else {
@@ -57,10 +66,10 @@ class SongList extends React.Component{
     SongActions.createFromFork(song);
   }
 
+
   shareLink(song){
     let origin = window.location.origin;
     let link = origin + '/tree/' + song.rootId + '&' + song.uuid;
-    console.log(link);
     window.prompt("Copy to clipboard: Ctrl+C, Enter", link);
   }
 
@@ -119,6 +128,7 @@ class SongList extends React.Component{
           downvoteClick={this.downvoteClick.bind(this, song)}
           upvoteClick={this.upvoteClick.bind(this, song)}
           shareLink={this.shareLink.bind(this, song)}
+          shareClick={this.shareClick.bind(this, song)}
           createClick={this.createClick.bind(this, song)}
           togglePanel={this.togglePanel.bind(this, song)}
           page = {this.props.page}
@@ -150,7 +160,40 @@ class SongBox extends React.Component{
         <span className="like-count" > <Glyphicon glyph='heart' /> {this.props.song.like} </span>
       </div>
 
-      <div className="songPanel" id={this.props.key}>
+      <div className= 'songPanel'  id={this.props.key}>
+
+
+        {this.props.page==='home' || this.props.page=== 'fav' || this.props.page=== 'mymusic' || this.props.page=== 'fork' ?
+        <div className="itemOther">
+        <OverlayTrigger placement='bottom' overlay={<Tooltip>tree</Tooltip>}>
+          <Router.Link to="tree"  params={this.props.song}>
+            <Glyphicon glyph='tree-deciduous' />
+          </Router.Link>
+        </OverlayTrigger>
+        </div> : null}
+
+        {this.props.page==='home' || this.props.page=== 'mymusic' ?
+        <div className="itemOther" onClick={this.props.forkClick}>
+        <OverlayTrigger placement='bottom' overlay={<Tooltip>branch</Tooltip>}>
+          <Glyphicon glyph='leaf'/>
+        </OverlayTrigger>
+        </div>: null}
+
+        {this.props.page==='home' ?
+        <div className="itemOther" onClick={this.props.addfav}>
+        <OverlayTrigger placement='bottom' overlay={<Tooltip>favorite</Tooltip>}>
+          <Glyphicon glyph='star' />
+        </OverlayTrigger>
+        </div>: null}
+
+        {this.props.page==='home' || this.props.page=== 'fav' || this.props.page=== 'mymusic' ?
+        <div className="itemOther" onClick={this.props.shareClick}>
+        <OverlayTrigger placement='bottom' overlay={<Tooltip>share link</Tooltip>}>
+          <Glyphicon glyph='share' />
+        </OverlayTrigger>
+        
+        </div>: null}
+
         {this.props.page==='fork' ?
         <div className="itemOther" onClick={this.props.createClick}>
         <OverlayTrigger placement='bottom' overlay={<Tooltip>upload your new sound</Tooltip>}>
@@ -166,37 +209,7 @@ class SongBox extends React.Component{
           </OverlayTrigger>
           </div>
         </a> : null}
-
-        {this.props.page==='home' ?
-        <div className="itemOther">
-        <OverlayTrigger placement='bottom' overlay={<Tooltip>tree</Tooltip>}>
-          <Router.Link to="tree"  params={this.props.song}>
-            <Glyphicon glyph='tree-deciduous' />
-          </Router.Link>
-        </OverlayTrigger>
-        </div> : null}
-
-        {this.props.page==='home' ?
-        <div className="itemOther" onClick={this.props.forkClick}>
-        <OverlayTrigger placement='bottom' overlay={<Tooltip>branch</Tooltip>}>
-          <Glyphicon glyph='leaf' />
-        </OverlayTrigger>
-        </div>: null}
-
-        {this.props.page==='home' ?
-        <div className="itemOther" onClick={this.props.addfav}>
-        <OverlayTrigger placement='bottom' overlay={<Tooltip>favorite</Tooltip>}>
-          <Glyphicon glyph='star' />
-        </OverlayTrigger>
-        </div>: null}
-
-        {this.props.page==='home' ?
-        <div className="itemOther" onClick={this.props.shareLink}>
-        <OverlayTrigger placement='bottom' overlay={<Tooltip>share link</Tooltip>}>
-          <Glyphicon glyph='share' />
-        </OverlayTrigger>
-        </div>: null}
-
+        
         {this.props.page==='home' ?
         <div className="itemArrow" onClick={this.props.upvoteClick}>
         <OverlayTrigger placement='bottom' overlay={<Tooltip>upvote</Tooltip>}>

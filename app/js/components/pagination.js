@@ -33,6 +33,6 @@ class PageNav extends React.Component {
         onSelect={this.handleSelect} />
     )
   } 
-}
+};
 
 export default PageNav;
