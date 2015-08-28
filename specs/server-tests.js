@@ -31,7 +31,7 @@ describe('API Integration:', function() {
 
   describe('Basic song functions', function() {
 
-    after(function(done) {
+    after(function(done) { //drop table after this section of tests run
       db.orm.sync({force: true})
         .then(function() {
           done();
@@ -57,7 +57,7 @@ describe('API Integration:', function() {
         request({
           uri: 'http://localhost:3030/allSongs',
           method: 'get'
-        }, function(err, res, body) {
+        }, function(err, res, body) { 
           var songs = JSON.parse(res.body);
           expect(songs).to.be.an('array');
           expect(songs[0].title).to.be.eql('bagfries');
@@ -393,7 +393,7 @@ describe('API Integration:', function() {
         method: 'post',
         json: true,
         body: {
-          vote: 1,
+          vote: -1,
           userId: 1,
           songId: targetId
         }
@@ -411,7 +411,7 @@ describe('API Integration:', function() {
           var songs = res.body;
           expect(songs.length).to.be.eql(1);
           expect(songs[0].uuid).to.be.eql(targetId);
-          expect(songs[0].upvote).to.be.eql(1);
+          expect(songs[0].upvote).to.be.eql(-1);
           done();
         })
       })
@@ -423,7 +423,7 @@ describe('API Integration:', function() {
         method: 'post',
         json: true,
         body: {
-          vote: 0,
+          vote: 1,
           userId: 1,
           songId: targetId
         }
@@ -433,7 +433,6 @@ describe('API Integration:', function() {
           uri: 'http://localhost:3030/allSongs',
           method: 'get'
         }, function(err, res) {
-          console.log(res.body)
           console.log(err)
           var response = JSON.parse(res.body)
           var song;
@@ -442,10 +441,92 @@ describe('API Integration:', function() {
               song = response[i];
             }
           }
-          expect(song.like).to.be.eql(0);
+          expect(song.like).to.be.eql(1);
+          request({
+            uri: 'http://localhost:3030/myVotes',
+            method: 'post',
+            json: true,
+            body: {
+              userId: 1
+            }
+          }, function(err, res) {
+            var songs = res.body;
+            expect(songs[0].upvote).to.be.eql(1);
+            done();
+          })
+        })
+      })
+    })
+
+    it('should handle multiple user votes', function(done) {
+      request({
+        uri: 'http://localhost:3030/signup',
+        method: 'post',
+        json: true,
+        body: {
+          username: 'jim',
+          password: 'mike'
+        }
+      }, function(err) {
+        console.log(err);
+        request({
+          uri: 'http://localhost:3030/addVote',
+          method: 'post',
+          json: true,
+          body: {
+            vote: 1,
+            userId: 2,
+            songId: targetId
+          }
+        }, function(err) {
+          console.log(err);
+          request({
+            uri: 'http://localhost:3030/allSongs',
+            method: 'get'
+          }, function(err, res) {
+            console.log(err);
+            var songs = JSON.parse(res.body);
+            var votedSong;
+            for(var i=0; i<songs.length; i++) {
+              if(songs[i].uuid === targetId) {
+                votedSong = songs[i];
+              }
+            }
+            expect(votedSong.like).to.be.eql(2);
+            done();
+          })
+        })
+      })
+    })
+
+    it('should branch a song to the user branch collection', function(done) {
+      request({
+        uri: 'http://localhost:3030/addFork',
+        method: 'post',
+        json: true,
+        body: {
+          userId: 1,
+          songId: targetId
+        }
+      }, function(err, res) {
+        console.log(err);
+        request({
+          uri: 'http://localhost:3030/myForks',
+          method: 'post',
+          json: true,
+          body: {
+            userId: 1
+          }
+        }, function(err, res) {
+          var forks = res.body;
+          expect(forks[0].uuid).to.be.eql(targetId);
           done();
         })
       })
+    })
+
+    it('should create a song properly from branch', function(done) {
+      done();
     })
   })
 });
