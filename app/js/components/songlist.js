@@ -228,7 +228,7 @@ class SongBox extends React.Component{
 
         {this.props.page==='fork' ?
         <div className="itemOther" onClick={this.props.createClick}>
-        <OverlayTrigger placement='bottom' delayShow={700} overlay={<Tooltip>upload your new sound</Tooltip>}>
+        <OverlayTrigger placement='bottom' delayShow={700} overlay={<Tooltip>upload your sound</Tooltip>}>
           <Glyphicon glyph='tags' />
         </OverlayTrigger>
         </div>: null}

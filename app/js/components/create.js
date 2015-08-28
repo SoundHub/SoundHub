@@ -11,7 +11,7 @@ import ModalStore from '../stores/modalStore';
 class Create extends React.Component {
   constructor() {
     super();
-    this.state = {showUpdate: false, uploadDone: false};
+    this.state = {showUpdate: false, uploadDone: false, songTitle: ''};
     //bindings
     this.componentDidMount = this.componentDidMount.bind(this);
     this.uploadSong = this.uploadSong.bind(this);
@@ -20,6 +20,7 @@ class Create extends React.Component {
     this.onUploadFinish = this.onUploadFinish.bind(this);
     this._onChange = this._onChange.bind(this);
     this._onCreate = this._onCreate.bind(this);
+    this._onSongTitleEntry = this._onSongTitleEntry.bind(this);
   }
 
   componentDidMount() {
@@ -30,6 +31,7 @@ class Create extends React.Component {
   componentWillUnmount() {
     UserSongStore.removeChangeListener(this._onChange);
     ModalStore.removeCreateListener(this._onCreate);
+    this.props.forksong.title = null;
   }
 
   _onChange() {
@@ -45,12 +47,14 @@ class Create extends React.Component {
       uploadDone: false})
   }
 
+  _onSongTitleEntry(event, value) {
+    this.setState({songTitle: event.target.value})
+  }
+
   uploadSong() {
     let letters = /^[A-Za-z0-9 ]+$/;
     let songData = {};
-
-    songData.title = this.refs.songName.getDOMNode().value;
-    songData.genre = this.refs.songGenre.getDOMNode().value;
+    songData.title = this.state.songTitle;
     songData.rootId = this.props.forksong.rootId;
     songData.parentId = this.props.forksong.uuid;
     songData.url = this.state.file;
@@ -67,8 +71,9 @@ class Create extends React.Component {
     } else {
       RouterActions.createSong(songData);
       SongActions.addSong(songData);
-      this.refs.songName.getDOMNode().value = '';
-      this.refs.songGenre.getDOMNode().value = '';
+      console.log('this.refs.songname', this.refs.songName)
+      this.setState({songTitle: ''});
+      // this.refs.songName.getDOMNode().value = '';
     }
   }
 
@@ -100,11 +105,13 @@ class Create extends React.Component {
                   onProgress={this.onUploadProgress}
                   onError={this.onUploadError}
                   onFinish={this.onUploadFinish}/>
-                <input type="text" placeholder="Name" ref="songName"/>
-                <input type="text" placeholder="Genre" ref="songGenre" />
-                <div>{this.props.forksong.title}</div>
-                <button disabled={!this.state.uploadDone} type="button" className="btn btn-success" onClick={this.uploadSong}>
-                Create </button>
+                <input className='inputSongName' type="text" placeholder="Song title" value={this.state.songTitle} onChange={this._onSongTitleEntry}/>
+                <div>
+                <button disabled={!this.state.uploadDone} type="button" className="btn btn-success createButton" 
+                onClick={this.uploadSong}> 
+                {this.props.forksong.title ? <span>Create branch of {this.props.forksong.title}</span> : <span>Create new tree</span> } 
+                </button>
+                </div>
             </div>
       </div>
     );

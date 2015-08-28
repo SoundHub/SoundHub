@@ -35,6 +35,7 @@ hr {
 .developerBigTitle{
   font-size: 30px;
   margin-top: 250px;
+  min-height:100px;
   padding: 30px 30px 30px 90px;
   margin-bottom: 120px;
   background-image: url(../assets/random-bg/up.jpg);
@@ -77,10 +78,38 @@ hr {
   display: inline-block;
 }
 
+.gitImg {
+  margin-top: 2px;
+  max-height: 105px;
+  margin-left: 5%;
+  float: left;
+}
 .techContainer{
   margin-left: 50px;
   margin-right: 50px;
   margin-bottom: 260px;
+}
+
+.gitLinkContainer {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0px;
+  text-decoration: none;  
+  max-height: 100px;
+  max-width: 800px;
+  text-align: center;
+}
+
+.gitLink {
+  text-decoration: none !important;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+
+
+  color: #2A4747;
+  font-size: 35px;
+  font-weight: 700;
 }
 
 .techBigTitle{
@@ -89,6 +118,16 @@ hr {
   padding: 30px 30px 30px 90px;
   margin-bottom: 60px;
   background-image: url(../assets/random-bg/playerbg3.jpg);
+  color: white;
+}
+
+.gitBigTitle{
+  font-size: 30px;
+  margin-top: 250px;
+  min-height:100px;
+  padding: 30px 30px 30px 90px;
+  margin-bottom: 2px;
+  background-image: url(../assets/random-bg/up.jpg);
   color: white;
 }
 
@@ -351,6 +390,15 @@ hr {
     cursor: pointer;
     opacity: 0;
     filter: alpha(opacity=0);
+}
+
+.createButton {
+  margin: 0 auto;
+  margin-top: 10px;
+}
+
+.inputSongName {
+  margin-top: 10px;
 }
 
 
