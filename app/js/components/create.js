@@ -50,7 +50,6 @@ class Create extends React.Component {
     let songData = {};
 
     songData.title = this.refs.songName.getDOMNode().value;
-    songData.genre = this.refs.songGenre.getDOMNode().value;
     songData.rootId = this.props.forksong.rootId;
     songData.parentId = this.props.forksong.uuid;
     songData.url = this.state.file;
@@ -68,7 +67,6 @@ class Create extends React.Component {
       RouterActions.createSong(songData);
       SongActions.addSong(songData);
       this.refs.songName.getDOMNode().value = '';
-      this.refs.songGenre.getDOMNode().value = '';
     }
   }
 
@@ -101,7 +99,6 @@ class Create extends React.Component {
                   onError={this.onUploadError}
                   onFinish={this.onUploadFinish}/>
                 <input type="text" placeholder="Name" ref="songName"/>
-                <input type="text" placeholder="Genre" ref="songGenre" />
                 <div>{this.props.forksong.title}</div>
                 <button disabled={!this.state.uploadDone} type="button" className="btn btn-success" onClick={this.uploadSong}>
                 Create </button>
