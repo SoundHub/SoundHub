@@ -10,7 +10,7 @@ class CopyText extends React.Component {
 
     return (
       <div>
-        <p>Press Cmd + C to copy:</p>
+        <p>Please Copy: </p>
         <pre>{text}</pre>
         <Clipboard value={text} />
       </div>
