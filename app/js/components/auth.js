@@ -55,7 +55,7 @@ class Auth extends React.Component {
           </div>
 
           <div className="techBox">
-          <img className="techImg" src="../assets/D3.png"></img>
+          <img className="techImg" src="../assets/d3.png"></img>
           </div>
 
           <div className="techBox">
