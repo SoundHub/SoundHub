@@ -498,6 +498,9 @@ hr {
 .title{
     color: white;
   }
+.like-count{
+    color: white;
+  }
 }
 
 
@@ -537,6 +540,12 @@ hr {
 .like-count{
   font-size: 20px;
   color: #FF598E;
+  float: right;
+}
+
+.like-countActive{
+  font-size: 20px;
+  color: #FFFFFF;
   float: right;
 }
 

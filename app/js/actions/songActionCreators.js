@@ -237,8 +237,6 @@ export default {
     var data = {userId: userId};
     Utils.postJSON('/myVotes', data)
     .then((response) => {
-      console.log('things are still happening');
-      console.log(response);
       Dispatcher.dispatch({
         type: ActionType.GET_USER_VOTES,
         songs: response

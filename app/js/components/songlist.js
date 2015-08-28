@@ -33,7 +33,6 @@ class SongList extends React.Component{
   }
 
   _onVoteChange() {
-    console.log('tick');
     this.setState({votedSongsArr: VotedSongStore.getVotes()});
     var temp = {};
     var key;
@@ -182,13 +181,15 @@ class SongBox extends React.Component{
   render() {
     var normCss = 'songItem effect8';
     var selectedCss = 'songItemActive effect8';
+    var normLike = 'like-count';
+    var selectedLike = 'like-countActive';
 
     return (
     <div className ="songBox" key={this.props.key}>
       <div className = {this.props.song.uuid === this.props.activeId ? selectedCss : normCss}  onClick={(function() {this.props.playClick(); this.props.togglePanel(this.props.song.uuid);}).bind(this)}>
         <span className = "title" > {this.props.song.title} </span>
         <span className> by {this.props.song.authorName} </span>
-        <span className="like-count" > <Glyphicon glyph='heart' /> {this.props.song.like} </span>
+        <span className={this.props.song.uuid === this.props.activeId ? selectedLike : normLike}  > <Glyphicon glyph='heart' /> {this.props.song.like} </span>
       </div>
 
       <div className= 'songPanel'  id={this.props.key}>
@@ -196,7 +197,7 @@ class SongBox extends React.Component{
 
         {this.props.page==='home' || this.props.page=== 'fav' || this.props.page=== 'mymusic' || this.props.page=== 'fork' ?
         <div className="itemOther">
-        <OverlayTrigger placement='bottom' overlay={<Tooltip>tree</Tooltip>}>
+        <OverlayTrigger placement='bottom' delayShow={700} overlay={<Tooltip>tree</Tooltip>}>
           <Router.Link to="tree"  params={this.props.song}>
             <Glyphicon glyph='tree-deciduous' />
           </Router.Link>
@@ -205,21 +206,21 @@ class SongBox extends React.Component{
 
         {this.props.page==='home' || this.props.page=== 'mymusic' ?
         <div className="itemOther" onClick={this.props.forkClick}>
-        <OverlayTrigger placement='bottom' overlay={<Tooltip>branch</Tooltip>}>
+        <OverlayTrigger placement='bottom' delayShow={700} overlay={<Tooltip>branch</Tooltip>}>
           <Glyphicon glyph='leaf'/>
         </OverlayTrigger>
         </div>: null}
 
         {this.props.page==='home' ?
         <div className="itemOther" onClick={this.props.addfav}>
-        <OverlayTrigger placement='bottom' overlay={<Tooltip>favorite</Tooltip>}>
+        <OverlayTrigger placement='bottom' delayShow={700} overlay={<Tooltip>favorite</Tooltip>}>
           <Glyphicon glyph='star' />
         </OverlayTrigger>
         </div>: null}
 
         {this.props.page==='home' || this.props.page=== 'fav' || this.props.page=== 'mymusic' ?
         <div className="itemOther" onClick={this.props.shareClick}>
-        <OverlayTrigger placement='bottom' overlay={<Tooltip>share link</Tooltip>}>
+        <OverlayTrigger placement='bottom' delayShow={700} overlay={<Tooltip>share link</Tooltip>}>
           <Glyphicon glyph='share' />
         </OverlayTrigger>
         
@@ -227,7 +228,7 @@ class SongBox extends React.Component{
 
         {this.props.page==='fork' ?
         <div className="itemOther" onClick={this.props.createClick}>
-        <OverlayTrigger placement='bottom' overlay={<Tooltip>upload your new sound</Tooltip>}>
+        <OverlayTrigger placement='bottom' delayShow={700} overlay={<Tooltip>upload your new sound</Tooltip>}>
           <Glyphicon glyph='tags' />
         </OverlayTrigger>
         </div>: null}
@@ -235,7 +236,7 @@ class SongBox extends React.Component{
         {this.props.page==='fork' ?
         <a href={this.props.song.url} download>
           <div className="itemOther" >
-          <OverlayTrigger placement='bottom' overlay={<Tooltip>download</Tooltip>}>
+          <OverlayTrigger placement='bottom' delayShow={700} overlay={<Tooltip>download</Tooltip>}>
             <Glyphicon glyph='download' />
           </OverlayTrigger>
           </div>
@@ -243,15 +244,15 @@ class SongBox extends React.Component{
         
         {this.props.page==='home' ?
         <div className="itemArrow" onClick={this.props.downvoteClick}>
-        <OverlayTrigger placement='bottom' overlay={<Tooltip>downvote</Tooltip>}>
-          <Glyphicon glyph='chevron-down' class={this.props.uuid + 'down'} style={{color:(this.props.votedSongsObj[this.props.song.uuid] < 0 ? 'red' : 'grey')}} />
+        <OverlayTrigger placement='bottom' delayShow={700} overlay={<Tooltip>downvote</Tooltip>}>
+          <Glyphicon glyph='chevron-down' className={this.props.uuid + 'down'} style={{color:(this.props.votedSongsObj[this.props.song.uuid] < 0 ? 'red' : 'grey')}} />
         </OverlayTrigger>
         </div>: null}
 
         {this.props.page==='home' ?
         <div className="itemArrow" onClick={this.props.upvoteClick}>
-        <OverlayTrigger placement='bottom' overlay={<Tooltip>upvote</Tooltip>}>
-          <Glyphicon glyph='chevron-up' class={this.props.uuid + 'up'} style={{color:(this.props.votedSongsObj[this.props.song.uuid] > 0 ? '#09C709' : 'grey')}} />
+        <OverlayTrigger placement='bottom' delayShow={700} overlay={<Tooltip>upvote</Tooltip>}>
+          <Glyphicon glyph='chevron-up' className={this.props.uuid + 'up'} style={{color:(this.props.votedSongsObj[this.props.song.uuid] > 0 ? '#09C709' : 'grey')}} />
         </OverlayTrigger>
         </div>: null}
 
