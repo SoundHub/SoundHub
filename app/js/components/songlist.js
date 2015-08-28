@@ -15,6 +15,10 @@ import AuthModalStore from '../stores/authModalStore';
 class SongList extends React.Component{
   constructor() {
     super();
+    this.state = {
+      votedSongsArr: [],
+      votedSongsObj: {}
+    };
     this.addVote = this.addVote.bind(this);
     this.addfav = this.addfav.bind(this);
     this.likeClick = this.likeClick.bind(this);
@@ -25,7 +29,30 @@ class SongList extends React.Component{
     this.togglePanel = this.togglePanel.bind(this);
     this.shareLink = this.shareLink.bind(this);
     this.shareClick = this.shareClick.bind(this);
-   }
+    this._onVoteChange = this._onVoteChange.bind(this);
+  }
+
+  _onVoteChange() {
+    console.log('tick');
+    this.setState({votedSongsArr: VotedSongStore.getVotes()});
+    var temp = {};
+    var key;
+    var val;
+    for (var i = 0, j = this.state.votedSongsArr.length; i < j; i++) {
+      key = this.state.votedSongsArr[i].uuid;
+      val = this.state.votedSongsArr[i].upvote;
+      temp[key] = val; 
+    }
+    this.setState({votedSongsObj: temp});
+  }
+
+  componentDidMount() {
+    VotedSongStore.addChangeListener(this._onVoteChange);
+  }
+
+  componentWillUnmount() {
+    VotedSongStore.removeChangeListener(this._onVoteChange);
+  }
 
   togglePanel(id){
     SongActions.updateActiveSong(id);
@@ -44,6 +71,7 @@ class SongList extends React.Component{
       RouterActions.openLoginRemindModal();
     }
   }
+
   shareClick(song) {
     SongActions.openLinkModal(song);
   }
@@ -86,6 +114,7 @@ class SongList extends React.Component{
         } else {
           this.addVote(1, currVal,song.uuid);
         }
+        this._onVoteChange();
       })
       .catch((err) => {
         console.log('error: ', err)
@@ -104,6 +133,7 @@ class SongList extends React.Component{
         } else { // 0 or -1
           this.addVote(-1, currVal,song.uuid);
         }
+        this._onVoteChange();
       })
       .catch((err) => {
         console.log('error: ', err)
@@ -132,6 +162,7 @@ class SongList extends React.Component{
           createClick={this.createClick.bind(this, song)}
           togglePanel={this.togglePanel.bind(this, song)}
           page = {this.props.page}
+          votedSongsObj = {this.state.votedSongsObj}
         />
       );
     }, this);
@@ -213,14 +244,14 @@ class SongBox extends React.Component{
         {this.props.page==='home' ?
         <div className="itemArrow" onClick={this.props.downvoteClick}>
         <OverlayTrigger placement='bottom' overlay={<Tooltip>downvote</Tooltip>}>
-          <Glyphicon glyph='chevron-down' style={{color:'red'}} />
+          <Glyphicon glyph='chevron-down' class={this.props.uuid + 'down'} style={{color:(this.props.votedSongsObj[this.props.song.uuid] < 0 ? 'red' : 'grey')}} />
         </OverlayTrigger>
         </div>: null}
 
         {this.props.page==='home' ?
         <div className="itemArrow" onClick={this.props.upvoteClick}>
         <OverlayTrigger placement='bottom' overlay={<Tooltip>upvote</Tooltip>}>
-          <Glyphicon glyph='chevron-up' style={{color:'green'}} />
+          <Glyphicon glyph='chevron-up' class={this.props.uuid + 'up'} style={{color:(this.props.votedSongsObj[this.props.song.uuid] > 0 ? '#09C709' : 'grey')}} />
         </OverlayTrigger>
         </div>: null}
 

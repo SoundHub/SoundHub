@@ -143,7 +143,6 @@ export default AuthenticatedComponent(class User extends React.Component {
     this.setState({userId:UserProfileStore.getCookieID()})
     this.setState({username:UserProfileStore.getCookieName()})
     this.setState({userimg:UserProfileStore.getCookieImg()})
-    console.log('fuuuuck');
    }
 
   componentDidMount(){

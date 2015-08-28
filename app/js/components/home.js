@@ -24,11 +24,13 @@ class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {songs: [],
+                  votedSongs: [],
                   order: 'like',
                   showRemindModal: false,
                   showLinkModal: false,
                   activePage: 1,
-                  activeSong: null};
+                  activeSong: null,
+                  newest: false};
 
     this.componentDidMount = this.componentDidMount.bind(this);
     this.getPageNumber = this.getPageNumber(this);
@@ -48,9 +50,10 @@ class Home extends React.Component {
     this.openModal = this.openModal.bind(this);
     this.handleNewestClick = this.handleNewestClick.bind(this);
     this.handleUpvotedClick = this.handleUpvotedClick.bind(this);
+
   }
 
-  componentDidMount () {
+  componentDidMount() {
     SongActions.getAllSongsSorted(this.state.order, 1);
     SongActions.getUserVotes(UserProfileStore.getCookieID());
     AllSongStore.addChangeListener(this._onChange);
@@ -108,11 +111,13 @@ class Home extends React.Component {
 
   handleNewestClick() {
     this.setState({order: 'createdAt'});
+    this.setState({newest: true});
     SongActions.getAllSongsSorted('createdAt', 1);
   }
 
   handleUpvotedClick() {
     this.setState({order: 'like'});
+    this.setState({newest: false});
     SongActions.getAllSongsSorted('like', 1);
   }
 
@@ -125,7 +130,6 @@ class Home extends React.Component {
   }
 
   openModal() {
-
     this.setState({ showRemindModal: true })
   }
 
@@ -139,6 +143,7 @@ class Home extends React.Component {
 
   render() {
     var order = this.state.order;
+    var newest = this.state.newest;
     return (
       <div className= "HomePage">
       <div id="bg1">
@@ -148,15 +153,15 @@ class Home extends React.Component {
       </div>
         <UserActionModal show={this.state.actionModalVisible} message={this.state.actionMessage} onHide={this.closeActionModal}/>
         <div className="sortBox">
-          <button className="sortButton" onClick={this.handleNewestClick}>Newest</button>
-          <button className="sortButton" onClick={this.handleUpvotedClick}>Hottest</button>
+          <button className={newest ? 'sortButtonActive' : 'sortButton'} onClick={this.handleNewestClick}>Newest</button>
+          <button className={newest ? 'sortButton' : 'sortButtonActive'} onClick={this.handleUpvotedClick}>Hottest</button>
         </div>
         <LoginRemindModal show={this.state.showRemindModal} onHide={this.closeRemindModal}/>
         <CopyLinkModal show={this.state.showLinkModal} message={this.state.shareMessage} onHide={this.closeLinkModal}/>
         <div className= "playerBox">
           <AudioPlayer song = {this.state.currentsong} mode = "home" />
         </div>
-          <SongList data = {this.state.songs} page='home' activeSong = {this.state.activeSong}/>
+          <SongList data = {this.state.songs} page='home' activeSong = {this.state.activeSong} votedSongs = {this.state.votedSongs} />
           <div className="homePageNav">
           <PageNav pages={this.getPageNumber} order={this.state.order}/>
           </div>
