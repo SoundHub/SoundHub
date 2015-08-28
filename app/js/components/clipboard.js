@@ -53,7 +53,7 @@ class Clipboard extends React.Component{
     console.log("textareavalue: ",textareaValue);
     return (
       <div>
-        <textarea className="clipboard" value= {textareaValue} />
+        <textarea readOnly className="clipboard" value= {textareaValue} />
       </div>
       );
   }
