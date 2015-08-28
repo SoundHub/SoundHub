@@ -1,6 +1,6 @@
 'use strict';
 import React from 'react';
-import { ProgressBar, Button } from 'react-bootstrap';
+import { ProgressBar, Button, Input } from 'react-bootstrap';
 import SongActions from '../actions/songActionCreators';
 import UserSongStore from '../stores/userSongStore';
 import UserProfileStore from '../stores/userProfileStore'
@@ -98,9 +98,9 @@ class Create extends React.Component {
                   onProgress={this.onUploadProgress}
                   onError={this.onUploadError}
                   onFinish={this.onUploadFinish}/>
-                <input type="text" placeholder="Name" ref="songName"/>
+                <Input className='inputSongName' type="text" placeholder="Name" ref="songName"/>
                 <div>{this.props.forksong.title}</div>
-                <button disabled={!this.state.uploadDone} type="button" className="btn btn-success" onClick={this.uploadSong}>
+                <button disabled={!this.state.uploadDone} type="button" className="btn btn-success createButton" onClick={this.uploadSong}>
                 Create </button>
             </div>
       </div>
