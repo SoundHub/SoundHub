@@ -28,6 +28,7 @@ class Create extends React.Component {
   }
 
   componentWillUnmount() {
+    this.props.forksong.title = null;
     UserSongStore.removeChangeListener(this._onChange);
     ModalStore.removeCreateListener(this._onCreate);
   }
@@ -99,9 +100,8 @@ class Create extends React.Component {
                   onError={this.onUploadError}
                   onFinish={this.onUploadFinish}/>
                 <Input className='inputSongName' type="text" placeholder="Name" ref="songName"/>
-                <div>{this.props.forksong.title}</div>
-                <button disabled={!this.state.uploadDone} type="button" className="btn btn-success createButton" onClick={this.uploadSong}>
-                Create </button>
+                <button disabled={!this.state.uploadDone} type="button" className="btn btn-success createButton" 
+                onClick={this.uploadSong}> {this.props.forksong.title ? <span>Create branch of {this.props.forksong.title}</span> : <span>Create new tree</span> } </button>
             </div>
       </div>
     );

@@ -141,7 +141,6 @@ export default AuthenticatedComponent(class User extends React.Component {
     this.setState({userId:UserProfileStore.getCookieID()})
     this.setState({username:UserProfileStore.getCookieName()})
     this.setState({userimg:UserProfileStore.getCookieImg()})
-    console.log('fuuuuck');
    }
 
   componentDidMount(){
@@ -160,7 +159,6 @@ export default AuthenticatedComponent(class User extends React.Component {
     FavSongStore.addChangeListener(this._onFavStoreChange);
     UserSongStore.addChangeListener(this._onUserStoreChange);
     ModalStore.addShareListener(this._onShare);
-
    }
 
   componentWillUnmount() {
