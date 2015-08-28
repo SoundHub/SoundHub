@@ -257,6 +257,9 @@ describe('API Integration:', function() {
   })
 
   describe('User song functions', function() {
+
+    var targetId;
+
     before(function(done) {
       request({
         uri: 'http://localhost:3030/signup',
@@ -348,14 +351,100 @@ describe('API Integration:', function() {
       })
     })
 
-    it('should correctly add a favorite', function(done) {
+    it('should correctly add and load favorites', function(done) {
       request({
-        uri: 'http://localhost:3030/addFav',
+        uri: 'http://localhost:3030/allSongs',
+        method: 'get'
+      }, function(err, res) {
+        console.log(err);
+        var songs = JSON.parse(res.body);
+        targetId = songs[0].uuid;
+        request({
+          uri: 'http://localhost:3030/addFav',
+          method: 'post',
+          json: true,
+          body: {
+            userId: 1,
+            songId: targetId
+          }
+        }, function(err, res) {
+          console.log(err);
+          request({
+            uri: 'http://localhost:3030/myFavs',
+            method: 'post',
+            json: true,
+            body: {
+              userId: 1
+            }
+          }, function(err, res) {
+            console.log(err);
+            var songs = res.body;
+            expect(songs.length).to.be.eql(1);
+            expect(songs[0].uuid).to.be.eql(targetId);
+            done();
+          })
+        })
+      })
+    })
+
+    it('should correctly add and load votes', function(done) {
+      request({
+        uri: 'http://localhost:3030/addVote',
         method: 'post',
         json: true,
         body: {
-          userId: 
+          vote: 1,
+          userId: 1,
+          songId: targetId
         }
+      }, function(err, res) {
+        console.log(err);
+        request({
+          uri: 'http://localhost:3030/myVotes',
+          method: 'post',
+          json: true,
+          body: {
+            userId: 1
+          }
+        }, function(err, res) {
+          console.log(err);
+          var songs = res.body;
+          expect(songs.length).to.be.eql(1);
+          expect(songs[0].uuid).to.be.eql(targetId);
+          expect(songs[0].upvote).to.be.eql(1);
+          done();
+        })
+      })
+    })
+
+    it('should correctly change votes', function(done) {
+      request({
+        uri: 'http://localhost:3030/addVote',
+        method: 'post',
+        json: true,
+        body: {
+          vote: 0,
+          userId: 1,
+          songId: targetId
+        }
+      }, function(err) {
+        console.log(err);
+        request({
+          uri: 'http://localhost:3030/allSongs',
+          method: 'get'
+        }, function(err, res) {
+          console.log(res.body)
+          console.log(err)
+          var response = JSON.parse(res.body)
+          var song;
+          for(var i=0; i<response.length; i++) {
+            if(response[i].uuid === targetId) {
+              song = response[i];
+            }
+          }
+          expect(song.like).to.be.eql(0);
+          done();
+        })
       })
     })
   })
