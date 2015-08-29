@@ -105,7 +105,6 @@ UserProfile.dispatchToken = Dispatcher.register(function(payload) {
       break;
 
     case ActionType.LOGOUT:
-      console.log("store logout");
       deleteCookie();
       UserProfile.emitChange();
       break;
