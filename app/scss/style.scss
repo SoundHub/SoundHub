@@ -546,6 +546,9 @@ hr {
 .title{
     color: white;
   }
+.like-count{
+    color: white;
+  }
 }
 
 
@@ -588,6 +591,12 @@ hr {
   float: right;
 }
 
+.like-countActive{
+  font-size: 20px;
+  color: #FFFFFF;
+  float: right;
+}
+
 .banner{
   height: 400px !important;
   width: 100%;
@@ -610,7 +619,7 @@ hr {
 }
 
 .sortButton{
-    color: white;
+    color: #DDDDDD;
     background-color: #FF9696;
     margin-right: 20px;
     border: 0;
@@ -618,6 +627,19 @@ hr {
     width: 70px;
     height: 30px;
     border-radius: 5px;
+    box-shadow: 3px 3px 3px #888888;
+}
+
+.sortButtonActive{
+  color: white;
+    background-color: #FF9696;
+    margin-right: 20px;
+    border: 0;
+    padding: 5px;
+    width: 70px;
+    height: 30px;
+    border-radius: 5px;
+    box-shadow: 3px 3px 3px #888888;
 }
 
 .homePageNav{
