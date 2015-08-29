@@ -257,6 +257,7 @@ class SongBox extends React.Component{
         </div>: null}
 
       </div>
+      <div className="songFooter"></div>
     </div>
   )}
 

@@ -50,7 +50,6 @@ class Clipboard extends React.Component{
 
   render() {
     let textareaValue = this.props.value;
-    console.log("textareavalue: ",textareaValue);
     return (
       <div>
         <textarea readOnly className="clipboard" value= {textareaValue} />

@@ -108,7 +108,7 @@ AllSongStore.dispatchToken = Dispatcher.register(function(payload) {
       break;
 
     case ActionType.FORK_SUCCESS:
-      console.log('fork success');
+      console.log('fork .. I mean branch success');
       break;
 
     case ActionType.ACTIVE_SONG:
