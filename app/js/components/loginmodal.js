@@ -86,9 +86,7 @@ class Signup extends React.Component {
     }else if (!userData.password.match(passwordStr)) {
       alert('Password must be between 8 and 64 characters');
     }else {
-      UserActions.createUser(userData, () => {
-        this.context.router.transitionTo('home');
-      });
+      UserActions.createUser(userData, () => {});
       // this.toggleAuth();
     }
   }
