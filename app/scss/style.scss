@@ -35,6 +35,7 @@ hr {
 .developerBigTitle{
   font-size: 30px;
   margin-top: 250px;
+  min-height:100px;
   padding: 30px 30px 30px 90px;
   margin-bottom: 120px;
   background-image: url(../assets/random-bg/up.jpg);
@@ -77,10 +78,38 @@ hr {
   display: inline-block;
 }
 
+.gitImg {
+  margin-top: 2px;
+  max-height: 105px;
+  margin-left: 5%;
+  float: left;
+}
 .techContainer{
   margin-left: 50px;
   margin-right: 50px;
   margin-bottom: 260px;
+}
+
+.gitLinkContainer {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0px;
+  text-decoration: none;  
+  max-height: 100px;
+  max-width: 800px;
+  text-align: center;
+}
+
+.gitLink {
+  text-decoration: none !important;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+
+
+  color: #2A4747;
+  font-size: 35px;
+  font-weight: 700;
 }
 
 .techBigTitle{
@@ -89,6 +118,16 @@ hr {
   padding: 30px 30px 30px 90px;
   margin-bottom: 60px;
   background-image: url(../assets/random-bg/playerbg3.jpg);
+  color: white;
+}
+
+.gitBigTitle{
+  font-size: 30px;
+  margin-top: 250px;
+  min-height:100px;
+  padding: 30px 30px 30px 90px;
+  margin-bottom: 2px;
+  background-image: url(../assets/random-bg/up.jpg);
   color: white;
 }
 
@@ -353,6 +392,15 @@ hr {
     filter: alpha(opacity=0);
 }
 
+.createButton {
+  margin: 0 auto;
+  margin-top: 10px;
+}
+
+.inputSongName {
+  margin-top: 10px;
+}
+
 
 /* ================ Home ================= */
 
@@ -411,7 +459,7 @@ hr {
     background: #FFFFFF;
     vertical-align: middle;
     height: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 100px;
     margin-left: 10px;
     min-height: 200px;
 }
@@ -498,6 +546,9 @@ hr {
 .title{
     color: white;
   }
+.like-count{
+    color: white;
+  }
 }
 
 
@@ -540,6 +591,12 @@ hr {
   float: right;
 }
 
+.like-countActive{
+  font-size: 20px;
+  color: #FFFFFF;
+  float: right;
+}
+
 .banner{
   height: 400px !important;
   width: 100%;
@@ -562,7 +619,7 @@ hr {
 }
 
 .sortButton{
-    color: white;
+    color: #DDDDDD;
     background-color: #FF9696;
     margin-right: 20px;
     border: 0;
@@ -570,9 +627,23 @@ hr {
     width: 70px;
     height: 30px;
     border-radius: 5px;
+    box-shadow: 3px 3px 3px #888888;
+}
+
+.sortButtonActive{
+  color: white;
+    background-color: #FF9696;  
+    margin-right: 20px;
+    border: 0;
+    padding: 5px;
+    width: 70px;
+    height: 30px;
+    border-radius: 5px;
+    box-shadow: 3px 3px 3px #888888;
 }
 
 .homePageNav{
+    margin-top: -40px;
     margin-right: auto;
     margin-left: auto;
     width: 250px;
@@ -789,6 +860,7 @@ $animate-sec: 1.5s;
     left: 60px;
     font-size: 20px;
     text-transform: uppercase;
+    z-index: -1;
 }
 
   .userPlayButton{

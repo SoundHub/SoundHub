@@ -68,8 +68,8 @@ class Signup extends React.Component {
   }
 
   handleSignup() {
-    let nameStr = /^[A-Za-z0-9_]{4,10}$/;
-    let passwordStr = /^.{4,10}$/;
+    let nameStr = /^[A-Za-z0-9_]{1,20}$/;
+    let passwordStr = /^.{3,64}$/;
     let userData = {};
     console.log('refs', this.refs)
     userData.username = this.refs.username.getDOMNode().value;
@@ -79,16 +79,14 @@ class Signup extends React.Component {
 
     if(!userData.username.match(nameStr)){
       alert('Username can have only letters, numbers or underscores');
-    }else if(userData.username.length < 4){
-      alert('Username must have at least 4 characters');
+    }else if(userData.username.length < 1){
+      alert('Username must have at least 1 character');
     }else if (userData.password !== userData.verpassword) {
       alert('Passwords must match');
     }else if (!userData.password.match(passwordStr)) {
-      alert('Password must be between 4 and 10 character');
+      alert('Password must be between 8 and 64 characters');
     }else {
-      UserActions.createUser(userData, () => {
-        this.context.router.transitionTo('home');
-      });
+      UserActions.createUser(userData, () => {});
       // this.toggleAuth();
     }
   }

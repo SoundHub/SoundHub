@@ -154,7 +154,6 @@ export default {
         message: 'all user songs dispatch',
         userSongs: userSongs
       });
-      console.log(userSongs)
     })
     .catch((err) => {
       console.error('failed: ', err)

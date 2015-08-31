@@ -120,8 +120,10 @@ export default AuthenticatedComponent(class User extends React.Component {
     this.openModal = this.openLinkModal.bind(this);
     this.closeLinkModal = this.closeLinkModal.bind(this);
     this.closeActionModal = this.closeActionModal.bind(this);
+    this._onUpdate = this._onUpdate.bind(this);
     this.playsong = this.playsong.bind(this);
     this.state = {
+      votes: [],
       activeSong: null,
       login:false,
       username:'',
@@ -141,11 +143,9 @@ export default AuthenticatedComponent(class User extends React.Component {
     this.setState({userId:UserProfileStore.getCookieID()})
     this.setState({username:UserProfileStore.getCookieName()})
     this.setState({userimg:UserProfileStore.getCookieImg()})
-    console.log('fuuuuck');
    }
 
   componentDidMount(){
-    console.log(this.state.userId);
     this.setState({forkedSongs: ForkedSongStore.getForkedSongs()});
     this.setState({favSongs: FavSongStore.getAllSongs()});
     this.setState({userSongs: UserSongStore.getUserCreatedSongs().allCreated});
@@ -160,7 +160,7 @@ export default AuthenticatedComponent(class User extends React.Component {
     FavSongStore.addChangeListener(this._onFavStoreChange);
     UserSongStore.addChangeListener(this._onUserStoreChange);
     ModalStore.addShareListener(this._onShare);
-
+    AllSongStore.addUpdateListener(this._onUpdate);
    }
 
   componentWillUnmount() {
@@ -174,7 +174,7 @@ export default AuthenticatedComponent(class User extends React.Component {
     FavSongStore.removeChangeListener(this._onFavStoreChange);
     UserSongStore.removeChangeListener(this._onUserStoreChange);
     ModalStore.removeShareListener(this._onShare);
-
+    AllSongStore.removeUpdateListener(this._onUpdate);
   }
 
   _changedUserData() {
@@ -197,8 +197,10 @@ export default AuthenticatedComponent(class User extends React.Component {
 
   _onUpdate() {
     if(this.state.activeSong === AllSongStore.getCurrentSong()){
+      console.log('IT WAAS THE SAAAAAME (active song in userdomain update check');
       this.setState({activeSong: null});
     }else{
+      console.log('IT WAAS NEWWWWWWW (active song in userdomain update check');
       this.setState({activeSong: AllSongStore.getCurrentSong()});
     }
   }
