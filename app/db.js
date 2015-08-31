@@ -29,7 +29,7 @@ var User = orm.define('users', {
   username: { type: Sequelize.STRING, allowNull: false },
   password: { type: Sequelize.STRING, allowNull: false },
   email: { type: Sequelize.STRING, allowNull: true },
-  profilePic: { type: Sequelize.STRING, defaultValue: 'https://s3-us-west-2.amazonaws.com/soundhub/defaultImg.jpg' }
+  profilePic: { type: Sequelize.STRING, defaultValue: './assets/placeholder.jpg' }
 });
 
 // Define the join table which joins Users and 'forked' SongNodes
