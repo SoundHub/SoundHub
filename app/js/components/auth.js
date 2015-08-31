@@ -71,7 +71,7 @@ class Auth extends React.Component {
           </div>
 
           <div className="techBox">
-          <img className="techImg" src="../assets/SQLite.png"></img>
+          <img className="techImg" src="../assets/mariadb.png"></img>
           </div>
 
           <div className="techBox">
