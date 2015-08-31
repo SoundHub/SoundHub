@@ -146,7 +146,6 @@ export default AuthenticatedComponent(class User extends React.Component {
    }
 
   componentDidMount(){
-    console.log(this.state.userId);
     this.setState({forkedSongs: ForkedSongStore.getForkedSongs()});
     this.setState({favSongs: FavSongStore.getAllSongs()});
     this.setState({userSongs: UserSongStore.getUserCreatedSongs().allCreated});

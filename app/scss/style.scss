@@ -459,7 +459,7 @@ hr {
     background: #FFFFFF;
     vertical-align: middle;
     height: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 100px;
     margin-left: 10px;
     min-height: 200px;
 }
@@ -632,7 +632,7 @@ hr {
 
 .sortButtonActive{
   color: white;
-    background-color: #FF9696;
+    background-color: #FF9696;  
     margin-right: 20px;
     border: 0;
     padding: 5px;
@@ -643,6 +643,7 @@ hr {
 }
 
 .homePageNav{
+    margin-top: -40px;
     margin-right: auto;
     margin-left: auto;
     width: 250px;

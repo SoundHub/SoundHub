@@ -31,7 +31,6 @@ var ForkedSongStore = assign({}, EventEmitter.prototype, {
     this.removeListener(CHANGE_EVENT, callback)
   },
   getForkedSongs() {
-    console.log('store getter: ', _forkedSongs.all)
     return _forkedSongs.all;
   }
 })
