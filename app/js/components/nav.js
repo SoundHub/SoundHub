@@ -120,7 +120,7 @@ class Nav extends React.Component {
         </span>
         <nav>
 
-          <Router.Link to="auth">
+          <Router.Link to="about">
             <button className="aboutButton topButton">About</button>
           </Router.Link>
 

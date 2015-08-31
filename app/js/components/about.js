@@ -3,14 +3,14 @@ import React from 'react';
 import Router from 'react-router';
 import Carcousel from './carcousel'
 
-class Auth extends React.Component {
+class About extends React.Component {
   constructor(props) {
     super(props);
   }
 
   render() {
     return (
-      <div className = "authPage">
+      <div className = "aboutPage">
         <div className = "Carcouselbox">
           <Carcousel bsSize="small"/>
         </div>
@@ -97,4 +97,4 @@ class Auth extends React.Component {
   }
 }
 
-export default Auth;
+export default About;
