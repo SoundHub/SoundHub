@@ -3,14 +3,14 @@ import React from 'react';
 import Router from 'react-router';
 import Carcousel from './carcousel'
 
-class Auth extends React.Component {
+class About extends React.Component {
   constructor(props) {
     super(props);
   }
 
   render() {
     return (
-      <div className = "authPage">
+      <div className = "aboutPage">
         <div className = "Carcouselbox">
           <Carcousel bsSize="small"/>
         </div>
@@ -55,7 +55,7 @@ class Auth extends React.Component {
           </div>
 
           <div className="techBox">
-          <img className="techImg" src="../assets/D3.png"></img>
+          <img className="techImg" src="../assets/d3.png"></img>
           </div>
 
           <div className="techBox">
@@ -71,7 +71,7 @@ class Auth extends React.Component {
           </div>
 
           <div className="techBox">
-          <img className="techImg" src="../assets/SQLite.png"></img>
+          <img className="techImg" src="../assets/mariadb.png"></img>
           </div>
 
           <div className="techBox">
@@ -82,10 +82,19 @@ class Auth extends React.Component {
 
 
         </div>
+        <img className="gitImg" src="../assets/GitHub-Mark-120px-plus.png"></img>
+        <div className="gitBigTitle">
+        <div className="gitLinkContainer">
+
+          <a className="gitLink" href="https://github.com/SoundHub/SoundHub" target="_blank">https://github.com/SoundHub/SoundHub</a>
+        </div>
+        </div>
+
+        
 
       </div>
     );
   }
 }
 
-export default Auth;
+export default About;

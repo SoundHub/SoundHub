@@ -108,13 +108,12 @@ AllSongStore.dispatchToken = Dispatcher.register(function(payload) {
       break;
 
     case ActionType.FORK_SUCCESS:
-      console.log('fork success');
+      console.log('fork .. I mean branch success');
       break;
 
     case ActionType.ACTIVE_SONG:
       let activeId = payload.id.uuid;
       setActiveSong(activeId);
-      console.log('active song store updatesss');
       AllSongStore.emitUpdate();
       break;
 

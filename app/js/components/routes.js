@@ -6,7 +6,7 @@ import Layout from './layout';
 import Home from './home';
 import NotFound from './notfound';
 import User from './userdomain';
-import Auth from './auth';
+import About from './about';
 
 import Tree from './treePage';
 import Create from './create';
@@ -19,7 +19,7 @@ const routes = (
   <Route handler={Layout}>
     <DefaultRoute name="home" handler={Home}/>
     <Route name="user" path="/user" handler={User}/>
-    <Route name="auth" path="/auth" handler={Auth}/>
+    <Route name="about" path="/about" handler={About}/>
     <Route name="tree" path="/tree/:rootId&:uuid"  handler={Tree}/>
     <NotFoundRoute name="not-found" handler={NotFound}/>
   </Route>

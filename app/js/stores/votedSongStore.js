@@ -46,7 +46,7 @@ var VotedSongStore = assign({}, EventEmitter.prototype, {
     this.removeListener(CHANGE_EVENT, callback)
   },
   getVotes() {
-    console.log(_votedSongs);
+    return _votedSongs;
   },
   getSongVoteStatus(songId) {
     return new Promise((resolve, reject) => {

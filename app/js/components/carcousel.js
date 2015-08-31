@@ -23,8 +23,8 @@ const ControlledCarousel = React.createClass({
         <CarouselItem>
           <img className="banner" src='/assets/authbanner.jpg'/>
           <div className='carousel-caption'>
-            <div className="bannerTitle">Github for Music</div>
-            <p className="bannerText">Collaborate with musicians across the world or across the street.</p>
+            <div className="bannerTitle">Open Source Music</div>
+            <p className="bannerText">Collective Creativity in the Cloud</p>
           </div>
         </CarouselItem>
         <CarouselItem>
