@@ -295,6 +295,7 @@ var exports = {};
 */
         // Set widths between levels based on maxLabelLength.
         nodes.forEach(function(d) {
+            console.log('whyyy te: ', d.authorPic);
             // d.y = (d.depth * (maxLabelLength * 10)); //maxLabelLength * 10px
             // alternatively to keep a fixed scale one can set a fixed depth per level
             // Normalize for fixed-depth by commenting out below line

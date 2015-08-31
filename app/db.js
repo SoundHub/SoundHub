@@ -2,7 +2,17 @@
 'use strict';
 
 var Sequelize = require('sequelize');
-var orm = new Sequelize(process.env.DATABASE_URL || 'sqlite://SoundHub.sqlite');
+// var orm = new Sequelize(process.env.DATABASE_URL || 'sqlite://SoundHub.sqlite');
+var orm = new Sequelize('soundhub', 'topo', 'topo', {
+  host: 'localhost',
+  dialect: 'mariadb',
+
+  pool: {
+    max: 5,
+    min: 0,
+    idle: 10000
+  }
+});
 var bcrypt = require('bcrypt');
 var promise = require('bluebird');
 var compare = promise.promisify(bcrypt.compare);
@@ -29,7 +39,7 @@ var User = orm.define('users', {
   username: { type: Sequelize.STRING, allowNull: false },
   password: { type: Sequelize.STRING, allowNull: false },
   email: { type: Sequelize.STRING, allowNull: true },
-  profilePic: { type: Sequelize.STRING, defaultValue: './assets/placeholder.jpg' }
+  profilePic: { type: Sequelize.STRING, defaultValue: 'https://s3-us-west-2.amazonaws.com/soundhub/a09c6b4f-d38d-45ea-a533-d923ee68b305_placeholder.jpg' }
 });
 
 // Define the join table which joins Users and 'forked' SongNodes
@@ -230,7 +240,7 @@ var allSongSort = function(order, page, callback) {
   SongNode.findAll({
     offset: (page-1) * 24,
     limit: 24,
-    order: order + ' DESC',
+    order: 'songNodes.' + order + ' DESC',
   }).then(function(data) {
     callback(data);
   })
@@ -246,7 +256,6 @@ var getNumSongs = function(callback) {
 }
 
 var findSongsbyRoot = function(rootNodeId, callback) {
-  // rootNodeID = rootNodeID.split('/')[1];
   SongNode.findAll({
   where: {
       rootId: rootNodeId

@@ -113,7 +113,6 @@ class D3Tree extends React.Component {
   }
 
   onClick(element) {
-    // console.log('tree.js onClick element-clicked: ', element);  // for testing so we don't hit up S3 everytime
     this.setState({ currentSong: element });  // for actual use
   }
 
